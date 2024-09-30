@@ -1,6 +1,6 @@
 // UsersPage.jsx
 import React from 'react';
-import { useFetchUsers } from '../../hooks/useFetchUsers';
+import { useFetchUsers } from '../../utils/useFetchUsers';
 import UserList from '../../components/UserList';
 
 const UsersPage = () => {
