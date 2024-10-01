@@ -1,11 +1,19 @@
 // App.jsx
-import React from 'react';
-import UsersPage from './pages/UserPage';
+import React, { useState } from 'react';
+import { router } from './routes';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import "./assets/css/reset.css"
+import "./assets/css/font.css"
+import "./assets/css/styles.css"
 
 function App() {
+
   return (
-    <div className="App">
-      <UsersPage />
+    <div>
+      <RouterProvider router={router} />
     </div>
   );
 }

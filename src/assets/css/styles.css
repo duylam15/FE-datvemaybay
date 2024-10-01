@@ -1,0 +1,52 @@
+html,
+body {
+    scroll-behavior: smooth;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: "Maven Pro", sans-serif;
+}
+
+input,
+textarea,
+select,
+button {
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.container {
+    width: 1128px;
+    max-width: calc(100% - 48px);
+    margin: 0 auto;
+}
+
+:root {
+    --color-primary-dark: #00558f; /* Màu tối chính */
+    --color-primary-main: #0d5e95; /* Màu chính */
+    --color-primary-muted: #3e6d7c; /* Màu nhạt chính */
+    --color-primary-bright: #216a9d; /* Màu sáng chính */
+    --color-primary-light: #aac6da; /* Màu nhẹ */
+    --color-primary-accent: #2979af; /* Màu nhấn mạnh */
+
+    --color-secondary-main: #67975c; /* Màu phụ chính */
+    --color-secondary-dark: #327c23; /* Màu phụ tối */
+    --color-secondary-light: #64af53; /* Màu phụ sáng */
+
+    --typography-primary: #6d717f; /* Màu chữ chính */
+    --typography-black: #000000; /* Màu chữ đen */
+    --typography-white: #ffffff; /* Màu chữ trắng */
+
+    --color-border-main: #c2c6ce;
+
+    --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    --background-light-gray: #f2f4f7;
+    --background-soft-beige: #e8e6e3;
+    --background-pale-lavender: #d9e4ed;
+}

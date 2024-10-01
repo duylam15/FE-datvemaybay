@@ -1,0 +1,89 @@
+.navbar {
+    padding: 10px 0px;
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-item {
+            padding: 30px 10px 30px 10px;
+            position: relative; // Đảm bảo item có relative để định vị submenu
+
+            &-link {
+                font-size: 16px;
+                color: var(--typography-primary);
+                padding: 10px;
+                cursor: pointer;
+                text-align: center;
+                font-size: 1.6rem;
+                line-height: 1.5; /* 150% */
+            }
+            &:hover .navbar__submenu {
+                display: flex; // Hiển thị submenu khi hover vào item
+                justify-content: space-around;
+                align-items: center;
+                color: var(--typography-primary);
+                display: flex;
+                justify-content: space-around;
+                align-items: flex-start;
+                position: fixed; // Sử dụng fixed để đảm bảo submenu phủ toàn màn hình
+                top: 80px;
+                left: 0;
+                width: 100vw; // Đặt chiều rộng là 100% viewport width
+                height: auto; // Đặt chiều cao là 100% viewport height
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                z-index: 1000; // Đảm bảo nó nằm trên cùng
+                overflow-y: auto; // Thêm cuộn dọc nếu nội dung submenu dài
+                padding: 20px 110px;
+                background: var(--background-light-gray);
+            }
+            &:hover {
+                color: var(--color-secondary-light);
+            }
+        }
+    }
+
+    &__submenu {
+        display: none;
+        &-item {
+            color: var(--Gray-4, #6d717f);
+            font-size: 1.6rem;
+            font-weight: 500;
+            line-height: 1.5; /* 150% */
+            margin-bottom: 10px;
+            &--heading {
+                font-weight: bold;
+                color: var(--color-primary-accent);
+                margin: 20px 0px 50px 0px;
+                position: relative;
+            }
+            &--heading::before {
+                content: "";
+                position: absolute; // Để định vị chính xác
+                left: 0;
+                top: 40px;
+                width: 250px;
+                height: 1px;
+                background-color: var(--color-border-main);
+                border-radius: 3px;
+            }
+        }
+    }
+    &__auth {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+    &__login {
+        color: var(--color-primary-main);
+    }
+    &__register {
+        color: var(--color-secondary-light);
+    }
+}
