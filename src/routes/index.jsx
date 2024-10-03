@@ -5,31 +5,39 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Error from '../pages/Error';
 import Post from "../pages/Post";
+import KhachHangPage from '../pages/KhachHang';
+import KhachHangEdit from '../pages/KhachHang/KhachHangEdit';
+import ThemKhachHang from '../pages/KhachHang/ThemKhachHang';
 
 export const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <LayoutDefault />, // Hiển thị Layout cho các route này
-		errorElement: <Error />, // Hiển thị NotFound khi có lỗi
-		children: [
-			{ index: true, element: <Home /> },
-			{
-				path: "post/:id?",
-				element: <Post />
-			},
-			{
-				path: "post/:postId?/:userId?",
-				element: <Post />,
-			},
-		],
-	},
-
-	{
-		path: "/login",
-		element: <Login />, // Route login, hiển thị Login
-	},
-	{
-		path: "/register",
-		element: <Register />, // Route register, hiển thị Register
-	},
+    {
+        path: "/",
+        element: <LayoutDefault />,
+        errorElement: <Error />,
+        children: [
+            { index: true, element: <Home /> },
+            {
+                path: "post/:id?",
+                element: <Post />
+            },
+            {
+                path: "post/:postId?/:userId?",
+                element: <Post />,
+            },
+            {
+                path: "/khachhangList",
+                element: <KhachHangPage />, // Hiển thị danh sách khách hàng
+            },
+            { path: "/khachhang/edit/:idKhachHang", element: <KhachHangEdit /> },
+            { path: "/khachhang/add", element: <ThemKhachHang /> },
+        ],
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
 ]);
