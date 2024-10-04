@@ -1,0 +1,200 @@
+.home-header {
+    background-image: url("public/images/home.png");
+    height: 773px;
+    width: auto;
+    background-repeat: no-repeat;
+    background-position: center; // Căn giữa theo chiều ngang và dọc
+    background-size: cover; // Đảm bảo ảnh phủ kín chiều rộng hoặc chiều cao mà không bị méo
+}
+
+.service {
+    &__inner {
+    }
+    &__list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__item {
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 141px;
+        min-height: 92px;
+        gap: 10px;
+        padding-top: 5px;
+        border-radius: 0px 0px 20px 20px;
+        border: 1px solid var(--color-border-main);
+        cursor: pointer;
+    }
+    &__item:hover {
+        box-shadow: var(--box-shadow);
+    }
+    &__icon {
+    }
+    &__title {
+        color: var(--Gray-4, #6d717f);
+        text-align: center;
+        /* B2. Body */
+        font-family: "Maven Pro";
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 24px; /* 150% */
+    }
+}
+
+.banner-explore {
+    margin-top: 80px;
+    &__inner {
+        background-image: url("public/images/banner-explore.png");
+        background-repeat: no-repeat;
+        height: 110px;
+        object-fit: cover;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 36px;
+        align-items: center;
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: -1;
+            border-radius: 20px;
+        }
+    }
+
+    &__section {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 8px;
+        flex-direction: column;
+    }
+    &__heading {
+        color: #fff;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 38px;
+    }
+    &__desc {
+        color: #fff;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 28px;
+    }
+    &__action {
+        width: 125px;
+        height: 50px;
+        border-radius: 10px;
+        background: var(--Primary-1, #00558f);
+        text-align: center;
+        color: var(--Colors, var(--Surface-Color-surface-white, #fff));
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+.portlet {
+    margin-top: 80px;
+    &__inner {
+    }
+    &__top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__heading {
+        color: #000;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 38px; /* 118.75% */
+    }
+    &__content {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    &__left {
+    }
+    &__right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+    &__item {
+        position: relative;
+    }
+    &__img {
+    }
+    &__action {
+        position: absolute;
+        bottom: 35px;
+        right: 30px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        &::before {
+            content: "";
+            width: 130px;
+            height: 2px;
+            flex-shrink: 0;
+            background: #fff;
+            position: absolute;
+            left: 0;
+            top: 35px;
+            z-index: 9;
+        }
+    }
+}
+
+.tips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 299px;
+    height: 60px;
+    border-radius: 20px;
+    background: #fff;
+    &__icon {
+    }
+    &__desc {
+    }
+}
+
+.highlight {
+    color: var(--color-secondary-main); /* Tô màu đỏ */
+    text-decoration: underline; /* Gạch chân */
+}
+
+.news {
+    height: 68px;
+
+    background: #000;
+    &__inner {
+        display: flex;
+    }
+}

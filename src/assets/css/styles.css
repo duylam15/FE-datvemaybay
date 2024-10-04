@@ -10,6 +10,7 @@ html {
 body {
     font-size: 1.6rem;
     font-family: "Maven Pro", sans-serif;
+    background-color: var(--background-light-gray);
 }
 
 input,
@@ -43,6 +44,7 @@ button {
     --typography-white: #ffffff; /* Màu chữ trắng */
 
     --color-border-main: #c2c6ce;
+    --color-border-secondary: #878787;
 
     --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 

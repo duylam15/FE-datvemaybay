@@ -1,5 +1,9 @@
 .navbar {
+    background-color: #fff;
     padding: 10px 0px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
     &__inner {
         display: flex;
         justify-content: space-between;
@@ -9,6 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        
         &-item {
             padding: 30px 10px 30px 10px;
             position: relative; // Đảm bảo item có relative để định vị submenu
