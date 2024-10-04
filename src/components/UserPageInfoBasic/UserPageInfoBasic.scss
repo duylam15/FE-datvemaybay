@@ -1,0 +1,79 @@
+.user-info {
+  padding: 20px;
+  width: 100%;
+  height: 200px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  border: 1px solid #EAECF0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+  &__avatar {
+    width: 144px;
+    height: 144px;
+    border-radius: 8px;
+    background-color: #696969;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 400;
+    color: #fff;
+    &-initials {
+        color: #fff;
+    }
+  }
+  &__name {
+    font-weight: 500;
+    font-size: 24px;
+    color: #101828;
+  }
+  &__gender {
+    color: #667085;
+    font-size: 16px;
+  }
+  &__label {
+    display: inline-block;
+    color: #667085;
+    font-size: 16px;
+    padding-top: 10px;
+  }
+  &__value {
+    color: #344054;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  &__button {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 5px;
+    background-color: #F2F4F7;
+    color: #00558f;
+    padding: 11px 22px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  &__iconlink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+  }
+  &__button:hover {
+    background-color: #dbe1eb;
+  }
+  &__button:hover &__content {
+    text-decoration: dashed;
+  }
+
+
+
+}

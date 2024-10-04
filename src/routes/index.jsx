@@ -5,6 +5,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Error from '../pages/Error';
 import Post from "../pages/Post";
+import UsersPage from "../pages/UserPage";
 
 export const router = createBrowserRouter([
 	{
@@ -32,4 +33,9 @@ export const router = createBrowserRouter([
 		path: "/register",
 		element: <Register />, // Route register, hiển thị Register
 	},
+	{
+		path: "/my_profile",
+		element: <UsersPage />, // Route register, hiển thị Register
+	}
+	
 ]);
