@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import AddComponent from "../components/NhanVien/AddComponent";
-import EditComponent from "../components/NhanVien/EditComponent";
 import LayoutDefault from "../layout/LayoutDefault";
 import Admin from "../pages/Admin/Admin";
 import Error from '../pages/Error';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import NhanVien from "../pages/NhanVien";
+import AddComponent from "../pages/NhanVien/AddComponent";
+import EditComponent from "../pages/NhanVien/EditComponent";
 import Post from "../pages/Post";
 import Register from '../pages/Register';
 

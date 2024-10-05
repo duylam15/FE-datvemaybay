@@ -1,0 +1,49 @@
+.pagination-button {
+  padding: 8px 12px; /* Khoảng cách bên trong nút */
+  margin: 4px; /* Khoảng cách giữa các nút */
+  border: 1px solid #007bff; /* Viền cho nút */
+  border-radius: 4px; /* Bo góc nút */
+  background-color: white; /* Màu nền mặc định */
+  color: #007bff; /* Màu chữ mặc định */
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+.pagination-button:hover {
+  background-color: #e7f0ff; /* Màu nền khi hover */
+}
+
+.pagination-button:active {
+  background-color: #007bff; /* Màu nền khi nhấn */
+  color: white; /* Đổi màu chữ khi nhấn */
+}
+
+.pagination-button.active {
+  background-color: #007bff; /* Màu nền cho nút đang được chọn */
+  color: white; /* Màu chữ cho nút đang được chọn */
+}
+
+.btn-move{
+  padding: 8px 12px; /* Khoảng cách bên trong nút */
+  margin: 4px; /* Khoảng cách giữa các nút */
+  border: 1px solid #007bff; /* Viền cho nút */
+  border-radius: 4px; /* Bo góc nút */
+  background-color: white; /* Màu nền mặc định */
+  color: #007bff; /* Màu chữ mặc định */
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+}
+
+.btn-move:hover{
+  background-color: #e7f0ff; /* Màu nền khi hover */
+}
+
+.btn-move:active {
+  background-color: #007bff; /* Màu nền khi nhấn */
+  color: white; /* Đổi màu chữ khi nhấn */
+}
+
+.btn-move.active {
+  background-color: #007bff; /* Màu nền cho nút đang được chọn */
+  color: white; /* Màu chữ cho nút đang được chọn */
+}
