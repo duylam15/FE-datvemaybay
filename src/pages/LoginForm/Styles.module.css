@@ -156,3 +156,77 @@
 .errorInput {
   border: 1px solid red;
 }
+
+/* Adjust layout for iPhone 14 Pro Max */
+@media (max-width: 430px) {
+  .carousel {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .content {
+    width: 90%; /* Make the content width responsive */
+    max-width: 350px; /* Set a max width for the form */
+    border-radius: 12px; /* More rounded corners for a mobile-friendly look */
+  }
+
+  .modalBody {
+    padding: 24px 16px; /* Reduce padding for smaller screens */
+  }
+
+  .titleText {
+    font-size: 22px; /* Adjust font size for titles */
+    margin-top: 16px;
+  }
+
+  .inputText {
+    padding: 10px 12px; /* Adjust input padding */
+    font-size: 14px; /* Slightly smaller text */
+  }
+
+  .mt32 {
+    margin-top: 24px; /* Reduce margin for form fields */
+  }
+
+  .mt16 {
+    margin-top: 12px;
+  }
+
+  .mt27 {
+    margin-top: 20px;
+  }
+
+  .btnLogin {
+    height: 44px; /* Adjust button size */
+    padding: 10px 16px;
+    font-size: 14px;
+    margin-top: 24px; /* Reduce top margin for button */
+  }
+
+  .fontfooter {
+    padding: 12px; /* Adjust padding */
+  }
+
+  .lableText {
+    font-size: 13px; /* Slightly smaller labels */
+  }
+
+  .errorMessage {
+    font-size: 13px; /* Adjust error message size */
+  }
+
+  .flexBox {
+    width: 18px; /* Adjust checkbox size */
+    height: 18px;
+  }
+
+  .flexItem {
+    font-size: 13px; /* Adjust label text */
+  }
+
+  .colora {
+    font-size: 13px; /* Adjust link size */
+  }
+}
