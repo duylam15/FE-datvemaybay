@@ -25,11 +25,11 @@ export const router = createBrowserRouter([
                 element: <Post />,
             },
             {
-                path: "/khachhangList",
+                path: "/customers",
                 element: <KhachHangPage />, // Hiển thị danh sách khách hàng
             },
-            { path: "/khachhang/edit/:idKhachHang", element: <KhachHangEdit /> },
-            { path: "/khachhang/add", element: <ThemKhachHang /> },
+            { path: "/customer/edit/:idKhachHang", element: <KhachHangEdit /> },
+            { path: "/customer/add", element: <ThemKhachHang /> },
         ],
     },
     {

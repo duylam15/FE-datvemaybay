@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFetchKhachHang } from '../../utils/useFetchKhachHang.jsx';
 import KhachHangList from '../../components/KhachHangList/KhachHangList.jsx';
-import AddKhachHangForm from '../KhachHang/ThemKhachHang.jsx';
 import { useNavigate } from 'react-router-dom';
+import { handleSort, searchCustomers, editCustomer, blockCustomer } from '../../services/customersServices.js';
 import axios from 'axios';
 
 const KhachHangPage = () => {
@@ -10,60 +10,37 @@ const KhachHangPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [khachHang, setKhachHang] = useState(initialKhachHang);
+    const [sortField, setSortField] = React.useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         setKhachHang(initialKhachHang);
     }, [initialKhachHang]);
 
-    // const handleAddKhachHang = (newKhachHang) => {
-    //     setKhachHang(prevKhachHang => [...prevKhachHang, newKhachHang]); // Cập nhật danh sách khách hàng
-    // };
-
-    // Các hàm khác (handleSearch, handleSort, handleEdit, handleBlock) giữ nguyên...
     const handleSearch = () => {
-        axios.get(`http://localhost:8080/findKhachHang`, { params: { keyword: searchTerm } })
-            .then(response => {
-                console.log('Search results:', response.data);
-                setKhachHang(response.data.data);
-            })
-            .catch(error => {
-                console.error('Error fetching search results:', error);
-            });
-    };
-
-    const handleSort = (field) => {
-        axios.get("http://localhost:8080/getAllCustomerSorted", { params: { field, order: sortOrder } })
-            .then(response => {
-                console.log('Sorted results:', response.data);
-                setKhachHang(response.data.data);
-                setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-            })
-            .catch(error => {
-                console.error('Error fetching sorted results:', error);
-            });
+        searchCustomers(searchTerm, setKhachHang);
     };
 
     const handleEdit = (idKhachHang) => {
-        navigate(`/khachhang/edit/${idKhachHang}`);
+        editCustomer(navigate, idKhachHang);
     };
 
     const handleBlock = (idKhachHang) => {
-        axios.put(`/api/khachhang/block/${idKhachHang}`)
-            .then(response => {
-                console.log(`Blocked customer with ID: ${idKhachHang}`);
-            })
-            .catch(error => {
-                console.error('There was an error blocking the customer!', error);
-            });
+        blockCustomer(idKhachHang);
     };
+
+    const handleSortClick = (field) => {
+        console.log('Sorted hướng:', field, 'Order:', sortOrder);
+        handleSort(field, sortOrder, setKhachHang, setSortOrder, setSortField);
+    };
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
     return (
         <div className="khach-hang-page">
             <h1>Danh Sách Khách Hàng</h1>
-            <button onClick={() => navigate('/khachhang/add')} className="btn btn-success mb-3">
+            <button onClick={() => navigate('/customer/add')} className="btn btn-success mb-3">
                 Thêm Khách Hàng
             </button>
             <KhachHangList 
@@ -73,8 +50,9 @@ const KhachHangPage = () => {
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} 
                 handleSearch={handleSearch} 
-                handleSort={handleSort} 
+                handleSort={handleSortClick} 
                 sortOrder={sortOrder} 
+                sortField={sortField}
             />
         </div>
     );

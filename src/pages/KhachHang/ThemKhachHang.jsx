@@ -31,7 +31,7 @@ const AddKhachHangForm = () => {
         try {
             const response = await axios.post(`${API_URL}/addCustomer`, khachHang);
             console.log('Customer added successfully!', response.data);
-            navigate('/khachhangList'); // Điều hướng về trang danh sách khách hàng
+            navigate('/customers'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
             console.error('There was an error adding the customer!', error);
             setError('Đã xảy ra lỗi trong quá trình thêm khách hàng!'); // Đặt thông báo lỗi
