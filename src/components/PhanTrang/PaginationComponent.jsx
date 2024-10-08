@@ -2,8 +2,11 @@
 import React from 'react';
 import './button.css';
 
-const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
+const PaginationComponent = (props) => {
   const pages = [];
+  const currentPage  = props.currentPage;
+  const totalPages = props.totalPages;
+  const onPageChange = props.onPageChange;
 
   const renderPagination = () => {
     if (totalPages <= 5) {
@@ -17,7 +20,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
     } else {
       pages.push(<button  key={1} onClick={() => onPageChange(1)} className={`pagination-button ${currentPage === 1 ? 'active' : ''}`}>1</button>);
       if (currentPage > 3) {
-        pages.push(<span key="ellipsis1">...</span>);
+        pages.push(<span key="ellipsis1">..</span>);
       }
 
       const start = Math.max(2, currentPage - 1);
@@ -32,7 +35,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
       }
 
       if (currentPage < totalPages - 2) {
-        pages.push(<span key="ellipsis2">...</span>);
+        pages.push(<span key="ellipsis2">..</span>);
       }
 
       pages.push(<button   key={totalPages} onClick={() => onPageChange(totalPages)} className={`pagination-button ${currentPage === totalPages ? 'active' : ''}`}>{totalPages}</button>);

@@ -1,34 +1,56 @@
 // TableComponent.js
-import { format } from 'date-fns'; // Nếu sử dụng date-fns
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
 
-const TableComponent = ({ columns, dataKeys, data, editLink }) => {
-  const formatDate = (dateString) => {
-    return format(new Date(dateString), 'dd/MM/yyyy'); // Sử dụng date-fns
-  };
+const TableComponent = (props) => {
+
+  const [sortField, setSortField] = useState(props.dataKeys[0]);
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  useEffect(() =>{
+      dataNhanVienSorted(sortField,sortOrder)
+            .then((response) => {
+              props.setData(response.data.data);
+            })
+            
+  },[sortField,sortOrder]);
+
+  const handleSortField= (nameSortField) => {
+
+    if(nameSortField == sortField){
+      setSortOrder(sortOrder == "asc" ? "desc" : "asc") ;
+    }
+    else{
+      setSortField(nameSortField);
+      setSortOrder("asc");
+    }
+
+    console.log(nameSortField + ":" + sortOrder);
+  }
+
   return (
     <table>
       <thead>
         <tr style={{ borderBottom:'1px solid rgba(0, 0, 0, 0.2)' }}>
-          {columns.map((col, index) => (
-            <th key={index}>{col}</th>
+          {props.columns.map((col, index) => (
+            <th key={index} onClick={() => handleSortField(props.dataKeys[index])}>{col}{sortField == props.dataKeys[index] && sortOrder == "asc" ? '\u2191' : '\u2193'}</th>
           ))}
-          {editLink &&(<th>Hành động</th>)}
+          {props.editLink &&(<th>Hành động</th>)}
         </tr>
       </thead>
       <tbody>
-        {Array.isArray(data) && data.map((item, index) => (
-          <tr key={item.id} style={{ borderBottom: index === data.length -1  ? 'none' : '1px solid rgba(0, 0, 0, 0.2)' }}>
-            {dataKeys.map((key, idx) => (
-              <td key={idx}>
-              {key === 'ngaySinh' ? formatDate(item[key]) : item[key]} {/* Định dạng ngày sinh */}
+        {Array.isArray(props.data) && props.data.map((item, index) => (
+          <tr key={item.id} style={{ borderBottom: index === props.data.length -1  ? 'none' : '1px solid rgba(0, 0, 0, 0.2)' }}>
+            {props.dataKeys.map((key1, idx) => (
+              <td key={idx} style={key1 === 'trangThaiActive' ? { color: item[key1] === 'ACTIVE' ? 'green' : 'red' } : {}}>
+              {key1 === 'ngaySinh' ? item[key1].toString().split("T")[0] : item[key1]} {/* Định dạng ngày sinh */}
             </td>
             ))}
-            {editLink && ( // Chỉ hiển thị ô Hành động nếu editLink tồn tại
+            {props.editLink && ( // Chỉ hiển thị ô Hành động nếu editLink tồn tại
               <td>
-                <Link to={`${editLink}?id=${item[dataKeys[0]]}`}>Sửa</Link>
+                <Link to={`${props.editLink}?id=${item[props.dataKeys[0]]}`}>Sửa</Link>
               </td>
             )}
           </tr>

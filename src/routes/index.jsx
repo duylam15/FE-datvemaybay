@@ -6,7 +6,6 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import NhanVien from "../pages/NhanVien";
 import AddComponent from "../pages/NhanVien/AddComponent";
-import EditComponent from "../pages/NhanVien/EditComponent";
 import Post from "../pages/Post";
 import Register from '../pages/Register';
 
@@ -54,7 +53,7 @@ export const router = createBrowserRouter([
 					},
 					{
 						path : "edit-employee",
-						element : <EditComponent />
+						element : <AddComponent />
 					}
 				]
 			},

@@ -1,23 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PaginationComponent from '../../components/PhanTrang/PaginationComponent';
 import TableComponent from '../../components/Table/TableComponent';
-import { dataNhanVien } from '../../services/nhanVienServices';
 
-export default function DanhSachComponent() {
-  const [nhanviens, setNhanVien] = useState([]);
+export default function DanhSachComponent(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  useEffect(() => {
-    dataNhanVien()
-      .then(response => {
-        setNhanVien(response.data.data);
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  const nhanviens = props.data ;
 
   // Tính tổng số trang
   const totalPages = Math.ceil(nhanviens.length / itemsPerPage);
@@ -49,18 +38,21 @@ export default function DanhSachComponent() {
     'trangThaiActive'
   ];
 
+  const editLink = "edit-employee";
+
   return (
     <div>
       <TableComponent
         columns={columns}
         dataKeys={dataKeys}
-        data={currentData} // Sử dụng dữ liệu phân trang
-        editLink="edit-employee"
+        data={currentData}
+        editLink= {editLink}
+        setData={props.setData}
       />
       <PaginationComponent
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage} // Cập nhật trang
+        onPageChange={setCurrentPage}
       />
     </div>
   );
