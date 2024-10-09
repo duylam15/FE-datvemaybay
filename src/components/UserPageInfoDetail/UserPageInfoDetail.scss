@@ -3,6 +3,13 @@
   padding-bottom: 40px;
   width: 100%;
   background-color: #fff;
+  &__note {
+    display: block;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 20px 0;
+    color: #667085;
+  }
   &__title {
     display: block;
     font-weight: 500;
@@ -31,6 +38,9 @@
     display: flex;
     gap: 20px;
     justify-content: space-between;
+    .contact-info__baned {
+      cursor: not-allowed;
+    }
     .contact-info__item {
       position: relative;
       display: flex;
