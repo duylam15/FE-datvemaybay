@@ -1,13 +1,14 @@
 import { React, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Styles.module.css';
 import logo from '../../assets/images/LogoBamboo.png';
 
 export default function LoginForm() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({ username: '', password: '' });
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
 
     let isValid = true;
@@ -17,15 +18,33 @@ export default function LoginForm() {
     }
 
     if (!isValid) return;
+
+    // Nếu hợp lệ, gửi dữ liệu tới server
+    try {
+      const response = await fetch('', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values), // Chuyển đổi object `values` thành chuỗi JSON
+      });
+
+      if (!response.ok) {
+        throw new Error('Đã có lỗi xảy ra khi gửi thông tin.');
+      }
+
+      // Xử lý khi gửi thành công, dùng navigate để điều hướng sang trang khác
+      alert('Đăng nhập thành công!');
+      // navigate('/');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
   };
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setValues({ ...values, [name]: value });
-  };
-
-  const handleBlur = (evt) => {
-    const { name, value } = evt.target;
     validateField(name, value);
   };
 
@@ -87,8 +106,7 @@ export default function LoginForm() {
                   id='username'
                   name='username'
                   value={values.username}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={handleChange} // Validation on change
                   placeholder='Nhập tên đăng nhập'
                 />
                 {errors.username && (
@@ -107,8 +125,7 @@ export default function LoginForm() {
                   id='password'
                   name='password'
                   value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onChange={handleChange} // Validation on change
                   placeholder='Nhập mật khẩu'
                 />
                 {errors.password && (
@@ -123,7 +140,7 @@ export default function LoginForm() {
                     id='remember'
                     type='checkbox'
                   />
-                  <label className={styles.flexItem} for='remember'>
+                  <label className={styles.flexItem} htmlFor='remember'>
                     Lưu thông tin
                   </label>
                 </div>

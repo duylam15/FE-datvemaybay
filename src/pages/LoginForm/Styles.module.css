@@ -121,6 +121,10 @@
   background-color: #d0d5dd;
 }
 
+.btnLogin:hover {
+  background-color: #3c6a30;
+}
+
 .fontfooter {
   font-size: 14px;
   color: #667085;
@@ -151,6 +155,7 @@
 .errorMessage {
   color: red;
   font-size: 14px;
+  margin-top: 5px;
 }
 
 .errorInput {
