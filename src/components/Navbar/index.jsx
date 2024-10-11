@@ -301,6 +301,12 @@ const Navbar = ({}) => {
               >
                 Đăng kí
               </span>
+              <span
+                className='navbar__register'
+                onClick={() => navigate('/QLTuyenBay')}
+              >
+                Tuyến bay
+              </span>
             </div>
           </div>
         </div>
