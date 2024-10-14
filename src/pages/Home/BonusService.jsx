@@ -1,5 +1,6 @@
 import { Carousel } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getBonusServicesData } from '../../services/homePageServices';
 
 export default function BonusService() {
 
@@ -49,7 +50,20 @@ export default function BonusService() {
 		);
 	};
 
+	const [bonusItems, setBonusItems] = useState([]);
 
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await getBonusServicesData();
+				setBonusItems(response.data);
+			} catch (error) {
+				console.error('Lỗi khi lấy dữ liệu dịch vụ bổ trợ:', error);
+			}
+		};
+
+		fetchData();
+	}, []);
 
 	const [currentIndex, setCurrentIndex] = useState(0); // Lưu chỉ số slide hiện tại
 
@@ -78,48 +92,15 @@ export default function BonusService() {
 								slidesToScroll={1}
 								afterChange={handleAfterChange}
 							>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
-								<div className="bonus-service__item">
-									<img src="public/images/portlet-01.png" alt="" className="bonus-service__img" />
-									<section className="bonus-service__section">
-										<h3 className="bonus-service__item--heading">Quà tặng Bamboo</h3>
-										<p className="bonus-service__item--desc">Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.</p>
-									</section>
-								</div>
+								{bonusItems?.map(item => (
+									<div className="bonus-service__item" key={item.id}>
+										<img src={item.imgSrc} alt="" className="bonus-service__img" />
+										<section className="bonus-service__section">
+											<h3 className="bonus-service__item--heading">{item.heading}</h3>
+											<p className="bonus-service__item--desc">{item.desc}</p>
+										</section>
+									</div>
+								))}
 							</Carousel>
 						</div>
 					</div>

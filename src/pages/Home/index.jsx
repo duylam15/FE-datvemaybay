@@ -7,12 +7,16 @@ import BannerExplore from './BannerExplore';
 import Service from './Service';
 import HomeHeader from './HomeHeader';
 import BonusService from './BonusService';
+import Experience from './Experience';
+import Popular from './Popular';
+import Promotion from './Promotion';
+import HotFlight from './HotFlight';
 const Home = () => {
 	const navigate = useNavigate();
 
 	return (
 		<>
-			<HomeHeader />
+			<HomeHeader navigate={navigate} />
 
 			<Service navigate={navigate} />
 
@@ -23,6 +27,15 @@ const Home = () => {
 			<Portlet navigate={navigate} />
 
 			<BonusService />
+
+			<Experience />
+
+			<Popular />
+
+			<HotFlight />
+
+			<Promotion />
+
 		</>
 	);
 };

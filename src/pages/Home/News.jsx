@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Carousel, Modal } from 'antd';
+import { getNewsData } from '../../services/homePageServices';
 
 export default function News() {
 	const contentStyle = {
@@ -33,23 +34,21 @@ export default function News() {
 		);
 	};
 
-	const dataNews = [
-		{
-			date: "01/12/2022",
-			title: "title 1",
-			desc: "desc 1"
-		},
-		{
-			date: "01/10/2024",
-			title: "title 2",
-			desc: "desc 2 "
-		},
-		{
-			date: "01/02/2023",
-			title: "title 3",
-			desc: "desc 3 "
-		},
-	]
+	const [dataNews, setDataNews] = useState([]);
+
+	useEffect(() => {
+		const fetchdataNews = async () => {
+			try {
+				const response = await getNewsData()
+				setDataNews(response.data);
+			} catch (error) {
+				console.error("Error fetching service data:", error);
+			}
+		};
+		fetchdataNews();
+	}, []);
+
+
 
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [selectedNews, setSelectedNews] = useState(null);
@@ -83,7 +82,7 @@ export default function News() {
 					</div>
 					<div>
 						<div className="news_num-slide" >
-							{currentSlide}/{dataNews.length}
+							{currentSlide}/{dataNews?.length}
 						</div>
 						<Carousel
 							className='Carousel'
@@ -94,7 +93,7 @@ export default function News() {
 							infinite={false}
 							afterChange={onChangeSlide}
 						>
-							{dataNews.map((newsItem, index) => (
+							{dataNews?.map((newsItem, index) => (
 								<div key={index}>
 									<div style={contentStyle}>
 										<span className='news__date'>{newsItem.date}</span>

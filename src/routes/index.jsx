@@ -5,12 +5,15 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Error from '../pages/Error';
 import Post from "../pages/Post";
+import FlightResults from "../pages/Flight/FlightResults";
+import FlightDetails from "../pages/Flight/FlightDetails";
+import Checkout from "../pages/Flight/Checkout";
 
 export const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <LayoutDefault />, // Hiển thị Layout cho các route này
-		errorElement: <Error />, // Hiển thị NotFound khi có lỗi
+		element: <LayoutDefault />, 
+		errorElement: <Error />, 
 		children: [
 			{ index: true, element: <Home /> },
 			{
@@ -21,9 +24,20 @@ export const router = createBrowserRouter([
 				path: "post/:postId?/:userId?",
 				element: <Post />,
 			},
+			{
+				path: "flightResult",
+				element: <FlightResults />
+			},
+			{
+				path: "flightDetails",
+				element: <FlightDetails />
+			},
+			{
+				path: "checkout",
+				element: <Checkout />
+			},
 		],
 	},
-
 	{
 		path: "/login",
 		element: <Login />, // Route login, hiển thị Login

@@ -25,6 +25,12 @@ a {
     text-decoration: none;
 }
 
+a:hover,
+a:focus,
+a:active,
+a:visited {
+    text-decoration: none;
+}
 ol,
 ul,
 menu,

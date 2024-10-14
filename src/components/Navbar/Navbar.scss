@@ -1,9 +1,9 @@
 .navbar {
     background-color: #fff;
-    padding: 10px 0px;
     position: sticky;
     top: 0;
     z-index: 999;
+
     &__inner {
         display: flex;
         justify-content: space-between;
@@ -13,20 +13,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        
-        &-item {
-            padding: 30px 10px 30px 10px;
-            position: relative; // Đảm bảo item có relative để định vị submenu
 
-            &-link {
-                font-size: 16px;
-                color: var(--typography-primary);
-                padding: 10px;
-                cursor: pointer;
-                text-align: center;
-                font-size: 1.6rem;
-                line-height: 1.5; /* 150% */
-            }
+        &-item {
+            padding: 0px 10px 30px 10px;
+            margin-top: 30px;
+            position: relative;
+            color: red;
+            text-decoration: none;
+
             &:hover .navbar__submenu {
                 display: flex; // Hiển thị submenu khi hover vào item
                 justify-content: space-around;
@@ -36,7 +30,7 @@
                 justify-content: space-around;
                 align-items: flex-start;
                 position: fixed; // Sử dụng fixed để đảm bảo submenu phủ toàn màn hình
-                top: 80px;
+                top: 60px;
                 left: 0;
                 width: 100vw; // Đặt chiều rộng là 100% viewport width
                 height: auto; // Đặt chiều cao là 100% viewport height
@@ -47,9 +41,12 @@
                 padding: 20px 110px;
                 background: var(--background-light-gray);
             }
-            &:hover {
-                color: var(--color-secondary-light);
-            }
+        }
+        &-link {
+            font-size: 16px;
+            font-weight: 500;
+            color: #344054;
+            text-decoration: none;
         }
     }
 
@@ -87,8 +84,12 @@
     }
     &__login {
         color: var(--color-primary-main);
+        font-size: 16px;
+        font-weight: 500;
     }
     &__register {
         color: var(--color-secondary-light);
+        font-size: 16px;
+        font-weight: 500;
     }
 }
