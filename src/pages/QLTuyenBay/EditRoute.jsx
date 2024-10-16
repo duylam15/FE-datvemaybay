@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './StyleAddRoute.scss';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import './StyleAddRoute.scss';
 
-const AddRoute = () => {
+const EditRoute = () => {
   let navigate = useNavigate();
+
+  const { idTuyenBay } = useParams();
+
   const [route, setRoutes] = useState({
     thoiGianChuyenBay: '',
     khoangCach: '',
@@ -14,25 +17,6 @@ const AddRoute = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [airports, setAirports] = useState([]);
-
-  useEffect(() => {
-    loadAirports();
-  }, []);
-
-  const loadAirports = async () => {
-    try {
-      const result = await axios.get('http://localhost:8080/getAllAirport', {
-        validateStatus: () => true,
-      });
-      if (result.status === 200) {
-        setAirports(result.data.data);
-      }
-    } catch (error) {
-      console.error('Lỗi khi lấy dữ liệu sân bay từ API:', error);
-      setAirports([]);
-    }
-  };
 
   const {
     thoiGianChuyenBay,
@@ -41,6 +25,27 @@ const AddRoute = () => {
     idSanBayBatDau,
     idSanBayKetThuc,
   } = route;
+
+  useEffect(() => {
+    if (idTuyenBay) {
+      loadRoute(idTuyenBay);
+    }
+  }, [idTuyenBay]);
+
+  const loadRoute = async (idTuyenBay) => {
+    try {
+      const result = await axios.get(
+        `http://localhost:8080/getRouteById/${idTuyenBay}`
+      );
+
+      if (result.status === 200) {
+        setRoutes(result.data.data);
+      }
+    } catch (error) {
+      console.error('Lỗi khi lấy dữ liệu từ API:', error);
+      setRoutes([]);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,7 +80,7 @@ const AddRoute = () => {
     }));
   };
 
-  const handleSave = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     // Check validation
@@ -87,8 +92,8 @@ const AddRoute = () => {
     console.log('route:', route);
 
     try {
-      const result = await axios.post(
-        'http://localhost:8080/addNewRoute',
+      const result = await axios.put(
+        `http://localhost:8080/updateRoute/${route.idTuyenBay}`,
         route
       );
       console.log('Route saved successfully:', result);
@@ -100,7 +105,7 @@ const AddRoute = () => {
 
   return (
     <div className='form-container'>
-      <form onSubmit={handleSave}>
+      <form onSubmit={handleUpdate}>
         <div>
           <label htmlFor='thoiGianChuyenBay'>
             Thời gian chuyến bay (phút):
@@ -159,9 +164,6 @@ const AddRoute = () => {
             onChange={handleChange}
             required
           />
-          {errors.idSanBayBatDau && (
-            <p className='error-message'>{errors.idSanBayBatDau}</p>
-          )}
         </div>
 
         <div>
@@ -174,14 +176,11 @@ const AddRoute = () => {
             onChange={handleChange}
             required
           />
-          {errors.idSanBayKetThuc && (
-            <p className='error-message'>{errors.idSanBayKetThuc}</p>
-          )}
         </div>
 
         <div className='button-container'>
           <button type='submit' className='btn btn-save'>
-            Save
+            Update
           </button>
           <Link to={`/QLTuyenBay`} className='btn btn-cancel'>
             Cancel
@@ -192,4 +191,4 @@ const AddRoute = () => {
   );
 };
 
-export default AddRoute;
+export default EditRoute;

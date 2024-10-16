@@ -9,6 +9,10 @@ import LoginForm from '../pages/LoginForm/LoginForm';
 import SignupForm from '../pages/SignupForm/SignupForm';
 import QLTuyenBay from '../pages/QLTuyenBay/QLTuyenBay';
 import AddRoute from '../pages/QLTuyenBay/AddRoute';
+import EditRoute from '../pages/QLTuyenBay/EditRoute';
+import QLHangHoa from '../pages/QLHangHoa/QLHangHoa';
+import AddMerchandise from '../pages/QLHangHoa/AddMerchandise';
+import EditMerchandise from '../pages/QLHangHoa/EditMerchandise';
 
 export const router = createBrowserRouter([
   {
@@ -44,8 +48,20 @@ export const router = createBrowserRouter([
     path: '/addRoute',
     element: <AddRoute />,
   },
-  // {
-  //   path: '/editRoute',
-  //   element: </>,
-  // },
+  {
+    path: '/EditRoute/:idTuyenBay',
+    element: <EditRoute />,
+  },
+  {
+    path: '/QLHangHoa',
+    element: <QLHangHoa />,
+  },
+  {
+    path: '/addMerchandise',
+    element: <AddMerchandise />,
+  },
+  {
+    path: '/EditMerchan/:idHangHoa',
+    element: <EditMerchandise />,
+  },
 ]);

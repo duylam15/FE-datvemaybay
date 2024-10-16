@@ -307,6 +307,12 @@ const Navbar = ({}) => {
               >
                 Tuyến bay
               </span>
+              <span
+                className='navbar__register'
+                onClick={() => navigate('/QLHangHoa')}
+              >
+                Hàng Hoá
+              </span>
             </div>
           </div>
         </div>
