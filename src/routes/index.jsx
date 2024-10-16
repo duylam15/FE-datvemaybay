@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import LayoutDefault from "../layout/LayoutDefault";
 import Admin from "../pages/Admin/Admin";
+import { ChuyenBay } from "../pages/ChuyenBay";
+import { AddChuyenBay } from "../pages/ChuyenBay/AddChuyenBay";
 import Error from '../pages/Error';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -15,7 +17,8 @@ export const router = createBrowserRouter([
 		element: <LayoutDefault />, // Hiển thị Layout cho các route này
 		errorElement: <Error />, // Hiển thị NotFound khi có lỗi
 		children: [
-			{ index: true, element: <Home /> },
+			{ index: true,
+				element: <Home /> },
 			{
 				path: "post/:id?",
 				element: <Post />
@@ -57,6 +60,22 @@ export const router = createBrowserRouter([
 					}
 				]
 			},
+			{
+				path : "chuyenbay",
+				element : null,
+				errorElement : <Error />,
+				children : [
+					{ index: true, element: <ChuyenBay /> },
+					{
+						path : "add-chuyenbay",
+						element : <AddChuyenBay />
+					},
+					{
+						path : "edit-chuyenbay",
+						element : <AddChuyenBay />
+					}
+				]
+			}
 			
 		]
 	}

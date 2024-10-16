@@ -6,6 +6,10 @@ import './table.css';
 
 const TableComponent = (props) => {
 
+  function getNestedValue(obj, key) {
+    return key.split('.').reduce((o, k) => (o && o[k] !== 'undefined' ? o[k] : null), obj);
+  }
+
   const [sortField, setSortField] = useState(props.dataKeys[0]);
   const [sortOrder, setSortOrder] = useState("asc");
 
@@ -45,7 +49,7 @@ const TableComponent = (props) => {
           <tr key={item.id} style={{ borderBottom: index === props.data.length -1  ? 'none' : '1px solid rgba(0, 0, 0, 0.2)' }}>
             {props.dataKeys.map((key1, idx) => (
               <td key={idx} style={key1 === 'trangThaiActive' ? { color: item[key1] === 'ACTIVE' ? 'green' : 'red' } : {}}>
-              {key1 === 'ngaySinh' ? item[key1].toString().split("T")[0] : item[key1]} {/* Định dạng ngày sinh */}
+              {key1 === 'ngaySinh' ? item[key1].toString().split("T")[0] : getNestedValue(item,key1)} {/* Định dạng ngày sinh */}
             </td>
             ))}
             {props.editLink && ( // Chỉ hiển thị ô Hành động nếu editLink tồn tại

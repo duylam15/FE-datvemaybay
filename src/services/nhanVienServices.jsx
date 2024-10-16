@@ -11,7 +11,6 @@ export const addNhanVien =(nhanvien) => axios.post(REST_API_BASE_URL + "/addnhan
 
 export const editNhanVien = (idNhanVien, nhanvien) => axios.put(`${REST_API_BASE_URL}/updatenhanvien/${idNhanVien}`, nhanvien);
 
-
 export const getNhanVienById =(idNhanVien) => axios.get(`${REST_API_BASE_URL}/getnhanvienbyid?id=${idNhanVien}`,idNhanVien);
 
 export const getNhanVienBetween = (start , end) => axios.get(`${REST_API_BASE_URL}/getnhanvienbetween?start=${start}&end=${end}`);

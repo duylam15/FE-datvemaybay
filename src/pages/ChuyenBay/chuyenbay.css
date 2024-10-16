@@ -1,0 +1,31 @@
+button{
+  font-size: 16px;
+}
+
+.row{
+  display: flex;
+  width: 500px;
+  height: 600px;
+}
+
+.row1 .column1 {
+  background-color: aqua;
+}
+
+.row1 .column2 {
+  background-color: rgb(127, 153, 255);
+}
+
+.row2 .column1 {
+  background-color: rgb(140, 255, 0);
+}
+
+.row2 .column2 {
+  background-color: rgb(255, 208, 127);
+}
+
+.containe-chuyenbay{
+  display: flex;
+  font-size: 18px;
+}
+

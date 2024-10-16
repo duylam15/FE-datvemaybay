@@ -22,7 +22,7 @@ export default function NhanVien(){
                                             })
             break;
       case "1" :
-          if(searchInfo == "") {setData([]);return;}
+          if(searchInfo == "") {return;}
             getNhanVienByHoTen(searchInfo.trim())
                           .then((response) => {
                                                 setData(response.data.data);
@@ -33,7 +33,7 @@ export default function NhanVien(){
                                             })
             break;
             case "2" :
-              if(searchInfo == "") {setData([]);return;}
+              if(searchInfo == "") {return;}
               getNhanVienBySDT(searchInfo.trim())
                             .then((response) => {
                                                   setData(response.data.data);
@@ -44,7 +44,7 @@ export default function NhanVien(){
                                               })
               break;
               case "3" :
-                if(searchInfo == "") {setData([]);return;}
+                if(searchInfo == "") {return;}
                 getNhanVienByCCCD(searchInfo.trim())
                               .then((response) => {
                                                     setData(response.data.data);
@@ -55,7 +55,7 @@ export default function NhanVien(){
                                                 })
                 break;
                 case "4" :
-                  if(searchInfo == "") {setData([]);return;}
+                  if(searchInfo == "") {return;}
                   getNhanVienByEmail(searchInfo.trim())
                                 .then((response) => {
                                                       setData(response.data.data);
