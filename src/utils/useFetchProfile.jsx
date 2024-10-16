@@ -27,3 +27,22 @@ export const useFetchProfile = (token) => {
 
 	return { profile, loading, error }; // Trả về thông tin hồ sơ, trạng thái loading và lỗi (nếu có)
 };
+
+
+import axiosInstance from './axiosInstance'; // Import axiosInstance đã tạo
+
+// Hàm để đăng bài viết mới
+const postNewArticle = async (title, content) => {
+  try {
+    const response = await axiosInstance.post('/articles', {
+      title: title,        // Tiêu đề bài viết
+      content: content     // Nội dung bài viết
+    });
+    console.log('Bài viết đã được đăng thành công:', response.data);
+  } catch (error) {
+    console.error('Lỗi khi đăng bài viết:', error);
+  }
+};
+
+// Gọi hàm với dữ liệu cụ thể
+postNewArticle('Bài viết đầu tiên', 'Đây là nội dung của bài viết đầu tiên.');
