@@ -8,5 +8,6 @@ export const getHangBay = async () => {
         throw new Error('Failed to fetch airline');
     }
     const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+    console.log(data.data)
     return data.data; // Trả về phần data bên trong JSON
 };

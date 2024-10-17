@@ -8,7 +8,10 @@ const AddMayBayForm = () => {
     const [tenMayBay, setTenMayBay] = useState('');
     const [hangBay, setHangBay] = useState(null);
     const [icaoMayBay, setIcaoMaybay] = useState('');
-    const [soLuongGhe, setSoLuongGhe] = useState('');
+    const [soHangGheThuong, setSoHangGheThuong] = useState('');
+    const [soCotGheThuong, setSoCotGheThuong] = useState('');
+    const [soHangGheVip, setSoHangGheVip] = useState('');
+    const [soCotGheVip, setSoCotGheVip] = useState('');
     const [soHieu, setSoHieu] = useState('');
     const [namSanXuat, setNamSanXuat] = useState();
     const [trangThaiActive, setTrangThaiActive] = useState('ACTIVE');
@@ -56,12 +59,16 @@ const AddMayBayForm = () => {
             tenMayBay,
             hangBay, // Gửi ID của hãng bay
             icaoMayBay,
-            soLuongGhe: parseInt(soLuongGhe),
+            // soLuongGhe: parseInt(soLuongGhe),
+            soCotGheThuong: parseInt(soCotGheThuong),
+            soHangGheThuong,
+            soHangGheVip,
+            soCotGheVip: parseInt(soCotGheVip),
             soHieu,
             namSanXuat: parseInt(namSanXuat),
             trangThaiActive
         };
-
+        console.log(mayBay);
         try {
             const response = await axios.post(`${API_URL}/addPlane`, mayBay);
             console.log('Plane added successfully!', response.data);
@@ -97,11 +104,11 @@ const AddMayBayForm = () => {
                 <label>Hãng Bay</label>
                 <select
                     className={`form-control ${fieldErrors.hangBay ? 'is-invalid' : ''}`}
-                    value={hangBay ? hangBay.idHangBay : ''}
+                    value={hangBay ? hangBay.idHangBay : ''} // Chỉ lấy ID
                     onChange={handleSelectHangBay}
                     required
                 >
-                    <option value="">Chọn hãng bay</option>
+                    <option value="">Chọn Hãng Bay</option>
                     {listHangBay.map((hb) => (
                         <option value={hb.idHangBay} key={hb.idHangBay}>
                             {hb.tenHangBay}
@@ -122,15 +129,45 @@ const AddMayBayForm = () => {
                 {fieldErrors.icaoMayBay && <div className="invalid-feedback">{fieldErrors.icaoMayBay}</div>}
             </div>
             <div className="form-group">
-                <label>Số Lượng Ghế</label>
+                <label>Số Hàng Ghế Thường</label>
                 <input
                     type="text"
-                    className={`form-control ${fieldErrors.soLuongGhe ? 'is-invalid' : ''}`} 
-                    value={soLuongGhe}
-                    onChange={(e) => setSoLuongGhe(e.target.value)}
+                    className={`form-control ${fieldErrors.soHangGheThuong ? 'is-invalid' : ''}`} 
+                    value={soHangGheThuong}
+                    onChange={(e) => setSoHangGheThuong(e.target.value)}
                     required
                 />
-                {fieldErrors.soLuongGhe && <div className="invalid-feedback">{fieldErrors.soLuongGhe}</div>}
+                {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
+
+                <label>Số Cột Ghế Thường</label>
+                <input
+                    type="text"
+                    className={`form-control ${fieldErrors.soCotGheThuong ? 'is-invalid' : ''}`} 
+                    value={soCotGheThuong}
+                    onChange={(e) => setSoCotGheThuong(e.target.value)}
+                    required
+                />
+                {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
+
+                <label>Số Hàng Ghế VIP</label>
+                <input
+                    type="text"
+                    className={`form-control ${fieldErrors.soHangGheVip ? 'is-invalid' : ''}`} 
+                    value={soHangGheVip}
+                    onChange={(e) => setSoHangGheVip(e.target.value)}
+                    required
+                />
+                {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
+
+                <label>Số Cột Ghế VIP</label>
+                <input
+                    type="text"
+                    className={`form-control ${fieldErrors.soCotGheVip ? 'is-invalid' : ''}`} 
+                    value={soCotGheVip}
+                    onChange={(e) => setSoCotGheVip(e.target.value)}
+                    required
+                />
+                {fieldErrors.soCotGheVip && <div className="invalid-feedback">{fieldErrors.soCotGheVip}</div>}
             </div>
             <div className="form-group">
                 <label>Số Hiệu</label>
@@ -162,7 +199,7 @@ const AddMayBayForm = () => {
                     onChange={(e) => setTrangThaiActive(e.target.value)}
                 >
                     <option value="ACTIVE">Kích Hoạt</option>
-                    <option value="INACTIVE">Không Kích Hoạt</option>
+                    <option value="IN_ACTIVE">Không Kích Hoạt</option>
                 </select>
                 {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
             </div>

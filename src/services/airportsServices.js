@@ -29,6 +29,9 @@ export const searchAirports = async (searchTerm, setSanBay) => {
         console.log('Search results:', response.data);
         setSanBay(response.data.data);
     } catch (error) {
+        if (error.response && error.response.status === 404) {
+            setSanBay([]);
+        }
         console.error('Error fetching search results:', error);
     }
 };
@@ -42,7 +45,20 @@ export const blockAirport = async (idSanBay) => {
     try {
         const response = await axios.put(`${API_URL}/blockAirport/${idSanBay}`);
         console.log(`Blocked airport with ID: ${idSanBay}`, response.data);
+        return response.data;
     } catch (error) {
         console.error('There was an error blocking the airport!', error);
+    }
+};
+
+export const searchByCity = async (idThanhPho, setSanBay) => {
+    try {
+        const response = await axios.get(`${API_URL}/getAirportByCity/${idThanhPho}`);
+        console.log('Get airport by city', idThanhPho, 'is', response.data);
+        setSanBay(response.data.data);
+    } catch (error) {
+        console.error('Failed to get airport by city!', error);
+        const fallbackResponse = await axios.get(`${API_URL}/getAllAirport`);
+        setSanBay(fallbackResponse.data.data);
     }
 };

@@ -139,7 +139,7 @@ const SanBayEdit = () => {
                     <select
                         name="thanhPho"
                         className={`form-control ${fieldErrors.thanhPho ? 'is-invalid' : ''}`}
-                        value={sanBay.thanhPho}
+                        value={sanBay.thanhPho ? sanBay.thanhPho.idThanhPho : ''}
                         onChange={handleChange}
                     >
                         <option value="">Chọn Thành Phố</option>
@@ -160,7 +160,7 @@ const SanBayEdit = () => {
                         onChange={handleChange}
                     >
                         <option value="ACTIVE">Kích Hoạt</option>
-                        <option value="INACTIVE">Không Kích Hoạt</option>
+                        <option value="IN_ACTIVE">Không Kích Hoạt</option>
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>

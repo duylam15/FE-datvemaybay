@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
+
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 const MayBayEdit = () => {
@@ -10,7 +11,10 @@ const MayBayEdit = () => {
         tenMayBay: '',
         hangBay: null,
         icaoMayBay: '',
-        soLuongGhe: '',
+        soHangGheThuong: '',
+        soHangGheVip: '',
+        soCotGheThuong: '',
+        soCotGheVip: '',
         soHieu: '',
         namSanXuat: '',
         trangThaiActive: ''
@@ -63,7 +67,8 @@ const MayBayEdit = () => {
             // Chuyển đổi kiểu dữ liệu trước khi gửi
             const updatedMayBay = {
                 ...mayBay,
-                soLuongGhe: parseInt(mayBay.soLuongGhe, 10),
+                soCotGheThuong: parseInt(mayBay.soCotGheThuong, 10),
+                soCotGheVip : parseInt(mayBay.soCotGheVip, 10),
                 namSanXuat: parseInt(mayBay.namSanXuat, 10),
             };
 
@@ -119,7 +124,7 @@ const MayBayEdit = () => {
                     <select
                         name='hangBay'
                         className={`form-control ${fieldErrors.hangBay ? 'is-invalid' : ''}`}
-                        value={mayBay.hangBay}
+                        value={mayBay.hangBay ? mayBay.hangBay.idHangBay : ''}
                         onChange={handleChange}
                     >
                         <option value="">Chọn hãng bay</option>
@@ -143,15 +148,45 @@ const MayBayEdit = () => {
                     {fieldErrors.icaoMayBay && <div className="invalid-feedback">{fieldErrors.icaoMayBay}</div>}
                 </div>
                 <div className="form-group">
-                    <label>Số Lượng Ghế:</label>
+                    <label>Số Hàng Ghế Thường:</label>
                     <input
                         type="text"
-                        name="soLuongGhe"
-                        className={`form-control ${fieldErrors.soLuongGhe ? 'is-invalid' : ''}`}
-                        value={mayBay.soLuongGhe}
+                        name="soHangGheThuong"
+                        className={`form-control ${fieldErrors.soHangGheThuong ? 'is-invalid' : ''}`}
+                        value={mayBay.soHangGheThuong}
                         onChange={handleChange}
                     />
-                    {fieldErrors.soLuongGhe && <div className="invalid-feedback">{fieldErrors.soLuongGhe}</div>}
+                    {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
+
+                    <label>Số Hàng Ghế VIP:</label>
+                    <input
+                        type="text"
+                        name="soHangGheVip"
+                        className={`form-control ${fieldErrors.soHangGheVip ? 'is-invalid' : ''}`}
+                        value={mayBay.soHangGheVip}
+                        onChange={handleChange}
+                    />
+                    {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
+
+                    <label>Số Cột Ghế Thường:</label>
+                    <input
+                        type="text"
+                        name="soCotGheThuong"
+                        className={`form-control ${fieldErrors.soCotGheThuong ? 'is-invalid' : ''}`}
+                        value={mayBay.soCotGheThuong}
+                        onChange={handleChange}
+                    />
+                    {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
+
+                    <label>Số Cột Ghế VIP:</label>
+                    <input
+                        type="text"
+                        name="soCotGheVip"
+                        className={`form-control ${fieldErrors.soCotGheVip ? 'is-invalid' : ''}`}
+                        value={mayBay.soCotGheVip}
+                        onChange={handleChange}
+                    />
+                    {fieldErrors.soCotGheVip && <div className="invalid-feedback">{fieldErrors.soCotGheVip}</div>}
                 </div>
                 <div className="form-group">
                     <label>Số Hiệu:</label>
@@ -183,8 +218,8 @@ const MayBayEdit = () => {
                         value={mayBay.trangThaiActive}
                         onChange={handleChange}
                     >
-                        <option value="ACTIVE">Active</option>
-                        <option value="IN_ACTIVE">Inactive</option>
+                        <option value="ACTIVE">Kích hoạt</option>
+                        <option value="IN_ACTIVE">Không kích hoạt</option>
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>

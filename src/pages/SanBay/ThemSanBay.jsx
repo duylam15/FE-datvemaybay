@@ -123,7 +123,7 @@ const AddSanBayForm = () => {
                 <label>Thành Phố</label>
                 <select
                     className={`form-control ${fieldErrors.thanhPho ? 'is-invalid' : ''}`}
-                    value={thanhPho ? thanhPho.idThanhPho : ''}
+                    value={thanhPho ? thanhPho.idThanhPho : ''} // Chỉ lấy ID
                     onChange={handleSelectCity}
                     required
                 >
@@ -144,7 +144,7 @@ const AddSanBayForm = () => {
                     onChange={(e) => setTrangThaiActive(e.target.value)}
                 >
                     <option value="ACTIVE">Kích Hoạt</option>
-                    <option value="INACTIVE">Không Kích Hoạt</option>
+                    <option value="IN_ACTIVE">Không Kích Hoạt</option>
                 </select>
                 {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
             </div>
