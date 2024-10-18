@@ -7,15 +7,15 @@ const instance = axios.create({
     withCredentials: true, // Cho phép gửi cookie và thông tin xác thực từ phía máy khách
 });
 
+instance.defaults.headers.common = { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } // Thiết lập header Authorization chung cho tất cả các yêu cầu, với token từ localStorage
+
 instance.interceptors.response.use(function (response) {
-    console.log("Successful response:", response);
     // Nếu response không có data hoặc cần trả về toàn bộ response
     if (response && response.data) {
         return response;  // Trả về data nếu có
     }
     return response;  // Trả về toàn bộ response nếu không có data
 }, function (error) {
-    console.error("Error response:", error.response);
     return error?.response?.data ?? Promise.reject(error);
 });
 

@@ -117,13 +117,13 @@ export default function HotFlight() {
 	};
 
 	const handleItemClick = (item) => {
+		console.log("Item clicked:", item); // Kiểm tra item đã được click
 		setSelectedItem(item);
 		setDepartureLocation(item.departureLocation); // Cập nhật giá trị departureLocation từ item
 		setArrivalLocation(item.arrivalLocation); // Cập nhật giá trị arrivalLocation từ item
 		setDepartureDate(item.departureDate);
 		setIsModalVisible(true);
 	};
-
 
 	const handleModalClose = () => {
 		setIsModalVisible(false);
@@ -165,8 +165,10 @@ export default function HotFlight() {
 			{selectedItem && (
 				<Modal
 					title={selectedItem.title}
+					open={isModalVisible} // Sử dụng visible để hiển thị modal
 					onCancel={handleModalClose}
 					footer={null}
+					className='model'
 				>
 					<form className="hotflight-form" onSubmit={handleSubmit} noValidate>
 						<h2>Đặt vé máy bay</h2>
@@ -230,38 +232,40 @@ export default function HotFlight() {
 
 								<div className='input-field-wrap'>
 									<div className="input-field ">
-										<label>NGÀY ĐI</label>
-										<input type="date" className='input__form'
-											name="departureDate" required value={selectedItem.departureDate} disabled
-											onChange={(value) => handleChange(value.target.value, setDepartureDate)} />
+										<label>Ngày đi:</label>
+										<Input
+											type="date"
+											value={selectedItem.departureDate} // Đặt giá trị ngày đi từ selectedItem
+											onChange={(e) => handleChange(e.target.value, setDepartureDate)}
+										/>
 									</div>
 
 									{isRoundTrip && (
 										<div className="input-field">
-											<label>NGÀY VỀ:</label>
-											<input type="date" className='input__form_2' name="returnDate" required value={returnDate}
-												onChange={(value) => handleChange(value.target.value, setReturnDate)}
+											<label>Ngày về:</label>
+											<Input
+												type="date"
+												value={returnDate}
+												onChange={(e) => handleChange(e.target.value, setReturnDate)}
 											/>
 										</div>
 									)}
 
-									<div className="input-field ">
-										<label>HÀNH KHÁCH</label>
-										<input type="number"
-											className={isRoundTrip ? 'input__form_2 ' : 'input__form '}
-											name="passengers"
-											min="1" required
-											onChange={(value) => handleChange(value.target.value, setNumberOfTickets)}
-											style={{ border: "none" }} value={numberOfTickets}
+									<div className="input-field">
+										<label>Số lượng hành khách:</label>
+										<Input
+											type="number"
+											value={numberOfTickets}
+											onChange={(e) => handleChange(e.target.value, setNumberOfTickets)}
+											min={1}
 										/>
 									</div>
 								</div>
 							</div>
-
-							<button type="submit">Tìm chuyến bay</button>
-
 						</div>
-
+						<button type="submit" className="hotflight__btn">
+							Xác nhận
+						</button>
 					</form>
 				</Modal>
 			)}

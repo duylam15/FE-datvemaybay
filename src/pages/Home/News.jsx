@@ -108,7 +108,7 @@ export default function News() {
 
 						<Modal
 							title={selectedNews?.title}  // Tiêu đề của bài viết
-							visible={isModalVisible}     // Kiểm soát hiển thị modal
+							open={isModalVisible}     // Kiểm soát hiển thị modal
 							onCancel={handleCancel}      // Đóng modal
 							footer={null}                // Ẩn footer của modal
 						>

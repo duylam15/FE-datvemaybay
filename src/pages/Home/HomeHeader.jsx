@@ -145,9 +145,7 @@ export default function HomeHeader() {
 
 						{/* Hiển thị loading trong quá trình fetch dữ liệu */}
 						{loading ? (
-							<div style={{ textAlign: 'center' }}>
-								<Spin tip="Đang tải dữ liệu..." />
-							</div>
+							<Spin />
 						) : (
 							<div className="input__inner">
 								<div className="input__book">
