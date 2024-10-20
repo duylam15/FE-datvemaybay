@@ -1,0 +1,125 @@
+.user-info-detail {
+  padding: 20px;
+  padding-bottom: 40px;
+  width: 100%;
+  background-color: #fff;
+  &__note {
+    display: block;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 20px 0;
+    color: #667085;
+  }
+  &__title {
+    display: block;
+    font-weight: 500;
+    font-size: 20px;
+    padding-bottom: 15px;
+    color: #344054;
+  }
+  &__row {
+    padding-bottom: 10px;
+  }
+  &__label {
+    display: inline-block;
+    color: #667085;
+    font-size: 16px;
+  }
+  &__value {
+    color: #344054;
+    font-size: 16px;
+    font-weight: 600;
+    padding-left: 20px;
+  }
+  .row_bottom {
+    padding-bottom: 20px;
+  }
+  &__contact-info {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    .contact-info__baned {
+      cursor: not-allowed;
+    }
+    .contact-info__item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      label {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #344054;
+        margin-bottom: 6px;
+      }
+
+      .contact-info__input {
+        width: 378px;
+        height: 48px;
+        padding: 10px 15px;
+        border: 1px solid #c3c3c3;
+        border-radius: 5px;
+        background-color: #f9fafb;
+        font-size: 16px;
+        color: #333;
+        width: 100%;
+        box-sizing: border-box;
+        &:focus {
+          outline: none;
+          border-color: #222222;
+        }
+      }
+      .contact-info__input.email {
+        padding-left: 50px;
+      }
+      .contact-info__item--icon {
+        position: absolute;
+        top: 42px;
+        left: 16px;
+      }
+    }
+  }
+}
+.user-info-detail__contact-info.wrap-flex {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); // Tạo 2 cột có kích thước bằng nhau
+  gap: 20px; // Khoảng cách giữa các cột
+}
+.user-info-detail__title.pt-10 {
+  padding-top: 35px;
+}
+.user-info-detail__title.pt-5 {
+  padding-top: 20px;
+}
+.user-info-detail__action-row {
+  justify-content: flex-end;
+  display: flex;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.user-info-detail__button {
+  border-radius: 8px;
+  background-color: #f9fafb;
+  padding: 10px 12px;
+  color: #667085;
+  border-width: 2px;
+  font-weight: 500;
+  border-style: solid;
+  border-color: transparent;
+  transition: all 0.2s;
+}
+
+.user-info-detail__button--cancel:hover {
+background-color: #e3e6e9;
+  color: rgb(236, 140, 140);
+}
+
+.user-info-detail__button--confirm:hover {
+  color: rgb(139, 217, 139);
+  background-color: #e3e6e9;
+}
