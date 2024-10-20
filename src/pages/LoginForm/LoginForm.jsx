@@ -86,7 +86,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div>
+    <div className='loginForm'>
       <div className={styles.carousel}>
         <div className={styles.content}>
           <div className={styles.modalBody}>
@@ -156,7 +156,7 @@ export default function LoginForm() {
           <div className={`${styles.fontfooter}`}>
             <p className={styles.m0}>
               Bạn chưa là hội viên?
-              <Link className={styles.fontu} to='/SignupForm'>
+              <Link className={styles.fontu} to='/register'>
                 Đăng ký Bamboo Club
               </Link>
             </p>

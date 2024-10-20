@@ -1,0 +1,110 @@
+.footer {
+    &_logo {
+        border-bottom: 1px solid var(--color-border-main);
+        &__inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            gap: 50px;
+        }
+        &__img {
+        }
+        &__heading {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--typography-primary);
+        }
+    }
+
+    &__menu {
+        padding: 40px 0px;
+
+        &-item {
+        }
+        &-link {
+        }
+    }
+    &__submenu {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &--list {
+        }
+        &-item {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            &--heading {
+                color: var(--Primary-4, #2979af);
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 20px; /* 142.857% */
+                margin-bottom: 20px;
+            }
+            &-desc {
+                color: #000;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 20px; /* 142.857% */
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    &__award {
+        border-top: 1px solid var(--color-border-main);
+        border-bottom: 1px solid var(--color-border-main);
+        padding: 40px 0px;
+        &--inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        &--left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            &-img {
+            }
+        }
+        &--right {
+            &-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 10px;
+            }
+            &-img {
+            }
+        }
+    }
+
+    &__copyright {
+        padding: 40px 0px;
+        &--inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        &--text {
+        }
+        &--left {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            flex-direction: column;
+            max-width: 450px;
+            color: var(--typography-primary);
+        }
+        &--right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+    }
+}
