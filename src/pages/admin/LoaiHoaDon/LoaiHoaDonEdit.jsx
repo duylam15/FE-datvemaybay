@@ -97,8 +97,8 @@ const LoaiHoaDonEdit = () => {
                         value={loaiHoaDon.status}
                         onChange={handleChange}
                     >
-                        <option value="ACTIVE">Active</option>
-                        <option value="IN_ACTIVE">Inactive</option>
+                        <option value="ACTIVE">Kích hoạt</option>
+                        <option value="IN_ACTIVE">Không kích hoạt</option>
                     </select>
                     {fieldErrors.status && <div className="invalid-feedback">{fieldErrors.status}</div>}
                 </div>

@@ -19,7 +19,7 @@ export const searchLoaiHoaDon = async (searchTerm, setLoaiHoaDon) => {
     try {
         const response = await axios.get(`${API_URL}/getLoaiHDByKeyWord`, { params: { keyWord: searchTerm } });
         console.log('Search results:', response.data);
-        setLoaiHoaDon(response.data.data);
+        setLoaiHoaDon(response.data.daa);
     } catch (error) {
         if (error.response && error.response.status === 404) {
             console.error("Error 404: Resource not found");

@@ -6,19 +6,18 @@ import Register from '../pages/Register';
 import Error from '../pages/Error';
 import Post from "../pages/Post";
 
-import PhuongThucTTPage from "../pages/PhuongThucThanhToan";
-import PhuongThucThanhToanAdd from "../pages/PhuongThucThanhToan/PhuongThucThanhToanAdd";
-import PhuongThucThanhToanEdit from "../pages/PhuongThucThanhToan/PhuongThucThanhToanEdit";
+import PhuongThucTTPage from "../pages/admin/PhuongThucThanhToan";
+import PhuongThucThanhToanAdd from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanAdd";
+import PhuongThucThanhToanEdit from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanEdit";
 
-import HoaDonPage from "../pages/HoaDon";
-import HoaDonAdd from "../pages/HoaDon/HoaDonAdd";
+import HoaDonPage from "../pages/admin/HoaDon";
+import HoaDonAdd from "../pages/admin/HoaDon/HoaDonAdd";
 
-import LoaiHoaDonPage from "../pages/LoaiHoaDon";
-import LoaiHoaDonAdd from "../pages/LoaiHoaDon/LoaiHoaDonAdd";
-import LoaiHoaDonEdit from "../pages/LoaiHoaDon/LoaiHoaDonEdit";
+import LoaiHoaDonPage from "../pages/admin/LoaiHoaDon";
+import LoaiHoaDonAdd from "../pages/admin/LoaiHoaDon/LoaiHoaDonAdd";
+import LoaiHoaDonEdit from "../pages/admin/LoaiHoaDon/LoaiHoaDonEdit";
 
-import ChiTietHoaDon from "../components/ChiTietHoaDon/ChiTietHoaDon";
-import ChiTietHoaDonPage from "../pages/ChiTietHoaDon/ChiTietHoaDonPage";
+import ChiTietHoaDonPage from "../pages/admin/ChiTietHoaDon/ChiTietHoaDonPage";
 
 export const router = createBrowserRouter([
 	{

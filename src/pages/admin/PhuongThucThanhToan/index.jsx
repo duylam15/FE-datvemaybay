@@ -1,13 +1,12 @@
 // pơges/PhuongThucThanhToan
 
 import React, { useState, useEffect } from 'react';
-import { useFetchPTTT } from '../../utils/useFetchPhuongThucTT.jsx';
-import PhuongThucTTList from '../../components/PhuongThucThanhToanList/PhuongThucThanhToanList.jsx';
-import { editPhuongThucTT } from '../../services/phuongThucThanhToanService.js';
-import { searchPhuongThucTT } from '../../services/phuongThucThanhToanService.js';
-import { handleSort } from '../../services/phuongThucThanhToanService.js';
+import { useFetchPTTT } from '../../../utils/useFetchPhuongThucTT.jsx';
+import PhuongThucTTList from '../../../components/PhuongThucThanhToanList/PhuongThucThanhToanList.jsx';
+import { editPhuongThucTT } from '../../../services/phuongThucThanhToanService.js';
+import { searchPhuongThucTT } from '../../../services/phuongThucThanhToanService.js';
+import { handleSort } from '../../../services/phuongThucThanhToanService.js';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 const PhuongThucTTPage = () => {
     const { phuongThucTT: initialPhuongThucTT, loading, error } = useFetchPTTT();

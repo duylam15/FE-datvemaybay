@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { getLoaiHoaDon } from '../../services/loaiHoaDonService';
+import { getHoaDon } from '../../../services/hoaDonService';
 
 const API_URL = 'http://localhost:8080';
 
 const HoaDonAdd = () => {
-    const [khachHang, setKhachHang] = useState('');
+    const [khachHang, setKhachHang] = useState();
     const [nhanVien, setNhanVien] = useState('');
     const [soLuongVe, setSoLuongVe] = useState('');
     const [loaiHoaDon, setLoaiHoaDon] = useState('');

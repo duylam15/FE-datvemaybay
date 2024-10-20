@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useFetchLoaiHoaDon } from '../../utils/useFetchLoaiHD.jsx';
-import LoaiHoaDonList from '../../components/LoaiHoaDonList/LoaiHoaDonList.jsx';
-import { editLoaiHoaDon } from '../../services/loaiHoaDonService.js';
-import { searchLoaiHoaDon } from '../../services/loaiHoaDonService.js';
-import { handleSort } from '../../services/loaiHoaDonService.js';
+import { useFetchLoaiHoaDon } from '../../../utils/useFetchLoaiHD.jsx';
+import LoaiHoaDonList from '../../../components/LoaiHoaDonList/LoaiHoaDonList.jsx';
+import { editLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
+import { searchLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
+import { handleSort } from '../../../services/loaiHoaDonService.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 

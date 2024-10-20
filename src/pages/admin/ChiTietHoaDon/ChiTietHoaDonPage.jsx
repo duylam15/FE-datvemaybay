@@ -2,10 +2,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useFetchChiTietHoaDon } from '../../utils/useFetchCTHD.jsx';
-import ChiTietHoaDonList from '../../components/ChiTietHoaDon/ChiTietHoaDon.jsx';
-import { handleSort, searchChiTietHoaDon } from '../../services/chiTietHoaDonService.js';
-import { detail } from '../../services/chiTietHoaDonService.js';
+import { useFetchChiTietHoaDon } from '../../../utils/useFetchCTHD.jsx';
+import ChiTietHoaDonList from '../../../components/ChiTietHoaDon/ChiTietHoaDon.jsx';
+import { handleSort, searchChiTietHoaDon } from '../../../services/chiTietHoaDonService.js';
+import { detail } from '../../../services/chiTietHoaDonService.js';
 
 const ChiTietHoaDonPage = () => {
     const { idHoaDon } = useParams();
