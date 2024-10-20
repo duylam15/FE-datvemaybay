@@ -12,6 +12,8 @@ import MayBay from "../pages/admin/MayBay";
 import Quyen from "../pages/admin/Quyen";
 import NhanVien from "../pages/admin/NhanVien";
 import ChucVu from "../pages/admin/ChucVu";
+import WebSocketDemo from "../pages/WebSocketDemo";
+import ResetPassword from "../pages/ResetPassword";
 
 export const router = createBrowserRouter([
 	{
@@ -42,6 +44,11 @@ export const router = createBrowserRouter([
 	{
 		path: "/my_profile",
 		element: <UsersPage />, // Route register, hiển thị Register
+		// element: <WebSocketDemo></WebSocketDemo>
+	},
+	{
+		path: "/reset_password",
+		element: <ResetPassword></ResetPassword>
 	},
 	{
 		path: "/admin",

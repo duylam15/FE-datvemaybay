@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:8080';
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODQzNDc2MiwiZXhwIjoxNzI5MDM5NTYyfQ.HyW3mNDUpcn5tCQiR5ddZS7c0aNm3uYx08y8m6e8LfA"
+    const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyOTA5MjAzNiwianRpIjoiZWMwZmY1NDUtY2U3OS00YTlkLWJmODUtOTgwYWE2NGE1ZjAyIiwiZXhwIjoxNzI5MDkzODM2fQ.cKlmmJ7qOBfUlA15oZJbpoMSVtYvKfAajzRm8jhcUg4"
 // Lấy thông tin cá nhân
 export const getMyProfile = async () => {
 	// const token = localStorage.getItem('token');
