@@ -94,4 +94,31 @@
         font-size: 16px;
         font-weight: 500;
     }
+
+    .navbar__dropdown {
+        position: relative;
+        display: inline-block;
+        padding: 10px 0px;
+    }
+
+    .navbar__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        min-width: 160px;
+        z-index: 1;
+    }
+
+    .navbar__dropdown-item {
+        padding: 8px 16px;
+        cursor: pointer;
+        text-align: left;
+    }
+
+    .navbar__dropdown-item:hover {
+        background-color: #f1f1f1;
+    }
 }

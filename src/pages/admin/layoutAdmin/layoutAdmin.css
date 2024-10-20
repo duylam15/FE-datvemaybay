@@ -1,0 +1,10 @@
+.content-admin {
+    background-color: red;
+}
+
+.container-fluid {
+    background-color: aqua;
+}
+.row {
+    display: flex;
+}

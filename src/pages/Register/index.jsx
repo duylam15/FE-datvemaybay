@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './Register.scss';
 import slogon from '../../assets/images/slogan.png';
-import logo from '../../assets/images/LogoBamboo.png';
 import { callRegister } from '../../services/authServeices';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
@@ -88,121 +87,125 @@ export default function Register() {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-header">
-        <img src={slogon} alt="Slogan" className="register-slogan" />
+    <div className="register">
+      <div className="container">
+        <div className="register__inner">
+          <div className="register-header">
+            <img src={slogon} alt="Slogan" className="register-slogan" />
+          </div>
+          <form onSubmit={handleSubmit} className="register-form">
+            <input
+              id="userName"
+              name="userName"
+              placeholder="Tên đăng nhập"
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              className="input-username"
+            />
+            {errors.userName && <p className="error-text">{errors.userName}</p>}
+
+            <input
+              id="password"
+              name="password"
+              placeholder="Mật khẩu"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-password"
+            />
+            {errors.password && <p className="error-text">{errors.password}</p>}
+
+            <input
+              id="rePassword"
+              name="rePassword"
+              placeholder="Nhập lại mật khẩu"
+              type="password"
+              value={rePassword}
+              onChange={(e) => setRePassword(e.target.value)}
+              className="input-repassword"
+            />
+            {errors.rePassword && <p className="error-text">{errors.rePassword}</p>}
+
+            <input
+              id="cccd"
+              name="cccd"
+              placeholder="CCCD/CMND"
+              type="text"
+              value={cccd}
+              onChange={(e) => setCccd(e.target.value)}
+              className="input-cccd"
+            />
+            {errors.cccd && <p className="error-text">{errors.cccd}</p>}
+
+            <input
+              id="email"
+              name="email"
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="input-email"
+            />
+            {errors.email && <p className="error-text">{errors.email}</p>}
+
+            <input
+              id="hoTen"
+              name="hoTen"
+              placeholder="Họ và tên"
+              type="text"
+              value={hoTen}
+              onChange={(e) => setHoTen(e.target.value)}
+              className="input-hoten"
+            />
+            {errors.hoTen && <p className="error-text">{errors.hoTen}</p>}
+
+            <input
+              id="ngaySinh"
+              name="ngaySinh"
+              placeholder="Ngày sinh"
+              type="date"
+              value={ngaySinh}
+              onChange={(e) => setNgaySinh(e.target.value)}
+              className="input-ngaysinh"
+            />
+            {errors.ngaySinh && <p className="error-text">{errors.ngaySinh}</p>}
+
+            <input
+              id="soDienThoai"
+              name="soDienThoai"
+              placeholder="Số điện thoại"
+              type="tel"
+              value={soDienThoai}
+              onChange={(e) => setSoDienThoai(e.target.value)}
+              className="input-sodienthoai"
+            />
+            {errors.soDienThoai && <p className="error-text">{errors.soDienThoai}</p>}
+
+            <select
+              id="gioiTinh"
+              name="gioiTinh"
+              value={gioiTinh}
+              onChange={(e) => setGioiTinh(e.target.value)}
+              className="input-gioitinh"
+            >
+              <option value="">Chọn giới tính</option>
+              <option value="NAM">Nam</option>
+              <option value="NU">Nữ</option>
+              <option value="FEMALE">Khác</option>
+            </select>
+            {errors.gioiTinh && <p className="error-text">{errors.gioiTinh}</p>}
+
+            <button
+              type="submit"
+              className="btn-submit"
+              disabled={isSubmit}
+            >
+              {isSubmit ? 'Đang xử lý...' : 'Đăng ký'}
+            </button>
+          </form>
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="register-form">
-        <input
-          id="userName"
-          name="userName"
-          placeholder="Tên đăng nhập"
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          className="input-username"
-        />
-        {errors.userName && <p className="error-text">{errors.userName}</p>}
-
-        <input
-          id="password"
-          name="password"
-          placeholder="Mật khẩu"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="input-password"
-        />
-        {errors.password && <p className="error-text">{errors.password}</p>}
-
-        <input
-          id="rePassword"
-          name="rePassword"
-          placeholder="Nhập lại mật khẩu"
-          type="password"
-          value={rePassword}
-          onChange={(e) => setRePassword(e.target.value)}
-          className="input-repassword"
-        />
-        {errors.rePassword && <p className="error-text">{errors.rePassword}</p>}
-
-        <input
-          id="cccd"
-          name="cccd"
-          placeholder="CCCD/CMND"
-          type="text"
-          value={cccd}
-          onChange={(e) => setCccd(e.target.value)}
-          className="input-cccd"
-        />
-        {errors.cccd && <p className="error-text">{errors.cccd}</p>}
-
-        <input
-          id="email"
-          name="email"
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="input-email"
-        />
-        {errors.email && <p className="error-text">{errors.email}</p>}
-
-        <input
-          id="hoTen"
-          name="hoTen"
-          placeholder="Họ và tên"
-          type="text"
-          value={hoTen}
-          onChange={(e) => setHoTen(e.target.value)}
-          className="input-hoten"
-        />
-        {errors.hoTen && <p className="error-text">{errors.hoTen}</p>}
-
-        <input
-          id="ngaySinh"
-          name="ngaySinh"
-          placeholder="Ngày sinh"
-          type="date"
-          value={ngaySinh}
-          onChange={(e) => setNgaySinh(e.target.value)}
-          className="input-ngaysinh"
-        />
-        {errors.ngaySinh && <p className="error-text">{errors.ngaySinh}</p>}
-
-        <input
-          id="soDienThoai"
-          name="soDienThoai"
-          placeholder="Số điện thoại"
-          type="tel"
-          value={soDienThoai}
-          onChange={(e) => setSoDienThoai(e.target.value)}
-          className="input-sodienthoai"
-        />
-        {errors.soDienThoai && <p className="error-text">{errors.soDienThoai}</p>}
-
-        <select
-          id="gioiTinh"
-          name="gioiTinh"
-          value={gioiTinh}
-          onChange={(e) => setGioiTinh(e.target.value)}
-          className="input-gioitinh"
-        >
-          <option value="">Chọn giới tính</option>
-          <option value="NAM">Nam</option>
-          <option value="NU">Nữ</option>
-          <option value="FEMALE">Khác</option>
-        </select>
-        {errors.gioiTinh && <p className="error-text">{errors.gioiTinh}</p>}
-
-        <button
-          type="submit"
-          className="btn-submit"
-          disabled={isSubmit}
-        >
-          {isSubmit ? 'Đang xử lý...' : 'Đăng ký'}
-        </button>
-      </form>
     </div>
   );
 }

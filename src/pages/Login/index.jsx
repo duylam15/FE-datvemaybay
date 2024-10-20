@@ -2,17 +2,16 @@
 import { Button, Divider, Form, Input, message, notification } from 'antd'; // Các thành phần giao diện từ Ant Design
 import { Link, useNavigate } from 'react-router-dom'; // Link và useNavigate từ React Router
 import './Login.scss'; // Tệp CSS để định dạng giao diện
-import { useState } from 'react'; // Hook useState để quản lý trạng thái
+import { useEffect, useState } from 'react'; // Hook useState để quản lý trạng thái
 import { callInfoUser, callLogin, callRefreshToken } from '../../services/authServeices';
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { doLoginAction } from '../../redux/account/accountSlice';
 
 const Login = () => {
   const navigate = useNavigate(); // Hook dùng để điều hướng người dùng
   const [isSubmit, setIsSubmit] = useState(false); // Trạng thái để theo dõi quá trình gửi biểu mẫu
-
-
   const dispatch = useDispatch()
+  const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 
   // Hàm xử lý khi người dùng gửi biểu mẫu
   const onFinish = async (values) => {
@@ -42,26 +41,28 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <main className="main">
-        <div className="container">
+    <div className="loginForm">
+      <div className="container">
+        <div className='loginForm__inner'>
           <section className="wrapper">
             <div className="heading">
-              <h2 className="text text-large">Đăng Nhập</h2>
-              <Divider /> {/* Tạo đường phân cách */}
+              <img src="public/icons/logo.svg" alt="" className="heading__img" />
+              <h2 className="heading__text">Đăng Nhập Bamboo Club</h2>
             </div>
             <Form
               name="basic"
               onFinish={onFinish} // Hàm xử lý khi gửi biểu mẫu thành công
               autoComplete="off" // Tắt tự động hoàn thành trình duyệt
+              className='loginForm__form'
             >
               <Form.Item
                 labelCol={{ span: 24 }} // Cài đặt label chiếm toàn bộ cột
                 label="Email"
                 name="username" // Tên trường dữ liệu
-                rules={[{ required: true, message: 'Email không được để trống!' }]} // Quy tắc xác thực
+                rules={[{ required: true, message: 'Email không được để trống!' }]}
+                className='loginForm__label'
               >
-                <Input />
+                <Input className='loginForm__input' />
               </Form.Item>
 
               <Form.Item
@@ -69,29 +70,30 @@ const Login = () => {
                 label="Mật khẩu"
                 name="password" // Tên trường dữ liệu
                 rules={[{ required: true, message: 'Mật khẩu không được để trống!' }]} // Quy tắc xác thực
+                className='loginForm__label'
               >
-                <Input.Password />
+                <Input.Password className='loginForm__input' />
               </Form.Item>
 
+              <Link to='/fogotPassword' className='loginForm__forgot loginForm__label'> Quên mật khẩu </Link> {/* Liên kết đến trang đăng ký */}
+
               <Form.Item>
-                <Button type="primary" htmlType="submit" loading={isSubmit}>
+                <Button type="primary" htmlType="submit" loading={isSubmit}
+                  className='loginForm__btn'>
                   Đăng nhập
                 </Button>
               </Form.Item>
-              <Divider>Or</Divider> {/* Đường phân cách */}
-              <p className="text text-normal">Chưa có tài khoản ?
+
+
+              <p className="text text-normal">Bạn chưa là hội viên?
                 <span>
-                  <Link to='/register' > Đăng Ký </Link> {/* Liên kết đến trang đăng ký */}
+                  <Link to='/register' className='loginForm__label'> Đăng ký Bamboo Club </Link> {/* Liên kết đến trang đăng ký */}
                 </span>
-              </p>
-              <br />
-              <p className="text" style={{ color: "#9d9d9d" }}>
-                p/s: Để test, sử dụng tài khoản guest@gmail.com/123456 {/* Thông tin tài khoản thử nghiệm */}
               </p>
             </Form>
           </section>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

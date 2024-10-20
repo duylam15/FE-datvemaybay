@@ -9,9 +9,9 @@ const RoleBaseRoute = (props) => {
 	const isAdminRoute = window.location.pathname.startsWith('/admin');
 	// Lấy thông tin người dùng từ Redux store
 	const user = useSelector(state => state.account.user);
-	const userRole = user.quyen.tenQuyen; // Lấy vai trò của người dùng
+	const userRole = user?.quyen?.tenQuyen; // Lấy vai trò của người dùng
 	// Kiểm tra quyền truy cập dựa trên vai trò người dùng và loại đường dẫn
-	if (isAdminRoute && userRole === 'admin'	
+	if (isAdminRoute && userRole === 'admin'
 	) {
 		// Nếu người dùng có quyền truy cập, hiển thị nội dung của props (children)
 		return (<>{props.children}</>)
@@ -24,7 +24,7 @@ const RoleBaseRoute = (props) => {
 const ProtectedRoute = (props) => {
 	// Lấy thông tin xác thực người dùng từ Redux store
 	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-
+	console.log("isAuthenticated from ProtectedRoute", isAuthenticated)
 	return (
 		<>
 			{isAuthenticated === true ?
