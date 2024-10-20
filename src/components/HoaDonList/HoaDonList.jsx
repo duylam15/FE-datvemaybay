@@ -28,10 +28,10 @@ import React from 'react';
                         <th scope="col" onClick={() => handleSort('idHoaDon')}>
                             ID {sortField === 'idHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
-                        <th scope="col" onClick={() => handleSort('khachHang')}>
+                        <th scope="col" onClick={() => handleSort('khachHang.hoTen')}>
                             Tên Khách hàng {sortField === 'khachHang.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" onClick={() => handleSort('nhanVien')}>
+						<th scope="col" onClick={() => handleSort('nhanVien.hoTen')}>
                             Tên Nhân viên {sortField === 'nhanVien.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
 						<th scope="col" onClick={() => handleSort('soLuongVe')}>

@@ -1,14 +1,16 @@
 // pơges/PhuongThucThanhToan
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchChiTietHoaDon } from '../../utils/useFetchCTHD.jsx';
-import ChiTietHoaDonList from '../../components/HoaDonList/ChiTietHoaDon.jsx';
-import { handleSort } from '../../services/hoaDonService.js';
-import { detail } from '../../services/hoaDonService.js';
+import ChiTietHoaDonList from '../../components/ChiTietHoaDon/ChiTietHoaDon.jsx';
+import { handleSort, searchChiTietHoaDon } from '../../services/chiTietHoaDonService.js';
+import { detail } from '../../services/chiTietHoaDonService.js';
 
 const ChiTietHoaDonPage = () => {
-    const { ChiTietHoaDon : initialChiTietHoaDon, loading, error } = useFetchChiTietHoaDon();
+    const { idHoaDon } = useParams();
+
+    const { chiTietHoaDon : initialChiTietHoaDon, loading, error } = useFetchChiTietHoaDon(idHoaDon);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [chiTietHoaDon, setChiTietHoaDon] = useState(initialChiTietHoaDon);
@@ -18,37 +20,32 @@ const ChiTietHoaDonPage = () => {
     useEffect(() => {
         setChiTietHoaDon(initialChiTietHoaDon);
     }, [initialChiTietHoaDon]);
-
     const handleSearch = () => {
-        setChiTietHoaDon(searchTerm, setChiTietHoaDon);
+        searchChiTietHoaDon(idHoaDon, searchTerm, setChiTietHoaDon);
     };
 
-    // const handleEdit = (idHoaDon) => {
-    //     editChiTietHoaDon(navigate, idHoaDon);
-    // };
+    const handleEdit = (idChiTietHoaDon) => {
+        editChiTietHoaDon(navigate, idChiTietHoaDon);
+    };
 
     const viewDetail = (idHoaDon) => {
         detail(navigate, idHoaDon);
     };
 
-    // const handleBlock = (idHoaDon) => {
-    //     blockHoaDon(idHoaDon);
-    // };
+    const handleBlock = (idChiTietHoaDon) => {
+        blockChiTietHoaDon(idChiTietHoaDon);
+    };
 
     const handleSortClick = (field) => {
         console.log('Sorted hướng:', field, 'Order:', sortOrder);
-        handleSort(field, sortOrder, setChiTietHoaDon, setSortOrder, setSortField);
+        handleSort(field, sortOrder, idHoaDon, setChiTietHoaDon, setSortOrder, setSortField);
     };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
-
     return (
         <div className="hoa-don-page">
             <h1>Danh Sách Chi Tiết hóa Đơn</h1>
-            <button onClick={() => navigate('/hoadon/add')} className="btn btn-success mb-3">
-                Thêm Chi Tiết hóa đơn
-            </button>
             <ChiTietHoaDonList
                 chiTietHoaDon={chiTietHoaDon} 
                 onEdit={handleEdit}

@@ -18,6 +18,7 @@ import LoaiHoaDonAdd from "../pages/LoaiHoaDon/LoaiHoaDonAdd";
 import LoaiHoaDonEdit from "../pages/LoaiHoaDon/LoaiHoaDonEdit";
 
 import ChiTietHoaDon from "../components/ChiTietHoaDon/ChiTietHoaDon";
+import ChiTietHoaDonPage from "../pages/ChiTietHoaDon/ChiTietHoaDonPage";
 
 export const router = createBrowserRouter([
 	{
@@ -68,7 +69,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/hoadon/chitiet/:idHoaDon",
-				element: <ChiTietHoaDon />
+				element: <ChiTietHoaDonPage />
 			}
 		],
 	},
