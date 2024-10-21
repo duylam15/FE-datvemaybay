@@ -1,34 +1,43 @@
-// hooks/useFetchProfile.js
 import { useState, useEffect } from 'react';
 import { getMyProfile } from '../services/myProfileService';
 
-export const useFetchProfile = (token) => {
+export const useFetchProfile = () => {
 	const [profile, setProfile] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+
 	useEffect(() => {
+		// Lấy token từ localStorage
+		// const token = localStorage.getItem("access_token");
+
+		// Hàm lấy dữ liệu hồ sơ
 		const fetchData = async () => {
 			try {
 				setLoading(true);
-				const data = await getMyProfile(token); // Gọi dịch vụ để lấy thông tin hồ sơ
+				if (!token) {
+					throw new Error("Không có token");
+				}
+				console.log("token goi cua api /me: " + token);
+
+				// Gọi API để lấy thông tin hồ sơ
+				const data = await getMyProfile();
 				setProfile(data);
 			} catch (err) {
-				setError(err.message); // Bắt lỗi và lưu vào state
+				setError(err.message);
 			} finally {
-				setLoading(false); // Kết thúc trạng thái loading
+				setLoading(false);
 			}
 		};
 
-		if (token) { // Kiểm tra xem token có tồn tại không
+		// Chỉ gọi API nếu token có tồn tại
+		if (token) {
 			fetchData();
+		} else {
+			setLoading(false);
 		}
-	}, [token]); // Gọi lại khi token thay đổi
-	console.log("token", token)
-	console.log("profile from fetch ", profile)
+	}, []); // Không thêm token vào dependency để tránh lặp vô hạn
+
+	console.log("profile from fetch ", profile);
 
 	return { profile, loading, error }; // Trả về thông tin hồ sơ, trạng thái loading và lỗi (nếu có)
 };
-
-
-
-// Gọi hàm với dữ liệu cụ thể

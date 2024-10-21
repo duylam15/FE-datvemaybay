@@ -59,14 +59,12 @@ const Navbar = () => {
 	const handleLogout = async () => {
 		const token = localStorage.getItem('access_token')
 		const res = await callLogout(token); // Gọi API logout
-		console.log("dang xuat", res)
 		if (res.statusCode === 200) {
 			dispatch(doLogoutAction()); // Dispatch action logout
 			message.success('Đăng xuất thành công'); // Hiển thị thông báo đăng xuất thành công
 			navigate('/'); // Điều hướng đến trang chính
 		} else {
 			message.error('Đăng xuất thất bại'); // Hiển thị thông báo đăng xuất thành công
-
 		}
 	}
 

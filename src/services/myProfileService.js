@@ -1,18 +1,11 @@
 const API_URL = 'http://localhost:8080';
 
+import axios from "../utils/axios-8080"
+
+
 // Lấy thông tin cá nhân
-export const getMyProfile = async (token) => {
-	const response = await fetch(`${API_URL}/taikhoan/me`, {
-		method: 'GET',
-		headers: {
-			'Authorization': `Bearer ${token}`,
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!response.ok) {
-		throw new Error('Failed to fetch profile');
-	}
-	return await response.json();
+export const getMyProfile = async () => {
+	return axios.get(`/taikhoan/me`);
 };
 
 

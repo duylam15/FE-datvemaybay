@@ -10,10 +10,7 @@ import { IoMdHome } from "react-icons/io";
 import { useFetchProfile } from "../../utils/useFetchProfile";
 
 const UsersPage = () => {
-  const token = localStorage.getItem('access_token'); // Lấy token từ localStorage
-  console.log(token)
-  // const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcyODQzNDc2MiwiZXhwIjoxNzI5MDM5NTYyfQ.HyW3mNDUpcn5tCQiR5ddZS7c0aNm3uYx08y8m6e8LfA"
-  const { profile, loading, error } = useFetchProfile(token); // Sử dụng custom hook
+  const { profile, loading, error } = useFetchProfile(); // Sử dụng custom hook
 
   return (
     <div className="users-page">
