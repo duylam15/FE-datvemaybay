@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchHoaDon } from '../../../utils/useFetchHoaDon.jsx';
-import HoaDonList from '../../../components/HoaDonList/HoaDonList.jsx';
+import HoaDonList from './HoaDonList.jsx'; 
 import { editHoaDon } from '../../../services/hoaDonService.js';
 import { searchHoaDon } from '../../../services/hoaDonService.js';
 import { handleSort } from '../../../services/hoaDonService.js';
@@ -46,11 +46,13 @@ const HoaDonPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="hoa-don-page">
-            <h1>Danh Sách Hóa Đơn</h1>
-            <button onClick={() => navigate('/hoadon/add')} className="btn btn-success mb-3">
-                Thêm Hóa đơn
-            </button>
+        <div className="hoa-don-page page">
+            <div className="top-bar">
+                <div className="text">
+                    <h1>Danh Sách Hóa Đơn</h1>
+                </div>
+            </div>
+            
             <HoaDonList
                 hoaDon={hoaDon} 
                 onEdit={handleEdit}

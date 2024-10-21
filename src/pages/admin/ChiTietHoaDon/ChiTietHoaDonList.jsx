@@ -18,7 +18,7 @@ const ChiTietHoaDonList = ({
             <div className="search-sort-controls">
                 <input
                     type="text"
-                    placeholder="Tìm kiếm hóa đơn..."
+                    placeholder="Tìm kiếm chi tiết hóa đơn..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -26,28 +26,28 @@ const ChiTietHoaDonList = ({
             </div>
             <table className="table table-hover table-bordered pad-x">
                 <thead>
-                    <tr>
-                        <th scope="col" onClick={() => handleSort('idChiTietHoaDon')}>
+                    <tr className='align-bottom fs-2 fw-medium text-success'>
+                        <th scope="col" className='align-bottom  text-success' onClick={() => handleSort('idChiTietHoaDon')}>
                             ID {sortField === 'idChiTietHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
-                        <th scope="col" onClick={() => handleSort('hangHoa.tenHangHoa')}>
+                        <th scope="col" className='align-bottom text-success' onClick={() => handleSort('hangHoa.tenHangHoa')}>
                             Hàng hóa {sortField === 'hangHoa.tenHangHoa' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" onClick={() => handleSort('ve.codeVe')}>
+						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('ve.codeVe')}>
                             Vé {sortField === 've.codeVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" onClick={() => handleSort('soTien')}>
+						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('soTien')}>
                             Số tiền {sortField === 'soTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th>
+                        <th scope='col' className='col-1 align-bottom text-success'>
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='fs-3'>
                     {chiTietHoaDon.length > 0 ? (chiTietHoaDon.map(cthd => (
                         <tr key={cthd.idChiTietHoaDon}>
-                            <td>{cthd.idChiTietHoaDon}</td>
+                            <td  className='align-middle'>{cthd.idChiTietHoaDon}</td>
                             <td>{cthd.hangHoa.tenHangHoa}</td>
                             <td>{cthd.ve.codeVe}</td>
                             <td>{cthd.soTien}</td>

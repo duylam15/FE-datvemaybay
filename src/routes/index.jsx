@@ -17,7 +17,7 @@ import LoaiHoaDonPage from "../pages/admin/LoaiHoaDon";
 import LoaiHoaDonAdd from "../pages/admin/LoaiHoaDon/LoaiHoaDonAdd";
 import LoaiHoaDonEdit from "../pages/admin/LoaiHoaDon/LoaiHoaDonEdit";
 
-import ChiTietHoaDonPage from "../pages/admin/ChiTietHoaDon/ChiTietHoaDonPage";
+import ChiTietHoaDonPage from "../pages/admin/ChiTietHoaDon";
 
 export const router = createBrowserRouter([
 	{

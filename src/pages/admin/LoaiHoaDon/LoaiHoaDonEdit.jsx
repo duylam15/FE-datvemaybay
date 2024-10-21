@@ -64,36 +64,36 @@ const LoaiHoaDonEdit = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="container">
+        <div className="edit-form">
             <h2>Chỉnh sửa thông tin loại hóa đơn</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label>Tên loại hóa đơn</label>
+                    <label className="form-label">Tên loại hóa đơn</label>
                     <input
                         type="text"
                         name="tenLoaiHD"
-                        className={`form-control ${fieldErrors.tenLoaiHD ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
+                        className={`form-control form-control-lg ${fieldErrors.tenLoaiHD ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
                         value={loaiHoaDon.tenLoaiHD}
                         onChange={handleChange}
                     />
                     {fieldErrors.tenLoaiHD && <div className="invalid-feedback">{fieldErrors.tenLoaiHD}</div>} {/* Hiển thị thông báo lỗi */}
                 </div>
                 <div className="form-group">
-                    <label>Mô tả</label>
+                    <label className="form-label">Mô tả</label>
                     <input
                         type="area-text"
                         name="moTa"
-                        className={`form-control ${fieldErrors.moTa ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors.moTa ? 'is-invalid' : ''}`}
                         value={loaiHoaDon.moTa}
                         onChange={handleChange}
                     />
                     {fieldErrors.moTa && <div className="invalid-feedback">{fieldErrors.moTa}</div>}
                 </div>
                 <div className="form-group">
-                    <label>Trạng Thái:</label>
+                    <label className="form-label">Trạng Thái:</label>
                     <select
                         name="status"
-                        className={`form-control ${fieldErrors.status ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors.status ? 'is-invalid' : ''}`}
                         value={loaiHoaDon.status}
                         onChange={handleChange}
                     >

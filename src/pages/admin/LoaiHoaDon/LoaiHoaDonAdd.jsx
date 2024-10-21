@@ -37,41 +37,44 @@ const LoaiHoaDonAdd = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-             <div className="mb-3">
-                 <label className="form-label">Tên loại hóa đơn</label>
-                 <input 
-                    type="text" 
-                    className={`form-control ${fieldErrors.tenLoaiHD ? 'is-invalid' : ''}`}
-                    value={tenLoaiHD}
-                    onChange={(e) => setTenLoaiHD(e.target.value)}
-                    id="tenLoaiHD"
-                 />
-                 {fieldErrors.tenLoaiHD && <div className="invalid-feedback">{fieldErrors.tenLoaiHD}</div>} {/* Hiển thị thông báo lỗi */}
-             </div>
-             <div className="mb-3">
-                 <label className="form-label">Mô tả</label>
-                 <input 
-                    type="area-text" 
-                    className={`form-control`} 
-                    value={moTa}
-                    onChange={(e) => setMoTa(e.target.value)}
-                    id="moTaLoaiHD"
-                 />
-             </div>
-             <div className="mb-3">
-                 <label className="form-label">Trạng thái</label>
-                 <select
-                    className={`form-control ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
-                    value={trangThaiActive}
-                    onChange={(e) => setTrangThaiActive(e.target.value)}
-                >
-                    <option value="ACTIVE">Kích Hoạt</option>
-                    <option value="INACTIVE">Không Kích Hoạt</option>
-                </select>
-             </div>
-             <button type="submit" className="btn btn-primary">Submit</button>
-         </form>
+        <div className="add-form">
+            <h2>Thêm loại hóa đơn</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label">Tên loại hóa đơn</label>
+                    <input 
+                        type="text" 
+                        className={`form-control ${fieldErrors.tenLoaiHD ? 'is-invalid' : ''}`}
+                        value={tenLoaiHD}
+                        onChange={(e) => setTenLoaiHD(e.target.value)}
+                        id="tenLoaiHD"
+                    />
+                    {fieldErrors.tenLoaiHD && <div className="invalid-feedback">{fieldErrors.tenLoaiHD}</div>} {/* Hiển thị thông báo lỗi */}
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Mô tả</label>
+                    <input 
+                        type="area-text" 
+                        className={`form-control`} 
+                        value={moTa}
+                        onChange={(e) => setMoTa(e.target.value)}
+                        id="moTaLoaiHD"
+                    />
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Trạng thái</label>
+                    <select
+                        className={`form-control ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
+                        value={trangThaiActive}
+                        onChange={(e) => setTrangThaiActive(e.target.value)}
+                    >
+                        <option value="ACTIVE">Kích Hoạt</option>
+                        <option value="INACTIVE">Không Kích Hoạt</option>
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary">Submit</button>
+            </form>
+        </div>
     );
 
 }

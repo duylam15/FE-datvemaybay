@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useFetchPTTT } from '../../../utils/useFetchPhuongThucTT.jsx';
-import PhuongThucTTList from '../../../components/PhuongThucThanhToanList/PhuongThucThanhToanList.jsx';
+import PhuongThucTTList from '../PhuongThucThanhToan/PhuongThucThanhToanList.jsx';
 import { editPhuongThucTT } from '../../../services/phuongThucThanhToanService.js';
 import { searchPhuongThucTT } from '../../../services/phuongThucThanhToanService.js';
 import { handleSort } from '../../../services/phuongThucThanhToanService.js';
@@ -41,11 +41,15 @@ const PhuongThucTTPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="phuong-thuc-tt-page">
-            <h1>Danh Sách Phương Thức Thanh Toán</h1>
-            <button onClick={() => navigate('/PTTT/add')} className="btn btn-success mb-3">
-                Thêm PTTT
-            </button>
+        <div className="phuong-thuc-tt-page page">
+            <div className='top-bar'>
+                <h1 className='text'>Danh Sách Phương Thức Thanh Toán</h1>
+                <button onClick={() => navigate('/PTTT/add')} className="btn btn-success mb-3 add-btn">
+                    Thêm PTTT
+                </button>
+            </div>
+            
+            
             <PhuongThucTTList
                 phuongThucTT={phuongThucTT} 
                 onEdit={handleEdit} 

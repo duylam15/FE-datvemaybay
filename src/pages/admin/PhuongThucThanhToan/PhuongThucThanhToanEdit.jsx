@@ -64,41 +64,41 @@ const PhuongThucThanhToanEdit = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="container">
+        <div className="edit-form">
             <h2>Chỉnh sửa thông tin phương thức thanh toán</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Tên phương thức thanh toán</label>
+            <form style={{margin: '20px'}} onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label">Tên phương thức thanh toán</label>
                     <input
                         type="text"
                         name="tenPTTT"
-                        className={`form-control ${fieldErrors.tenPTTT ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
+                        className={`form-control form-control-lg ${fieldErrors.tenPTTT ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
                         value={phuongThucTT.tenPTTT}
                         onChange={handleChange}
                     />
                     {fieldErrors.tenPTTT && <div className="invalid-feedback">{fieldErrors.tenPTTT}</div>} {/* Hiển thị thông báo lỗi */}
                 </div>
-                <div className="form-group">
-                    <label>Mô tả</label>
+                <div className="mb-3">
+                    <label className="form-label">Mô tả</label>
                     <input
                         type="area-text"
                         name="moTa"
-                        className={`form-control ${fieldErrors.moTa ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors.moTa ? 'is-invalid' : ''}`}
                         value={phuongThucTT.moTa}
                         onChange={handleChange}
                     />
                     {fieldErrors.moTa && <div className="invalid-feedback">{fieldErrors.moTa}</div>}
                 </div>
-                <div className="form-group">
-                    <label>Trạng Thái:</label>
+                <div className="mb-3">
+                    <label className="form-label">Trạng Thái:</label>
                     <select
                         name="status"
-                        className={`form-control ${fieldErrors.status ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors.status ? 'is-invalid' : ''}`}
                         value={phuongThucTT.status}
                         onChange={handleChange}
                     >
-                        <option value="ACTIVE">Active</option>
-                        <option value="IN_ACTIVE">Inactive</option>
+                        <option value="ACTIVE">Kích hoạt</option>
+                        <option value="IN_ACTIVE">Không kích hoạt</option>
                     </select>
                     {fieldErrors.status && <div className="invalid-feedback">{fieldErrors.status}</div>}
                 </div>

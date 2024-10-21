@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFetchLoaiHoaDon } from '../../../utils/useFetchLoaiHD.jsx';
-import LoaiHoaDonList from '../../../components/LoaiHoaDonList/LoaiHoaDonList.jsx';
+import LoaiHoaDonList from './LoaiHoaDonList.jsx';
 import { editLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
 import { searchLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
 import { handleSort } from '../../../services/loaiHoaDonService.js';
@@ -40,11 +40,17 @@ const LoaiHoaDonPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="loai-hoa-don-page">
-            <h1>Danh Sách Loại Hóa Đơn</h1>
-            <button onClick={() => navigate('/loaihoadon/add')} className="btn btn-success mb-3">
-                Thêm Loại Hóa đơn
-            </button>
+        <div className="loai-hoa-don-page page">
+            <div className='top-bar'>
+                <div className="text">
+                    <h1>Danh Sách Loại Hóa Đơn</h1>
+                </div>
+                
+                <button onClick={() => navigate('/loaihoadon/add')} className="btn btn-success mb-3 add-btn">
+                    Thêm Loại Hóa đơn
+                </button>
+            </div>
+            
             <LoaiHoaDonList
                 loaiHoaDon={loaiHoaDon} 
                 onEdit={handleEdit} 

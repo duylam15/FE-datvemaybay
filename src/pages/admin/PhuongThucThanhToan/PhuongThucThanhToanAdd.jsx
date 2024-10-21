@@ -37,12 +37,14 @@ const PhuongThucTTAddForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div className="add-form">
+            <h2>Thêm phương thức thanh toán</h2>
+            <form style={{margin: '20px'}} onSubmit={handleSubmit}>
              <div className="mb-3">
                  <label className="form-label">Tên phương thức thanh toán</label>
                  <input 
                     type="text" 
-                    className={`form-control ${fieldErrors.tenPTTT ? 'is-invalid' : ''}`}
+                    className={`form-control form-control-lg ${fieldErrors.tenPTTT ? 'is-invalid' : ''}`}
                     value={tenPTTT}
                     onChange={(e) => setTenPTTT(e.target.value)}
                     id="tenPTTT"
@@ -53,7 +55,7 @@ const PhuongThucTTAddForm = () => {
                  <label className="form-label">Mô tả</label>
                  <input 
                     type="area-text" 
-                    className={`form-control`} 
+                    className={`form-control form-control-lg`} 
                     value={moTa}
                     onChange={(e) => setMoTa(e.target.value)}
                     id="moTaPTTT"
@@ -62,7 +64,7 @@ const PhuongThucTTAddForm = () => {
              <div className="mb-3">
                  <label className="form-label">Trạng thái</label>
                  <select
-                    className={`form-control ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
+                    className={`form-control form-control-lg ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
                     value={trangThaiActive}
                     onChange={(e) => setTrangThaiActive(e.target.value)}
                 >
@@ -71,7 +73,9 @@ const PhuongThucTTAddForm = () => {
                 </select>
              </div>
              <button type="submit" className="btn btn-primary">Submit</button>
-         </form>
+            </form>
+        </div>
+        
     );
 };
 

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchChiTietHoaDon } from '../../../utils/useFetchCTHD.jsx';
-import ChiTietHoaDonList from '../../../components/ChiTietHoaDon/ChiTietHoaDon.jsx';
+import ChiTietHoaDonList from './ChiTietHoaDonList.jsx';
 import { handleSort, searchChiTietHoaDon } from '../../../services/chiTietHoaDonService.js';
 import { detail } from '../../../services/chiTietHoaDonService.js';
 
@@ -44,8 +44,13 @@ const ChiTietHoaDonPage = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
-        <div className="hoa-don-page">
-            <h1>Danh Sách Chi Tiết hóa Đơn</h1>
+        <div className="chi-tiet-hoa-don-page page">
+            <div className="top-bar">
+                <div className="text">
+                    <h1>Chi Tiết Hóa Đơn</h1>
+                </div>
+            </div>
+            
             <ChiTietHoaDonList
                 chiTietHoaDon={chiTietHoaDon} 
                 onEdit={handleEdit}
