@@ -5,9 +5,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './StyleHangHoa.scss';
 import { FaPlus } from 'react-icons/fa';
+import DeleteConfirmation from '../../../components/QL/DeleteConfirmation'; // Import DeleteConfirmation
 
 const MerchandiseTable = () => {
   const [merchans, setMerchans] = useState([]);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // State for delete confirmation modal
+  const [selectedMerchandiseId, setSelectedMerchandiseId] = useState(null); // State to hold the selected merchandise ID for deletion
 
   useEffect(() => {
     loadMerchans();
@@ -27,8 +30,25 @@ const MerchandiseTable = () => {
   };
 
   const handleDelete = async (idHangHoa) => {
-    await axios.delete(`http://localhost:8080/deleteMerchandise/${idHangHoa}`);
-    loadMerchans();
+    try {
+      await axios.delete(
+        `http://localhost:8080/deleteMerchandise/${idHangHoa}`
+      );
+      setMerchans(merchans.filter((merch) => merch.idHangHoa !== idHangHoa)); // Update state to remove the deleted merchandise
+      setShowDeleteConfirm(false); // Close the confirmation dialog
+    } catch (error) {
+      console.error('Error deleting merchandise:', error);
+    }
+  };
+
+  const showDeleteModal = (idHangHoa) => {
+    setSelectedMerchandiseId(idHangHoa); // Set the selected merchandise ID
+    setShowDeleteConfirm(true); // Show the confirmation modal
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteConfirm(false); // Close the confirmation dialog
+    setSelectedMerchandiseId(null); // Clear the selected ID
   };
 
   const columns = [
@@ -43,7 +63,7 @@ const MerchandiseTable = () => {
       render: (item) => (
         <Actions
           editLink={`/EditMerchandise/${item.idHangHoa}`}
-          onDelete={() => handleDelete(item.idHangHoa)}
+          onDelete={() => showDeleteModal(item.idHangHoa)} // Show delete confirmation modal
         />
       ),
     },
@@ -57,6 +77,12 @@ const MerchandiseTable = () => {
         </Link>
       </div>
       <Table columns={columns} data={merchans} />
+      {/* Display the delete confirmation modal */}
+      <DeleteConfirmation
+        show={showDeleteConfirm}
+        onDeleteConfirm={() => handleDelete(selectedMerchandiseId)}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 };
