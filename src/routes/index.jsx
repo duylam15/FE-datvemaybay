@@ -1,4 +1,3 @@
-
 import { createBrowserRouter } from "react-router-dom";
 import LayoutDefault from "../layout/LayoutDefault";
 import Home from '../pages/Home';
@@ -9,12 +8,15 @@ import Post from "../pages/Post";
 import UsersPage from "../pages/UserPage";
 import LayoutAdmin from "../pages/admin/layoutAdmin";
 import Dashboard from "../pages/admin/dashboard";
-import MayBay from "../pages/admin/MayBay";
 import Quyen from "../pages/admin/Quyen";
 import NhanVien from "../pages/admin/NhanVien";
 import ChucVu from "../pages/admin/ChucVu";
 import WebSocketDemo from "../pages/WebSocketDemo";
 import ResetPassword from "../pages/ResetPassword";
+import React from 'react';
+import MayBayPage from "../pages/admin/MayBay/index";
+import MayBayEdit from "../pages/admin/MayBay/MayBayEdit";
+import AddMayBayForm from "../pages/admin/MayBay/ThemMayBay";
 
 export const router = createBrowserRouter([
 	{
@@ -72,7 +74,15 @@ export const router = createBrowserRouter([
 			},
 			
 			{ path: "quyen", element: <Quyen /> },  // Route con khác
-			{ path: "maybay", element: <MayBay /> } // Route con khác
+			{ path: "maybay",
+				element: <MayBayPage />
+				// children: [
+				// 	{ path: "edit/:idMayBay", element: <MayBayEdit/> },
+            	// 	{ path: "add", element: <AddMayBayForm/> },
+				// ]
+			}, 
+			{ path: "maybay/add", element: <AddMayBayForm/>},
+			{ path: "maybay/edit/:idMayBay", element: <MayBayEdit/>}
 		]
 	},
 	

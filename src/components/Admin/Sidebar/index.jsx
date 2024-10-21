@@ -6,9 +6,9 @@ import {
   useLocation,
 } from "react-router-dom";
 import "./Sidebar.css";
-import { MdSpaceDashboard } from "react-icons/md";
-import { GiSoccerField } from "react-icons/gi";
-import { FaPlane } from "react-icons/fa6";
+import { MdSpaceDashboard } from 'react-icons/md';
+import { GiSoccerField } from 'react-icons/gi';
+import { FaPlane } from 'react-icons/fa';
 import { FaCriticalRole } from "react-icons/fa";
 import React from 'react';
 import DropdownSidebar from "../Dropdown/DropdownSidebar";
@@ -71,7 +71,7 @@ const Sidebar = () => {
               </div>
             </Link>
             <DropdownSidebar></DropdownSidebar>
-            <Link
+            {/* <Link
               className={`nav-link ${
                 location.pathname === "/admin/maybay" ? "active" : ""
               }`}
@@ -100,7 +100,7 @@ const Sidebar = () => {
                 <FaPlane></FaPlane>
                  Máy bay
               </div>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>

@@ -74,7 +74,7 @@ const MayBayEdit = () => {
 
             const response = await axios.put(`${API_URL}/updatePlane/${idMayBay}`, updatedMayBay);
             console.log('Plane updated successfully!', response.data);
-            window.location.href = '/planes'; 
+            window.location.href = '/admin/maybay'; 
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -156,8 +156,9 @@ const MayBayEdit = () => {
                         value={mayBay.soHangGheThuong}
                         onChange={handleChange}
                     />
-                    {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
-
+                    {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>} 
+                </div>
+                <div className='form-group'>
                     <label>Số Hàng Ghế VIP:</label>
                     <input
                         type="text"
@@ -167,7 +168,8 @@ const MayBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
-
+                </div>
+                <div className='form-group'>
                     <label>Số Cột Ghế Thường:</label>
                     <input
                         type="text"
@@ -177,7 +179,8 @@ const MayBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
-
+                </div>
+                <div className='form-group'>
                     <label>Số Cột Ghế VIP:</label>
                     <input
                         type="text"
@@ -223,7 +226,9 @@ const MayBayEdit = () => {
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>
-                <button type="submit" className="btn btn-primary">Cập nhật</button>
+                <div className="btn-container">
+                    <button type="submit" className="btn-primary">Cập nhật</button>
+                </div>
             </form>
         </div>
     );

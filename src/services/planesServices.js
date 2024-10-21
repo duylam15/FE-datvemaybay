@@ -37,18 +37,10 @@ export const searchPlanes = async (searchTerm, setMayBay) => {
 };
 
 export const editPlane = (navigate, idMayBay) => {
-    navigate(`/plane/edit/${idMayBay}`);
+    console.log(`Navigating to edit plane with ID: ${idMayBay}`);
+    navigate(`/admin/maybay/edit/${idMayBay}`);
 };
 
-// export const blockPlane = async (idMayBay) => {
-//     try {
-//         console.log('blockPlane')
-//         const response = await axios.put(`${API_URL}/blockPlane/${idMayBay}`);
-//         console.log(`Blocked plane with ID: ${idMayBay} success!!`);
-//     } catch (error) {
-//         console.error('There was an error blocking the plane!', error);
-//     }
-// };
 export const blockPlane = async (idMayBay) => {
     console.log('blockPlane');
     try {
@@ -69,7 +61,6 @@ export const getSoLuong = async (idMayBay) => {
         // Kiểm tra dữ liệu trả về
         if (!data) throw new Error('Không tìm thấy thông tin máy bay!');
 
-        // Lấy số cột và số hàng, sử dụng default fallback nếu không có dữ liệu
         const soCotThuong = data.soCotGheThuong || 0;
         const soHangThuong = data.soHangGheThuong ? data.soHangGheThuong.length : 0;
         const soCotVIP = data.soCotGheVip || 0;
@@ -77,7 +68,6 @@ export const getSoLuong = async (idMayBay) => {
 
         // Tính tổng số ghế
         const soLuongGhe = (soCotThuong * soHangThuong) + (soCotVIP * soHangVip);
-        console.log(`Số lượng ghế: ${soLuongGhe} của máy bay ${idMayBay}`);
         return soLuongGhe;
     } catch (error) {
         console.error('Lỗi khi lấy số lượng ghế:', error.message);
@@ -86,12 +76,20 @@ export const getSoLuong = async (idMayBay) => {
 };
 export const getByAirline = async(idHangBay, setMayBay) => {
     try {
-        const response = await axios.get(`${API_URL}/getPlaneByAirline/${idHangBay}`);
-        console.log('Get plane by airline ', idHangBay, ' is ', response.data);
-        setMayBay(response.data.data)
+        if(idHangBay === 'Lọc theo hãng bay'){
+            const response = await axios.get(`${API_URL}/getAllPlane`);
+            setMayBay(response.data.data);
+        }
+        else {
+            const response = await axios.get(`${API_URL}/getPlaneByAirline/${idHangBay}`);
+            console.log('Get plane by airline ', idHangBay, ' is ', response.data);
+            setMayBay(response.data.data)
+        }
     } catch (error) {
         // console.error('Not search by airlines!', error);
-        const response = await axios.get(`${API_URL}/getAllPlane`);
-        setMayBay(response.data.data);
+        if (error.response && error.response.status === 404) {
+            setMayBay([]);
+        }
+        console.error('Error fetching search results:', error);
     }
 }

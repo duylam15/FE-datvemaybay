@@ -5,6 +5,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080';
 
 const AddMayBayForm = () => {
+    console.log('ThemMayBay');
     const [tenMayBay, setTenMayBay] = useState('');
     const [hangBay, setHangBay] = useState(null);
     const [icaoMayBay, setIcaoMaybay] = useState('');
@@ -72,7 +73,7 @@ const AddMayBayForm = () => {
         try {
             const response = await axios.post(`${API_URL}/addPlane`, mayBay);
             console.log('Plane added successfully!', response.data);
-            navigate('/planes'); 
+            navigate('/admin/maybay'); 
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -88,7 +89,8 @@ const AddMayBayForm = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='form-add-plane'>
+            <h2>Thêm thông tin máy bay</h2>
             <div className="form-group">
                 <label>Tên Máy Bay</label>
                 <input
@@ -138,7 +140,8 @@ const AddMayBayForm = () => {
                     required
                 />
                 {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
-
+            </div>
+            <div className='form-group'>
                 <label>Số Cột Ghế Thường</label>
                 <input
                     type="text"
@@ -148,7 +151,8 @@ const AddMayBayForm = () => {
                     required
                 />
                 {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
-
+            </div>
+            <div className='form-group'>
                 <label>Số Hàng Ghế VIP</label>
                 <input
                     type="text"
@@ -158,7 +162,8 @@ const AddMayBayForm = () => {
                     required
                 />
                 {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
-
+            </div>
+            <div className='form-group'>
                 <label>Số Cột Ghế VIP</label>
                 <input
                     type="text"
@@ -204,7 +209,9 @@ const AddMayBayForm = () => {
                 {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
             </div>
             {error && <div className="alert alert-danger">{error}</div>} 
-            <button type="submit" className="btn btn-primary">Thêm Máy Bay</button>
+            <div className="btn-container">
+                <button type="submit" className="btn btn-primary">Thêm Máy Bay</button>
+            </div>
         </form>
     );
 };

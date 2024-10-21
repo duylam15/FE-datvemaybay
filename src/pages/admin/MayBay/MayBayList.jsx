@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../MayBayList/MayBay.scss';
+import './MayBay.css'
 
 const API_URL = 'http://localhost:8080';
 const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -41,7 +41,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                 />
                 <button onClick={handleSearch}>Tìm Kiếm</button>
                 <select onChange={(e) => getPlaneByAirline(e.target.value)} className='form-control'>
-                    <option value="">Lọc theo hãng bay</option>
+                    <option value="Lọc theo hãng bay">Lọc theo hãng bay</option>
                     {hangBay.map((hb) => (
                         <option value={hb.idHangBay} key={hb.idHangBay}>
                             {hb.idHangBay} - {hb.tenHangBay}
@@ -49,7 +49,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                     ))}
                 </select>
             </div>
-            <table className="table table-striped">
+            <table className="table">
                 <thead className="thead-dark">
                     <tr>
                         <th onClick={() => handleSort('idMayBay')}>
@@ -86,13 +86,20 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                                 <td>{mb.namSanXuat}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
-                                    <button className="btn btn-primary mr-2" onClick={() => onEdit(mb.idMayBay)}>Edit</button>
-                                    <button 
-                                        className="btn btn-danger"
-                                        onClick={() => onBlock(mb.idMayBay)}
-                                    >
-                                        {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
-                                    </button>
+                                    <div className="button-group">
+                                        <button 
+                                            className="btn btn-primary"
+                                            onClick={() => onEdit(mb.idMayBay)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button 
+                                            className={`btn btn-block`}
+                                            onClick={() => onBlock(mb.idMayBay)}
+                                        >
+                                            {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))
