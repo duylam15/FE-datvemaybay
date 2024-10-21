@@ -22,7 +22,7 @@ export const handleRefreshToken = async () => {
 				return null;
 			}
 		} catch (error) {
-			console.error("Làm mới token thất bại:", error);
+			// console.error("Làm mới token thất bại:", error);
 			return null;
 		}
 	});
@@ -38,8 +38,8 @@ instance.interceptors.response.use(function (response) {
 	}
 	return response;
 }, async function (error) {
-	if (error.config
-		&& error.response.data.statusCode != 999 // Kiểm tra lỗi xác thực
+	if (error.response 
+		&& error.response.status === 403 //
 		&& !error.config.headers[NO_RETRY_HEADER] // Kiểm tra xem đã thử lại hay chưa
 	) {
 		console.log("Token hết hạn, thử làm mới token");
@@ -58,8 +58,8 @@ instance.interceptors.response.use(function (response) {
 
 	// Nếu đang cố gắng làm mới token mà thất bại
 	if (
-		error.config
-		&& error.response.data.statusCode === 999
+		error.response
+		&& error.response.status == 500
 		&& error.config.url === '/auth/refresh_token'
 	) {
 		if (!localStorage.getItem('access_token')) {
@@ -70,9 +70,8 @@ instance.interceptors.response.use(function (response) {
 			localStorage.removeItem("access_token")
 		}
 	}
-
 	// Trả về dữ liệu lỗi hoặc từ chối promise
-	console.error("Lỗi trong quá trình xử lý request:", error);
+	// console.error("Lỗi trong quá trình xử lý request:", error);
 	return error?.response?.data ?? Promise.reject(error);
 });
 

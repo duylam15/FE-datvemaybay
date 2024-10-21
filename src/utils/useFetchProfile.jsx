@@ -8,7 +8,7 @@ export const useFetchProfile = () => {
 
 	useEffect(() => {
 		// Lấy token từ localStorage
-		// const token = localStorage.getItem("access_token");
+		const token = localStorage.getItem("access_token");
 
 		// Hàm lấy dữ liệu hồ sơ
 		const fetchData = async () => {

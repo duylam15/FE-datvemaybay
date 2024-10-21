@@ -7,18 +7,16 @@ import Post from '../pages/Post';
 import FlightResults from "../pages/Flight/FlightResults";
 import FlightDetails from "../pages/Flight/FlightDetails";
 import Checkout from "../pages/Flight/Checkout";
-import User from "../pages/Admin/User";
-import Product from "../pages/Admin/Product";
 import ProtectedRoute from '../components/ProtectedRoute';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import UsersPage from "../pages/UserPage";
-import LayoutAdmin from "../pages/admin/layoutAdmin";
 import Dashboard from "../pages/admin/dashboard";
 import MayBay from "../pages/admin/MayBay";
 import Quyen from "../pages/admin/Quyen";
 import NhanVien from "../pages/admin/NhanVien";
 import ChucVu from "../pages/admin/ChucVu";
+import LayoutAdmin from '../pages/Admin/layoutAdmin';
 
 export const router = createBrowserRouter([
   {
@@ -64,11 +62,11 @@ export const router = createBrowserRouter([
 
   {
     path: "/admin",
-    element: <LayoutAdmin />, // Route layout admin
+    element: <LayoutAdmin></LayoutAdmin>, // Route layout admin
     errorElement: <Error />,  // Trang lỗi khi không tìm thấy đường dẫn
     children: [
-      { index: true, element: <ProtectedRoute><Dashboard /> </ProtectedRoute> }, // Route mặc định khi vào "/admin"
-      { path: "dashboard", element: <ProtectedRoute><Dashboard /> </ProtectedRoute> }, // Route con của admin
+      { index: true, element: <Dashboard /> }, // Route mặc định khi vào "/admin"
+      { path: "dashboard", element: <Dashboard /> }, // Route con của admin
 
       // Thêm route cấp 2: "/admin/quanlinhanvien"
       {

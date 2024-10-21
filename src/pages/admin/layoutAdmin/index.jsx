@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const LayoutAdmin = () => {
   const isAdminRoute = window.location.pathname.startsWith('/admin');
   const user = useSelector(state => state.account.user);
-  const userRole = user?.quyen?.tenQuyen;
+  const userRole = user?.data?.quyen?.tenQuyen;
   return (
     <>
       <div className="container-fluid">
