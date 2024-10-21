@@ -16,7 +16,24 @@ const EditRoute = () => {
     idSanBayKetThuc: '',
   });
 
+  const [airports, setAirports] = useState([]);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    // Fetch airport data from API
+    const loadAirports = async () => {
+      try {
+        const result = await axios.get('http://localhost:8080/getAllRoutes');
+        if (result.status === 200) {
+          setAirports(result.data.data);
+        }
+      } catch (error) {
+        console.error('Error loading airports:', error);
+      }
+    };
+
+    loadAirports();
+  }, []);
 
   const {
     thoiGianChuyenBay,
@@ -97,7 +114,7 @@ const EditRoute = () => {
         route
       );
       console.log('Route saved successfully:', result);
-      navigate('/QLTuyenBay');
+      navigate('/RouteTable');
     } catch (error) {
       console.error('Error sending data to API:', error);
     }
@@ -154,35 +171,55 @@ const EditRoute = () => {
           </select>
         </div>
 
+        {/* Dropdown for "Sân bay BĐ" */}
         <div>
           <label htmlFor='idSanBayBatDau'>Sân bay BĐ:</label>
-          <input
-            type='text'
+          <select
             id='idSanBayBatDau'
             name='idSanBayBatDau'
             value={idSanBayBatDau}
             onChange={handleChange}
             required
-          />
+          >
+            <option value=''>Chọn sân bay</option>
+            {airports.map((airport) => (
+              <option key={airport.id} value={airport.id}>
+                {airport.idSanBayBatDau}
+              </option>
+            ))}
+          </select>
+          {errors.idSanBayBatDau && (
+            <p className='error-message'>{errors.idSanBayBatDau}</p>
+          )}
         </div>
 
+        {/* Dropdown for "Sân bay KT" */}
         <div>
           <label htmlFor='idSanBayKetThuc'>Sân bay KT:</label>
-          <input
-            type='text'
+          <select
             id='idSanBayKetThuc'
             name='idSanBayKetThuc'
             value={idSanBayKetThuc}
             onChange={handleChange}
             required
-          />
+          >
+            <option value=''>Chọn sân bay</option>
+            {airports.map((airport) => (
+              <option key={airport.id} value={airport.id}>
+                {airport.idSanBayKetThuc}
+              </option>
+            ))}
+          </select>
+          {errors.idSanBayKetThuc && (
+            <p className='error-message'>{errors.idSanBayKetThuc}</p>
+          )}
         </div>
 
         <div className='button-container'>
           <button type='submit' className='btn btn-save'>
             Update
           </button>
-          <Link to={`/QLTuyenBay`} className='btn btn-cancel'>
+          <Link to={`/RouteTable`} className='btn btn-cancel'>
             Cancel
           </Link>
         </div>

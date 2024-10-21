@@ -47,8 +47,15 @@ export default function HomeHeader() {
       setErrorMessage('Vui lòng nhập điểm đi.');
       return false;
     }
+
     if (!arrivalLocation) {
       setErrorMessage('Vui lòng nhập điểm đến.');
+      return false;
+    }
+    if (departureLocation === arrivalLocation) {
+      setErrorMessage(
+        'Vui lòng chọn không chọn điểm đến và điểm đi giống nhau.'
+      );
       return false;
     }
     if (!departureDate) {
@@ -70,7 +77,7 @@ export default function HomeHeader() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //Kiểm tra form hợp lệ
+    // Kiểm tra form hợp lệ
     if (!validateForm()) {
       return;
     }
@@ -86,31 +93,34 @@ export default function HomeHeader() {
 
     try {
       const flights = await axios.get(url, {
-        validateStatus: () => true,
+        validateStatus: () => true, // Chấp nhận mọi mã trạng thái phản hồi
       });
 
-      if (flights.status === 200) {
-        // Kiểm tra xem flights.data có tồn tại không
-        if (flights.data) {
-          // Chuyển hướng đến trang flightResult với chỉ chuyến bay đi
-          navigate(`/flightResult`, { state: { flights: flights.data } });
-        } else {
-          console.error('Dữ liệu không hợp lệ:', flights.data);
-          setErrorMessage('Không có dữ liệu chuyến bay.');
-        }
-      } else {
-        console.error('Lỗi khi gọi API:', flights);
-        setErrorMessage('Đã xảy ra lỗi khi tìm kiếm chuyến bay.');
+      console.error(flights.data.data.chuyenbaydi); // In ra toàn bộ phản hồi API
 
-        // Gửi chuyến bay đi
+      if (flights.status === 200) {
+        // Kiểm tra xem flights.data có tồn tại và là một mảng chứa chuyến bay không
+
+        navigate(`/flightResult`, {
+          state: { flights: flights.data },
+        });
+      } else {
+        console.error('Lỗi khi gọi API với mã trạng thái:', flights.status);
+        setErrorMessage('Đã xảy ra lỗi khi tìm kiếm chuyến bay.');
       }
     } catch (error) {
+      // Phân loại lỗi một cách chi tiết
       if (error.response) {
-        console.error('Dữ liệu phản hồi:', error.response.data);
+        console.error('Phản hồi lỗi từ máy chủ:', error.response.data);
+        setErrorMessage(
+          'Lỗi từ máy chủ: ' + error.response.data.message || 'Đã xảy ra lỗi.'
+        );
       } else if (error.request) {
-        console.error('Dữ liệu yêu cầu:', error.request);
+        console.error('Không có phản hồi từ máy chủ:', error.request);
+        setErrorMessage('Không có phản hồi từ máy chủ. Vui lòng thử lại.');
       } else {
-        console.error('Thông điệp lỗi:', error.message);
+        console.error('Lỗi không xác định:', error.message);
+        setErrorMessage('Đã xảy ra lỗi: ' + error.message);
       }
     }
   };
