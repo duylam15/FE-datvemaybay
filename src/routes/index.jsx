@@ -17,6 +17,9 @@ import Quyen from "../pages/admin/Quyen";
 import NhanVien from "../pages/admin/NhanVien";
 import ChucVu from "../pages/admin/ChucVu";
 import LayoutAdmin from '../pages/Admin/layoutAdmin';
+import KhachHangPage from '../pages/admin/KhachHang';
+import KhachHangEdit from '../pages/admin/KhachHang/KhachHangEdit';
+import ThemKhachHang from '../pages/admin/KhachHang/ThemKhachHang';
 
 export const router = createBrowserRouter([
   {
@@ -81,7 +84,10 @@ export const router = createBrowserRouter([
       },
 
       { path: "quyen", element: <Quyen /> },  // Route con khác
-      { path: "maybay", element: <MayBay /> } // Route con khác
+      { path: "maybay", element: <MayBay /> }, // Route con khác
+      { path: "customers", element: <KhachHangPage /> },
+      { path: "customer/edit/:idKhachHang", element: <KhachHangEdit /> },
+      { path: "customer/add", element: <ThemKhachHang /> }
     ]
   },
 

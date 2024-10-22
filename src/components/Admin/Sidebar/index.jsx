@@ -101,6 +101,21 @@ const Sidebar = () => {
                  Máy bay
               </div>
             </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/customers" ? "active" : ""
+              }`}
+              to="/admin/customers"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/customers" ? "active" : ""
+                }`}
+              >
+                <FaPlane></FaPlane>
+                 Khách hàng
+              </div>
+            </Link>
           </div>
         </div>
       </nav>
