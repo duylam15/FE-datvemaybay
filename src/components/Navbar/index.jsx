@@ -22,7 +22,10 @@ const Navbar = () => {
 	const fetchMenuPost = async () => {
 		try {
 			const response = await getListMenuPost();
-			const userHoTen = await callInfoUser(token);
+			let userHoTen
+			if(token) {
+				userHoTen = await callInfoUser(token);
+			}
 			setHoTen(userHoTen?.data?.khachHang?.hoTen)
 			setQuyen(userHoTen?.data?.quyen?.tenQuyen)
 			setMenuPost(response.data || []);

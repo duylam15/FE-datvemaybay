@@ -25,7 +25,10 @@ function App() {
       if (window.location.pathname === "/login"
         || window.location.pathname === "/register"
       ) return
-      const res = await callInfoUser(token)
+      let res
+      if(token) {
+        res = await callInfoUser(token)
+      } 
       console.log("res APP", res)
       if (res && res.data) {
         dispatch(doGetAccountAction(res.data))

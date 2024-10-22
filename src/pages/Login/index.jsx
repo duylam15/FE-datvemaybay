@@ -20,7 +20,11 @@ const Login = () => {
     const res = await callLogin(username, password);
     // const RefreshToken = await callRefreshToken();
     // console.log("RefreshToken", RefreshToken)
-    const infoUser = await callInfoUser(res.data);
+    let infoUser
+    if(res.data) {
+      console.log("abccasc")
+      infoUser = await callInfoUser(res.data);
+    }
     console.log(infoUser)
     setIsSubmit(false); // Kết thúc quá trình gửi dữ liệu
     if (res?.data) { // Kiểm tra nếu API trả về dữ liệu
