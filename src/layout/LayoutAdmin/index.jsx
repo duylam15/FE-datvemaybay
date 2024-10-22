@@ -1,17 +1,28 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom';
-import NavbarAdmin from '../../components/NavbarAdmin';
-import { useSelector } from 'react-redux';
+import React from "react";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+import "./layoutAdmin.css";
+import Sidebar from "../../components/Admin/Sidebar";
+import { useSelector } from "react-redux";
 
-export default function LayoutAdmin() {
-	const isAdminRoute = window.location.pathname.startsWith('/admin');
-	const user = useSelector(state => state.account.user);
-	console.log("user from layout admin", user)
-	const userRole = user?.quyen?.tenQuyen;
-	return (
-		<div className='layout-app'>
-			{isAdminRoute && userRole === 'admin' ? <NavbarAdmin /> : <></>}
-			<Outlet />
-		</div>
-	);
-}
+const LayoutAdmin = () => {
+  // const isAdminRoute = window.location.pathname.startsWith('/admin');
+  // const user = useSelector(state => state.account.user);
+  // const userRole = user?.data?.quyen?.tenQuyen;
+  return (
+    <>
+      <div className="container-fluid">
+        <div className="row">
+          {/* {isAdminRoute && userRole === 'admin' ?  : <></>} */}
+          <Sidebar />
+          <main className="col-md-9 ms-sm-auto col-lg-9 px-md-4 content-admin">
+            <Outlet></Outlet>
+          </main>
+        </div>
+      </div>
+    </>
+  );
+};
+
+
+export default LayoutAdmin;
