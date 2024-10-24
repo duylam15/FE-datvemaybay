@@ -1,9 +1,18 @@
 .content-admin {
-    background-color: red;
+    width: 75%;     /* Chiều rộng 75% của container */
+    margin:30px auto;   /* Căn giữa trong container */
+    background-color: #f8f9fa; /* Màu nền cho content */
+    padding: 20px; /* Thêm khoảng cách bên trong */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
+    border-radius: 8px; /* Bo tròn các góc */
+    /* height: calc(100vh - 60px); 
+    overflow-y: auto;  */
 }
-
 .container-fluid {
-    background-color: aqua;
+    background-color: #e7e7e7;
+    height: 100%;
+    /* height: calc(100vh - 60px); */
+    overflow-y: auto; /* Cho phép cuộn dọc */
 }
 .row {
     display: flex;

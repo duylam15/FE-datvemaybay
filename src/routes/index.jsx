@@ -14,13 +14,15 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import UsersPage from "../pages/UserPage";
 import Dashboard from "../pages/admin/dashboard";
-import MayBay from "../pages/admin/MayBay";
 import Quyen from "../pages/admin/Quyen";
 import NhanVien from "../pages/admin/NhanVien";
 import ChucVu from "../pages/admin/ChucVu";
-import KhachHangPage from '../pages/admin/KhachHang';
-import KhachHangEdit from '../pages/admin/KhachHang/KhachHangEdit';
-import ThemKhachHang from '../pages/admin/KhachHang/ThemKhachHang';
+import WebSocketDemo from "../pages/WebSocketDemo";
+import ResetPassword from "../pages/ResetPassword";
+import React from 'react';
+import MayBayPage from "../pages/admin/MayBay/index";
+import MayBayEdit from "../pages/admin/MayBay/MayBayEdit";
+import AddMayBayForm from "../pages/admin/MayBay/ThemMayBay";
 
 export const router = createBrowserRouter([
   {
@@ -85,7 +87,9 @@ export const router = createBrowserRouter([
       },
 
       { path: "quyen", element: <Quyen /> },  // Route con khác
-      { path: "maybay", element: <MayBay /> }, // Route con khác
+      { path: "maybay",element: <MayBayPage />}, 
+			{ path: "maybay/add", element: <AddMayBayForm/>},
+			{ path: "maybay/edit/:idMayBay", element: <MayBayEdit/>},
       { path: "customers", element: <KhachHangPage /> },
       { path: "customer/edit/:idKhachHang", element: <KhachHangEdit /> },
       { path: "customer/add", element: <ThemKhachHang /> }
