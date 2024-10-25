@@ -1,0 +1,63 @@
+.sidebar {
+  width: 280px;
+  background-color: #fff; /* Màu nền sáng */
+  height: 100vh; /* Chiều cao full màn hình */
+  padding: 20px;
+  border-right: 1px solid #ddd; /* Đường viền ngăn cách */
+  overflow-y: auto;
+  position: sticky;
+}
+
+.sidebar .nav-item {
+  margin-bottom: 15px;
+}
+
+.logo {
+  margin-bottom: 25px;
+}
+.nav-item {
+  color: #333;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 20px;
+  padding: 14px 25px;
+  cursor: pointer;
+}
+.nav-item.active {
+  color: #fff;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#da8cff),
+    to(#9a55ff)
+  );
+  background: linear-gradient(to right, #da8cff, #9a55ff);
+  transition: opacity 0.3s ease;
+}
+.nav-item.active:hover {
+  color: #fff;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#da8cff),
+    to(#9a55ff)
+  );
+  background: linear-gradient(to right, #da8cff, #9a55ff);
+  transition: opacity 0.3s ease;
+}
+.nav-item:hover {
+  color: #fff;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#ede0f3),
+    to(#d5c0f2)
+  );
+  background: linear-gradient(to right, #ede0f3, #d5c0f2);
+  transition: opacity 0.3s ease;
+}

@@ -46,7 +46,7 @@ const LoaiHoaDonPage = () => {
                     <h1>Danh Sách Loại Hóa Đơn</h1>
                 </div>
                 
-                <button onClick={() => navigate('/loaihoadon/add')} className="btn btn-success mb-3 add-btn">
+                <button onClick={() => navigate('/admin/loaihoadon/add')} className="btn btn-success mb-3 add-btn">
                     Thêm Loại Hóa đơn
                 </button>
             </div>

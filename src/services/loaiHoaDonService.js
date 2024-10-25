@@ -12,7 +12,7 @@ export const getLoaiHoaDon = async () => {
 
 };
 export const editLoaiHoaDon= (navigate, idLoaiHD) => {
-    navigate(`/loaihoadon/edit/${idLoaiHD}`);
+    navigate(`/admin/loaihoadon/edit/${idLoaiHD}`);
 };
 
 export const searchLoaiHoaDon = async (searchTerm, setLoaiHoaDon) => {
@@ -32,7 +32,7 @@ export const searchLoaiHoaDon = async (searchTerm, setLoaiHoaDon) => {
 };
 
 export const handleSort = (field, sortOrder, setLoaiHoaDon, setSortOrder, setSortField) => {
-    axios.get(`${API_URL}/getAllLoaiHDSorted`, { params: { field, order: sortOrder } })
+    axios.get(`${API_URL}/getAllLoaiHDSorted`, { params: { sortBy: field, order: sortOrder } })
         .then(response => {
             console.log('Sorted results:', response.data);
             setLoaiHoaDon(response.data.data);

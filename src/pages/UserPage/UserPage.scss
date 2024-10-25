@@ -1,0 +1,44 @@
+.container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+.users-page {
+    background-color: #f2f4f7;
+    background-image: url('./image/backgroundImage_page_user_client.png');
+    .title {
+        color: #101828;
+        font-weight: 500;
+        font-size: 28px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .title_2 {
+        font-size: 24px;
+        padding-bottom: 25px;
+    }
+}
+.users-page__body {
+    display: flex;
+    gap: 24px;
+
+    &--left {
+        width: 264px;
+    }
+    &--right {
+        width: 840px;
+    }
+}
+.row {
+    display: flex;
+    align-items: center;
+}
+.row-title {
+    color: #00558f;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.icon-home {
+    color: #00558f;
+}

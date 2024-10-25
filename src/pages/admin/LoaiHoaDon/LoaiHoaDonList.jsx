@@ -37,7 +37,7 @@ const LoaiHoaDonList =({
             </div>
             <table className="table table-hover table-bordered pad-x">
                 <thead>
-                    <tr className="align-bottom fs-2 fw-medium">
+                    <tr className="align-bottom ">
                         <th scope="col" className='align-bottom' onClick={() => handleSort('idLoaiHoaDon')}>
                             ID {sortField === 'idLoaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
@@ -47,15 +47,15 @@ const LoaiHoaDonList =({
 						<th scope="col" className='align-bottom' onClick={() => handleSort('moTa')}>
                             Mô tả {sortField === 'moTa' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('status')}>
-                            Trạng thái {sortField === 'status' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
+                            Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='col-1 align-bottom'>
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody className="align-middle fs-3">
+                <tbody className="align-middle">
                     {currentLoaiHD.length > 0 ? (currentLoaiHD.map(lhd => (
                         <tr key={lhd.idLoaiHD}>
                             <td className=' align-middle '>{lhd.idLoaiHD}</td>

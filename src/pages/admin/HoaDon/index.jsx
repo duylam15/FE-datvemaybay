@@ -8,6 +8,7 @@ import { editHoaDon } from '../../../services/hoaDonService.js';
 import { searchHoaDon } from '../../../services/hoaDonService.js';
 import { handleSort } from '../../../services/hoaDonService.js';
 import { detail } from '../../../services/hoaDonService.js';
+import { filHoaDon } from '../../../services/hoaDonService.js';
 
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
@@ -15,6 +16,9 @@ const HoaDonPage = () => {
     const [sortOrder, setSortOrder] = useState('asc');
     const [hoaDon, setHoaDon] = useState(initialHoaDon);
     const [sortField, setSortField] = React.useState('');
+    const [filterType, setFilterType] = useState('');
+    const [selectedValue, setSelectedValue] = useState('');
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,6 +45,15 @@ const HoaDonPage = () => {
         console.log('Sorted hướng:', field, 'Order:', sortOrder);
         handleSort(field, sortOrder, setHoaDon, setSortOrder, setSortField);
     };
+    
+    const handleFilter = (filterType, selectedValue) => { 
+        try {
+            filHoaDon(filterType, selectedValue, setHoaDon);
+            console.log(hoaDon);
+        } catch (err) {
+            setError('Không thể tải dữ liệu hóa đơn.');
+        }
+    };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -64,6 +77,11 @@ const HoaDonPage = () => {
                 handleSort={handleSortClick} 
                 sortOrder={sortOrder}
                 sortField={sortField}
+                filterType={filterType}
+                setFilterType={setFilterType}
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+                handleFilter={handleFilter}
             />
         </div>
     );

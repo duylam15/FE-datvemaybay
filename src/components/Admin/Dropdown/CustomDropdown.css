@@ -1,0 +1,31 @@
+.ant-space-item {
+  font-size: 17px;
+}
+
+/* Tùy chỉnh toàn bộ menu */
+.ant-dropdown-menu {
+  background-color: #f0f0f0; /* Màu nền của menu */
+  border-radius: 8px; /* Làm bo tròn menu */
+}
+
+/* Tùy chỉnh từng item trong menu */
+.ant-dropdown-menu-item {
+  padding: 10px 20px; /* Khoảng cách giữa các nội dung */
+  font-weight: bold; /* Tạo độ đậm cho text */
+  color: #333; /* Màu chữ */
+}
+
+.ant-dropdown-menu-item:hover {
+  background-color: #1890ff; /* Thay đổi màu nền khi hover */
+  color: white; /* Thay đổi màu chữ khi hover */
+}
+
+/* Tùy chỉnh cho item đầu tiên */
+.ant-dropdown-menu-item:first-child {
+  background-color: #e6f7ff;
+}
+
+/* Nếu cần tùy chỉnh dựa trên key hoặc path của item */
+.ant-dropdown-menu-item:nth-child(2) {
+  background-color: #f9f0ff;
+}

@@ -32,7 +32,7 @@ export const searchHoaDon = async (searchTerm, setHoaDon) => {
 };
 
 export const handleSort = (field, sortOrder, setHoaDon, setSortOrder, setSortField) => {
-    axios.get(`${API_URL}/getAllHoaDonSorted`, { params: { field, order: sortOrder } })
+    axios.get(`${API_URL}/getAllHoaDonSorted`, { params: { sortBy: field, order: sortOrder } })
         .then(response => {
             console.log('Sorted results:', response.data);
             setHoaDon(response.data.data);
@@ -45,5 +45,16 @@ export const handleSort = (field, sortOrder, setHoaDon, setSortOrder, setSortFie
 };
 
 export const detail = (navigate, idHoaDon) => {
-    navigate(`/hoadon/chitiet/${idHoaDon}`);
+    navigate(`/admin/hoadon/chitiet/${idHoaDon}`);
+};
+ 
+export const filHoaDon = async (field, input, setHoaDon) => {
+    try {
+        const response = await axios.get(`${API_URL}/getHoaDonByField`, { params: { field, input}});
+        console.log(response.data.data);
+        setHoaDon(response.data.data ? response.data.data : []);
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách hóa đơn:', error);
+        throw error;
+    }
 };

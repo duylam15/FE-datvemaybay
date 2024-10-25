@@ -37,7 +37,7 @@ import { useState } from 'react';
             </div>
             <table className="table table-hover table-bordered ">
                 <thead>
-                    <tr className='fs-2 fw-medium'>
+                    <tr className=''>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('idPhuongThucTT')}>
                             ID {sortField === 'idPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
@@ -47,15 +47,15 @@ import { useState } from 'react';
                         <th scope="col" className='align-bottom'>
                             Mô tả
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('status')}>
-                            Trạng thái {sortField === 'status' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
+                            Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='align-bottom col-1'>
                             Actions
                         </th>
                     </tr>
                 </thead>
-                <tbody className='fs-3'>
+                <tbody className=''>
                     {currentPTTT.length > 0 ? (currentPTTT.map(pttt => (
                         <tr key={pttt.idPTTT}>
                             <td className=' align-middle '>{pttt.idPTTT}</td>

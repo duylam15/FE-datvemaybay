@@ -12,7 +12,7 @@ export const getPhuongThucTT = async () => {
 
 };
 export const editPhuongThucTT= (navigate, idPhuongThucTT) => {
-    navigate(`/pttt/edit/${idPhuongThucTT}`);
+    navigate(`/admin/pttt/edit/${idPhuongThucTT}`);
 };
 
 export const searchPhuongThucTT = async (searchTerm, setPhuongThucTT) => {
@@ -32,7 +32,7 @@ export const searchPhuongThucTT = async (searchTerm, setPhuongThucTT) => {
 };
 
 export const handleSort = (field, sortOrder, setPhuongThucTT, setSortOrder, setSortField) => {
-    axios.get(`${API_URL}/getAllPTTTSorted`, { params: { field, order: sortOrder } })
+    axios.get(`${API_URL}/getAllPTTTSorted`, { params: { sortBy: field, order: sortOrder } })
         .then(response => {
             console.log('Sorted results:', response.data);
             setPhuongThucTT(response.data.data);

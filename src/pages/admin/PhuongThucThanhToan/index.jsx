@@ -44,7 +44,7 @@ const PhuongThucTTPage = () => {
         <div className="phuong-thuc-tt-page page">
             <div className='top-bar'>
                 <h1 className='text'>Danh Sách Phương Thức Thanh Toán</h1>
-                <button onClick={() => navigate('/PTTT/add')} className="btn btn-success mb-3 add-btn">
+                <button onClick={() => navigate('/admin/pttt/add')} className="btn btn-success mb-3 add-btn">
                     Thêm PTTT
                 </button>
             </div>
