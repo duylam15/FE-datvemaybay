@@ -16,8 +16,12 @@ const HoaDonList = ({
     selectedValue,
     setSelectedValue,
     handleFilter,
+    handleState
 }) => {
     console.log(hoaDon);
+
+    const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
+
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
     const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
 
@@ -99,8 +103,8 @@ const HoaDonList = ({
                         <th scope="col" className='align-bottom col-1' onClick={() => handleSort('tongTien')}>
                             Tổng tiền {sortField === 'tongTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('trangThaiActive')}>
-                            Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('status')}>
+                            Trạng thái {sortField === 'status' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope='col' className='align-bottom col-1'>
                             Actions
@@ -117,7 +121,17 @@ const HoaDonList = ({
                             <td className='align-middle'>{hd.loaiHoaDon.tenLoaiHoaDon}</td>
                             <td className='align-middle'>{hd.phuongThucThanhToan.tenPhuongThucTT}</td>
                             <td className='align-middle'>{hd.tongTien}</td>
-                            <td className='align-middle'>{hd.status === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
+                            <td className='align-middle'>
+                                <select name="status" id="hd.status" value={hd.status} onChange={(e) => {
+                                    (handleState(hd.idHoaDon, e.target.value));
+                                    console.log(e.target.value);
+                                    console.log(hd.status);
+                                    }}>
+                                    {hoaDonState.map(state => (
+                                        <option value={state}>{state}</option>
+                                    ))}
+                                </select>
+                            </td>
                             <td className='align-middle'>
                                 <button className="btn btn-primary mr-2" onClick={() => viewDetail(hd.idHoaDon)}>Detail</button>
                             </td>

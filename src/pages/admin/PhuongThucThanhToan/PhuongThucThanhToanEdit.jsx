@@ -38,7 +38,7 @@ const PhuongThucThanhToanEdit = () => {
         try {
             const response = await axios.put(`${API_URL}/updatePTTT/${idPTTT}`, phuongThucTT);
             console.log('Customer updated successfully!', response.data);
-            window.location.href = '/pttt'; // Chuyển hướng đến danh sách khách hàng
+            window.location.href = '/admin/pttt'; // Chuyển hướng đến danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {

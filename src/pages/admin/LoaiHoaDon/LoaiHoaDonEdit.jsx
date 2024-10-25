@@ -38,7 +38,7 @@ const LoaiHoaDonEdit = () => {
         try {
             const response = await axios.put(`${API_URL}/updateLoaiHoaDon/${idLoaiHD}`, loaiHoaDon);
             console.log('Customer updated successfully!', response.data);
-            window.location.href = '/loaihoadon'; // Chuyển hướng đến danh sách khách hàng
+            window.location.href = '/admin/loaihoadon'; // Chuyển hướng đến danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {

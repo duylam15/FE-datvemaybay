@@ -23,7 +23,7 @@ const LoaiHoaDonAdd = () => {
         try {
             const response = await axios.post(`${API_URL}/addLoaiHoaDon`, loaiHoaDon);
             console.log('Thêm hóa đơn thành công', response.data);
-            navigate('/loaihoadon'); // Điều hướng về trang danh sách khách hàng
+            navigate('/admin/loaihoadon'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {

@@ -9,6 +9,7 @@ import { searchHoaDon } from '../../../services/hoaDonService.js';
 import { handleSort } from '../../../services/hoaDonService.js';
 import { detail } from '../../../services/hoaDonService.js';
 import { filHoaDon } from '../../../services/hoaDonService.js';
+import { updateHoaDonStatus } from '../../../services/hoaDonService.js';
 
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
@@ -55,6 +56,12 @@ const HoaDonPage = () => {
         }
     };
 
+
+    const handleState = (id, status) => {
+        console.log('Cập nhật trạng thái hóa đơn: ', id, 'trạng thái: ', status);
+        updateHoaDonStatus(id, status, setHoaDon);
+    }
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
@@ -82,6 +89,7 @@ const HoaDonPage = () => {
                 selectedValue={selectedValue}
                 setSelectedValue={setSelectedValue}
                 handleFilter={handleFilter}
+                handleState={handleState}
             />
         </div>
     );

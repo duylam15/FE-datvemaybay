@@ -23,7 +23,7 @@ const PhuongThucTTAddForm = () => {
         try {
             const response = await axios.post(`${API_URL}/addPTTT`, phuongThucTT);
             console.log('Thêm phương thức thanh toán thành công', response.data);
-            navigate('/pttt'); // Điều hướng về trang danh sách khách hàng
+            navigate('/admin/pttt'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {

@@ -58,3 +58,23 @@ export const filHoaDon = async (field, input, setHoaDon) => {
         throw error;
     }
 };
+
+export const updateHoaDonStatus = async (id, newStatus, setHoaDon) => {
+    try {
+        const response = await axios.put(`${API_URL}/updateHoaDonState/${id}`, { status: newStatus });
+
+        if (response.data && response.data.data) {
+            console.log('Cập nhật thành công:', response.data.data);
+            setHoaDon(prevHoaDons =>
+                prevHoaDons.map(hoaDon =>
+                    hoaDon.idHoaDon === id ? { ...hoaDon, status: newStatus } : hoaDon
+                )
+            );
+        } else {
+            console.warn('Không có dữ liệu trả về từ API.');
+            setHoaDon([]);
+        }
+    } catch (error) {
+        console.error('Lỗi khi cập nhật trạng thái hóa đơn:', error);
+    }
+};
