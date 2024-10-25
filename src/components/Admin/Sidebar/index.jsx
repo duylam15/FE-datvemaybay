@@ -10,6 +10,8 @@ import { MdSpaceDashboard } from 'react-icons/md';
 import { GiSoccerField } from 'react-icons/gi';
 import { FaPlane } from 'react-icons/fa';
 import { FaCriticalRole } from "react-icons/fa";
+import { FaSdCard } from "react-icons/fa";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 import React from 'react';
 import DropdownSidebar from "../Dropdown/DropdownSidebar";
 
@@ -70,6 +72,51 @@ const Sidebar = () => {
                  Máy bay
               </div>
             </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/pttt" ? "active" : ""
+              }`}
+              to="/admin/pttt"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/pttt" ? "active" : ""
+                }`}
+              >
+                <FaSdCard/>
+                 Phương thức thanh toán
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/hoadon" ? "active" : ""
+              }`}
+              to="/admin/hoadon"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/hoadon" ? "active" : ""
+                }`}
+              >
+                <FaRegMoneyBillAlt/>
+                 Hóa đơn
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/loaihoadon" ? "active" : ""
+              }`}
+              to="/admin/loaihoadon"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/loaihoadon" ? "active" : ""
+                }`}
+              >
+                <FaRegMoneyBillAlt/>
+                 Loại hóa đơn
+              </div>
+            </Link>
             <DropdownSidebar></DropdownSidebar>
             {/* <Link
               className={`nav-link ${
@@ -101,6 +148,7 @@ const Sidebar = () => {
                  Máy bay
               </div>
             </Link> */}
+            
           </div>
         </div>
       </nav>
