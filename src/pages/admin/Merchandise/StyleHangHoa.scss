@@ -7,6 +7,18 @@ body {
     justify-content: flex-end; 
     margin: 20px 0; 
   }
+
+  .search-sort-controls{
+    margin-right: 93px;
+
+        input{
+        width: 140%;
+        height: 100%;
+        border: 1px solid grey;
+        border-radius: 5px;
+        }
+    }
+  
   
   .add-btn {
     padding: 10px 15px;
@@ -53,6 +65,11 @@ table {
         font-weight: bold;
         color: #333;
         text-align: center;
+        cursor: pointer;
+
+        th span {
+            margin-left: 5px; /* Space between header text and arrow */
+          }
     }
 
     td {

@@ -15,13 +15,22 @@
 
     .remaining-seats {
       position: absolute;
-      top: -20px;
-      right: 29px;
       font-size: 15px;
       border-radius: 4px 4px 0 0;
-      background: var(--secondary-color);
       color: var(--white);
       border: none;
+    }
+
+    .seat-green{
+      top: -20px;
+      right: 192px;
+      background: var(--primary-color);
+    }
+
+    .seat-blue{
+      top: -20px;
+      right: 29px;
+      background: var(--secondary-color);
     }
 
     .flight-results {
@@ -49,12 +58,13 @@
             border-right: 1px solid rgba(128, 128, 128, 0.5);
 
             .time {
-              line-height: 20px;
+              
               font-size: 20px;
+              text-align: right;
             }
             .airport {
               font-size: 17px;
-              line-height: 22.5px;
+              line-height: 25px;
             }
             .status {
               font-size: 15px;
@@ -62,6 +72,7 @@
             .gate-info {
               display: flex;
               font-size: 15px;
+              line-height: 22.5px;
             }
           }
 
@@ -192,9 +203,9 @@
           border-radius: 10px;
           transition: box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
 
-          &:hover {
-            border: 7px solid var(--primary-color);
-          }
+          // &:hover {
+          //   border: 7px solid var(--primary-color);
+          // }
 
           &.selected { 
               border: 3px solid var(--primary-color);
@@ -323,9 +334,9 @@
           border-radius: 10px;
           transition: box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
 
-          &:hover {
-            border: 7px solid #00558f;
-          }
+          // &:hover {
+          //   border: 7px solid #00558f;
+          // }
 
           &.selected { 
               border: 3px solid #00558f;

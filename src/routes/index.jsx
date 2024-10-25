@@ -80,28 +80,4 @@ export const router = createBrowserRouter([
     path: '/register',
     element: <SignupForm />, // Route register, hiển thị Register
   },
-  // {
-  //   path: '/QLTuyenBay',
-  //   element: <QLTuyenBay />,
-  // },
-  // {
-  //   path: '/addRoute',
-  //   element: <AddRoute />,
-  // },
-  // {
-  //   path: '/EditRoute/:idTuyenBay',
-  //   element: <EditRoute />,
-  // },
-  // {
-  //   path: '/QLHangHoa',
-  //   element: <QLHangHoa />,
-  // },
-  // {
-  //   path: '/addMerchandise',
-  //   element: <AddMerchandise />,
-  // },
-  // {
-  //   path: '/EditMerchan/:idHangHoa',
-  //   element: <EditMerchandise />,
-  // },
 ]);

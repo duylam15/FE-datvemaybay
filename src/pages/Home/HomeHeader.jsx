@@ -73,14 +73,15 @@ export default function HomeHeader() {
     setErrorMessage(''); // Xóa thông báo lỗi nếu form hợp lệ
     return true;
   };
+
   // Hàm submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Kiểm tra form hợp lệ
-    if (!validateForm()) {
-      return;
-    }
+    // if (!validateForm()) {
+    //   return;
+    // }
 
     // Encode các tham số để tránh lỗi
     const encodedDepartureLocation = encodeURIComponent('Hà Nội');
@@ -89,38 +90,32 @@ export default function HomeHeader() {
     const encodedReturnDate = encodeURIComponent('2024-10-09');
     const encodedNumberOfTickets = encodeURIComponent('1');
 
-    const url = `http://localhost:8080/api/chuyenbay/search?departureLocation=${encodedDepartureLocation}&arrivalLocation=${encodedArrivalLocation}&departureDate=${encodedDepartureDate}&returnDate=${encodedReturnDate}&numberOfTickets=${encodedNumberOfTickets}`;
+    const url = `http://localhost:8080/admin/chuyenbay/search?departureLocation=${encodedDepartureLocation}&arrivalLocation=${encodedArrivalLocation}&departureDate=${encodedDepartureDate}&returnDate=${encodedReturnDate}&numberOfTickets=${encodedNumberOfTickets}`;
 
     try {
       const flights = await axios.get(url, {
-        validateStatus: () => true, // Chấp nhận mọi mã trạng thái phản hồi
+        validateStatus: () => true, // Accepts all status codes
       });
 
-      console.error(flights.data.data.chuyenbaydi); // In ra toàn bộ phản hồi API
-
       if (flights.status === 200) {
-        // Kiểm tra xem flights.data có tồn tại và là một mảng chứa chuyến bay không
-
-        navigate(`/flightResult`, {
-          state: { flights: flights.data },
-        });
+        console.error('chuyến bay:', flights.data);
+        navigate(`/flightResult`, { state: { flights: flights.data } });
       } else {
-        console.error('Lỗi khi gọi API với mã trạng thái:', flights.status);
-        setErrorMessage('Đã xảy ra lỗi khi tìm kiếm chuyến bay.');
+        console.error('Error with API call. Status code:', flights.status);
+        setErrorMessage('An error occurred while searching for flights.');
       }
     } catch (error) {
-      // Phân loại lỗi một cách chi tiết
       if (error.response) {
-        console.error('Phản hồi lỗi từ máy chủ:', error.response.data);
+        console.error('Server error response:', error.response.data);
         setErrorMessage(
-          'Lỗi từ máy chủ: ' + error.response.data.message || 'Đã xảy ra lỗi.'
+          `Server error: ${error.response.data.message || 'An error occurred.'}`
         );
       } else if (error.request) {
-        console.error('Không có phản hồi từ máy chủ:', error.request);
-        setErrorMessage('Không có phản hồi từ máy chủ. Vui lòng thử lại.');
+        console.error('No response from server:', error.request);
+        setErrorMessage('No response from the server. Please try again.');
       } else {
-        console.error('Lỗi không xác định:', error.message);
-        setErrorMessage('Đã xảy ra lỗi: ' + error.message);
+        console.error('Unknown error:', error.message);
+        setErrorMessage(`An error occurred: ${error.message}`);
       }
     }
   };

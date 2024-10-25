@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FormInput from '../../../components/QL/FormInput';
 import { Link, useNavigate } from 'react-router-dom';
 import './StyleAddMerchandise.scss';
 import axios from 'axios';
 
 const AddMerchandise = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [merchan, setMerchan] = useState({
     idLoaiHangHoa: '',
     tenHangHoa: '',
@@ -15,9 +15,6 @@ const AddMerchandise = () => {
   });
 
   const [errors, setErrors] = useState({});
-
-  const { idLoaiHangHoa, tenHangHoa, taiTrong, giaPhatSinh, trangThaiActive } =
-    merchan;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,12 +54,21 @@ const AddMerchandise = () => {
     try {
       const result = await axios.post(
         'http://localhost:8080/addNewMerchandise',
-        merchan
+        merchan,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
       console.log('Merchandise saved successfully:', result);
       navigate('/Merchandise');
     } catch (error) {
-      console.error('Error saving merchandise:', error);
+      // Log detailed error information
+      console.error(
+        'Error saving merchandise:',
+        error.response ? error.response.data : error
+      );
     }
   };
 
@@ -75,6 +81,7 @@ const AddMerchandise = () => {
           value={merchan.idLoaiHangHoa}
           onChange={handleChange}
           error={errors.idLoaiHangHoa}
+          required // Make this required if necessary
         />
         <FormInput
           label='Tên hàng hóa'
@@ -82,6 +89,7 @@ const AddMerchandise = () => {
           value={merchan.tenHangHoa}
           onChange={handleChange}
           error={errors.tenHangHoa}
+          required // Make this required if necessary
         />
         <FormInput
           label='Tải trọng (kg)'
@@ -89,6 +97,7 @@ const AddMerchandise = () => {
           value={merchan.taiTrong}
           onChange={handleChange}
           error={errors.taiTrong}
+          required // Make this required if necessary
         />
         <FormInput
           label='Giá phát sinh (VND)'
@@ -96,13 +105,14 @@ const AddMerchandise = () => {
           value={merchan.giaPhatSinh}
           onChange={handleChange}
           error={errors.giaPhatSinh}
+          required // Make this required if necessary
         />
         <div className='button-container'>
           <button type='submit' className='btn btn-save'>
-            Save
+            Lưu
           </button>
           <Link to='/Merchandise' className='btn btn-cancel'>
-            Cancel
+            Hủy
           </Link>
         </div>
       </form>

@@ -1,47 +1,25 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import './StyleAddRoute.scss';
 
-const EditRoute = () => {
-  let navigate = useNavigate();
-
+const AddRoute = () => {
+  const navigate = useNavigate();
   const { idTuyenBay } = useParams();
-
-  const [route, setRoutes] = useState({
-    thoiGianChuyenBay: '',
-    khoangCach: '',
-    status: 'ACTIVE',
-    idSanBayBatDau: '',
-    idSanBayKetThuc: '',
-  });
 
   const [airports, setAirports] = useState([]);
   const [errors, setErrors] = useState({});
+  const [route, setRoute] = useState({
+    thoiGianChuyenBay: '',
+    khoangCach: '',
+    status: 'ACTIVE',
+    idSanBayBatDau: 0,
+    idSanBayKetThuc: 0,
+  });
 
-  useEffect(() => {
-    // Fetch airport data from API
-    const loadAirports = async () => {
-      try {
-        const result = await axios.get('http://localhost:8080/getAllRoutes');
-        if (result.status === 200) {
-          setAirports(result.data.data);
-        }
-      } catch (error) {
-        console.error('Error loading airports:', error);
-      }
-    };
-
-    loadAirports();
-  }, []);
-
-  const {
-    thoiGianChuyenBay,
-    khoangCach,
-    status,
-    idSanBayBatDau,
-    idSanBayKetThuc,
-  } = route;
+  const { idLoaiHangHoa, tenHangHoa, taiTrong, giaPhatSinh, trangThaiActive } =
+    route;
 
   useEffect(() => {
     if (idTuyenBay) {
@@ -54,75 +32,132 @@ const EditRoute = () => {
       const result = await axios.get(
         `http://localhost:8080/getRouteById/${idTuyenBay}`
       );
-
       if (result.status === 200) {
-        setRoutes(result.data.data);
+        setRoute(result.data.data);
       }
     } catch (error) {
-      console.error('Lỗi khi lấy dữ liệu từ API:', error);
-      setRoutes([]);
+      console.error('Error loading routes:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadAirport();
+  }, []);
+
+  const rawData = {
+    statusCode: 200,
+    message: 'Get all airport success!!',
+    data: [
+      {
+        idSanBay: 1,
+        tenSanBay: 'Tân Sơn Nhất',
+        iataSanBay: '132',
+        icaoSanBay: '123',
+        diaChi: 'HCM',
+        thanhPho: {
+          idThanhPho: 2,
+          tenThanhPho: 'Thành phố Hồ Chí Minh',
+          quocGia: {
+            idQuocGia: 1,
+            tenQuocGia: 'Việt Nam',
+          },
+        },
+      },
+      {
+        idSanBay: 2,
+        tenSanBay: 'Nội Bài',
+        iataSanBay: '134',
+        icaoSanBay: '124',
+        diaChi: 'HN',
+        thanhPho: {
+          idThanhPho: 1,
+          tenThanhPho: 'Hà Nội',
+          quocGia: {
+            idQuocGia: 1,
+            tenQuocGia: 'Việt Nam',
+          },
+        },
+      },
+      // ... thêm dữ liệu sân bay khác
+    ],
+  };
+
+  const loadAirport = async () => {
+    try {
+      const result = await axios.get('http://localhost:8080/getAllAirport');
+      if (result.status === 200) {
+        setAirports(rawData.data);
+      }
+    } catch (error) {
+      console.error('Error loading airports:', error);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setRoutes({
-      ...route,
-      [name]: value,
-    });
-
+    setRoute({ ...route, [name]: value });
     validateField(name, value);
   };
 
   const validateField = (name, value) => {
     let errorMessage = '';
-
     if (!value.trim()) {
       errorMessage = 'Trường này không thể để trống';
-    } else if (name === 'thoiGianChuyenBay' || name === 'khoangCach') {
-      if (isNaN(value) || value < 0) {
-        errorMessage = 'Vui lòng nhập số dương hợp lệ';
-      }
     } else if (
-      (name === 'idSanBayBatDau' || name === 'idSanBayKetThuc') &&
-      value === ''
+      name === 'thoiGianChuyenBay' &&
+      (!Number.isInteger(+value) || +value <= 0)
     ) {
-      errorMessage = 'Vui lòng chọn sân bay';
+      errorMessage = 'Vui lòng nhập số nguyên dương hợp lệ';
+    } else if (name === 'khoangCach' && (isNaN(value) || value < 0)) {
+      errorMessage = 'Vui lòng nhập số dương hợp lệ';
     }
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: errorMessage,
-    }));
+    if (
+      name === 'idSanBayKetThuc' &&
+      value === route.idSanBayBatDau.toString()
+    ) {
+      errorMessage = 'Sân bay kết thúc không thể giống sân bay bắt đầu';
+    }
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
   };
 
-  const handleUpdate = async (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-
-    // Check validation
     const formErrors = Object.values(errors).some((error) => error);
-    if (formErrors) {
+    if (
+      formErrors ||
+      route.idSanBayBatDau === 0 ||
+      route.idSanBayKetThuc === 0
+    ) {
       return;
     }
-
-    console.log('route:', route);
-
     try {
-      const result = await axios.put(
-        `http://localhost:8080/updateRoute/${route.idTuyenBay}`,
-        route
+      await axios.post(
+        'http://localhost:8080/addNewRoute',
+        {
+          thoiGianChuyenBay: route.thoiGianChuyenBay,
+          khoangCach: route.khoangCach,
+          status: route.status,
+          idSanBayBatDau: route.idSanBayBatDau,
+          idSanBayKetThuc: route.idSanBayKetThuc,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        }
       );
-      console.log('Route saved successfully:', result);
       navigate('/RouteTable');
     } catch (error) {
-      console.error('Error sending data to API:', error);
+      console.error('Lỗi khi gửi dữ liệu đến API:', error);
     }
   };
 
   return (
     <div className='form-container'>
-      <form onSubmit={handleUpdate}>
+      <form onSubmit={handleSave}>
         <div>
           <label htmlFor='thoiGianChuyenBay'>
             Thời gian chuyến bay (phút):
@@ -131,7 +166,7 @@ const EditRoute = () => {
             type='text'
             id='thoiGianChuyenBay'
             name='thoiGianChuyenBay'
-            value={thoiGianChuyenBay}
+            value={route.thoiGianChuyenBay}
             onChange={handleChange}
             className={errors.thoiGianChuyenBay ? 'input-error' : ''}
             required
@@ -140,14 +175,13 @@ const EditRoute = () => {
             <p className='error-message'>{errors.thoiGianChuyenBay}</p>
           )}
         </div>
-
         <div>
           <label htmlFor='khoangCach'>Khoảng cách (km):</label>
           <input
             type='text'
             id='khoangCach'
             name='khoangCach'
-            value={khoangCach}
+            value={route.khoangCach}
             onChange={handleChange}
             className={errors.khoangCach ? 'input-error' : ''}
             required
@@ -156,13 +190,12 @@ const EditRoute = () => {
             <p className='error-message'>{errors.khoangCach}</p>
           )}
         </div>
-
         <div>
           <label htmlFor='status'>Trạng thái:</label>
           <select
             id='status'
             name='status'
-            value={status}
+            value={route.status}
             onChange={handleChange}
             required
           >
@@ -171,44 +204,44 @@ const EditRoute = () => {
           </select>
         </div>
 
-        {/* Dropdown for "Sân bay BĐ" */}
         <div>
           <label htmlFor='idSanBayBatDau'>Sân bay BĐ:</label>
           <select
-            id='idSanBayBatDau'
             name='idSanBayBatDau'
-            value={idSanBayBatDau}
+            id='idSanBayBatDau'
             onChange={handleChange}
-            required
+            value={route.idSanBayBatDau}
           >
-            <option value=''>Chọn sân bay</option>
-            {airports.map((airport) => (
-              <option key={airport.id} value={airport.id}>
-                {airport.idSanBayBatDau}
+            <option value='0' hidden>
+              Chọn Sân Bay
+            </option>
+            {airports.map((item) => (
+              <option key={item.idSanBay} value={item.idSanBay}>
+                {item.tenSanBay}
               </option>
             ))}
           </select>
-          {errors.idSanBayBatDau && (
-            <p className='error-message'>{errors.idSanBayBatDau}</p>
-          )}
         </div>
 
-        {/* Dropdown for "Sân bay KT" */}
         <div>
           <label htmlFor='idSanBayKetThuc'>Sân bay KT:</label>
           <select
-            id='idSanBayKetThuc'
             name='idSanBayKetThuc'
-            value={idSanBayKetThuc}
+            id='idSanBayKetThuc'
             onChange={handleChange}
-            required
+            value={route.idSanBayKetThuc}
+            disabled={route.idSanBayBatDau === 0}
           >
-            <option value=''>Chọn sân bay</option>
-            {airports.map((airport) => (
-              <option key={airport.id} value={airport.id}>
-                {airport.idSanBayKetThuc}
-              </option>
-            ))}
+            <option value='0' hidden>
+              Chọn Sân Bay
+            </option>
+            {airports
+              .filter((item) => item.idSanBay !== route.idSanBayBatDau)
+              .map((item) => (
+                <option key={item.idSanBay} value={item.idSanBay}>
+                  {item.tenSanBay}
+                </option>
+              ))}
           </select>
           {errors.idSanBayKetThuc && (
             <p className='error-message'>{errors.idSanBayKetThuc}</p>
@@ -217,10 +250,10 @@ const EditRoute = () => {
 
         <div className='button-container'>
           <button type='submit' className='btn btn-save'>
-            Update
+            Lưu
           </button>
-          <Link to={`/RouteTable`} className='btn btn-cancel'>
-            Cancel
+          <Link to='/RouteTable' className='btn btn-cancel'>
+            Hủy
           </Link>
         </div>
       </form>
@@ -228,4 +261,4 @@ const EditRoute = () => {
   );
 };
 
-export default EditRoute;
+export default AddRoute;
