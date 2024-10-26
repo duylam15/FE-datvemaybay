@@ -29,6 +29,15 @@ import EditMerchandise from '../pages/admin/Merchandise/MerchandiseEditForm';
 import RouteTable from '../pages/Admin/ManageRoute/RouteTable';
 import AddForm from '../pages/Admin/ManageRoute/AddForm';
 import EditForm from '../pages/Admin/ManageRoute/EditForm';
+import PhuongThucTTPage from "../pages/admin/PhuongThucThanhToan";
+import PhuongThucThanhToanAdd from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanAdd";
+import PhuongThucThanhToanEdit from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanEdit";
+import HoaDonPage from "../pages/admin/HoaDon";
+import HoaDonAdd from "../pages/admin/HoaDon/HoaDonAdd";
+import LoaiHoaDonPage from "../pages/admin/LoaiHoaDon";
+import LoaiHoaDonAdd from "../pages/admin/LoaiHoaDon/LoaiHoaDonAdd";
+import LoaiHoaDonEdit from "../pages/admin/LoaiHoaDon/LoaiHoaDonEdit";
+import ChiTietHoaDonPage from "../pages/admin/ChiTietHoaDon";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +134,42 @@ export const router = createBrowserRouter([
       },
 
       { path: 'EditRoute/:idTuyenBay', element: <EditForm /> },
+      {
+      path: "pttt",
+      element: <PhuongThucTTPage />, // Hiển thị danh sách pttt
+      },
+      { 
+        path: "pttt/add", 
+        element: <PhuongThucThanhToanAdd /> 
+      },
+      {
+        path: "pttt/edit/:idPTTT",
+        element: <PhuongThucThanhToanEdit />
+      },
+      {
+        path: "hoadon",
+        element: <HoaDonPage />
+      },
+      {	
+        path: "hoadon/add",
+        element: <HoaDonAdd />
+      },
+      {
+        path: "hoadon/chitiet/:idHoaDon",
+        element: <ChiTietHoaDonPage />
+      },
+      {
+        path: "loaihoadon",
+        element: <LoaiHoaDonPage />,
+      },
+      {
+        path: "loaihoadon/add",
+        element: <LoaiHoaDonAdd />
+      },
+      {
+        path: "loaihoadon/edit/:idLoaiHD",
+        element: <LoaiHoaDonEdit />
+      }
     ],
   },
 ]);
