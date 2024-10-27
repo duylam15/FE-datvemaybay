@@ -17,12 +17,12 @@
     align-items: center;
 }
 
-h1 {
+.page h1 {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
-.text {
+.page .text {
     font-size: 1.6em;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 500;
@@ -30,7 +30,7 @@ h1 {
     height: 100%;
 }
 
-.add-btn {
+.page .add-btn {
     position: absolute;
     right: 10px;
     bottom: -90%;
@@ -44,7 +44,7 @@ h1 {
 }
 
 
-.search-sort-controls {
+.page .search-sort-controls {
     width: max-content;
     // border: 1px solid gray;
     border-radius: 2em;
@@ -55,12 +55,12 @@ h1 {
     margin: 10px 0px;
     height: 40px;
 }
-.search-sort-controls input {
+.page .search-sort-controls input {
     width: max-content;
     // margin-right: 10px;
     padding: 10px;
 }
-.search-sort-controls button {
+.page .search-sort-controls button {
     color: black;
     font-weight: 500;
     padding: 10px;
@@ -76,22 +76,22 @@ h1 {
     border-radius: 10px;
 }
 
-.table tr {
+.page .table tr {
     height: 50px;
     border-top: 0.5px solid rgb(125, 125, 125);
     border-radius: 10px;
 }
 
-.table thead tr:first-child{
+.page .table thead tr:first-child{
     border: none;
     
 }
 
-.table thead {
+.page .table thead {
     cursor:default;
 }
 
-.pagination {
+.page .pagination {
     display: flex;
     padding-left: 0;
     list-style: none;
@@ -100,7 +100,7 @@ h1 {
     justify-content: center;
     height: 60px;
 }
-.add-form, .edit-form {
+.page .add-form, .edit-form {
     width: 60%;
     margin: 0 auto;
     display: flex;
@@ -113,12 +113,12 @@ h1 {
     padding: 10px;
 }
 
-.add-form h2, .edit-form h2 {
+.page .add-form h2, .edit-form h2 {
     font-size: 1.6em;
     padding: 10px;
     font-weight: 500;
 }
-form {
+.page form {
     display: flex;
     width: 80%;
     margin: 20px 10px;
@@ -128,22 +128,22 @@ form {
     padding: 10px; 
 }
 
-form div {
+.page form div {
     width: 60%;
     font-size: 20px;
     margin: 5px 0px;
 }
 
-form button {
+.page form button {
     width: 10%;
 }
 
-.hoa-don-controls {
+.page .hoa-don-controls {
     display: flex;
     flex-direction: column;
 }
 
-.filter-controls {
+.page .filter-controls {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -153,25 +153,25 @@ form button {
     padding: 10px;
 }
 
-.filter-controls select {
+.page .filter-controls select {
     border: 1px gray solid;
     border-radius: 5px;
     padding: 5px;
 }
-.filter-controls label {
+.page .filter-controls label {
     padding: 5px;
     font-weight: 500;
 }
-.filter-field {
+.page .filter-field {
     margin: 0px 10px;
 
 }
 
-.filter-value {
+.page .filter-value {
     margin: 0px 10px;
 }
 
-.filter-controls button {
+.page .filter-controls button {
     margin: 0px 10px;
     width: 50px;
     padding: 5px;
