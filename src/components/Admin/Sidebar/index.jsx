@@ -8,7 +8,7 @@ import {
 import "./Sidebar.css";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { GiSoccerField } from 'react-icons/gi';
-import { FaPlane } from 'react-icons/fa';
+import { FaPlane, FaPlaneDeparture } from 'react-icons/fa';
 import { FaCriticalRole } from "react-icons/fa";
 import { FaSdCard } from "react-icons/fa";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
@@ -74,6 +74,22 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
+                location.pathname === "/admin/sanbay" ? "active" : ""
+              }`}
+              to="/admin/sanbay"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/sanbay" ? "active" : ""
+                }`}
+              >
+                <FaPlaneDeparture></FaPlaneDeparture>
+                 Sân bay
+              </div>
+            </Link>
+
+            <Link
+              className={`nav-link ${
                 location.pathname === "/admin/pttt" ? "active" : ""
               }`}
               to="/admin/pttt"
@@ -118,36 +134,7 @@ const Sidebar = () => {
               </div>
             </Link>
             <DropdownSidebar></DropdownSidebar>
-            <Link
-              className={`nav-link ${
-                location.pathname === "/admin/maybay" ? "active" : ""
-              }`}
-              to="/admin/maybay"
-            >
-              <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/maybay" ? "active" : ""
-                }`}
-              >
-                <FaPlane></FaPlane>
-                 Máy bay
-              </div>
-            </Link>
-            <Link
-              className={`nav-link ${
-                location.pathname === "/admin/maybay" ? "active" : ""
-              }`}
-              to="/admin/maybay"
-            >
-              <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/maybay" ? "active" : ""
-                }`}
-              >
-                <FaPlane></FaPlane>
-                 Máy bay
-              </div>
-            </Link>
+            
           </div>
         </div>
       </nav>
