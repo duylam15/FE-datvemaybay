@@ -23,7 +23,7 @@ const AddMayBayForm = () => {
     const navigate = useNavigate();
 
     const getHangBay = async () => {
-        const response = await fetch(`${API_URL}/getAllAirline`); // Thay đổi endpoint theo API của bạn
+        const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
             throw new Error('Failed to fetch airline');
         }
@@ -71,7 +71,7 @@ const AddMayBayForm = () => {
         };
         console.log(mayBay);
         try {
-            const response = await axios.post(`${API_URL}/addPlane`, mayBay);
+            const response = await axios.post(`${API_URL}admin/maybay/addPlane`, mayBay);
             console.log('Plane added successfully!', response.data);
             navigate('/admin/maybay'); 
         } catch (error) {

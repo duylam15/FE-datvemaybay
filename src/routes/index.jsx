@@ -17,6 +17,9 @@ import React from 'react';
 import MayBayPage from "../pages/admin/MayBay/index";
 import MayBayEdit from "../pages/admin/MayBay/MayBayEdit";
 import AddMayBayForm from "../pages/admin/MayBay/ThemMayBay";
+import SanBayPage from "../pages/admin/SanBay";
+import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
+import ThemSanBay from "../pages/admin/SanBay/ThemSanBay"
 
 export const router = createBrowserRouter([
 	{
@@ -82,7 +85,10 @@ export const router = createBrowserRouter([
 				// ]
 			}, 
 			{ path: "maybay/add", element: <AddMayBayForm/>},
-			{ path: "maybay/edit/:idMayBay", element: <MayBayEdit/>}
+			{ path: "maybay/edit/:idMayBay", element: <MayBayEdit/>},
+			{ path: "sanbay", element: <SanBayPage/>},
+			{ path: "sanbay/add", element: <ThemSanBay/>},
+			{ path: "sanbay/edit/:idSanBay", element: <SanBayEdit/>}
 		]
 	},
 	

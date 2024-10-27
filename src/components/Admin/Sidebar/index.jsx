@@ -8,7 +8,7 @@ import {
 import "./Sidebar.css";
 import { MdSpaceDashboard } from 'react-icons/md';
 import { GiSoccerField } from 'react-icons/gi';
-import { FaPlane } from 'react-icons/fa';
+import { FaPlane,FaAlgolia, FaLightbulb, FaPlaneArrival, FaPlaneSlash, FaPlaneDeparture } from 'react-icons/fa';
 import { FaCriticalRole } from "react-icons/fa";
 import React from 'react';
 import DropdownSidebar from "../Dropdown/DropdownSidebar";
@@ -68,6 +68,21 @@ const Sidebar = () => {
               >
                 <FaPlane></FaPlane>
                  Máy bay
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/sanbay" ? "active" : ""
+              }`}
+              to="/admin/sanbay"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/sanbay" ? "active" : ""
+                }`}
+              >
+                <FaPlaneDeparture></FaPlaneDeparture>
+                 Sân bay
               </div>
             </Link>
             <DropdownSidebar></DropdownSidebar>

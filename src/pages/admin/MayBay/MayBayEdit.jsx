@@ -25,7 +25,7 @@ const MayBayEdit = () => {
     const [fieldErrors, setFieldErrors] = useState({}); // State để lưu lỗi cho từng trường
 
     useEffect(() => {
-        axios.get(`${API_URL}/getPlane/${idMayBay}`)
+        axios.get(`${API_URL}/admin/maybay/getPlane/${idMayBay}`)
             .then(response => {
                 setMayBay(response.data.data);
                 setLoading(false);
@@ -38,7 +38,7 @@ const MayBayEdit = () => {
     }, [idMayBay]);
     
     const getHangBay = async () => {
-        const response = await fetch(`${API_URL}/getAllAirline`); // Thay đổi endpoint theo API của bạn
+        const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
             throw new Error('Failed to fetch airline');
         }
@@ -72,7 +72,7 @@ const MayBayEdit = () => {
                 namSanXuat: parseInt(mayBay.namSanXuat, 10),
             };
 
-            const response = await axios.put(`${API_URL}/updatePlane/${idMayBay}`, updatedMayBay);
+            const response = await axios.put(`${API_URL}/admin/maybay/updatePlane/${idMayBay}`, updatedMayBay);
             console.log('Plane updated successfully!', response.data);
             window.location.href = '/admin/maybay'; 
         } catch (error) {

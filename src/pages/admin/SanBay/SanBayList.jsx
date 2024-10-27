@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './MayBay.css'
+import './SanBay.css'
 
 const API_URL = 'http://localhost:8080';
-const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
-    const [hangBay, setHangBay] = useState([]);
+const SanBayList = ({ sanBay, onEdit, getAirportByCity, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
+    const [thanhPho, setThanhPho] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const getHangBay = async () => {
-        const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
+    const getThanhPho = async () => {
+        const response = await fetch(`${API_URL}/admin/thanhpho/getAllCity`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
-            throw new Error('Failed to fetch airline');
+            throw new Error('Failed to fetch city');
         }
         const data = await response.json(); // Chuyển đổi phản hồi thành JSON
         return data.data; // Trả về phần data bên trong JSON
@@ -18,8 +18,8 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getHangBay();
-                setHangBay(data);
+                const data = await getThanhPho();
+                setThanhPho(data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -35,16 +35,16 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
             <div className="search-sort-controls">
                 <input
                     type="text"
-                    placeholder="Tìm kiếm máy bay..."
+                    placeholder="Tìm kiếm sân bay..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button onClick={handleSearch}>Tìm Kiếm</button>
-                <select onChange={(e) => getPlaneByAirline(e.target.value)} className='form-control'>
-                    <option value="Lọc theo hãng bay">Lọc theo hãng bay</option>
-                    {hangBay.map((hb) => (
-                        <option value={hb.idHangBay} key={hb.idHangBay}>
-                            {hb.idHangBay} - {hb.tenHangBay}
+                <select onChange={(e) => getAirportByCity(e.target.value)} className='form-control'>
+                    <option value="Lọc theo thành phố">Lọc theo thành phố</option>
+                    {thanhPho.map((tp) => (
+                        <option value={tp.idThanhPho} key={tp.idThanhPho}>
+                            {tp.idThanhPho} - {tp.tenThanhPho}
                         </option>
                     ))}
                 </select>
@@ -52,50 +52,46 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
             <table className="table">
                 <thead className="thead-dark">
                     <tr>
-                        <th onClick={() => handleSort('idMayBay')}>
-                            ID {sortField === 'idMayBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th onClick={() => handleSort('idSanBay')}>
+                            ID {sortField === 'idSanBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th onClick={() => handleSort('tenMayBay')}>
-                            Tên Máy Bay {sortField === 'tenMayBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th onClick={() => handleSort('tenSanBay')}>
+                            Tên Sân Bay {sortField === 'tenSanBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th onClick={() => handleSort('hangBay')}>
-                            Hãng Bay {sortField === 'hangBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th onClick={() => handleSort('iataSanBay')}>
+                            IATA Sân Bay {sortField === 'iataSanBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th onClick={() => handleSort('icaoMayBay')}>
-                            ICAO Máy Bay {sortField === 'icaoMayBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th onClick={() => handleSort('icaoSanBay')}>
+                            ICAO Sân Bay {sortField === 'icaoSanBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th onClick={() => handleSort('soHieu')}>
-                            Số Hiệu {sortField === 'soHieu' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
-                        <th>Số Lượng Ghế</th>
-                        <th>Năm Sản Xuất</th>
-                        <th>Trạng Thái</th>
+                        <th>Địa chỉ</th>
+                        <th>Thành Phố</th>
+                        <th>Trạng thái</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {mayBay.length > 0 ? (
-                        mayBay.map(mb => (
-                            <tr key={mb.idMayBay}>
-                                <td>{mb.idMayBay}</td>
-                                <td>{mb.tenMayBay}</td>
-                                <td>{mb.hangBay.tenHangBay}</td>
-                                <td>{mb.icaoMayBay}</td>
-                                <td>{mb.soHieu}</td>
-                                <td>{getSoLuongGhe(mb.idMayBay)}</td>
-                                <td>{mb.namSanXuat}</td>
+                {sanBay.length > 0 ? (
+                        sanBay.map(mb => (
+                            <tr key={mb.idSanBay}>
+                                <td>{mb.idSanBay}</td>
+                                <td>{mb.tenSanBay}</td>
+                                <td>{mb.iataSanBay}</td>
+                                <td>{mb.icaoSanBay}</td>
+                                <td>{mb.thanhPho.tenThanhPho}</td>
+                                <td>{mb.diaChi}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
                                     <div className="button-group">
                                         <button 
                                             className="btn btn-primary"
-                                            onClick={() => onEdit(mb.idMayBay)}
+                                            onClick={() => onEdit(mb.idSanBay)}
                                         >
                                             Edit
                                         </button>
                                         <button 
                                             className={`btn btn-block`}
-                                            onClick={() => onBlock(mb.idMayBay)}
+                                            onClick={() => onBlock(mb.idSanBay)}
                                         >
                                             {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
                                         </button>
@@ -114,4 +110,4 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
     );
 };
 
-export default MayBayList;
+export default SanBayList;
