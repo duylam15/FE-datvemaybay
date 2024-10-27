@@ -23,6 +23,9 @@ import React from 'react';
 import MayBayPage from "../pages/admin/MayBay/index";
 import MayBayEdit from "../pages/admin/MayBay/MayBayEdit";
 import AddMayBayForm from "../pages/admin/MayBay/ThemMayBay";
+import KhachHangPage from "../pages/admin/KhachHang/index"
+import KhachHangEdit from "../pages/admin/KhachHang/KhachHangEdit"
+import ThemKhachHang from "../pages/admin/KhachHang/ThemKhachHang"
 
 export const router = createBrowserRouter([
   {
