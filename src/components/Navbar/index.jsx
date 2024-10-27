@@ -49,9 +49,9 @@ const Navbar = () => {
 	};
 
 
-	useEffect(() => {
-		fetchMenuPost();
-	}, []);
+  useEffect(() => {
+    fetchMenuPost();
+  }, []);
 
 
 	if (!menuPost || menuPost.length === 0) {
