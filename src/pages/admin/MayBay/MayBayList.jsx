@@ -8,7 +8,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const getHangBay = async () => {
-        const response = await fetch(`${API_URL}/getAllAirline`); // Thay đổi endpoint theo API của bạn
+        const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
             throw new Error('Failed to fetch airline');
         }
