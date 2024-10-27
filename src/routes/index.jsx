@@ -38,6 +38,9 @@ import LoaiHoaDonPage from "../pages/admin/LoaiHoaDon";
 import LoaiHoaDonAdd from "../pages/admin/LoaiHoaDon/LoaiHoaDonAdd";
 import LoaiHoaDonEdit from "../pages/admin/LoaiHoaDon/LoaiHoaDonEdit";
 import ChiTietHoaDonPage from "../pages/admin/ChiTietHoaDon";
+import KhachHangPage from "../pages/admin/KhachHang/index"
+import KhachHangEdit from "../pages/admin/KhachHang/KhachHangEdit"
+import ThemKhachHang from "../pages/admin/KhachHang/ThemKhachHang"
 
 export const router = createBrowserRouter([
   {
@@ -107,9 +110,9 @@ export const router = createBrowserRouter([
       { path: 'maybay', element: <MayBayPage /> },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
-      // { path: 'customers', element: <KhachHangPage /> },
-      // { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
-      // { path: 'customer/add', element: <ThemKhachHang /> },
+      { path: 'customers', element: <KhachHangPage /> },
+      { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
+      { path: 'customer/add', element: <ThemKhachHang /> },
       //Hang Hoa
       { path: 'Merchandise', element: <MerchandiseTable /> },
 

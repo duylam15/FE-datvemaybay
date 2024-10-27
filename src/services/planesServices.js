@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 export const getMayBay = async () => {
-    const response = await fetch(`${API_URL}/getAllPlane`); // Thay đổi endpoint theo API của bạn
+    const response = await fetch(`${API_URL}/admin/maybay/getAllPlane`); // Thay đổi endpoint theo API của bạn
     if (!response.ok) {
         throw new Error('Failed to fetch plane');
     }
@@ -14,7 +14,7 @@ export const getMayBay = async () => {
 export const handleSort = async(field, sortOrder, setMayBay, setSortOrder, setSortField) => {
     console.log('getAllPlaneSorted')
     try {
-        const response = await axios.get(`${API_URL}/getAllPlaneSorted?sortBy=${field}&order=${sortOrder}`)
+        const response = await axios.get(`${API_URL}/admin/maybay/getAllPlaneSorted?sortBy=${field}&order=${sortOrder}`)
         setMayBay(response.data.data)
         setSortField(field)
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
@@ -25,7 +25,7 @@ export const handleSort = async(field, sortOrder, setMayBay, setSortOrder, setSo
 
 export const searchPlanes = async (searchTerm, setMayBay) => {
     try {
-        const response = await axios.get(`${API_URL}/findPlane`, { params: { keyword: searchTerm } });
+        const response = await axios.get(`${API_URL}/admin/maybay/findPlane`, { params: { keyword: searchTerm } });
         console.log('Search results:', response.data);
         setMayBay(response.data.data);
     } catch (error) {
@@ -44,7 +44,7 @@ export const editPlane = (navigate, idMayBay) => {
 export const blockPlane = async (idMayBay) => {
     console.log('blockPlane');
     try {
-        const response = await axios.put(`${API_URL}/blockPlane/${idMayBay}`);
+        const response = await axios.put(`${API_URL}/admin/maybay/blockPlane/${idMayBay}`);
         console.log(`Blocked plane with ID: ${idMayBay}`, response.data);
         return response.data; // Trả về dữ liệu sau khi block
     } catch (error) {
@@ -55,7 +55,7 @@ export const blockPlane = async (idMayBay) => {
 export const getSoLuong = async (idMayBay) => {
     // console.log('Get so luong ghe');
     try {
-        const response = await axios.get(`${API_URL}/getPlane/${idMayBay}`);
+        const response = await axios.get(`${API_URL}/admin/maybay/getPlane/${idMayBay}`);
         const data = response.data.data;
 
         // Kiểm tra dữ liệu trả về
@@ -77,11 +77,11 @@ export const getSoLuong = async (idMayBay) => {
 export const getByAirline = async(idHangBay, setMayBay) => {
     try {
         if(idHangBay === 'Lọc theo hãng bay'){
-            const response = await axios.get(`${API_URL}/getAllPlane`);
+            const response = await axios.get(`${API_URL}/admin/maybay/getAllPlane`);
             setMayBay(response.data.data);
         }
         else {
-            const response = await axios.get(`${API_URL}/getPlaneByAirline/${idHangBay}`);
+            const response = await axios.get(`${API_URL}/admin/maybay/getPlaneByAirline/${idHangBay}`);
             console.log('Get plane by airline ', idHangBay, ' is ', response.data);
             setMayBay(response.data.data)
         }
