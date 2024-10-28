@@ -44,6 +44,7 @@ import ThemKhachHang from "../pages/admin/KhachHang/ThemKhachHang"
 import SanBayPage from "../pages/admin/SanBay";
 import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
 import ThemSanBay from "../pages/admin/SanBay/ThemSanBay"
+import CheckBookingPage from '../pages/UserPage/CheckBooking';
 
 export const router = createBrowserRouter([
 	{
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
 	{
 		path: "/register",
 		element: <Register />, // Route register, hiển thị Register
+	},
+	{
+		path: "/quanlidatve",
+		element: <CheckBookingPage/>
 	},
 	{
 		path: "/my_profile",
