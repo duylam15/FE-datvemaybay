@@ -1,5 +1,11 @@
-.form-container {
-    margin: 20px 347px;
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-container {
+    
     padding: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -94,3 +100,4 @@
       
     }
   }
+}

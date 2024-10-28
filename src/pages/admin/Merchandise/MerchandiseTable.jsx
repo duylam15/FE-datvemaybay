@@ -116,7 +116,7 @@ const MerchandiseTable = () => {
       header: 'Actions',
       render: (item) => (
         <Actions
-          editLink={`/EditMerchandise/${item.idHangHoa}`}
+          editLink={`editMerchandise/${item.idHangHoa}`}
           onDelete={() => showDeleteModal(item.idHangHoa)}
         />
       ),
@@ -138,7 +138,7 @@ const MerchandiseTable = () => {
             onChange={handleSearch}
           />
         </div>
-        <Link to='/addMerchandise' className='add-btn'>
+        <Link to='add' className='add-btn'>
           <FaPlus />
         </Link>
       </div>

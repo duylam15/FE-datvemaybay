@@ -9,6 +9,7 @@ const ForgotPassword = () => {
   const [error, setError] = useState("");
   // State quản lý thông báo thành công
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false); // State cho hiệu ứng loading
 
   // Function to validate email format
   const isValidEmail = (email) => {
@@ -33,12 +34,13 @@ const ForgotPassword = () => {
     }
 
     setError(""); // Clear any previous error message
+    setLoading(true);
 
     try {
       const data = await forgotPassword({ email });
 
       if (data?.statusCode === 200) {
-        setShowToast(true)
+        setShowToast(true);
       } else if (data?.statusCode === 404) {
         setError("Không tìm thấy tài khoản với địa chỉ email này.");
       } else {
@@ -51,6 +53,8 @@ const ForgotPassword = () => {
       } else {
         setError(err.message || "Không thể gửi email đặt lại mật khẩu.");
       }
+    } finally {
+      setLoading(false); // Tắt hiệu ứng loading khi hoàn tất yêu cầu
     }
   };
 
@@ -96,7 +100,12 @@ const ForgotPassword = () => {
                 <button className="btn btn_cancel" onClick={() => setEmail("")}>
                   Huỷ
                 </button>
-                <button className="btn btn_submit" onClick={handleSubmit}>
+                <button
+                  className={`btn btn_submit ${loading ? "has_loading" : ""}`}
+                  onClick={handleSubmit}
+                  disabled={loading}
+                >
+                  {loading ? <div className="loading"></div> : ""}
                   Submit
                 </button>
               </div>

@@ -26,9 +26,9 @@ function App() {
         || window.location.pathname === "/register"
       ) return
       let res
-      if(token) {
+      if (token) {
         res = await callInfoUser(token)
-      } 
+      }
       console.log("res APP", res)
       if (res && res.data) {
         dispatch(doGetAccountAction(res.data))
@@ -37,7 +37,7 @@ function App() {
     getAccout()
   }, [])
 
-  
+
   return (
     <div>
       {
@@ -45,6 +45,8 @@ function App() {
           || window.location.pathname === '/login'
           || window.location.pathname === '/register'
           || window.location.pathname === '/'
+          || window.location.pathname === '/forgot_password'
+          || window.location.pathname === '/reset_password'
           ?
           <RouterProvider router={router} />
           :
