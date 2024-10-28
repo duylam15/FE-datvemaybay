@@ -43,6 +43,7 @@ import ThemKhachHang from "../pages/admin/KhachHang/ThemKhachHang"
 import SanBayPage from "../pages/admin/SanBay";
 import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
 import ThemSanBay from "../pages/admin/SanBay/ThemSanBay"
+import ForgotPassword from '../pages/ForgotPassword';
 
 export const router = createBrowserRouter([
 	{
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
 	{
 		path: "/my_profile",
 		element: <UsersPage />, // Route register, hiển thị Register
+	},
+	{
+		path: "/fogot_password",
+		element: <ForgotPassword></ForgotPassword>
 	},
 	{
 		path: "/reset_password",
