@@ -1,6 +1,5 @@
 // UsersPage.jsx
 import React from "react";
-import { useFetchUsers } from "../../utils/useFetchUsers";
 import "./UserPage.scss";
 import UserPageMenu from "../../components/UserPageMenu";
 import UserPageInfoBasic from "../../components/UserPageInfoBasic";

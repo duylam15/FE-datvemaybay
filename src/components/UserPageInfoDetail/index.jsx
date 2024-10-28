@@ -18,7 +18,7 @@ const UserPageInfoDetail = ({ profile, loading, error }) => {
       <span className="user-info-detail__title">Thông tin cá nhân</span>
       <p className="user-info-detail__row">
         <span className="user-info-detail__label">Tên</span>
-        <span className="user-info-detail__value">{accountData?.khachHang?.hoTen}</span>
+        <span className="user-info-detail__value">{accountData?.khachHang?.hoTen || ""}</span>
       </p>
       <p className="user-info-detail__row">
         <span className="user-info-detail__label">Ngày sinh</span>
@@ -31,13 +31,13 @@ const UserPageInfoDetail = ({ profile, loading, error }) => {
         <span className="user-info-detail__value">{accountData?.khachHang?.gioiTinh == "NAM" ? "MALE" : "FEMALE"}</span>
       </p>
       <span className="user-info-detail__title pt-5">Thông tin liên hệ</span>
-      <div class="user-info-detail__contact-info">
-        <div class="contact-info__item contact-info__baned">
-          <label for="email">Email</label>
+      <div className="user-info-detail__contact-info">
+        <div className="contact-info__item contact-info__baned">
+          <label htmlFor="email">Email</label>
           <input
             type="email"
-            class="contact-info__input email"
-            value={accountData?.khachHang?.email}
+            className="contact-info__input email cursor_not_allowed"
+            value={accountData?.khachHang?.email || ""}
             readOnly
           />
           <div className="contact-info__item--icon">
@@ -45,68 +45,70 @@ const UserPageInfoDetail = ({ profile, loading, error }) => {
           </div>
         </div>
 
-        <div class="contact-info__item contact-info__baned">
-          <label for="phone">Số điện thoại</label>
+        <div className="contact-info__item contact-info__baned">
+          <label htmlFor="phone">Số điện thoại</label>
           <input
             type="tel"
-            class="contact-info__input"
-            value={accountData?.khachHang?.soDienThoai}
+            className="contact-info__input cursor_not_allowed"
+            value={accountData?.khachHang?.soDienThoai || ""}
             readOnly
           />
         </div>
       </div>
       <span className="user-info-detail__title pt-10">Địa chỉ hòm thư</span>
-      <div class="user-info-detail__contact-info wrap-flex">
-        <div class="contact-info__item">
-          <label for="texttinh">Thành phố/ tỉnh</label>
+      <div className="user-info-detail__contact-info wrap-flex">
+        <div className="contact-info__item">
+          <label htmlFor="texttinh">Thành phố/ tỉnh</label>
           <input
             type="text"
             id="textting"
-            class="contact-info__input"
+            className="contact-info__input"
             placeholder="Thành phố/ tỉnh"
           />
         </div>
 
-        <div class="contact-info__item">
-          <label for="textdiachi">Địa chỉ</label>
+        <div className="contact-info__item">
+          <label htmlFor="textdiachi">Địa chỉ</label>
           <input
             type="text"
             id="textdiachi"
-            class="contact-info__input"
+            className="contact-info__input"
             placeholder="Căn hộ, Số nhà, Tên đường"
           />
         </div>
 
-        <div class="contact-info__item">
-          <label for="textmbd">Mã bưu điện</label>
+        <div className="contact-info__item">
+          <label htmlFor="textmbd">Mã bưu điện</label>
           <input
             type="text"
             id="textmbd"
-            class="contact-info__input"
+            className="contact-info__input"
             placeholder="Mã bưu điện"
           />
         </div>
       </div>
       <span className="user-info-detail__title pt-10">Khác</span>
-      <div class="user-info-detail__contact-info wrap-flex">
-        <div class="contact-info__item contact-info__baned">
-          <label for="texthc">Hộ chiếu</label>
+      <div className="user-info-detail__contact-info wrap-flex">
+        <div className="contact-info__item contact-info__baned">
+          <label htmlFor="texthc">Hộ chiếu</label>
           <input
             type="text"
             id="texthc"
-            class="contact-info__input"
+            className="contact-info__input cursor_not_allowed"
             placeholder="Hộ chiếu"
+            readOnly
           />
         </div>
 
-        <div class="contact-info__item contact-info__baned">
-          <label for="textcccd">CCCD</label>
+        <div className="contact-info__item contact-info__baned">
+          <label htmlFor="textcccd">CCCD</label>
           <input
             type="textcccd"
             id="textcccd"
-            class="contact-info__input"
+            className="contact-info__input cursor_not_allowed"
             placeholder="CCCD"
-            value={accountData?.khachHang?.cccd}
+            value={accountData?.khachHang?.cccd || ""}
+            readOnly
           />
         </div>
       </div>

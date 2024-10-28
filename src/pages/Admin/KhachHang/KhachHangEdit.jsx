@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
+const API_URL = 'http://localhost:8080/khachhang'; // Thay đổi theo URL API của bạn
 
 const KhachHangEdit = () => {
     const { idKhachHang } = useParams();
@@ -39,7 +39,7 @@ const KhachHangEdit = () => {
         try {
             const response = await axios.put(`${API_URL}/updateCustomer/${idKhachHang}`, khachHang);
             console.log('Customer updated successfully!', response.data);
-            window.location.href = '/customers'; // Chuyển hướng đến danh sách khách hàng
+            window.location.href = '/admin/customers'; // Chuyển hướng đến danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
