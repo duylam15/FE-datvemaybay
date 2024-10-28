@@ -98,7 +98,7 @@ export default function HomeHeader() {
       });
 
       if (flights.status === 200) {
-        console.error('chuyến bay:', flights.data);
+        console.log('chuyến bay:', flights.data);
         navigate(`/flightResult`, { state: { flights: flights.data } });
       } else {
         console.error('Error with API call. Status code:', flights.status);

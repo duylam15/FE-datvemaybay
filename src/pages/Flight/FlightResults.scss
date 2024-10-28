@@ -22,15 +22,20 @@
     }
 
     .seat-green{
-      top: -20px;
-      right: 192px;
+      top: -17px;
+      right: 228px;
       background: var(--primary-color);
     }
 
     .seat-blue{
-      top: -20px;
-      right: 29px;
+      top: -17px;
+      right: 118px;
       background: var(--secondary-color);
+    }
+    .seat-grey{
+      top: -17px;
+      right: 11px;
+      background: #667085;
     }
 
     .flight-results {
@@ -102,7 +107,10 @@
 
 
   .card-flight-left{
-      
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns, equal width */
+    grid-template-rows: auto; /* auto adjusts the rows based on content */
+    gap: 1px;
       
       button{
           color: var(--white);
@@ -111,8 +119,9 @@
           position: relative;
           height: 171px;
           padding: 20px;
-          position: absolute;
+          // position: absolute;
           cursor: pointer;
+          background-color: grey;
           
           .title{
               line-height: 36px;
@@ -133,7 +142,7 @@
                   .imgbottom{
                       position: absolute;
                       bottom: 7px;
-                      right: 72px;
+                      right: 62px;
                       height: 18px;
                       width: 15px;
                   
@@ -151,7 +160,7 @@
       .btn-green{
           background-color: var(--primary-color);
           top: 0;
-          right: 162px;
+          right: 138px;
 
           &:hover{
             background-color: #487f3d;

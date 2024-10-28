@@ -35,13 +35,15 @@ import Quyen from '../pages/admin/Quyen';
 import SanBayPage from "../pages/admin/SanBay";
 import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
 import ThemSanBay from "../pages/admin/SanBay/ThemSanBay";
+import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import NhanVien from "../pages/NhanVien";
 import AddComponent from "../pages/NhanVien/AddComponent";
-import Post from "../pages/Post";
+import Post from '../pages/Post';
 import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
+import CheckBookingPage from '../pages/UserPage/CheckBooking';
 
 export const router = createBrowserRouter([
 	{
@@ -73,9 +75,17 @@ export const router = createBrowserRouter([
 		element: <Register />, // Route register, hiển thị Register
 	},
 	{
+		path: "/quanlidatve",
+		element: <CheckBookingPage />
+	},
+	{
 		path: "/my_profile",
 		element: <UsersPage />, // Route register, hiển thị Register
 		// element: <WebSocketDemo></WebSocketDemo>
+	},
+	{
+		path: '/fogot_password',
+		element: <ForgotPassword></ForgotPassword>,
 	},
 	{
 		path: "/reset_password",

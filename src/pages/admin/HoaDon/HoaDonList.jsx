@@ -16,13 +16,9 @@ const HoaDonList = ({
     selectedValue,
     setSelectedValue,
     handleFilter,
-    handleState,
-    handleComboBoxValues,
-    comboBoxValues
+    handleState
 }) => {
-    const [error, setError] = useState(null);
-    const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
-    // console.log(hoaDon);
+    console.log(hoaDon);
 
     const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
 
@@ -41,9 +37,15 @@ const HoaDonList = ({
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     // State để lưu các giá trị cho combobox
-    
-    console.log(comboBoxValues);
+    const [comboBoxValues, setComboBoxValues] = useState([]);
 
+    useEffect(() => {
+        const fetchFieldValue = async () => {
+            // const values = await getHoaDon(); lấy danh sách value theo trường thông tin
+            setComboBoxValues([1]);
+        };
+        fetchFieldValue();
+    }, []);
 
     // console.log(currentHoaDon);
     return (
@@ -59,60 +61,52 @@ const HoaDonList = ({
             </div>
             <div className="filter-controls">
                 <label htmlFor="hoadon-filter-field">Lọc theo:</label>
-                <select value={filterType} onChange={(e) => {
-                    setFilterType(e.target.value);
-                    console.log("Filter type selected: ", e.target.value);
-                    handleComboBoxValues(e.target.value);}} 
-                className='filter-field' id='hoadon-filter-field'>
-                    <option value="0">Chọn trường</option>
+                <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className='filter-field' id='hoadon-filter-field'>
+                    <option value="">Chọn trường</option>
                     <option value="nhanVien">Nhân viên</option>
                     <option value="khachHang">Khách hàng</option>
                     <option value="phuongThucThanhToan">Phương thức thanh toán</option>
                     <option value="loaiHoaDon">Loại hóa đơn</option>
                 </select>
-                {fieldErrors.filterType && <div className="invalid-feedback">{fieldErrors.filterType}</div>} {/* Hiển thị thông báo lỗi */}
 
                 <label htmlFor="hoadon-filter-value">Giá trị:</label>
                 <select onChange={(e) => setSelectedValue(e.target.value)} className='filter-value' id='hoadon-filter-value'>
                     <option value="">Chọn giá trị</option>
-                    {comboBoxValues.length>0 ? comboBoxValues.map(item => (
-                        <option key={item.id} value={item.id}>{item.ten}</option>
-                    )) : <option value="0">0</option>}
-                </select>
-                <button className='btn-primary' onClick={() => {
-                    handleFilter(filterType, selectedValue)
-                    }}
-                    >Lọc</button>
+                    {comboBoxValues.map(item => (
+                        <option key={item} value={item}>{item}</option>
+                    ))}
+            </select>
+                <button className='btn-primary' onClick={() => handleFilter(filterType, selectedValue)}>Lọc</button>
             </div>
              
             <table className="table table-hover table-bordered pad-x">
                 <thead>
                     <tr className='align-bottom'>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('idHoaDon')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('idHoaDon')}>
                             ID {sortField === 'idHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('khachHang.hoTen')}>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('khachHang.hoTen')}>
                             Tên Khách hàng {sortField === 'khachHang.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('nhanVien.hoTen')}>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('nhanVien.hoTen')}>
                             Tên Nhân viên {sortField === 'nhanVien.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('soLuongVe')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('soLuongVe')}>
                             Số lượng vé {sortField === 'soLuongVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('loaiHoaDon')}>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('loaiHoaDon')}>
                             Loại hóa đơn {sortField === 'loaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('phuongThucTT.tenPhuongThucTT')}>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('phuongThucTT.tenPhuongThucTT')}>
                             Phương thức thanh toán {sortField === 'phuongThucTT.tenPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('tongTien')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('tongTien')}>
                             Tổng tiền {sortField === 'tongTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('status')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('status')}>
                             Trạng thái {sortField === 'status' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope='col' className='align-bottom'>
+                        <th scope='col' className='align-bottom col-1'>
                             Actions
                         </th>
                     </tr>
@@ -128,7 +122,11 @@ const HoaDonList = ({
                             <td className='align-middle'>{hd.phuongThucThanhToan.tenPhuongThucTT}</td>
                             <td className='align-middle'>{hd.tongTien}</td>
                             <td className='align-middle'>
-                                <select name="status" id="hd.status" value={hd.status} onChange={(e) => (handleState(hd.idHoaDon, e.target.value))}>
+                                <select name="status" id="hd.status" value={hd.status} onChange={(e) => {
+                                    (handleState(hd.idHoaDon, e.target.value));
+                                    console.log(e.target.value);
+                                    console.log(hd.status);
+                                    }}>
                                     {hoaDonState.map(state => (
                                         <option value={state}>{state}</option>
                                     ))}

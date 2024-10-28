@@ -1,6 +1,5 @@
 // UsersPage.jsx
 import React from "react";
-import { useFetchUsers } from "../../utils/useFetchUsers";
 import "./UserPage.scss";
 import UserPageMenu from "../../components/UserPageMenu";
 import UserPageInfoBasic from "../../components/UserPageInfoBasic";
@@ -11,7 +10,7 @@ import { useFetchProfile } from "../../utils/useFetchProfile";
 
 const UsersPage = () => {
   const { profile, loading, error } = useFetchProfile(); // Sử dụng custom hook
-
+  
   return (
     <div className="users-page">
       <div className="container">

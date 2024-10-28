@@ -1,24 +1,24 @@
-import React from 'react';
-import { FaCriticalRole, FaPlane, FaPlaneDeparture, FaRegMoneyBillAlt, FaSdCard } from 'react-icons/fa';
+import { default as React } from 'react';
+import { FaBox, FaCriticalRole, FaMapMarkerAlt, FaPlane, FaPlaneDeparture, FaRegMoneyBillAlt, FaRegUser, FaSdCard } from 'react-icons/fa';
 import { MdSpaceDashboard } from 'react-icons/md';
 import {
   Link,
-  useLocation
-} from "react-router-dom";
-import "./Sidebar.css";
+  useLocation,
+} from 'react-router-dom';
+import './Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
   return (
     <>
-      <nav className="col-md-3 col-lg-2 d-md-block sidebar">
+      <nav className='col-md-3 col-lg-2 d-md-block sidebar'>
         <img
-          src="https://www.bambooairways.com/o/wpbav-home-theme/css/assets/logo.png"
-          alt=""
-          className="logo"
+          src='https://www.bambooairways.com/o/wpbav-home-theme/css/assets/logo.png'
+          alt=''
+          className='logo'
         />
-        <div className="position-sticky">
-          <div className="nav flex-column">
+        <div className='position-sticky'>
+          <div className='nav flex-column'>
             <Link
               className={`nav-link ${location.pathname === "/admin/dashboard" ? "active" : ""
                 }`}
@@ -125,16 +125,42 @@ const Sidebar = () => {
               </div>
             </Link>
             <Link
-              className={`nav-link ${location.pathname === "/admin/chuyenbay" ? "active" : ""
+              className={`nav-link ${location.pathname === '/admin/Merchandise' ? 'active' : ''
                 }`}
-              to="/admin/chuyenbay"
+              to='/admin/Merchandise'
             >
               <div
-                className={`nav-item row ${location.pathname === "/admin/chuyenbay" ? "active" : ""
+                className={`nav-item row ${location.pathname === '/admin/Merchandise' ? 'active' : ''
                   }`}
               >
-                <FaPlane></FaPlane>
-                Chuyến bay
+                <FaBox></FaBox>
+                Hàng hoá
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${location.pathname === '/admin/RouteTable' ? 'active' : ''
+                }`}
+              to='/admin/RouteTable'
+            >
+              <div
+                className={`nav-item row ${location.pathname === '/admin/RouteTable' ? 'active' : ''
+                  }`}
+              >
+                <FaMapMarkerAlt></FaMapMarkerAlt>
+                Tuyến bay
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${location.pathname === "/admin/taikhoan" ? "active" : ""
+                }`}
+              to="/admin/taikhoan"
+            >
+              <div
+                className={`nav-item row ${location.pathname === "/admin/taikhoan" ? "active" : ""
+                  }`}
+              >
+                <FaRegUser />
+                Tài khoản
               </div>
             </Link>
           </div>
