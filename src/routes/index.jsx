@@ -144,20 +144,20 @@ export const router = createBrowserRouter([
 			{ path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
 			{ path: 'customer/add', element: <ThemKhachHang /> },
 			//Hang Hoa
-			{ path: 'Merchandise', element: <MerchandiseTable /> },
+			{ path: 'merchandise', element: <MerchandiseTable /> },
 
 			{
-				path: 'addMerchandise',
+				path: 'merchandise/add',
 				element: <AddMerchandise />,
 			},
 			{
-				path: 'EditMerchandise/:idHangHoa',
+				path: 'merchandise/editMerchandise/:idHangHoa',
 				element: <EditMerchandise />,
 			},
 
 			//TuyenBay
 			{
-				path: 'RouteTable',
+				path: 'route',
 				element: <RouteTable />,
 			},
 			//Chuyen Bay
@@ -179,48 +179,59 @@ export const router = createBrowserRouter([
 			},
 
 			{
-				path: 'AddForm',
+				path: 'route/add',
 				element: <AddForm />,
 			},
 
-			{ path: 'EditRoute/:idTuyenBay', element: <EditForm /> },
+			{ path: 'route/editRoute/:idTuyenBay', element: <EditForm /> },
 			{
-				path: "pttt",
+				path: 'pttt',
 				element: <PhuongThucTTPage />, // Hiển thị danh sách pttt
 			},
 			{
-				path: "pttt/add",
-				element: <PhuongThucThanhToanAdd />
+				path: 'pttt/add',
+				element: <PhuongThucThanhToanAdd />,
 			},
 			{
-				path: "pttt/edit/:idPTTT",
-				element: <PhuongThucThanhToanEdit />
+				path: 'pttt/edit/:idPTTT',
+				element: <PhuongThucThanhToanEdit />,
 			},
 			{
-				path: "hoadon",
-				element: <HoaDonPage />
+				path: 'hoadon',
+				element: <HoaDonPage />,
 			},
 			{
-				path: "hoadon/add",
-				element: <HoaDonAdd />
+				path: 'hoadon/add',
+				element: <HoaDonAdd />,
 			},
 			{
-				path: "hoadon/chitiet/:idHoaDon",
-				element: <ChiTietHoaDonPage />
+				path: 'hoadon/chitiet/:idHoaDon',
+				element: <ChiTietHoaDonPage />,
 			},
 			{
-				path: "loaihoadon",
+				path: 'loaihoadon',
 				element: <LoaiHoaDonPage />,
 			},
 			{
-				path: "loaihoadon/add",
-				element: <LoaiHoaDonAdd />
+				path: 'loaihoadon/add',
+				element: <LoaiHoaDonAdd />,
 			},
 			{
-				path: "loaihoadon/edit/:idLoaiHD",
-				element: <LoaiHoaDonEdit />
-			}
-		]
+				path: 'loaihoadon/edit/:idLoaiHD',
+				element: <LoaiHoaDonEdit />,
+			},
+			// {
+			// 	path: "taikhoan",
+			// 	element: <TaiKhoanPage />
+			// },
+			// {
+			// 	path: "taikhoan/add",
+			// 	element: <TaiKhoanAddForm />
+			// },
+			// {
+			// 	path: "taikhoan/edit/:idTaiKhoan",
+			// 	element: <TaiKhoanEdit />
+			// },
+		],
 	},
-
 ]);
