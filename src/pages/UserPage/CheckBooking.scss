@@ -1,0 +1,18 @@
+.check-booking-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 95vh; /* Đảm bảo chiều cao tối thiểu là chiều cao của viewport */
+    padding: 20px;
+    max-width: 800px; /* Bạn có thể điều chỉnh kích thước tối đa */
+    margin: 20px auto; /* Căn giữa phần tử */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .booking-list {
+    flex-grow: 1; /* Cho phép .booking-list mở rộng để lấp đầy không gian còn lại */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }

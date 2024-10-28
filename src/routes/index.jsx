@@ -7,7 +7,6 @@ import Home from '../pages/Home';
 import Error from '../pages/Error';
 import Post from '../pages/Post';
 import FlightResults from '../pages/Flight/FlightResults';
-import FlightDetails from '../pages/Flight/FlightDetails';
 import Checkout from '../pages/Flight/Checkout';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Register from '../pages/Register';
@@ -42,29 +41,34 @@ import KhachHangEdit from "../pages/admin/KhachHang/KhachHangEdit"
 import ThemKhachHang from "../pages/admin/KhachHang/ThemKhachHang"
 import SanBayPage from "../pages/admin/SanBay";
 import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
-import ThemSanBay from "../pages/admin/SanBay/ThemSanBay"
+import ThemSanBay from "../pages/admin/SanBay/ThemSanBay";
 import ForgotPassword from '../pages/ForgotPassword';
+import CheckBookingPage from '../pages/UserPage/CheckBooking';
 import TaiKhoanPage from '../pages/admin/TaiKhoan';
 import TaiKhoanAddForm from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
 
 export const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <LayoutDefault />, // Hiển thị Layout cho các route này
-		errorElement: <Error />, // Hiển thị NotFound khi có lỗi
-		children: [
-			{ index: true, element: <Home /> },
-			{
-				path: "post/:id?",
-				element: <Post />
-			},
-			{
-				path: "post/:postId?/:userId?",
-				element: <Post />,
-			},
-		],
-	},
+  {
+    path: '/',
+    element: <LayoutDefault />, // Hiển thị Layout cho các route này
+    errorElement: <Error />, // Hiển thị NotFound khi có lỗi
+    children: [
+      { index: true, element: <Home /> },
+      {
+        path: 'post/:id?',
+        element: <Post />,
+      },
+      {
+        path: 'post/:postId?/:userId?',
+        element: <Post />,
+      },
+      {
+        path: 'flightResult',
+        element: <FlightResults />,
+      },
+    ],
+  },
 
 	{
 		path: "/login",
@@ -74,14 +78,19 @@ export const router = createBrowserRouter([
 		path: "/register",
 		element: <Register />, // Route register, hiển thị Register
 	},
+  {
+		path: "/quanlidatve",
+		element: <CheckBookingPage/>
+	},
 	{
 		path: "/my_profile",
 		element: <UsersPage />, // Route register, hiển thị Register
+		// element: <WebSocketDemo></WebSocketDemo>
 	},
-	{
-		path: "/fogot_password",
-		element: <ForgotPassword></ForgotPassword>
-	},
+  {
+    path: '/fogot_password',
+    element: <ForgotPassword></ForgotPassword>,
+  },
 	{
 		path: "/reset_password",
 		element: <ResetPassword></ResetPassword>
@@ -147,40 +156,40 @@ export const router = createBrowserRouter([
 
       { path: 'EditRoute/:idTuyenBay', element: <EditForm /> },
       {
-      path: "pttt",
-      element: <PhuongThucTTPage />, // Hiển thị danh sách pttt
-      },
-      { 
-        path: "pttt/add", 
-        element: <PhuongThucThanhToanAdd /> 
+        path: 'pttt',
+        element: <PhuongThucTTPage />, // Hiển thị danh sách pttt
       },
       {
-        path: "pttt/edit/:idPTTT",
-        element: <PhuongThucThanhToanEdit />
+        path: 'pttt/add',
+        element: <PhuongThucThanhToanAdd />,
       },
       {
-        path: "hoadon",
-        element: <HoaDonPage />
-      },
-      {	
-        path: "hoadon/add",
-        element: <HoaDonAdd />
+        path: 'pttt/edit/:idPTTT',
+        element: <PhuongThucThanhToanEdit />,
       },
       {
-        path: "hoadon/chitiet/:idHoaDon",
-        element: <ChiTietHoaDonPage />
+        path: 'hoadon',
+        element: <HoaDonPage />,
       },
       {
-        path: "loaihoadon",
+        path: 'hoadon/add',
+        element: <HoaDonAdd />,
+      },
+      {
+        path: 'hoadon/chitiet/:idHoaDon',
+        element: <ChiTietHoaDonPage />,
+      },
+      {
+        path: 'loaihoadon',
         element: <LoaiHoaDonPage />,
       },
       {
-        path: "loaihoadon/add",
-        element: <LoaiHoaDonAdd />
+        path: 'loaihoadon/add',
+        element: <LoaiHoaDonAdd />,
       },
       {
-        path: "loaihoadon/edit/:idLoaiHD",
-        element: <LoaiHoaDonEdit />
+        path: 'loaihoadon/edit/:idLoaiHD',
+        element: <LoaiHoaDonEdit />,
       },
       {
         path: "taikhoan",
@@ -193,8 +202,7 @@ export const router = createBrowserRouter([
       {
         path: "taikhoan/edit/:idTaiKhoan",
         element: <TaiKhoanEdit/>
-      }
-		]
-	},
-	
+      },
+    ],
+  },
 ]);
