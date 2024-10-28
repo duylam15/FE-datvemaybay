@@ -17,7 +17,6 @@ import Dashboard from '../pages/admin/dashboard';
 import Quyen from '../pages/admin/Quyen';
 import NhanVien from '../pages/admin/NhanVien';
 import ChucVu from '../pages/admin/ChucVu';
-import WebSocketDemo from '../pages/WebSocketDemo';
 import ResetPassword from '../pages/ResetPassword';
 import React from 'react';
 import MayBayPage from '../pages/admin/MayBay/index';
@@ -74,7 +73,6 @@ export const router = createBrowserRouter([
 	{
 		path: "/my_profile",
 		element: <UsersPage />, // Route register, hiển thị Register
-		// element: <WebSocketDemo></WebSocketDemo>
 	},
 	{
 		path: "/reset_password",
