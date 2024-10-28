@@ -26,9 +26,9 @@ function App() {
         || window.location.pathname === "/register"
       ) return
       let res
-      if(token) {
+      if (token) {
         res = await callInfoUser(token)
-      } 
+      }
       console.log("res APP", res)
       if (res && res.data) {
         dispatch(doGetAccountAction(res.data))
@@ -37,20 +37,20 @@ function App() {
     getAccout()
   }, [])
 
-  
+
   return (
     <div>
-      {
-        isLoading === false
-          || window.location.pathname === '/login'
-          || window.location.pathname === '/register'
-          || window.location.pathname === '/'
-          ?
-          <RouterProvider router={router} />
-          :
-          <>
-            <Loading />
-          </>
+      {1
+        // isLoading === false
+        // || window.location.pathname === '/login'
+        // || window.location.pathname === '/register'
+        // || window.location.pathname === '/'
+        ?
+        <RouterProvider router={router} />
+        :
+        <>
+          <Loading />
+        </>
       }
     </div>
   );

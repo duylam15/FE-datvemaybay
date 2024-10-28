@@ -1,0 +1,119 @@
+.active {
+  color: green;
+}
+
+.inactive {
+  color: red;
+}
+
+.main {
+  display: flex;
+  width: 100%;
+}
+
+.sideBar {
+  width: 15%;
+  height: 800px;
+  background-color: blue;
+}
+
+.containerMain {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.containerMain ul {
+  width: 1140px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #007bff;
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnHuy{
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.container__add-edit{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.containerMain label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold !important;
+}
+
+.containerMain input{
+  width: 250px;
+  padding: 8px;
+}
+.containerMain select{
+  width: 150px;
+  padding: 8px;
+}
+
+.container__input{
+  display: flex;
+  flex-direction: column;
+  height: 40px;
+}
+
+.container__input span {
+  color: red; /* Màu sắc của thông báo lỗi */
+  font-size: 14px; /* Kích thước chữ */
+  align-self: flex-end; /* Căn thẳng bên phải */
+  margin-top: 32px !important; /* Khoảng cách giữa input và thông báo lỗi */
+  position: absolute !important;
+}
+
+.form-input{
+  display: flex !important;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.form-input label{
+  width: 110px;
+}
+
+.form-input input,select{
+  width: 200px;
+}
+
+.container__btn{
+  margin-bottom: 8px;
+}
+
+
+.containerMain span {
+  color: red; /* Màu sắc của thông báo lỗi */
+  font-size: 14px; /* Kích thước chữ */
+  align-self: flex-end; /* Căn thẳng bên phải */
+  margin-top: 38px !important; /* Khoảng cách giữa input và thông báo lỗi */
+  position: absolute !important;
+}
+
+.containerMain h1{
+  font-size: 25px !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+}

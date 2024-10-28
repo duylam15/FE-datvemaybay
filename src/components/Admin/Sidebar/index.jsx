@@ -1,19 +1,11 @@
+import React from 'react';
+import { FaCriticalRole, FaPlane, FaPlaneDeparture, FaRegMoneyBillAlt, FaSdCard } from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
 import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
   Link,
-  useLocation,
+  useLocation
 } from "react-router-dom";
 import "./Sidebar.css";
-import { MdSpaceDashboard } from 'react-icons/md';
-import { GiSoccerField } from 'react-icons/gi';
-import { FaPlane, FaPlaneDeparture } from 'react-icons/fa';
-import { FaCriticalRole } from "react-icons/fa";
-import { FaSdCard } from "react-icons/fa";
-import { FaRegMoneyBillAlt } from "react-icons/fa";
-import React from 'react';
-import DropdownSidebar from "../Dropdown/DropdownSidebar";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -28,124 +20,121 @@ const Sidebar = () => {
         <div className="position-sticky">
           <div className="nav flex-column">
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/dashboard" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/dashboard" ? "active" : ""
+                }`}
               to="/admin/dashboard"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/dashboard" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/dashboard" ? "active" : ""
+                  }`}
               >
                 <MdSpaceDashboard />
                 Dashboard
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/quyen" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/quyen" ? "active" : ""
+                }`}
               to="/admin/quyen"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/quyen" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/quyen" ? "active" : ""
+                  }`}
               >
-                <FaCriticalRole/>
+                <FaCriticalRole />
                 Nhóm quyền
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/maybay" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/maybay" ? "active" : ""
+                }`}
               to="/admin/maybay"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/maybay" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/maybay" ? "active" : ""
+                  }`}
               >
                 <FaPlane></FaPlane>
-                 Máy bay
+                Máy bay
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/sanbay" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/sanbay" ? "active" : ""
+                }`}
               to="/admin/sanbay"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/sanbay" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/sanbay" ? "active" : ""
+                  }`}
               >
                 <FaPlaneDeparture></FaPlaneDeparture>
-                 Sân bay
+                Sân bay
               </div>
             </Link>
 
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/pttt" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/pttt" ? "active" : ""
+                }`}
               to="/admin/pttt"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/pttt" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/pttt" ? "active" : ""
+                  }`}
               >
-                <FaSdCard/>
-                 Phương thức thanh toán
+                <FaSdCard />
+                Phương thức thanh toán
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/hoadon" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/hoadon" ? "active" : ""
+                }`}
               to="/admin/hoadon"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/hoadon" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/hoadon" ? "active" : ""
+                  }`}
               >
-                <FaRegMoneyBillAlt/>
-                 Hóa đơn
+                <FaRegMoneyBillAlt />
+                Hóa đơn
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/loaihoadon" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/loaihoadon" ? "active" : ""
+                }`}
               to="/admin/loaihoadon"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/loaihoadon" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/loaihoadon" ? "active" : ""
+                  }`}
               >
-                <FaRegMoneyBillAlt/>
-                 Loại hóa đơn
+                <FaRegMoneyBillAlt />
+                Loại hóa đơn
               </div>
             </Link>
             <Link
-              className={`nav-link ${
-                location.pathname === "/admin/customers" ? "active" : ""
-              }`}
+              className={`nav-link ${location.pathname === "/admin/customers" ? "active" : ""
+                }`}
               to="/admin/customers"
             >
               <div
-                className={`nav-item row ${
-                  location.pathname === "/admin/customers" ? "active" : ""
-                }`}
+                className={`nav-item row ${location.pathname === "/admin/customers" ? "active" : ""
+                  }`}
               >
                 <FaPlane></FaPlane>
-                 Khách hàng
+                Khách hàng
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${location.pathname === "/admin/chuyenbay" ? "active" : ""
+                }`}
+              to="/admin/chuyenbay"
+            >
+              <div
+                className={`nav-item row ${location.pathname === "/admin/chuyenbay" ? "active" : ""
+                  }`}
+              >
+                <FaPlane></FaPlane>
+                Chuyến bay
               </div>
             </Link>
           </div>
