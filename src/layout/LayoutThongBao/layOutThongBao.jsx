@@ -3,16 +3,13 @@ import { useNavigate } from "react-router-dom";
 import './layoutThongBao.css';
 export default function LayOutThongBao(props) {
   useEffect(() => {
-    const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    const newPath = currentPath.split("/"); // Thêm đoạn mới vào
-    console.log(newPath);
-    // navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
+    console.log(props.thongBao);
   }, [])
 
   const navigator = useNavigate();
   const OK = () => {
     props.setTypeDisplay("none");
-    if (props.thongBao.typeMessage == "question") return;
+    if (props.thongBao.typeMessage == "error") return;
     const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
     const path = currentPath.split("/");
     const newPath = `/admin/${path[2]}`;
