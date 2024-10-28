@@ -28,6 +28,7 @@ const PhuongThucTTAddForm = () => {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
                 const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
+                console.log(errors);
                 setFieldErrors(errors); // Cập nhật lỗi cho từng trường
             } else {
                 setError('Đã xảy ra lỗi trong quá trình thêm phương thức thanh toán!'); // Đặt thông báo lỗi chung

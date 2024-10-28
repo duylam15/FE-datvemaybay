@@ -29,7 +29,9 @@ const RouteTable = () => {
 
   const loadAirport = async () => {
     try {
-      const result = await axios.get('http://localhost:8080/getAllAirport');
+      const result = await axios.get(
+        'http://localhost:8080/admin/sanbay/getAllAirport'
+      );
       if (result.status === 200) {
         setAirports(result.data.data);
       }

@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchHoaDon } from '../../../utils/useFetchHoaDon.jsx';
 import HoaDonList from './HoaDonList.jsx'; 
-import { editHoaDon } from '../../../services/hoaDonService.js';
+import { editHoaDon, getComboboxValue } from '../../../services/hoaDonService.js';
 import { searchHoaDon } from '../../../services/hoaDonService.js';
 import { handleSort } from '../../../services/hoaDonService.js';
 import { detail } from '../../../services/hoaDonService.js';
@@ -19,6 +19,7 @@ const HoaDonPage = () => {
     const [sortField, setSortField] = React.useState('');
     const [filterType, setFilterType] = useState('');
     const [selectedValue, setSelectedValue] = useState('');
+    const [comboBoxValues, setComboBoxValues] = useState([]);
 
     const navigate = useNavigate();
 
@@ -62,6 +63,12 @@ const HoaDonPage = () => {
         updateHoaDonStatus(id, status, setHoaDon);
     }
 
+    const handleComboBoxValues = (field) => {
+        console.log('Type: ', field);
+        getComboboxValue(field, setComboBoxValues);
+        console.log("cbb value trong handle: ", comboBoxValues);
+    }
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
 
@@ -90,6 +97,8 @@ const HoaDonPage = () => {
                 setSelectedValue={setSelectedValue}
                 handleFilter={handleFilter}
                 handleState={handleState}
+                handleComboBoxValues={handleComboBoxValues}
+                comboBoxValues={comboBoxValues}
             />
         </div>
     );

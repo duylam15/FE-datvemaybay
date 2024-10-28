@@ -79,7 +79,7 @@ const Login = () => {
                 <Input.Password className='loginForm__input' />
               </Form.Item>
 
-              <Link to='/fogotPassword' className='loginForm__forgot loginForm__label'> Quên mật khẩu </Link> {/* Liên kết đến trang đăng ký */}
+              <Link to='/fogot_password' className='loginForm__forgot loginForm__label'> Quên mật khẩu </Link> {/* Liên kết đến trang đăng ký */}
 
               <Form.Item>
                 <Button type="primary" htmlType="submit" loading={isSubmit}

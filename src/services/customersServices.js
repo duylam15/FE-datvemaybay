@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
+const API_URL = 'http://localhost:8080/khachhang'; // Thay đổi theo URL API của bạn
 
 export const getKhachHang = async () => {
     const response = await fetch(`${API_URL}/getAllCustomer`); // Thay đổi endpoint theo API của bạn
@@ -35,7 +35,7 @@ export const searchCustomers = async (searchTerm, setKhachHang) => {
 };
 
 export const editCustomer = (navigate, idKhachHang) => {
-    navigate(`/customer/edit/${idKhachHang}`);
+    navigate(`/admin/customer/edit/${idKhachHang}`);
 };
 
 export const blockCustomer = async (idKhachHang) => {

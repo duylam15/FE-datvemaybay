@@ -74,7 +74,9 @@ const UserPageInfoPassword = () => {
     }
 
     try {
+      let accessTokenWillBeSent = localStorage.getItem("access_token");
       const response = await updatePassword({
+        accessToken: accessTokenWillBeSent,
         matKhauCu: currentPassword,
         matKhau: newPassword,
         reMatKhau: confirmPassword,
@@ -166,7 +168,7 @@ const UserPageInfoPassword = () => {
             {showConfirmPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
           </div>
           {errorReNewMatKhau && (
-            <div className="user-info-password__error">{errorReNewMatkhau}</div>
+            <div className="user-info-password__error">{errorReNewMatKhau}</div>
           )}
         </div>
       </div>

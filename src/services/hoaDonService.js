@@ -78,3 +78,36 @@ export const updateHoaDonStatus = async (id, newStatus, setHoaDon) => {
         console.error('Lỗi khi cập nhật trạng thái hóa đơn:', error);
     }
 };
+
+export const getComboboxValue = async (field, setComboBoxValues) => {
+    try {
+        let response = null;
+        let value = [];
+        switch (field) {
+            case "nhanVien":
+                response = await axios.get(`${API_URL}/admin/nhanvien/getallnhanvien`);
+                value = response.data.data.map(item => ({ id: item.idNhanVien, ten: item.hoTen }));
+                console.log(response.data);
+                break;
+            case "khachHang":
+                response = await axios.get(`${API_URL}/khachhang/getAllCustomer`);
+                value = response.data.data.map(item => ({ id: item.idKhachHang, ten: item.hoTen }));
+                break;
+            case "phuongThucThanhToan":
+                response = await axios.get(`${API_URL}/getAllPTTT`);
+                value = response.data.data.map(item => ({ id: item.idPTTT, ten: item.tenPTTT }));
+                break;
+            case "loaiHoaDon":
+                response = await axios.get(`${API_URL}/getAllLoaiHD`);
+                value = response.data.data.map(item => ({ id: item.idLoaiHD, ten: item.tenLoaiHD }));
+                break;
+            default:
+                break;
+        }
+        console.log("response: ", response.data);
+        console.log("value: ", value);
+        setComboBoxValues(value);
+    } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu combobox:', error);
+    }
+}
