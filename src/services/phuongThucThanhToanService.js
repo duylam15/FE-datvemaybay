@@ -8,6 +8,7 @@ export const getPhuongThucTT = async () => {
         throw new Error('Failed to fetch payment methods');
     }
     const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+    console.log(data);
     return data.data; // Trả về phần data bên trong JSON
 
 };

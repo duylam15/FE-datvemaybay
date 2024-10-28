@@ -38,19 +38,19 @@ import { useState } from 'react';
             <table className="table table-hover table-bordered ">
                 <thead>
                     <tr className=''>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('idPhuongThucTT')}>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('idPhuongThucTT')}>
                             ID {sortField === 'idPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('tenPhuongThucTT')}>
+                        <th scope="col" className='align-bottom col-3' onClick={() => handleSort('tenPhuongThucTT')}>
                             Tên PTTT {sortField === 'tenPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom'>
+                        <th scope="col" className='align-bottom col-4'>
                             Mô tả
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
+                        <th scope="col" className='align-bottom col-3' onClick={() => handleSort('trangThaiActive')}>
                             Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom col-1'>
+                        <th scope="col" className='align-bottom col-2'>
                             Actions
                         </th>
                     </tr>
