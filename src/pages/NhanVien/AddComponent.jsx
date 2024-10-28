@@ -178,7 +178,7 @@ const AddComponent = (props) => {
     })
       .catch(error => {
         console.log(error.response?.data);
-        const errorData = error.response?.data.data;
+        const errorData = error.response.data.data;
         setErrorData(errorData);
       });
 
@@ -198,95 +198,97 @@ const AddComponent = (props) => {
   return (
     <>
 
-      <section>
-        <div className="container-infor">
-          <h3>{nhanvien ? "Sửa" : "Thêm"} nhân viên</h3>
-          <div className="container__input_hoTen container__input">
-            <div className="form-input">
-              <label htmlFor="" >Họ và tên : </label>
-              <input type="text" placeholder="Nhập họ và tên" onChange={handleHoTen} value={hoTen} />
+      <div className="container-all">
+        <section className="container__nhanvien">
+          <div className="container-infor">
+            <h3>{nhanvien ? "Sửa" : "Thêm"} nhân viên</h3>
+            <div className="container__input_hoTen container__input">
+              <div className="form-input">
+                <label htmlFor="" >Họ và tên : </label>
+                <input type="text" placeholder="Nhập họ và tên" onChange={handleHoTen} value={hoTen} />
+              </div>
+              <span>{errorHoten}</span>
             </div>
-            <span>{errorHoten}</span>
-          </div>
-          <div className="container__input_cccd container__input">
-            <div className="form-input">
-              <label htmlFor="">CCCD : </label>
-              <input type="number" placeholder="Nhập CCCD" onChange={handleCCCD} value={cccd} />
+            <div className="container__input_cccd container__input">
+              <div className="form-input">
+                <label htmlFor="">CCCD : </label>
+                <input type="number" placeholder="Nhập CCCD" onChange={handleCCCD} value={cccd} />
+              </div>
+              <span>{errorCCCD}</span>
             </div>
-            <span>{errorCCCD}</span>
-          </div>
-          <div className="container__input_soDienThoai container__input">
-            <div className="form-input">
-              <label htmlFor="">Số điện thoại : </label>
-              <input type="text" placeholder="Nhập so dien thoai" onChange={handleSoDienThoai} value={soDienThoai} />
+            <div className="container__input_soDienThoai container__input">
+              <div className="form-input">
+                <label htmlFor="">Số điện thoại : </label>
+                <input type="text" placeholder="Nhập so dien thoai" onChange={handleSoDienThoai} value={soDienThoai} />
+              </div>
+              <span>{errorSoDienThoai}</span>
             </div>
-            <span>{errorSoDienThoai}</span>
-          </div>
-          <div className="container__input_gioiTinhEnum container__input">
-            <div className="form-input">
-              <label htmlFor="">Giới tính :</label>
-              <select name="gioiTinhEnum" id="gioiTinhEnumSelect" onChange={handleGioiTinhEnum} value={gioiTinhEnum}>
-                <option value="-1">Chọn giới tính</option>
-                <option value="NAM">NAM</option>
-                <option value="NU">NỮ</option>
-              </select>
+            <div className="container__input_gioiTinhEnum container__input">
+              <div className="form-input">
+                <label htmlFor="">Giới tính :</label>
+                <select name="gioiTinhEnum" id="gioiTinhEnumSelect" onChange={handleGioiTinhEnum} value={gioiTinhEnum}>
+                  <option value="-1">Chọn giới tính</option>
+                  <option value="NAM">NAM</option>
+                  <option value="NU">NỮ</option>
+                </select>
+              </div>
+              <span>{errorGioiTinhEnum}</span>
             </div>
-            <span>{errorGioiTinhEnum}</span>
-          </div>
-          <div className="container__input_email container__input">
-            <div className="form-input">
-              <label htmlFor="">Email: </label>
-              <input type="text" placeholder="Nhập email" onChange={handleEmail} value={email} />
+            <div className="container__input_email container__input">
+              <div className="form-input">
+                <label htmlFor="">Email: </label>
+                <input type="text" placeholder="Nhập email" onChange={handleEmail} value={email} />
+              </div>
+              <span>{errorEmail}</span>
             </div>
-            <span>{errorEmail}</span>
-          </div>
-          <div className="container__input_ngaySinh container__input">
-            <div className="form-input">
-              <label htmlFor="">Ngày sinh : </label>
-              <input type="date" placeholder="" onChange={handleNgaySinh} value={ngaySinh} />
+            <div className="container__input_ngaySinh container__input">
+              <div className="form-input">
+                <label htmlFor="">Ngày sinh : </label>
+                <input type="date" placeholder="" onChange={handleNgaySinh} value={ngaySinh} />
+              </div>
+              <span>{errorNgaySinh}</span>
             </div>
-            <span>{errorNgaySinh}</span>
-          </div>
-          <div className="container__input_chucVu container__input">
-            <div className="form-input">
-              <label htmlFor="">Chức vụ : </label>
-              <select name="chucVu" id="chucVuSelect" onChange={handleChucVu} value={selectchucVu}>
-                <option value="0">Chọn chức vụ</option>
-                {
-                  chucVus.length > 0 && chucVus.map((item) => (
-                    <option value={item.idChucVu}>{item.ten}</option>
-                  ))
-                }
-              </select>
+            <div className="container__input_chucVu container__input">
+              <div className="form-input">
+                <label htmlFor="">Chức vụ : </label>
+                <select name="chucVu" id="chucVuSelect" onChange={handleChucVu} value={selectchucVu}>
+                  <option value="0">Chọn chức vụ</option>
+                  {
+                    chucVus.length > 0 && chucVus.map((item) => (
+                      <option value={item.idChucVu}>{item.ten}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <span>{errorChucVu}</span>
             </div>
-            <span>{errorChucVu}</span>
-          </div>
-          <div className="container__input_trangThaiActive container__input">
-            <div className="form-input">
-              <label htmlFor="">Trạng thái : </label>
-              <select name="trangThai" id="trangThaiSelect" onChange={handleTrangThaiActive} value={trangThaiActive}>
-                <option value="-1">Chọn trạng thái</option>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="IN_ACTIVE">INACTIVE</option>
-              </select>
+            <div className="container__input_trangThaiActive container__input">
+              <div className="form-input">
+                <label htmlFor="">Trạng thái : </label>
+                <select name="trangThai" id="trangThaiSelect" onChange={handleTrangThaiActive} value={trangThaiActive}>
+                  <option value="-1">Chọn trạng thái</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="IN_ACTIVE">INACTIVE</option>
+                </select>
+              </div>
+              <span>{errorTrangThaiActive}</span>
             </div>
-            <span>{errorTrangThaiActive}</span>
-          </div>
-          <div className="container__input">
-            <div className="form-input">
-              <label htmlFor="">Hoạt động</label>
-              <input type="text" value={chuyenBay ? "Đang bay" : "Đang rãnh"} disabled={true} />
+            <div className="container__input">
+              <div className="form-input">
+                <label htmlFor="">Hoạt động</label>
+                <input type="text" value={chuyenBay ? "Đang bay" : "Đang rãnh"} disabled={true} />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="container__add-edit container__btn">
-          <button className='btn' onClick={nhanvien ? saveNhanVien : createNhanVien}>
-            {nhanvien ? "Sửa" : "Thêm"}
-          </button>
-          <button className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
-        </div>
-      </section>
+          <div className="container__add-edit container__btn">
+            <button className='btn' onClick={nhanvien ? saveNhanVien : createNhanVien}>
+              {nhanvien ? "Sửa" : "Thêm"}
+            </button>
+            <button className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+          </div>
+        </section>
+      </div>
     </>
   )
 };

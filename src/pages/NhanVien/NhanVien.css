@@ -117,3 +117,13 @@
   font-weight: bold !important;
   margin-bottom: 30px !important;
 }
+
+.container__nhanvien{
+  width: 400px !important;
+}
+
+.container-all{
+  display: flex !important;
+  justify-content: center;
+
+}

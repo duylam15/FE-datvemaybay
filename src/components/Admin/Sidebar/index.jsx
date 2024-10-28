@@ -176,6 +176,19 @@ const Sidebar = () => {
                 Chuyến bay
               </div>
             </Link>
+            <Link
+              className={`nav-link ${location.pathname === "/admin/quanlinhanvien/nhanvien" ? "active" : ""
+                }`}
+              to="/admin/quanlinhanvien/nhanvien"
+            >
+              <div
+                className={`nav-item row ${location.pathname === "/admin/quanlinhanvien/nhanvien" ? "active" : ""
+                  }`}
+              >
+                <FaRegUser />
+                Nhân viên
+              </div>
+            </Link>
           </div>
         </div>
       </nav>
