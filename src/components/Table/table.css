@@ -1,8 +1,8 @@
 table{
-  width: 90%;
+  width: 1140px !important ;
   border-radius: 8px !important;
-  margin-left: 20px !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 10px !important;
 }
 
 
@@ -27,3 +27,6 @@ tr td{
 
 }
 
+td, th {
+  padding: 8px !important;
+}

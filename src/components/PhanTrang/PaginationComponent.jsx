@@ -45,7 +45,7 @@ const PaginationComponent = (props) => {
   };
 
   return (
-    <div>
+    <div className='pagination'>
       <button onClick={() => onPageChange(currentPage - 1)}  disabled={currentPage === 1} className='btn-move'>
         &#8249; {/* Mũi tên trái */}
       </button>

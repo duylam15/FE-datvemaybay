@@ -1,31 +1,109 @@
-button{
-  font-size: 16px;
+.container-all{
+  width: 950px;
 }
 
-.row{
+.container-chuyenbay{
   display: flex;
-  width: 500px;
-  height: 600px;
+  column-gap: 20px;
+  height: 867px;
+  justify-content: center;
 }
 
-.row1 .column1 {
-  background-color: aqua;
-}
-
-.row1 .column2 {
-  background-color: rgb(127, 153, 255);
-}
-
-.row2 .column1 {
-  background-color: rgb(140, 255, 0);
-}
-
-.row2 .column2 {
-  background-color: rgb(255, 208, 127);
-}
-
-.containe-chuyenbay{
+.container-infor{
+  border: 1px solid gainsboro;
+  padding: 24px;
+  border-radius: 12px;
   display: flex;
-  font-size: 18px;
+  flex-direction: column;
+  row-gap: 10px;
+  box-shadow: 0px 3px 5px 5px rgba(0, 0, 0, 0.3);
+}
+
+.container-tuyenbay{
+
+}
+
+.container-infor h3{
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.container-sanbay{
+  display: flex;
+  row-gap: 20px;
+  flex-direction: column;
+}
+
+.container-inforsanbay{
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  border: 1px solid gainsboro;
+  padding: 12px;
+  border-radius: 12px;
+  height: 294px;
+}
+
+.container-maybay-inforchuyenbay{
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.container-maybay{
+
+}
+
+.container-btn{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 80px;
+}
+
+.container-ghichu{
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container-selectnhanvien{
+  display: flex;
+  justify-content: space-between;
+}
+
+.container-nhanvienchuyenbay{
+  margin-top: 30px;
+  margin-bottom: 25px;
+
+}
+
+.container-phicong{
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px !important;
+}
+
+.container-listtiepvien {
+  max-height: 251px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding-right: 8px; /* Điều chỉnh độ rộng padding nếu cần */
+  box-sizing: content-box; /* Đảm bảo padding không ảnh hưởng chiều rộng */
+}
+.custom-button-span{
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-button-span button{
+  width: 100%;
+}
+
+.containerMain .custom-button-span span{
+  margin-top: 50px !important;
+  align-self: flex-end;
 }
 

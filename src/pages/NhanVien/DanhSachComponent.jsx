@@ -6,7 +6,7 @@ export default function DanhSachComponent(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const nhanviens = props.data ;
+  const nhanviens = props.data;
 
   // Tính tổng số trang
   const totalPages = Math.ceil(nhanviens.length / itemsPerPage);
@@ -21,7 +21,7 @@ export default function DanhSachComponent(props) {
     'SĐT',
     'Giới tính',
     'Email',
-    'Ngày sinh',
+    'Hoạt động',
     'Chức vụ',
     'Trạng thái'
   ];
@@ -33,8 +33,8 @@ export default function DanhSachComponent(props) {
     'soDienThoai',
     'gioiTinhEnum',
     'email',
-    'ngaySinh',
-    'chucVu',
+    'chuyenBay',
+    'chucVu.ten',
     'trangThaiActive'
   ];
 
@@ -46,8 +46,10 @@ export default function DanhSachComponent(props) {
         columns={columns}
         dataKeys={dataKeys}
         data={currentData}
-        editLink= {editLink}
+        editLink={editLink}
         setData={props.setData}
+        setAction={props.setAction}
+        page={props.page}
       />
       <PaginationComponent
         currentPage={currentPage}

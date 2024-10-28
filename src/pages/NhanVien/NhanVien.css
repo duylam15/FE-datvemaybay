@@ -5,3 +5,93 @@
 .inactive {
   color: red;
 }
+
+.main {
+  display: flex;
+  width: 100%;
+}
+
+.sideBar {
+  width: 15%;
+  height: 800px;
+  background-color: blue;
+}
+
+.containerMain {
+  width: 85%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+ul {
+  width: 1140px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #007bff;
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btnHuy{
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.container__add-edit{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold !important;
+}
+
+input{
+  width: 250px;
+  padding: 8px;
+}
+select{
+  width: 150px;
+  padding: 8px;
+}
+
+.container__input{
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container__btn{
+  margin-bottom: 8px;
+}
+
+
+.containerMain span {
+  color: red; /* Màu sắc của thông báo lỗi */
+  font-size: 14px; /* Kích thước chữ */
+  align-self: flex-end; /* Căn thẳng bên phải */
+  margin-top: 38px !important; /* Khoảng cách giữa input và thông báo lỗi */
+  position: absolute !important;
+}
+
+h1{
+  font-size: 25px !important;
+  font-weight: bold !important;
+  margin-bottom: 30px !important;
+}

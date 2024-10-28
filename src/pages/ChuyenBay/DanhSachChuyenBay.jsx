@@ -6,7 +6,7 @@ export default function DanhSachCHuyenBay(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const nhanviens = props.data ;
+  const nhanviens = props.data;
 
   // Tính tổng số trang
   const totalPages = Math.ceil(nhanviens.length / itemsPerPage);
@@ -16,28 +16,26 @@ export default function DanhSachCHuyenBay(props) {
 
   const columns = [
     'Stt',
-    'Tên máy bay',
-    'Sân bay bắt đầu',
-    'Địa điểm bắt đầu',
+    'Iata chuyến bay',
+    'Sân bay đi',
+    'Nơi đi',
     'Sân bay đến',
-    'Địa điểm đến',
-    'Thời gian bắt đầu dự tính',
-    'Thời gian kết thúc dự tính',
+    'Nơi đến',
+    'Thời gian đi',
+    'Thời gian đến',
     'Trạng thái',
-    'Trạng thái Active',
   ];
 
   const dataKeys = [
     'idChuyenBay',
-    'mayBay.tenMayBay',
+    'iataChuyenBay',
     'tuyenBay.sanBayBatDau.tenSanBay',
     'tuyenBay.sanBayBatDau.diaChi',
     'tuyenBay.sanBayKetThuc.tenSanBay',
     'tuyenBay.sanBayKetThuc.diaChi',
     'thoiGianBatDauDuTinh',
     'thoiGianKetThucDuTinh',
-    'trangThai',
-    'trangThaiActive'
+    'trangThai'
   ];
 
   const editLink = "edit-chuyenbay";
@@ -48,8 +46,10 @@ export default function DanhSachCHuyenBay(props) {
         columns={columns}
         dataKeys={dataKeys}
         data={currentData}
-        editLink= {editLink}
+        editLink={editLink}
         setData={props.setData}
+        setAction={props.setAction}
+        page={props.page}
       />
       <PaginationComponent
         currentPage={currentPage}
