@@ -150,13 +150,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === '/admin/Merchandise' ? 'active' : ''
+                location.pathname === '/admin/merchandise' ? 'active' : ''
               }`}
-              to='/admin/Merchandise'
+              to='/admin/merchandise'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === '/admin/Merchandise' ? 'active' : ''
+                  location.pathname === '/admin/merchandise' ? 'active' : ''
                 }`}
               >
                 <FaBox></FaBox>
@@ -165,13 +165,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === '/admin/RouteTable' ? 'active' : ''
+                location.pathname === '/admin/route' ? 'active' : ''
               }`}
-              to='/admin/RouteTable'
+              to='/admin/route'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === '/admin/RouteTable' ? 'active' : ''
+                  location.pathname === '/admin/route' ? 'active' : ''
                 }`}
               >
                 <FaMapMarkerAlt></FaMapMarkerAlt>

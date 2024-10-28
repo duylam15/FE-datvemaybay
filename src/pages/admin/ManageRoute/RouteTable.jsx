@@ -115,7 +115,7 @@ const RouteTable = () => {
       header: 'Actions',
       render: (item) => (
         <Actions
-          editLink={`/EditRoute/${item.idTuyenBay}`}
+          editLink={`editRoute/${item.idTuyenBay}`}
           onDelete={() => showDeleteModal(item.idTuyenBay)}
         />
       ),
@@ -133,7 +133,7 @@ const RouteTable = () => {
   return (
     <div>
       <div className='button-container'>
-        <Link to='/AddForm' className='add-btn'>
+        <Link to='add' className='add-btn'>
           <FaPlus />
         </Link>
       </div>

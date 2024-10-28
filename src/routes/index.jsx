@@ -124,29 +124,29 @@ export const router = createBrowserRouter([
       { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
       { path: 'customer/add', element: <ThemKhachHang /> },
       //Hang Hoa
-      { path: 'Merchandise', element: <MerchandiseTable /> },
+      { path: 'merchandise', element: <MerchandiseTable /> },
 
       {
-        path: 'addMerchandise',
+        path: 'merchandise/add',
         element: <AddMerchandise />,
       },
       {
-        path: 'EditMerchandise/:idHangHoa',
+        path: 'merchandise/editMerchandise/:idHangHoa',
         element: <EditMerchandise />,
       },
 
       //TuyenBay
       {
-        path: 'RouteTable',
+        path: 'route',
         element: <RouteTable />,
       },
 
       {
-        path: 'AddForm',
+        path: 'route/add',
         element: <AddForm />,
       },
 
-      { path: 'EditRoute/:idTuyenBay', element: <EditForm /> },
+      { path: 'route/editRoute/:idTuyenBay', element: <EditForm /> },
       {
         path: 'pttt',
         element: <PhuongThucTTPage />, // Hiển thị danh sách pttt

@@ -287,56 +287,62 @@ const FlightResult = () => {
                       <h2>Chọn hạng vé Economy</h2>
                       <p>Tiện ích với mỗi hành khách.</p>
                       <div className='ticket-options'>
-                        {classTickets.map((classTicket, ticketIndex) => (
-                          <div key={ticketIndex}>
-                            <div
-                              className={`ticket economy-smart ${
-                                selectedTicket === classTicket.idHangVe
-                                  ? 'selected'
-                                  : ''
-                              }`}
-                            >
-                              <div className='top-ticket'>
-                                <input
-                                  type='radio'
-                                  name={`ticket-${index}`}
-                                  id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
-                                  checked={
-                                    selectedTicket === classTicket.idHangVe
-                                  }
-                                  onChange={() =>
-                                    handleRadioChange(classTicket.idHangVe)
-                                  }
-                                />
-                                <h3>
-                                  <span>
-                                    {/* {formatCurrency(ticket.giaVe)} */}
-                                    <span> VND</span>
-                                  </span>
-                                </h3>
-                                <p>{classTicket.tenHangVe}</p>{' '}
-                                {/* Changed this to Economy */}
-                              </div>
-                              <div className='bottom-ticket'>
-                                <ul>
-                                  <li>Hành lý xách tay:</li>
-                                  <li>Hành lý ký gửi:</li>
-                                  <li>
-                                    Hoàn/huỷ trước giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>
-                                    Hoàn/huỷ sau giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>Thay đổi miễn phí</li>
-                                  <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
-                                  <li>Chọn ghế miễn phí</li>
-                                  <li>Đổi chuyến tại sân bay miễn phí</li>
-                                </ul>
-                                <p className='details-link'>(*) Xem chi tiết</p>
+                        {classTickets
+                          .filter(
+                            (classTicket) => classTicket.tenHangVe === 'Economy'
+                          )
+                          .map((classTicket, ticketIndex) => (
+                            <div key={ticketIndex}>
+                              <div
+                                className={`ticket economy-smart ${
+                                  selectedTicket === classTicket.idHangVe
+                                    ? 'selected'
+                                    : ''
+                                }`}
+                              >
+                                <div className='top-ticket'>
+                                  <input
+                                    type='radio'
+                                    name={`ticket-${index}`}
+                                    id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
+                                    checked={
+                                      selectedTicket === classTicket.idHangVe
+                                    }
+                                    onChange={() =>
+                                      handleRadioChange(classTicket.idHangVe)
+                                    }
+                                  />
+                                  <h3>
+                                    <span>
+                                      {/* {formatCurrency(ticket.giaVe)} */}
+                                      <span> VND</span>
+                                    </span>
+                                  </h3>
+                                  <p>{classTicket.tenHangVe}</p>{' '}
+                                  {/* Changed this to Economy */}
+                                </div>
+                                <div className='bottom-ticket'>
+                                  <ul>
+                                    <li>Hành lý xách tay:</li>
+                                    <li>Hành lý ký gửi:</li>
+                                    <li>
+                                      Hoàn/huỷ trước giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>
+                                      Hoàn/huỷ sau giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>Thay đổi miễn phí</li>
+                                    <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
+                                    <li>Chọn ghế miễn phí</li>
+                                    <li>Đổi chuyến tại sân bay miễn phí</li>
+                                  </ul>
+                                  <p className='details-link'>
+                                    (*) Xem chi tiết
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                       <div className='action-buttons'>
                         <button className='next-step' onClick={handleContinue}>
@@ -351,56 +357,63 @@ const FlightResult = () => {
                       <h2>Chọn hạng vé Business</h2>
                       <p>Tiện ích với mỗi hành khách.</p>
                       <div className='ticket-options'>
-                        {classTickets.map((classTicket, ticketIndex) => (
-                          <div key={ticketIndex}>
-                            <div
-                              className={`ticket economy-smart ${
-                                selectedTicket === classTicket.idHangVe
-                                  ? 'selected'
-                                  : ''
-                              }`}
-                            >
-                              <div className='top-ticket'>
-                                <input
-                                  type='radio'
-                                  name={`ticket-${index}`}
-                                  id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
-                                  checked={
-                                    selectedTicket === classTicket.idHangVe
-                                  }
-                                  onChange={() =>
-                                    handleRadioChange(classTicket.idHangVe)
-                                  }
-                                />
-                                <h3>
-                                  <span>
-                                    {/* {formatCurrency(ticket.giaVe)} */}
-                                    <span> VND</span>
-                                  </span>
-                                </h3>
-                                <p>{classTicket.tenHangVe}</p>{' '}
-                                {/* Changed this to Economy */}
-                              </div>
-                              <div className='bottom-ticket'>
-                                <ul>
-                                  <li>Hành lý xách tay:</li>
-                                  <li>Hành lý ký gửi:</li>
-                                  <li>
-                                    Hoàn/huỷ trước giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>
-                                    Hoàn/huỷ sau giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>Thay đổi miễn phí</li>
-                                  <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
-                                  <li>Chọn ghế miễn phí</li>
-                                  <li>Đổi chuyến tại sân bay miễn phí</li>
-                                </ul>
-                                <p className='details-link'>(*) Xem chi tiết</p>
+                        {classTickets
+                          .filter(
+                            (classTicket) =>
+                              classTicket.tenHangVe === 'Business'
+                          )
+                          .map((classTicket, ticketIndex) => (
+                            <div key={ticketIndex}>
+                              <div
+                                className={`ticket economy-smart ${
+                                  selectedTicket === classTicket.idHangVe
+                                    ? 'selected'
+                                    : ''
+                                }`}
+                              >
+                                <div className='top-ticket'>
+                                  <input
+                                    type='radio'
+                                    name={`ticket-${index}`}
+                                    id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
+                                    checked={
+                                      selectedTicket === classTicket.idHangVe
+                                    }
+                                    onChange={() =>
+                                      handleRadioChange(classTicket.idHangVe)
+                                    }
+                                  />
+                                  <h3>
+                                    <span>
+                                      {/* {formatCurrency(ticket.giaVe)} */}
+                                      <span> VND</span>
+                                    </span>
+                                  </h3>
+                                  <p>{classTicket.tenHangVe}</p>{' '}
+                                  {/* Changed this to Economy */}
+                                </div>
+                                <div className='bottom-ticket'>
+                                  <ul>
+                                    <li>Hành lý xách tay:</li>
+                                    <li>Hành lý ký gửi:</li>
+                                    <li>
+                                      Hoàn/huỷ trước giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>
+                                      Hoàn/huỷ sau giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>Thay đổi miễn phí</li>
+                                    <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
+                                    <li>Chọn ghế miễn phí</li>
+                                    <li>Đổi chuyến tại sân bay miễn phí</li>
+                                  </ul>
+                                  <p className='details-link'>
+                                    (*) Xem chi tiết
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                       <div className='action-buttons'>
                         <button className='next-step' onClick={handleContinue}>
@@ -416,56 +429,62 @@ const FlightResult = () => {
                       <h2>Chọn hạng vé First</h2>
                       <p>Tiện ích với mỗi hành khách.</p>
                       <div className='ticket-options'>
-                        {classTickets.map((classTicket, ticketIndex) => (
-                          <div key={ticketIndex}>
-                            <div
-                              className={`ticket economy-smart ${
-                                selectedTicket === classTicket.idHangVe
-                                  ? 'selected'
-                                  : ''
-                              }`}
-                            >
-                              <div className='top-ticket'>
-                                <input
-                                  type='radio'
-                                  name={`ticket-${index}`}
-                                  id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
-                                  checked={
-                                    selectedTicket === classTicket.idHangVe
-                                  }
-                                  onChange={() =>
-                                    handleRadioChange(classTicket.idHangVe)
-                                  }
-                                />
-                                <h3>
-                                  <span>
-                                    {/* {formatCurrency(ticket.giaVe)} */}
-                                    <span> VND</span>
-                                  </span>
-                                </h3>
-                                <p>{classTicket.tenHangVe}</p>
-                                {/* Changed this to Economy */}
-                              </div>
-                              <div className='bottom-ticket'>
-                                <ul>
-                                  <li>Hành lý xách tay:</li>
-                                  <li>Hành lý ký gửi:</li>
-                                  <li>
-                                    Hoàn/huỷ trước giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>
-                                    Hoàn/huỷ sau giờ khởi hành: 300.000 VND
-                                  </li>
-                                  <li>Thay đổi miễn phí</li>
-                                  <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
-                                  <li>Chọn ghế miễn phí</li>
-                                  <li>Đổi chuyến tại sân bay miễn phí</li>
-                                </ul>
-                                <p className='details-link'>(*) Xem chi tiết</p>
+                        {classTickets
+                          .filter(
+                            (classTicket) => classTicket.tenHangVe === 'First'
+                          )
+                          .map((classTicket, ticketIndex) => (
+                            <div key={ticketIndex}>
+                              <div
+                                className={`ticket economy-smart ${
+                                  selectedTicket === classTicket.idHangVe
+                                    ? 'selected'
+                                    : ''
+                                }`}
+                              >
+                                <div className='top-ticket'>
+                                  <input
+                                    type='radio'
+                                    name={`ticket-${index}`}
+                                    id={`radio-economy-${ticketIndex}`} // Updated ID for clarity
+                                    checked={
+                                      selectedTicket === classTicket.idHangVe
+                                    }
+                                    onChange={() =>
+                                      handleRadioChange(classTicket.idHangVe)
+                                    }
+                                  />
+                                  <h3>
+                                    <span>
+                                      {/* {formatCurrency(ticket.giaVe)} */}
+                                      <span> VND</span>
+                                    </span>
+                                  </h3>
+                                  <p>{classTicket.tenHangVe}</p>
+                                  {/* Changed this to Economy */}
+                                </div>
+                                <div className='bottom-ticket'>
+                                  <ul>
+                                    <li>Hành lý xách tay:</li>
+                                    <li>Hành lý ký gửi:</li>
+                                    <li>
+                                      Hoàn/huỷ trước giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>
+                                      Hoàn/huỷ sau giờ khởi hành: 300.000 VND
+                                    </li>
+                                    <li>Thay đổi miễn phí</li>
+                                    <li>Hệ số cộng điểm Bamboo Club: 1.0</li>
+                                    <li>Chọn ghế miễn phí</li>
+                                    <li>Đổi chuyến tại sân bay miễn phí</li>
+                                  </ul>
+                                  <p className='details-link'>
+                                    (*) Xem chi tiết
+                                  </p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
 
                       <div className='action-buttons'>
