@@ -10,7 +10,7 @@ import { MdSpaceDashboard } from 'react-icons/md';
 import { GiSoccerField } from 'react-icons/gi';
 import { FaPlane, FaPlaneDeparture } from 'react-icons/fa';
 import { FaCriticalRole } from "react-icons/fa";
-import { FaSdCard } from "react-icons/fa";
+import { FaSdCard, FaRegUser } from "react-icons/fa";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import React from 'react';
 import DropdownSidebar from "../Dropdown/DropdownSidebar";
@@ -146,6 +146,21 @@ const Sidebar = () => {
               >
                 <FaPlane></FaPlane>
                  Khách hàng
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/taikhoan" ? "active" : ""
+              }`}
+              to="/admin/taikhoan"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === "/admin/taikhoan" ? "active" : ""
+                }`}
+              >
+                <FaRegUser/>
+                 Tài khoản
               </div>
             </Link>
           </div>

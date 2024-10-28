@@ -1,17 +1,17 @@
-// utils/useFetchHoaDon.js
+// utils/useFetchTaiKhoan.jsx
 import { useState, useEffect } from 'react';
-import { getHoaDon } from '../services/hoaDonService';
+import { getTaiKhoan } from '../services/qlTaiKhoanService';
 
-export const useFetchHoaDon = () => {
-    const [hoaDon, setHoaDon] = useState([]);
+export const useFetchTaiKhoan = () => {
+    const [taiKhoan, setTaiKhoan] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getHoaDon();
-                setHoaDon(data);
+                const data = await getTaiKhoan();
+                setTaiKhoan(data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -21,5 +21,5 @@ export const useFetchHoaDon = () => {
         fetchData();
     }, []);
 
-    return { hoaDon, loading, error };
+    return { taiKhoan, loading, error };
 };

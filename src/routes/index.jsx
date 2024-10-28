@@ -44,6 +44,9 @@ import SanBayPage from "../pages/admin/SanBay";
 import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
 import ThemSanBay from "../pages/admin/SanBay/ThemSanBay"
 import ForgotPassword from '../pages/ForgotPassword';
+import TaiKhoanPage from '../pages/admin/TaiKhoan';
+import TaiKhoanAddForm from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
 
 export const router = createBrowserRouter([
 	{
@@ -178,6 +181,18 @@ export const router = createBrowserRouter([
       {
         path: "loaihoadon/edit/:idLoaiHD",
         element: <LoaiHoaDonEdit />
+      },
+      {
+        path: "taikhoan",
+        element: <TaiKhoanPage/>
+      },
+      {
+        path: "taikhoan/add",
+        element: <TaiKhoanAddForm/>
+      },
+      {
+        path: "taikhoan/edit/:idTaiKhoan",
+        element: <TaiKhoanEdit/>
       }
 		]
 	},
