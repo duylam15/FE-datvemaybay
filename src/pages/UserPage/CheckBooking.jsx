@@ -132,13 +132,15 @@ const API_URL = 'http://localhost:8080';
 
 const BookingCard = ({ booking }) => {
   return (
-    <div className="booking-card">
+    <div class="ticket-item">
       <h3>Thông tin đặt chỗ</h3>
+      <div className={`status ${booking.hoaDon.status}`}>{booking.hoaDon.status}</div>
+      <p>Hành khách: {booking.ve.hanhKhach.hoTen}</p>
+      <p>Giới tính: {booking.ve.hanhKhach.gioiTinhEnum}</p>
       <p>Chuyến bay: {booking.ve.chuyenBay.iataChuyenBay}</p>
       <p>Ngày bay: {booking.ve.chuyenBay.ngayBay}</p>
       <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauThucTe}</p>
       <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucThucTe}</p>
-      <p>Trạng thái: {booking.ve.trangThai}</p>
     </div>
   );
 };
@@ -200,13 +202,13 @@ const CheckBookingPage = () => {
   return (
     <div className="check-booking-page">
       <h1>Danh sách vé đã đặt</h1>
-      <div className="form-profile-customer">
+      {/* <div className="form-profile-customer">
         <div className="form-group-profile">
           <p className="user-info-hoten">{profile.data?.khachHang?.hoTen}</p>
           <p className="user-info-gioitinh">{profile.data?.khachHang?.gioiTinh}</p>
         </div>
-      </div>
-      <div className="booking-list">
+      </div> */}
+      <div class="ticket-list">
         {cthd.length > 0 ? (
           cthd.map((booking, index) => (
             <BookingCard key={index} booking={booking} />
