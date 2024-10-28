@@ -10,7 +10,7 @@ import { useFetchProfile } from "../../utils/useFetchProfile";
 
 const UsersPage = () => {
   const { profile, loading, error } = useFetchProfile(); // Sử dụng custom hook
-
+  
   return (
     <div className="users-page">
       <div className="container">

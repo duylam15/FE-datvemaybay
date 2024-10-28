@@ -44,8 +44,8 @@ const LoaiHoaDonList =({
                         <th scope="col" className='align-bottom' onClick={() => handleSort('tenLoaiHoaDon')}>
                             Tên loại hóa đơn {sortField === 'tenLoaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" className='align-bottom' onClick={() => handleSort('moTa')}>
-                            Mô tả {sortField === 'moTa' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+						<th scope="col" className='align-bottom'>
+                            Mô tả
                         </th>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
                             Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
