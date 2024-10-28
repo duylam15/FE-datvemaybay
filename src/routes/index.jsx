@@ -101,7 +101,8 @@ export const router = createBrowserRouter([
       // { path: 'customers', element: <KhachHangPage /> },
       // { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
       // { path: 'customer/add', element: <ThemKhachHang /> },
-      //Hang Hoa
+
+      //hanghoa
       { path: 'Merchandise', element: <MerchandiseTable /> },
 
       {
