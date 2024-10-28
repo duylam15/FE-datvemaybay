@@ -198,7 +198,7 @@ const AddComponent = (props) => {
   return (
     <>
 
-      <div className="container-all">
+      <div className="container-allnhanvien">
         <section className="container__nhanvien">
           <div className="container-infor">
             <h3>{nhanvien ? "Sửa" : "Thêm"} nhân viên</h3>
