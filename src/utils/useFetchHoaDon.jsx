@@ -12,8 +12,14 @@ export const useFetchHoaDon = () => {
             try {
                 const data = await getHoaDon();
                 setHoaDon(data);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                if (error.response && error.response.status === 204) {
+                    console.error("Error 404: Resource not found");
+                    // Xử lý lỗi 404
+                    setHoaDon([]);
+                } else {
+                    console.error("An error occurred:", error.message);
+                }
             } finally {
                 setLoading(false);
             }

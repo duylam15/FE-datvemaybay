@@ -12,8 +12,12 @@ export const useFetchLoaiHoaDon = () => {
             try {
                 const data = await getLoaiHoaDon();
                 setLoaiHoaDon(data);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                if (error.response && error.response.status === 204) {
+                    setLoaiHoaDon([]);
+                } else {
+                    console.error("An error occurred:", error.message);
+                }
             } finally {
                 setLoading(false);
             }
