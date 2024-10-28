@@ -98,7 +98,6 @@ export default function NhanVien() {
     <>
 
       <div className='main'>
-        <div className='sideBar'></div>
         <div className='containerMain'>
           {
             action == "main" && (

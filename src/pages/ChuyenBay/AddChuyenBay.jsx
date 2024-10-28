@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import LayOutThongBao from '../../layout/LayoutThongBao/layOutThongBao';
 import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../services/chuyenBayServices';
 import { dataCongBySanBay, getCongById } from '../../services/congServices';
 import { dataMayBay } from '../../services/mayBayServices';
@@ -7,7 +8,6 @@ import { dataNhanVien, editNhanVien } from '../../services/nhanVienServices';
 import { dataSanBay, dataSanBayById } from '../../services/sanBayService';
 import { dataTuyenBay } from '../../services/tuyenBayService';
 import './chuyenbay.css';
-
 export const AddChuyenBay = (props) => {
 
   const location = useLocation();
@@ -211,7 +211,9 @@ export const AddChuyenBay = (props) => {
         const mayBayChuaChon = mayBayTheoSanBayBatDau.filter((item) => !chuyenBays.find((item1) => item1.mayBay.idMayBay == item.idMayBay));
         const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
         const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
-        setMayBays([mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay]);
+        mayBay != undefined ? setMayBays([mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay]) : setMayBays([...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay]);
+        console.log("do dai may bay voi id san bay : " + sanBayBatDau)
+        console.log([...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay])
       })
   }, [sanBayBatDau])
 
@@ -357,10 +359,12 @@ export const AddChuyenBay = (props) => {
   }, [thoiGianBatDauThucTe])
 
   const cancle = () => {
-    const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
-    navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-    typeof props?.setAction === 'function' ? props.setAction("main") : console.log("khong the quay lai");
+    // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+    // const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
+    // navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
+    // typeof props?.setAction === 'function' ? props.setAction("main") : console.log("khong the quay lai");
+    setTypeDisplay("block");
+    setThongBao({ message: message.cancle, typeMessage: "question" });
   }
 
   const [nhanviens, setNhanViens] = useState([]);
@@ -448,6 +452,12 @@ export const AddChuyenBay = (props) => {
     const updatedDanhSach = [...danhSachTiepVien];
     updatedDanhSach.splice(index, 1, value);
     setDanhSachTiepVien(updatedDanhSach);
+    console.log('danh sach tiep vien da chon : ')
+    console.log(updatedDanhSach);
+    console.log("tieps vien hien tai")
+    console.log(tiepViens)
+    console.log("so sanh 2 danh sach")
+    console.log(tiepViens.filter((item) => !updatedDanhSach.find((item1) => item1 == item.idNhanVien)).length)
   }
 
   const handleCountTiepVien = () => {
@@ -522,7 +532,10 @@ export const AddChuyenBay = (props) => {
       hasError = true;
       setErrorTrangThai("Vui lòng chọn trạng thái cho chuyến bay");
     }
-
+    if (hasError) {
+      setTypeDisplay("block");
+      setThongBao({ message: message.errorField, typeMessage: "error" });
+    }
     return hasError;
   }
 
@@ -580,16 +593,14 @@ export const AddChuyenBay = (props) => {
                 })
             });
           }
-          const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-          const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
-          navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-          typeof props?.setAction == 'function' ? props.setAction("main") : console.log("khong the quay lai");
-
+          setTypeDisplay("block");
+          setThongBao({ message: message.sucessAdd, type: "answer" });
         }
       })
       .catch(error => {
         const errorData = error.response.data.data;
-        console.log("khong the tao chuyen bay")
+        setTypeDisplay("block");
+        setThongBao({ message: errorData.response.data.message, typeMessage: "error" });
       })
   }
 
@@ -611,7 +622,8 @@ export const AddChuyenBay = (props) => {
       if (selectedCoPhoCu) {
         selectedCoPhoCu.chuyenBay = null;
         editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu)
-          .then(() => {
+          .then((response) => {
+
           })
           .catch((err) => {
             console.log("khong the update nhan vien");
@@ -637,12 +649,8 @@ export const AddChuyenBay = (props) => {
       const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
-          console.log(response.data);
-          const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-          const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
-          navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-          typeof props?.setAction == 'function' ? props.setAction("main") : console.log("khong the quay lai");
-
+          setTypeDisplay("block");
+          setThongBao({ message: response.data.message, typeMessage: "answer" });
         })
         .catch((error) => {
           console.log("khong the sua chuyen bay")
@@ -661,12 +669,9 @@ export const AddChuyenBay = (props) => {
     delete tuyenBay.sanBayKetThuc;
     const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
-      .then(() => {
-        const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-        const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
-        navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-        typeof props?.setAction == 'function' ? props.setAction("main") : console.log("khong the quay lai");
-
+      .then((response) => {
+        setTypeDisplay("block");
+        setThongBao({ message: response.data.message, typeMessage: "answer" });
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -766,6 +771,19 @@ export const AddChuyenBay = (props) => {
     setErrorTrangThai("");
   }
 
+  /// bat tat layout thong bao va gui thong bao 
+  const [typeDisplay, setTypeDisplay] = useState('none'); /// display layout
+  const [thongBao, setThongBao] = useState({
+    message: "",
+    typeMessage: "" // "error" ,"answer" ,  "question"
+  });
+  const message = {
+    cancle: "Bạn có quay trở lại trang chính và ngưng việc đang làm ?",
+    sucessAdd: "Thêm thành công",
+    errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
+    sucessEdit: "Sửa thành công"
+  }
+
   return (
     <>
       <div className="container-all">
@@ -780,10 +798,13 @@ export const AddChuyenBay = (props) => {
                     <label> San bay bat dau </label>
                     <select name="" id="" onChange={handleSanBayBatDau} value={sanBayBatDau}>
                       {
-                        sanBayBatDau == 0 && <option value="0">Chon San Bay</option>
+                        sanBay.filter((item) => item.idSanBay != sanBayKetThuc).length != 0 && <option value="0">Chon San Bay</option>
                       }
                       {
-                        (sanBay || []).filter((item) => item.idSanBay != sanBayKetThuc)
+                        sanBay.filter((item) => item.idSanBay == sanBayKetThuc).length != 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
+                      }
+                      {
+                        sanBay.filter((item) => item.idSanBay != sanBayKetThuc)
                           .map((item) => (
                             <option value={item.idSanBay}>{item.tenSanBay}</option>
                           ))
@@ -820,7 +841,8 @@ export const AddChuyenBay = (props) => {
                   <div className="form-input">
                     <label>Chọn cổng </label>
                     <select name="" id="" onChange={handleSelectCong} value={selectCong}>
-                      {selectCong == "0 " && (<option value="0">Chon Cong</option>)}
+                      {datacong.length != 0 && (<option value="0">Chon Cong</option>)}
+                      {datacong.length == 0 && (<option value="0">Không có sẵn cổng</option>)}
                       {
                         Array.isArray(datacong) && datacong?.map((item) => (
                           <option value={item.idCong}>{item.tenCong}</option>
@@ -837,7 +859,10 @@ export const AddChuyenBay = (props) => {
                     <label> San Bay Ket Thuc </label>
                     <select name="" id="" onChange={handleSanBayKetThuc} value={sanBayKetThuc} disabled={sanBayBatDau != 0 ? false : true}>
                       {
-                        sanBayKetThuc == 0 && <option value="0">Chon San Bay</option>
+                        sanBay?.filter((item) => item.idSanBay != sanBayBatDau).length != 0 && <option value="0">Chon San Bay</option>
+                      }
+                      {
+                        sanBay?.filter((item) => item.idSanBay != sanBayBatDau).length == 0 && <option value="0">Sân bay kết thúc không có sẵn</option>
                       }
                       {
                         sanBay?.filter((item) => item.idSanBay != sanBayBatDau)
@@ -896,7 +921,10 @@ export const AddChuyenBay = (props) => {
                   <label>Chọn  máy bay</label>
                   <select name="" id="" value={selectMayBay} onChange={handleMayBay}>
                     {
-                      selectMayBay == "0" && ((mayBays?.length > 0 && (<option value="0">{"Chọn máy bay"}</option>)) || ((mayBays?.length == 0 && (<option value="0">{"Máy bay không có sẵn"}</option>))))
+                      mayBays.length != 0 && (<option value="0">{"Chọn máy bay"}</option>)
+                    }
+                    {
+                      mayBays.length == 0 && (<option value="0">{"Máy bay không có sẵn"}</option>)
                     }
                     {
                       mayBays?.map((item) => (
@@ -1012,7 +1040,8 @@ export const AddChuyenBay = (props) => {
                   <div className="form-input">
                     <label htmlFor="">Chọn cơ trưởng :</label>
                     <select name="" id="" value={indexCoTruong} onChange={handleIndexCoTruong}>
-                      <option value="0">Chọn cơ trưởng</option>
+                      {coTruongs.length != 0 && (<option value="0">Chọn cơ trưởng</option>)}
+                      {coTruongs.length == 0 && (<option value="0">Cơ trưởng không có sẵn</option>)}
                       {
                         coTruongs?.map((item) => (
                           <option value={item?.idNhanVien}>{item?.hoTen}</option>
@@ -1026,7 +1055,8 @@ export const AddChuyenBay = (props) => {
                   <div className='form-input'>
                     <label htmlFor="">Chọn cơ phó :</label>
                     <select name="" id="" value={indexCoPho} onChange={handleIndexCoPho}>
-                      <option value="0">Chọn cơ phó</option>
+                      {coPhos.length != 0 && (<option value="0">Chọn cơ phó</option>)}
+                      {coPhos.length == 0 && (<option value="0">Cơ phó không có sẵn</option>)}
                       {
                         coPhos?.map((item) => (
                           <option value={item?.idNhanVien}>{item?.hoTen}</option>
@@ -1044,7 +1074,8 @@ export const AddChuyenBay = (props) => {
                       <div className="select-tiepvien form-input">
                         <label htmlFor="" key={index + 1}>Tiếp viên {index + 1}</label>
                         <select name="" id="" value={danhSachTiepVien?.length > 0 ? danhSachTiepVien[index] : '0'} onChange={(event) => handleIndexTiepVien(index, event.target.value)}>
-                          <option value="0">Chọn tiếp viên</option>
+                          {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length == 0 && (<option value="0">Tiếp viên không có sẵn</option>)}
+                          {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length != 0 && (<option value="0">Chọn tiếp viên</option>)}
                           {
                             tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index]) && (
                               <option value={danhSachTiepVien[index]}>{tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index])?.hoTen}</option>
@@ -1077,6 +1108,9 @@ export const AddChuyenBay = (props) => {
         <div className="container-ghichu">
           {"*{TGBDDT : Thời gian bắt đầu dự tính ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}
         </div>
+      </div>
+      <div style={{ display: typeDisplay }}>
+        <LayOutThongBao thongBao={thongBao} setTypeDisplay={setTypeDisplay} />
       </div>
     </>
   )
