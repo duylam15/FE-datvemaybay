@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import PaginationComponent from '../../components/PhanTrang/PaginationComponent';
-import TableComponent from '../../components/Table/TableComponent';
-import { dataSanBay } from '../../services/sanBayService';
-import { dataTuyenBay } from '../../services/tuyenBayService';
+import { useState } from 'react';
+import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
+import TableComponent from '../../../components/Table/TableComponent';
 
 export default function DanhSachCHuyenBay(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
-  const nhanviens = props.data;
+  const primaryData = props.data;
 
   // Tính tổng số trang
-  const totalPages = Math.ceil(nhanviens.length / itemsPerPage);
+  const totalPages = Math.ceil(primaryData.length / itemsPerPage);
 
   // Lấy dữ liệu cho trang hiện tại
-  const currentData = nhanviens.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const currentData = primaryData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+
 
   const columns = [
     'Stt',
@@ -47,6 +47,7 @@ export default function DanhSachCHuyenBay(props) {
       <TableComponent
         columns={columns}
         dataKeys={dataKeys}
+        primaryData={primaryData}
         data={currentData}
         editLink={editLink}
         setData={props.setData}

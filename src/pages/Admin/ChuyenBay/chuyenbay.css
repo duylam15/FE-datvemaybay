@@ -114,3 +114,54 @@
   height: 30px !important;
 }
 
+.filterChuyenBay{
+  display: flex;
+  column-gap: 20px;
+}
+
+.filterTrangThai{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.filterTrangThai select{
+  height: 50px !important;
+  width: 140px !important;
+}
+
+.filterThoiGianDi{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+  column-gap: 20px;
+}
+
+.filterThoiGianDi label{
+  width: 145px !important;
+}
+
+.filterThoiGianDi div {
+  width: 250px !important;
+}
+
+.thoiGian label{
+  position: absolute !important;
+  top : 30px
+}
+
+.btnThem{
+  height: 40px !important;
+}
+
+.custom-form-input{
+  display: flex !important;;
+}
+
+.custom-form-input input{
+  width: 93px !important;
+}
+.custom-form-input label{
+  width: 110px !important;
+}

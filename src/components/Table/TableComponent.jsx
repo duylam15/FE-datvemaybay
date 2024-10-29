@@ -1,11 +1,33 @@
 // TableComponent.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { dataChuyenBaySorted } from '../../services/chuyenBayServices';
 import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
 
 const TableComponent = (props) => {
+  const navigator = useNavigate();
+
+  function getValue(obj, field) {
+    return field.split('.').reduce((o, key) => (o ? o[key] : undefined), obj);
+  }
+
+  // Hàm sắp xếp
+  function sortFlights(flights, field, order = 'asc') {
+    return flights.sort((a, b) => {
+      const valueA = getValue(a, field);
+      const valueB = getValue(b, field);
+
+      if (typeof valueA === 'string') {
+        return order === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      if (valueA < valueB) return order === 'asc' ? -1 : 1;
+      if (valueA > valueB) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
 
   function xuLiDuLieu(obj, key) {
 
@@ -49,10 +71,11 @@ const TableComponent = (props) => {
           })
         break;
       case "idChuyenBay":
-        dataChuyenBaySorted(sortField, sortOrder)
-          .then((response) => {
-            props.setData(response.data.data);
-          })
+        const data = props.primaryData;
+        const sortedFlight = sortFlights(data, sortField, sortOrder);
+        props.setData(sortedFlight);
+        const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+        navigator(currentPath, { replace: true })
         break;
       default:
         break;
@@ -72,20 +95,12 @@ const TableComponent = (props) => {
 
     console.log(nameSortField + ":" + sortOrder);
   }
-  const navigator = useNavigate();
-  const editEmployy = (id) => {
+  const edit = (id) => {
     const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
     const newPath = `${currentPath}/edit/?id=${id}`; // Thêm đoạn mới vào
     navigator(newPath, { replace: true })
-    props.setAction("editEmployee");
   }
 
-  const editChuyenBay = (id) => {
-    const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    const newPath = `${currentPath}/edit/?id=${id}`; // Thêm đoạn mới vào
-    navigator(newPath, { replace: true })
-    props.setAction("editChuyenBay");
-  }
 
   return (
     <table>
@@ -106,13 +121,8 @@ const TableComponent = (props) => {
                 {xuLiDuLieu(item, key1)}
               </td>
             ))}
-            {props.page == "nhanvien" && (
-              <td onClick={() => editEmployy(item[props.dataKeys[0]])}>
-                <button className='btn'>Sửa</button>
-              </td>
-            )}
-            {props.page == "chuyenbay" && (
-              <td onClick={() => editChuyenBay(item[props.dataKeys[0]])}>
+            {(
+              <td onClick={() => edit(item[props.dataKeys[0]])}>
                 <button className='btn'>Sửa</button>
               </td>
             )}

@@ -26,9 +26,11 @@
 }
 
 .containerMain ul {
-  width: 1140px;
+  width: 1120px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px !important;
 }
 
 .btn {

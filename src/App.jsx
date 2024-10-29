@@ -1,18 +1,16 @@
 // App.jsx
-import React, { useEffect, useState } from 'react';
-import { router } from './routes';
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigate,
-} from "react-router-dom";
-import "./assets/css/reset.css"
-import "./assets/css/font.css"
-import "./assets/css/styles.css"
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { callInfoUser } from './services/authServeices';
-import { doGetAccountAction } from './redux/account/accountSlice';
+import {
+  RouterProvider
+} from "react-router-dom";
+import "./assets/css/font.css";
+import "./assets/css/reset.css";
+import "./assets/css/styles.css";
 import Loading from './components/Loading';
+import { doGetAccountAction } from './redux/account/accountSlice';
+import { router } from './routes';
+import { callInfoUser } from './services/authServeices';
 
 function App() {
   const dispatch = useDispatch(); // Khởi tạo hook dispatch để gửi các action đến Redux store
@@ -40,19 +38,19 @@ function App() {
 
   return (
     <div>
-      {
-        isLoading === false
-          || window.location.pathname === '/login'
-          || window.location.pathname === '/register'
-          || window.location.pathname === '/'
-          || window.location.pathname === '/forgot_password'
-          || window.location.pathname === '/reset_password'
-          ?
-          <RouterProvider router={router} />
-          :
-          <>
-            <Loading />
-          </>
+      {1
+        // isLoading === false
+        //   || window.location.pathname === '/login'
+        //   || window.location.pathname === '/register'
+        //   || window.location.pathname === '/'
+        //   || window.location.pathname === '/forgot_password'
+        //   || window.location.pathname === '/reset_password'
+        ?
+        <RouterProvider router={router} />
+        :
+        <>
+          <Loading />
+        </>
       }
     </div>
   );

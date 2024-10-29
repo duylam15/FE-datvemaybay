@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { dataChucVu } from "../../services/chucVuServices";
-import { addNhanVien, editNhanVien } from "../../services/nhanVienServices";
-import useEffectDataNhanVienByID from "../../utils/useEffectDataNhanVienByID";
+import LayOutThongBao from "../../../layout/LayoutThongBao/layOutThongBao";
+import { dataChucVu } from "../../../services/chucVuServices";
+import { addNhanVien, editNhanVien } from "../../../services/nhanVienServices";
+import useEffectDataNhanVienByID from "../../../utils/useEffectDataNhanVienByID";
 import "./NhanVien.css";
 
 const AddComponent = (props) => {
@@ -153,15 +154,19 @@ const AddComponent = (props) => {
     const nhanvien = { hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
     addNhanVien(nhanvien)
       .then(() => {
-        const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-        const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
-        navigator(`${newPath}/nhanvien`, { replace: true })
-        props.setAction("main");
+        // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+        // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
+        // navigator(`${newPath}/nhanvien`, { replace: true })
+        // props.setAction("main");
+        setTypeDisplay("block");
+        setThongBao({ message: message.sucessAdd, typeMessage: 'answer' });
       })
       .catch(error => {
         console.log(error.response.data);
         const errorData = error.response.data.data;
         setErrorData(errorData);
+        setTypeDisplay("block");
+        setThongBao({ message: message.errorField, typeMessage: 'error' });
       });
     console.log(nhanvien);
   }
@@ -171,33 +176,49 @@ const AddComponent = (props) => {
     let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
     const nhanvien = { idNhanVien, hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
     editNhanVien(idNhanVien, nhanvien).then(() => {
-      const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-      const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
-      navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-      props.setAction("main");
+      // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+      // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
+      // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
+      // props.setAction("main");
+      setTypeDisplay("block");
+      setThongBao({ message: message.sucessEdit, typeMessage: "answer" });
     })
       .catch(error => {
         console.log(error.response?.data);
         const errorData = error.response.data.data;
         setErrorData(errorData);
+        setTypeDisplay("block");
+        setThongBao({ message: message.errorField, typeMessage: "error" });
       });
 
     console.log(nhanvien);
   }
 
   const cancle = () => {
-    const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
-    navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-    props.setAction("main");
+    // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+    // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
+    // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
+    // props.setAction("main");
+    setTypeDisplay("block");
+    setThongBao({ message: message.cancle, typeMessage: 'question' });
   }
 
 
-
+  /// bat tat layout thong bao va gui thong bao 
+  const [typeDisplay, setTypeDisplay] = useState('none'); /// display layout
+  const [thongBao, setThongBao] = useState({
+    message: "",
+    typeMessage: "" // "error" ,"answer" ,  "question"
+  });
+  const message = {
+    cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idNhanVien ? "sửa nhân viên" : "thêm nhân viên"),
+    sucessAdd: "Thêm thành công",
+    errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
+    sucessEdit: "Sửa thành công"
+  }
 
   return (
     <>
-
       <div className="container-allnhanvien">
         <section className="container__nhanvien">
           <div className="container-infor">
@@ -288,6 +309,9 @@ const AddComponent = (props) => {
             <button className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
           </div>
         </section>
+      </div>
+      <div style={{ display: typeDisplay }}>
+        <LayOutThongBao thongBao={thongBao} setTypeDisplay={setTypeDisplay} />
       </div>
     </>
   )

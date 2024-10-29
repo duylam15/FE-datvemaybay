@@ -12,3 +12,5 @@ export const addChuyenbay = (ChuyenBay) => axios.post(`${REST_API_BASE_URL}/addc
 export const getChuyenBayById = (idChuyenBay) => axios.get(`${REST_API_BASE_URL}/getchuyenbaybyid/${idChuyenBay}`);
 
 export const updateChuyenBay = (idChuyenBay, chuyenBay) => axios.put(`${REST_API_BASE_URL}/updatechuyenbay/${idChuyenBay}`, chuyenBay);
+
+export const filterChuyenBay = (trangThai, thoiGianBatDau, thoiGianKetThuc) => axios.get(`${REST_API_BASE_URL}/filter?trangThai=${trangThai}&thoiGianBatDau=${thoiGianBatDau}&thoiGianKetThuc=${thoiGianKetThuc}`)

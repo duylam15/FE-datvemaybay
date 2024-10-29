@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import LayOutThongBao from '../../layout/LayoutThongBao/layOutThongBao';
-import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../services/chuyenBayServices';
-import { dataCongBySanBay, getCongById } from '../../services/congServices';
-import { dataMayBay } from '../../services/mayBayServices';
-import { dataNhanVien, editNhanVien } from '../../services/nhanVienServices';
-import { dataSanBay, dataSanBayById } from '../../services/sanBayService';
-import { dataTuyenBay } from '../../services/tuyenBayService';
+import LayOutThongBao from '../../../layout/LayoutThongBao/layOutThongBao';
+import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../../services/chuyenBayServices';
+import { dataCongBySanBay, getCongById } from '../../../services/congServices';
+import { dataMayBay } from '../../../services/mayBayServices';
+import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
+import { dataSanBay, dataSanBayById } from '../../../services/sanBayService';
+import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
-export const AddChuyenBay = (props) => {
+export const AddChuyenBay = () => {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -60,7 +60,6 @@ export const AddChuyenBay = (props) => {
         setTuyenBays(response.data.data);
       })
     setLoadData(1);
-    console.log(props)
   }, [])
 
   useEffect(() => {
@@ -148,6 +147,28 @@ export const AddChuyenBay = (props) => {
   const handleDelay = (e) => {
     setDelay(e.target.value);
   }
+  const [newDelay, setNewDelay] = useState(0);
+  const AddTimeDelay = (e) => {
+    setNewDelay(e.target.value)
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      const increment = Number(newDelay); // Chuyển đổi giá trị thành số
+      if (!isNaN(increment)) { // Kiểm tra nếu giá trị hợp lệ
+        if (delay + increment < 0) {
+          setErrorDelay("Thời gian delay phải dương");
+          return;
+        }
+        setDelay(delay + increment); // Tăng giá trị delay
+        setNewDelay(""); // Xóa giá trị trong ô input mới
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log(delay)
+  }, [delay])
 
   const [increaseDelay, setIncreaseDelay] = useState(0);
   const handleIncreaseDelay = (e) => {
@@ -155,7 +176,35 @@ export const AddChuyenBay = (props) => {
   }
 
   const handleTrangThai = (e) => {
-    setTrangThai(e.target.value);
+    if (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCLED")
+      return;
+    const currentTime = new Date();
+    const timeStartReal = new Date(thoiGianBatDauThucTe);
+    const timeEndReal = new Date(thoiGianKetThucThucTe);
+    const timeStartWish = new Date(thoiGianBatDauDuTinh);
+    console.log("time real :" + timeStartReal.getTime());
+    console.log("time wwish :" + timeStartWish.getTime());
+    console.log("time curren : " + currentTime.getTime());
+    console.log(e.target.value);
+    let trangThaiMoi = "";
+    if (timeStartReal.getTime() > currentTime.getTime() && e.target.value == "CANCELED")
+      trangThaiMoi = e.target.value;
+    if (timeStartWish.getTime() == timeStartReal.getTime() && e.target.value == "SCHEDULED") {
+      trangThaiMoi = e.target.value;
+    }
+    if (timeStartReal.getTime() != timeStartWish.getTime() && e.target.value == "DELAYED") {
+      trangThaiMoi = e.target.value;
+    }
+    if (currentTime.getTime() >= timeStartReal.getTime() && currentTime.getTime() <= timeEndReal.getTime() && e.target.value == "IN_FLIGHT")
+      trangThaiMoi = e.target.value;
+    if (timeEndReal.getTime() <= currentTime.getTime() && e.target.value == "COMPLETED")
+      trangThaiMoi = e.target.value;
+    if (trangThaiMoi != "")
+      setTrangThai(trangThaiMoi);
+    else {
+      setThongBao({ message: "Không thể đổi trạng thái", typeMessage: "inpage" });
+      setTypeDisplay("block");
+    }
   }
 
   const handleTrangThaiActive = (e) => {
@@ -312,6 +361,7 @@ export const AddChuyenBay = (props) => {
     const endDateTimeForDelay = new Date(endDateTime.getTime() + delayInMilliseconds);
     setThoiGianKetThucDuTinh(formatDateTime(endDateTime));
     setThoiGianKetThucThucTe(formatDateTime(endDateTimeForDelay));
+    console.log("thoi gian bat dau thuc te : " + formatDateTime(startDateTimeForDelay));
   }, [thoiGianBatDauDuTinh, tuyenBay, delay])
 
   // xac dinh icao cho chuyen bay,iata cho chuyến bay
@@ -359,12 +409,8 @@ export const AddChuyenBay = (props) => {
   }, [thoiGianBatDauThucTe])
 
   const cancle = () => {
-    // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    // const newPath = currentPath.split("/chuyenbay")[0]; // Thêm đoạn mới vào
-    // navigator(`${newPath}/chuyenbay`, { replace: true }); // Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-    // typeof props?.setAction === 'function' ? props.setAction("main") : console.log("khong the quay lai");
     setTypeDisplay("block");
-    setThongBao({ message: message.cancle, typeMessage: "question" });
+    setThongBao({ message: message.cancle, typeMessage: "outpage" });
   }
 
   const [nhanviens, setNhanViens] = useState([]);
@@ -452,12 +498,6 @@ export const AddChuyenBay = (props) => {
     const updatedDanhSach = [...danhSachTiepVien];
     updatedDanhSach.splice(index, 1, value);
     setDanhSachTiepVien(updatedDanhSach);
-    console.log('danh sach tiep vien da chon : ')
-    console.log(updatedDanhSach);
-    console.log("tieps vien hien tai")
-    console.log(tiepViens)
-    console.log("so sanh 2 danh sach")
-    console.log(tiepViens.filter((item) => !updatedDanhSach.find((item1) => item1 == item.idNhanVien)).length)
   }
 
   const handleCountTiepVien = () => {
@@ -532,10 +572,15 @@ export const AddChuyenBay = (props) => {
       hasError = true;
       setErrorTrangThai("Vui lòng chọn trạng thái cho chuyến bay");
     }
+    if (delay < 0) {
+      hasError = true;
+      setErrorDelay("Thời gian delay phải >= 0");
+    }
     if (hasError) {
       setTypeDisplay("block");
-      setThongBao({ message: message.errorField, typeMessage: "error" });
+      setThongBao({ message: message.errorField, typeMessage: "inpage" });
     }
+
     return hasError;
   }
 
@@ -594,13 +639,13 @@ export const AddChuyenBay = (props) => {
             });
           }
           setTypeDisplay("block");
-          setThongBao({ message: message.sucessAdd, type: "answer" });
+          setThongBao({ message: message.sucessAdd, type: "outpagengay" });
         }
       })
       .catch(error => {
         const errorData = error.response.data.data;
         setTypeDisplay("block");
-        setThongBao({ message: errorData.response.data.message, typeMessage: "error" });
+        setThongBao({ message: errorData.response.data.message, typeMessage: "inpage" });
       })
   }
 
@@ -650,7 +695,7 @@ export const AddChuyenBay = (props) => {
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
           setTypeDisplay("block");
-          setThongBao({ message: response.data.message, typeMessage: "answer" });
+          setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
         })
         .catch((error) => {
           console.log("khong the sua chuyen bay")
@@ -671,7 +716,7 @@ export const AddChuyenBay = (props) => {
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
         setTypeDisplay("block");
-        setThongBao({ message: response.data.message, typeMessage: "answer" });
+        setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -772,13 +817,13 @@ export const AddChuyenBay = (props) => {
   }
 
   /// bat tat layout thong bao va gui thong bao 
-  const [typeDisplay, setTypeDisplay] = useState('none'); /// display layout
+  const [typeDisplay, setTypeDisplay] = useState('none'); /// on layout == 'block //off layout  =='none'
   const [thongBao, setThongBao] = useState({
     message: "",
     typeMessage: "" // "error" ,"answer" ,  "question"
   });
   const message = {
-    cancle: "Bạn có quay trở lại trang chính và ngưng việc đang làm ?",
+    cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idChuyenBay ? "sửa chuyến bay" : "thêm chuyến bay"),
     sucessAdd: "Thêm thành công",
     errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
     sucessEdit: "Sửa thành công"
@@ -798,13 +843,13 @@ export const AddChuyenBay = (props) => {
                     <label> San bay bat dau </label>
                     <select name="" id="" onChange={handleSanBayBatDau} value={sanBayBatDau}>
                       {
-                        sanBay.filter((item) => item.idSanBay != sanBayKetThuc).length != 0 && <option value="0">Chon San Bay</option>
+                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc).length != 0 && <option value="0">Chon San Bay</option>
                       }
                       {
-                        sanBay.filter((item) => item.idSanBay == sanBayKetThuc).length != 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
+                        sanBay?.filter((item) => item.idSanBay == sanBayKetThuc).length != 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
                       }
                       {
-                        sanBay.filter((item) => item.idSanBay != sanBayKetThuc)
+                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc)
                           .map((item) => (
                             <option value={item.idSanBay}>{item.tenSanBay}</option>
                           ))
@@ -1000,9 +1045,11 @@ export const AddChuyenBay = (props) => {
                 </div>
               </div>
               <div className='container__input'>
-                <div className="form-input">
+                <div className="custom-form-input">
                   <label htmlFor="">delay{"(Phút)"}:</label>
-                  <input type="number" name="" id="" onChange={handleDelay} value={delay} min={0} />
+                  <input type="number" name="" id="" onChange={handleDelay} value={delay} min={0} disabled={true} />
+                  <div style={{ fontSize: "24px" }}>+</div>
+                  <input type="number" value={newDelay} onChange={AddTimeDelay} onKeyDown={handleKeyDown} disabled={idChuyenBay ? false : true} />
                 </div>
                 <span>{errorDelay}</span>
               </div>

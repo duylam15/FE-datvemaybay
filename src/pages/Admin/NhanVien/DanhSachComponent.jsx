@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PaginationComponent from '../../components/PhanTrang/PaginationComponent';
-import TableComponent from '../../components/Table/TableComponent';
+import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
+import TableComponent from '../../../components/Table/TableComponent';
 
 export default function DanhSachComponent(props) {
   const [currentPage, setCurrentPage] = useState(1);

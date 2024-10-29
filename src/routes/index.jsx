@@ -2,8 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import LayoutAdmin from '../layout/LayoutAdmin';
 import LayoutDefault from '../layout/LayoutDefault';
 
-import { ChuyenBay } from "../pages/ChuyenBay";
-import { AddChuyenBay } from "../pages/ChuyenBay/AddChuyenBay";
+import { ChuyenBay } from "../pages/Admin/ChuyenBay";
+import { AddChuyenBay } from "../pages/Admin/ChuyenBay/AddChuyenBay";
 import Error from '../pages/Error';
 import Home from '../pages/Home';
 
@@ -28,6 +28,8 @@ import AddMayBayForm from '../pages/admin/MayBay/ThemMayBay';
 import AddMerchandise from '../pages/admin/Merchandise/MerchandiseAddForm';
 import EditMerchandise from '../pages/admin/Merchandise/MerchandiseEditForm';
 import MerchandiseTable from '../pages/Admin/Merchandise/MerchandiseTable';
+import NhanVien from "../pages/Admin/NhanVien";
+import AddComponent from "../pages/Admin/NhanVien/AddComponent";
 import PhuongThucTTPage from "../pages/admin/PhuongThucThanhToan";
 import PhuongThucThanhToanAdd from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanAdd";
 import PhuongThucThanhToanEdit from "../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanEdit";
@@ -37,8 +39,6 @@ import SanBayEdit from "../pages/admin/SanBay/SanBayEdit";
 import ThemSanBay from "../pages/admin/SanBay/ThemSanBay";
 import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
-import NhanVien from "../pages/NhanVien";
-import AddComponent from "../pages/NhanVien/AddComponent";
 import Post from '../pages/Post';
 import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';

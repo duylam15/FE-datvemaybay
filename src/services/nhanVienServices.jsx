@@ -30,3 +30,5 @@ export const getNhanVienByCCCD = (cccd) => axios.get(`${REST_API_BASE_URL}/getnh
 export const getNhanVienByEmail = (email) => axios.get(`${REST_API_BASE_URL}/getnhanvienbyemail?email=${email}`, email);
 
 export const getNhanVienBySDT = (sdt) => axios.get(`${REST_API_BASE_URL}/getnhanvienbysodienthoai?sdt=${sdt}`, sdt);
+
+export const filterNhanVien = (hoTen, email, sodienThoai, cccd, chucVuId) => axios.get(`${REST_API_BASE_URL}/filter?hoTen=${hoTen}&email=${email}&soDienThoai=${sodienThoai}&cccd=${cccd}&chucVuId=${chucVuId}`);
