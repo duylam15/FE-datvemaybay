@@ -1,0 +1,125 @@
+.container-popup {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+
+  .flight-popup {
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    color: #344054;
+
+    .header {
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      span {
+        font-size: 32px;
+        color: #00305b;
+      }
+    }
+
+    .content {
+      margin-top: 10px;
+    }
+
+    .header-content {
+      p {
+        line-height: 25px;
+        font-size: 17px;
+      }
+
+      .time-info {
+        font-weight: 600;
+        color: #344054;
+      }
+    }
+
+    .info-flight {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      gap: 10px;
+
+      .info-left {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .info-center {
+        .timeline {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+
+          .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00558f;
+            border-radius: 50%;
+          }
+
+          .line {
+            width: 2px;
+            height: 30px;
+            background-color: #00558f;
+          }
+        }
+      }
+
+      .info-right {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .location {
+          .time {
+            color: #64af53;
+            font-weight: bold;
+            font-size: 15px;
+          }
+          .airport {
+            font-size: 17px;
+          }
+          .gate {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .close-btn {
+      background-color: white;
+      border: 2px solid #d0d5dd;
+      color: #548a48;
+      border-radius: 5px;
+      padding: 5px 15px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: 25px;
+    }
+  }
+
+  p {
+    font-size: 15px;
+
+    span {
+      font-weight: 600;
+    }
+  }
+}
