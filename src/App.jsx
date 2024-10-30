@@ -44,6 +44,7 @@ function App() {
         isLoading === false
           || window.location.pathname === '/login'
           || window.location.pathname === '/register'
+          || window.location.pathname === '/flightDetails'
           || window.location.pathname === '/'
           ?
           <RouterProvider router={router} />

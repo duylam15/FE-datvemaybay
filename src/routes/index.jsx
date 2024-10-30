@@ -6,9 +6,9 @@ import Home from '../pages/Home';
 
 import Error from '../pages/Error';
 import Post from '../pages/Post';
-import FlightResults from "../pages/Flight/FlightResults";
-import FlightDetails from "../pages/Flight/FlightDetails";
-import Checkout from "../pages/Flight/Checkout";
+import FlightDetails from "../pages/FlightBooking";
+import FlightResults from "../pages/FlightResult";
+import Checkout from "../pages/FlightBooking/Checkout";
 import ProtectedRoute from '../components/ProtectedRoute';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
