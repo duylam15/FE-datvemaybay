@@ -20,9 +20,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 25px;
 
       span {
-        font-size: 32px;
+        font-size: 25px;
         color: #00305b;
       }
     }
@@ -45,6 +46,7 @@
 
     .info-flight {
       display: flex;
+      justify-content: center;
       align-items: center;
       margin-top: 10px;
       gap: 10px;
@@ -70,7 +72,7 @@
 
           .line {
             width: 2px;
-            height: 30px;
+            height: 150px;
             background-color: #00558f;
           }
         }
@@ -95,6 +97,11 @@
           }
         }
       }
+    }
+
+    .info-footer {
+      margin-left: 122px;
+      margin-top: 8px;
     }
 
     .button {

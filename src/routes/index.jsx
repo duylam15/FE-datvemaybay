@@ -45,7 +45,7 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
-// import FlightPopup from '../pages/Flight/FlightPopup';
+import FlightPopup from '../pages/Flight/FlightPopup';
 
 export const router = createBrowserRouter([
   {
@@ -71,10 +71,10 @@ export const router = createBrowserRouter([
         element: <FlightResults />,
       },
 
-      //   {
-      //     path: 'flightPopup',
-      //     element: <FlightPopup />,
-      //   },
+      {
+        path: 'flightPopup',
+        element: <FlightPopup />,
+      },
     ],
   },
 

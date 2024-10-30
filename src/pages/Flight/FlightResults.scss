@@ -3,6 +3,7 @@
   --secondary-color: #004777;
   --white: #ffffff;
   --text-color: #344054;
+  --third-color: #dc362e;
 }
 
 .container {
@@ -13,46 +14,53 @@
   .card-ticket {
     position: relative;
 
-    .remaining-seats {
-      position: absolute;
-      font-size: 15px;
-      border-radius: 4px 4px 0 0;
-      color: var(--white);
-      border: none;
-    }
+    .seat-empty {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 1px;
 
-    .seat-green{
-      top: -17px;
-      right: 228px;
-      background: var(--primary-color);
-    }
+      .remaining-seats {
+        position: absolute;
+        font-size: 15px;
+        border-radius: 4px 4px 0 0;
+        color: var(--white);
+        border: none;
+        top: 33px;
+        padding: 3px 6px;
+      }
 
-    .seat-blue{
-      top: -17px;
-      right: 118px;
-      background: var(--secondary-color);
-    }
-    .seat-grey{
-      top: -17px;
-      right: 11px;
-      background: #667085;
+      .seat-green {
+        right: 276px;
+        background: var(--primary-color);
+      }
+
+      .seat-blue {
+        right: 146px;
+        background: var(--secondary-color);
+      }
+      .seat-red {
+        right: 11px;
+        background: var(--third-color);
+      }
     }
 
     .flight-results {
-      padding: 40px 0 42px;
+      padding: 40px 0 20px;
       background-color: var(--white);
       text-align: center;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
-      margin-top: 30px;
+      margin-top: 50px;
+      position: relative;
 
       .flight-info {
         display: flex;
-        gap: 15px;
 
         .card-flight-right {
           display: flex;
-          margin: 0 8px 0 15px;
+          margin-left: 15px;
+          margin-right: 400px;
 
           .flight-detail {
             display: flex;
@@ -63,17 +71,22 @@
             border-right: 1px solid rgba(128, 128, 128, 0.5);
 
             .time {
-              
               font-size: 20px;
-              text-align: right;
+              text-align: left;
+              width: max-content;
             }
+
             .airport {
               font-size: 17px;
               line-height: 25px;
+              width: max-content;
+              text-align: left;
             }
+
             .status {
               font-size: 15px;
             }
+
             .gate-info {
               display: flex;
               font-size: 15px;
@@ -89,410 +102,533 @@
 
             p {
               margin: 0;
-              margin-bottom: 5px;
+              line-height: 25px;
               color: var(--text-color);
               font-size: 15px;
+              width: max-content;
             }
 
             .details-link {
               color: var(--primary-color);
               font-size: 15px;
               padding: 0 20px;
+              border: none;
+              background-color: var(--white);
               text-decoration: underline;
+              outline: none;
             }
           }
         }
       }
-   
 
+      .card-flight-left {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        gap: 1px;
+        position: absolute;
+        top: 0;
+        right: 0;
 
-  .card-flight-left{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns, equal width */
-    grid-template-rows: auto; /* auto adjusts the rows based on content */
-    gap: 1px;
-      
-      button{
+        button {
           color: var(--white);
           border: none;
           margin-left: 1px;
           position: relative;
           height: 171px;
           padding: 20px;
-          // position: absolute;
+          width: -webkit-fill-available;
+          align-items: center;
+
           cursor: pointer;
           background-color: grey;
-          
-          .title{
-              line-height: 36px;
-              font-weight: 600;
+          outline: none;
+
+          .title {
+            line-height: 36px;
+            font-weight: 600;
           }
 
-          span{
-              font-size: 20px;
+          span {
+            font-size: 20px;
 
-              .imgtop{
-                  position: absolute;
-                  top: 4px;
-                  right: 3px;
-                  width: 25px;
+            .imgtop {
+              position: absolute;
+              top: 4px;
+              right: 3px;
+              width: 25px;
+            }
+
+            .flight-price-section {
+              .imgbottom {
+                position: absolute;
+                bottom: 7px;
+                right: 62px;
+                height: 18px;
+                width: 15px;
               }
-
-              .flight-price-section{
-                  .imgbottom{
-                      position: absolute;
-                      bottom: 7px;
-                      right: 62px;
-                      height: 18px;
-                      width: 15px;
-                  
-                  }
-              }
-
+            }
           }
 
-          p{
-              font-size: 26px;
-              font-weight: 500;
+          p {
+            font-size: 26px;
+            font-weight: 500;
           }
-      }
+        }
 
-      .btn-green{
+        .btn-green {
           background-color: var(--primary-color);
-          top: 0;
-          right: 138px;
 
-          &:hover{
+          &:hover {
             background-color: #487f3d;
           }
+        }
 
-          
-      }
-
-      .btn-blue{
+        .btn-blue {
           background-color: var(--secondary-color);
-          top: 0;
-          right: 0;
-          border-radius: 0 10px 10px 0 ;
 
-          &:hover{
+          &:hover {
             background-color: #004472;
           }
+        }
+
+        .btn-red {
+          background-color: var(--third-color);
+          border-radius: 0 10px 10px 0;
+
+          &:hover {
+            background-color: #b51f17;
+          }
+        }
       }
 
-  }
+      .ticket-selection.ticket-green {
+        padding: 20px;
+        background-color: var(--white);
+        text-align: center;
 
-    .ticket-selection.ticket-green {
-      padding: 20px;
-      background-color: var(--white);
-      text-align: center;
-      
-     
+        h2 {
+          margin-bottom: 10px;
+          font-size: 22px;
+          margin-top: 40px;
+        }
 
-      h2 {
-        margin-bottom: 10px;
-        font-size: 22px;
-        margin-top: 40px;
-      }
+        p {
+          margin-bottom: 17px;
+          font-size: 17px;
+        }
 
-      p {
-        margin-bottom: 17px;
-        font-size: 17px;
-        
-      }
+        .ticket-options {
+          display: flex;
+          gap: 30px;
+          justify-content: center;
+          padding: 20px 0;
 
-      .ticket-options {
-        display: flex;
-        gap: 30px;
-        justify-content: center;
-        padding: 20px 0;
+          .ticket {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: box-shadow 0.3s, background-color 0.3s,
+              border-color 0.3s;
 
-        .ticket {
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
-          transition: box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
+            // &:hover {
+            //   border: 7px solid var(--primary-color);
+            // }
 
-          // &:hover {
-          //   border: 7px solid var(--primary-color);
-          // }
-
-          &.selected { 
+            &.selected {
               border: 3px solid var(--primary-color);
-            .top-ticket {
-              background-color: var(--primary-color); 
-              color: var(--white); 
-              input[type='radio']{
-                background-color: var(--primary-color); 
-                border-color: var(--white); 
+              .top-ticket {
+                background-color: var(--primary-color);
+                color: var(--white);
+                input[type='radio'] {
+                  background-color: var(--primary-color);
+                  border-color: var(--white);
+                }
+                h3,
+                p {
+                  color: var(--white);
+                }
               }
-              h3, p {
-                color: var(--white); 
+
+              .bottom-ticket {
+                background-color: var(--white);
+                color: var(--text-color);
+                padding: 25px;
+              }
+            }
+
+            .top-ticket {
+              position: relative;
+              padding: 10px;
+              border: 2px solid transparent;
+              background-color: var(--white);
+              transition: background-color 0.3s, border-color 0.3s;
+              border-radius: 5px 5px 10% 10%; /* Bo cong cạnh dưới của hộp */
+              box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+              input[type='radio'] {
+                appearance: none;
+                width: 14px;
+                height: 14px;
+                border: 2px solid var(--primary-color);
+                background-color: var(--white);
+                border-radius: 50%;
+                outline: none;
+                cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s;
+              }
+
+              h3 {
+                font-size: 26px;
+                color: #28a745;
+                transition: color 0.3s;
+                font-weight: 500;
+              }
+
+              p {
+                margin-bottom: 17px;
+                font-size: 17px;
+                color: #28a745;
+                transition: color 0.3s;
+                font-weight: 500;
               }
             }
 
             .bottom-ticket {
-              background-color: var(--white); 
-              color: var(--text-color); 
-              padding: 25px;
-             
-            }
-          }
-
-          .top-ticket {
-            position: relative;
-            padding: 10px;
-            border: 2px solid transparent;
-            background-color: var(--white);
-            transition: background-color 0.3s, border-color 0.3s;
-            border-radius: 5px 5px 10% 10%; /* Bo cong cạnh dưới của hộp */
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-
-            
-
-            input[type='radio'] {
-              appearance: none;
-              width: 14px;
-              height: 14px;
-              border: 2px solid var(--primary-color);
               background-color: var(--white);
-              border-radius: 50%;
-              outline: none;
-              cursor: pointer;
-              transition: background-color 0.3s, border-color 0.3s;
-
-              
-            }
-
-            h3 {
-              font-size: 26px;
-              color: #28a745; 
-              transition: color 0.3s;
-              font-weight: 500;
-            }
-
-            p {
-              margin-bottom: 17px;
-              font-size: 17px;
-              color: #28a745; 
-              transition: color 0.3s;
-              font-weight: 500;
-            }
-
-          }
-
-          .bottom-ticket {
-            background-color: var(--white);
-            text-align: left;
-            color: var(--text-color);
-          padding: 25px;
-          border-radius: 0 10px;
-
-            ul {
-              list-style: none;
-              padding: 0;
-
-              li {
-                margin-bottom: 5px;
-                font-size: 15px;
-                line-height: 22.5px;
-              }
-            }
-
-            .details-link {
-              margin-top: 10px;
-              color: var(--primary-color);
-              font-size: 15px;
               text-align: left;
-              cursor: pointer;
+              color: var(--text-color);
+              padding: 25px;
+              border-radius: 0 10px;
+
+              ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                  margin-bottom: 5px;
+                  font-size: 15px;
+                  line-height: 22.5px;
+                }
+              }
+
+              .details-link {
+                margin-top: 10px;
+                color: var(--primary-color);
+                font-size: 15px;
+                text-align: left;
+                cursor: pointer;
+              }
             }
           }
         }
-
-        
       }
 
-      
-    }
+      .ticket-selection.ticket-blue {
+        padding: 20px;
+        background-color: var(--white);
+        text-align: center;
 
-    .ticket-selection.ticket-blue {
-      padding: 20px;
-      background-color: var(--white);
-      text-align: center;
-      
+        h2 {
+          margin-bottom: 10px;
+          font-size: 22px;
+          margin-top: 40px;
+        }
 
-      h2 {
-        margin-bottom: 10px;
-        font-size: 22px;
-        margin-top: 40px;
-      }
+        p {
+          margin-bottom: 17px;
+          font-size: 17px;
+        }
 
-      p {
-        margin-bottom: 17px;
-        font-size: 17px;
-        
-      }
+        .ticket-options {
+          display: flex;
+          gap: 30px;
+          justify-content: center;
+          padding: 20px 0;
 
-      .ticket-options {
-        display: flex;
-        gap: 30px;
-        justify-content: center;
-        padding: 20px 0;
+          .ticket {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: box-shadow 0.3s, background-color 0.3s,
+              border-color 0.3s;
 
-        .ticket {
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
-          transition: box-shadow 0.3s, background-color 0.3s, border-color 0.3s;
+            // &:hover {
+            //   border: 7px solid var(--third-color);
+            // }
 
-          // &:hover {
-          //   border: 7px solid #00558f;
-          // }
-
-          &.selected { 
+            &.selected {
               border: 3px solid #00558f;
-            .top-ticket {
-              background-color: #00558f; 
-              color: var(--white); 
-              input[type='radio']{
-                background-color: #00558f; 
-                border-color: var(--white); 
+              .top-ticket {
+                background-color: #00558f;
+                color: var(--white);
+                input[type='radio'] {
+                  background-color: #00558f;
+                  border-color: var(--white);
+                }
+                h3,
+                p {
+                  color: var(--white);
+                }
               }
-              h3, p {
-                color: var(--white); 
+
+              .bottom-ticket {
+                background-color: var(--white);
+                color: var(--text-color);
+                padding: 25px;
+              }
+            }
+
+            .top-ticket {
+              position: relative;
+              padding: 10px;
+              border: 2px solid transparent;
+              background-color: var(--white);
+              transition: background-color 0.3s, border-color 0.3s;
+              border-radius: 5px 5px 10% 10%; /* Bo cong cạnh dưới của hộp */
+              box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+              input[type='radio'] {
+                appearance: none;
+                width: 14px;
+                height: 14px;
+                border: 2px solid #00558f;
+                background-color: var(--white);
+                border-radius: 50%;
+                outline: none;
+                cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s;
+              }
+
+              h3 {
+                font-size: 26px;
+                color: #00558f;
+                transition: color 0.3s;
+                font-weight: 500;
+              }
+
+              p {
+                margin-bottom: 17px;
+                font-size: 17px;
+                color: #00558f;
+                transition: color 0.3s;
+                font-weight: 500;
               }
             }
 
             .bottom-ticket {
-              background-color: var(--white); 
-              color: var(--text-color); 
-              padding: 25px;
-             
-            }
-          }
-
-          .top-ticket {
-            position: relative;
-            padding: 10px;
-            border: 2px solid transparent;
-            background-color: var(--white);
-            transition: background-color 0.3s, border-color 0.3s;
-            border-radius: 5px 5px 10% 10%; /* Bo cong cạnh dưới của hộp */
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
-
-            
-
-            input[type='radio'] {
-              appearance: none;
-              width: 14px;
-              height: 14px;
-              border: 2px solid #00558f;
               background-color: var(--white);
-              border-radius: 50%;
-              outline: none;
-              cursor: pointer;
-              transition: background-color 0.3s, border-color 0.3s;
-
-              
-            }
-
-            h3 {
-              font-size: 26px;
-              color: #00558f; 
-              transition: color 0.3s;
-              font-weight: 500;
-            }
-
-            p {
-              margin-bottom: 17px;
-              font-size: 17px;
-              color: #00558f; 
-              transition: color 0.3s;
-              font-weight: 500;
-            }
-
-          }
-
-          .bottom-ticket {
-            background-color: var(--white);
-            text-align: left;
-            color: var(--text-color);
-          padding: 25px;
-          border-radius: 0 10px;
-
-            ul {
-              list-style: none;
-              padding: 0;
-
-              li {
-                margin-bottom: 5px;
-                font-size: 15px;
-                line-height: 22.5px;
-              }
-            }
-
-            .details-link {
-              margin-top: 10px;
-              color: var(--primary-color);
-              font-size: 15px;
               text-align: left;
-              cursor: pointer;
+              color: var(--text-color);
+              padding: 25px;
+              border-radius: 0 10px;
+
+              ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                  margin-bottom: 5px;
+                  font-size: 15px;
+                  line-height: 22.5px;
+                }
+              }
+
+              .details-link {
+                margin-top: 10px;
+                color: var(--primary-color);
+                font-size: 15px;
+                text-align: left;
+                cursor: pointer;
+              }
             }
           }
         }
-
-        
       }
 
-      
+      .ticket-selection.ticket-red {
+        padding: 20px;
+        background-color: var(--white);
+        text-align: center;
+
+        h2 {
+          margin-bottom: 10px;
+          font-size: 22px;
+          margin-top: 40px;
+        }
+
+        p {
+          margin-bottom: 17px;
+          font-size: 17px;
+        }
+
+        .ticket-options {
+          display: flex;
+          gap: 30px;
+          justify-content: center;
+          padding: 20px 0;
+
+          .ticket {
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: box-shadow 0.3s, background-color 0.3s,
+              border-color 0.3s;
+
+            // &:hover {
+            //   border: 7px solid #00558f;
+            // }
+
+            &.selected {
+              border: 3px solid var(--third-color);
+              .top-ticket {
+                background-color: var(--third-color);
+                color: var(--white);
+                input[type='radio'] {
+                  background-color: var(--third-color);
+                  border-color: var(--white);
+                }
+                h3,
+                p {
+                  color: var(--white);
+                }
+              }
+
+              .bottom-ticket {
+                background-color: var(--white);
+                color: var(--text-color);
+                padding: 25px;
+              }
+            }
+
+            .top-ticket {
+              position: relative;
+              padding: 10px;
+              border: 2px solid transparent;
+              background-color: var(--white);
+              transition: background-color 0.3s, border-color 0.3s;
+              border-radius: 5px 5px 10% 10%; /* Bo cong cạnh dưới của hộp */
+              box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+
+              input[type='radio'] {
+                appearance: none;
+                width: 14px;
+                height: 14px;
+                border: 2px solid var(--third-color);
+                background-color: var(--white);
+                border-radius: 50%;
+                outline: none;
+                cursor: pointer;
+                transition: background-color 0.3s, border-color 0.3s;
+              }
+
+              h3 {
+                font-size: 26px;
+                color: var(--third-color);
+                transition: color 0.3s;
+                font-weight: 500;
+              }
+
+              p {
+                margin-bottom: 17px;
+                font-size: 17px;
+                color: var(--third-color);
+                transition: color 0.3s;
+                font-weight: 500;
+              }
+            }
+
+            .bottom-ticket {
+              background-color: var(--white);
+              text-align: left;
+              color: var(--text-color);
+              padding: 25px;
+              border-radius: 0 10px;
+
+              ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                  margin-bottom: 5px;
+                  font-size: 15px;
+                  line-height: 22.5px;
+                }
+              }
+
+              .details-link {
+                margin-top: 10px;
+                color: var(--primary-color);
+                font-size: 15px;
+                text-align: left;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
     }
-  }
   }
 
   .next-step {
     margin: 20px;
-  text-align: center;
-  font-weight: 600;
-  background-color: var(--primary-color);
-  color: #fff;
-  cursor: pointer;
-  padding: 10px 20px;
-  font-size: 22px;
-  border: none;
-  border-radius: 7px;
+    text-align: center;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 22px;
+    border: none;
+    border-radius: 7px;
 
-    &:hover{
+    &:hover {
       background: #325729;
     }
   }
-
-    
-  }
-  .flex-center{
-    justify-content: center;
+}
+.flex-center {
+  justify-content: center;
   align-items: center;
-  }
+}
 
-  .flex-collum{
-    display: flex;
-    flex-direction: column;
-    vertical-align: middle;
-  }
+.flex-collum {
+  display: flex;
+  flex-direction: column;
+  vertical-align: middle;
+}
 
-  .flex-row{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-  .textR{
-    text-align: right;
-  }
-  
-  .textL{
-    text-align: left;
-  }
-  
-  .justify-content-between{
-    justify-content: space-between;
-  }
+.textR {
+  text-align: right;
+  align-items: end;
+}
 
-  
+.justify-content-between {
+  justify-content: space-between;
+}
+
+/* CSS cho overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000; /* Đảm bảo overlay ở trên cùng */
+}
+
+/* CSS cho FlightPopup */
+.flight-popup {
+  position: fixed;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Căn giữa popup */
+  background: white; /* Nền trắng cho popup */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001; /* Đảm bảo popup ở trên overlay */
+}

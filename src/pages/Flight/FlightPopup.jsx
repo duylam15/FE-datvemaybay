@@ -1,25 +1,43 @@
 import React from 'react';
 import './FlightPopup.scss';
+import { MdCancel } from 'react-icons/md';
 
-const FlightPopup = () => {
+const FlightPopup = ({
+  departure,
+  arrival,
+  begin,
+  duration,
+  timeDepart,
+  timeArrival,
+  airportDepart,
+  airportArrival,
+  departIata,
+  arrivalIata,
+  gate,
+  flightNumber,
+  aircraftType,
+  closePopup,
+}) => {
   return (
     <div className='container-popup'>
       <div className='flight-popup'>
         <div className='header'>
-          <span>Hà Nội - TP. Hồ Chí Minh</span>
-          <span onClick={onClose} style={{ cursor: 'pointer' }}>
-            ✖
+          <span>
+            {departure} - {arrival}
+          </span>
+          <span style={{ cursor: 'pointer' }} onClick={closePopup}>
+            <MdCancel />
           </span>
         </div>
         <div className='content'>
-          <div className='header-content'>
-            <p>Khởi hành vào Thứ Năm, 31 tháng 10, 2024</p>
-            <p className='time-info'>Tổng thời gian: 2 h 10 phút</p>
+          <div className='header-content' onClick={closePopup}>
+            <p>Khởi hành vào {begin}</p>
+            <p className='time-info'>Tổng thời gian: {duration}</p>
           </div>
 
           <div className='info-flight'>
             <div className='info-left'>
-              <p>2h 10min</p>
+              <p>{duration}</p>
             </div>
             <div className='info-center'>
               <div className='timeline'>
@@ -30,26 +48,36 @@ const FlightPopup = () => {
             </div>
             <div className='info-right'>
               <div className='location'>
-                <p className='time'>06:35 Hà Nội</p>
-                <p className='airport'>Sân bay Quốc tế Nội Bài (HAN)</p>
-                <p className='gate'>Nhà ga 1</p>
+                <p className='time'>
+                  {timeDepart} {departure}
+                </p>
+                <p className='airport'>
+                  Sân bay Quốc tế {airportDepart} ({departIata})
+                </p>
+                <p className='gate'>Nhà ga {gate}</p>
               </div>
 
               <div className='location'>
-                <p className='time'>08:45 TP. Hồ Chí Minh</p>
-                <p className='airport'>Sân bay Quốc tế Tân Sơn Nhất (SGN)</p>
-                <p className='gate'>Nhà ga 1</p>
+                <p className='time'>
+                  {timeArrival} {arrival}
+                </p>
+                <p className='airport'>
+                  Sân bay Quốc tế {airportArrival} ({arrivalIata})
+                </p>
+                <p className='gate'>Nhà ga {gate}</p>
               </div>
             </div>
           </div>
-          <p>
-            Số hiệu chuyến bay <span>AVN 344</span>
-          </p>
-          <p>Do Bamboo Airways khai thác</p>
-          <p>AIRBUS A321</p>
+          <div className='info-footer'>
+            <p>
+              Số hiệu chuyến bay <span>{flightNumber}</span>
+            </p>
+            <p>Do Bamboo Airways khai thác</p>
+            <p>{aircraftType}</p>
+          </div>
         </div>
         <div className='button'>
-          <button className='close-btn' onClick={onClose}>
+          <button className='close-btn' onClick={closePopup}>
             Đóng
           </button>
         </div>
