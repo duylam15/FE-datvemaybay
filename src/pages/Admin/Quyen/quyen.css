@@ -1,9 +1,8 @@
-/* MayBay.css */
 
-.san-bay-page {
+.may-bay-page {
     width: 100%;
 }
-.san-bay-page h1 {
+.may-bay-page h1 {
     font-size: 2em;
     font-weight: bold;
     text-align: center;
@@ -152,7 +151,7 @@ tbody tr:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-add-Airport {
+.form-add-plane {
     width: 100%;                 /* Form chiếm toàn bộ chiều ngang */
     max-width: 1100px;            /* Đặt giới hạn chiều rộng */
     margin: 0 auto;              /* Căn giữa form */
@@ -161,7 +160,7 @@ tbody tr:hover {
     flex-direction: column;
 }
 
-.form-add-Airport .btn-primary {
+.form-add-plane .btn-primary {
     width: 150px;
     height: 50px;
     text-align: center;
@@ -171,7 +170,7 @@ tbody tr:hover {
     font-size: 1.15em;
 }
 
-.form-add-Airport h2 {
+.form-add-plane h2 {
     font-size: 1.5em;
     text-align: center;
     font-weight: bold;
