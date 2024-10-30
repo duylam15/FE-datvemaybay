@@ -8,7 +8,9 @@
     text-align: center;
     margin: 20px;
 }
-
+.separate_block {
+    padding: 15px;
+}
 .them-button {
     width: 150px;
     height: 40px;
@@ -196,4 +198,33 @@ tbody tr:hover {
     text-align: center;
     font-weight: bold;
     margin-bottom: 20px;
+}
+.search-sort-controlss {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding-bottom: 30px;
+    /* justify-content: space-between; */
+}
+.search-sort-controlss input {
+    width: 500px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    outline: none;
+    height: 38px;
+    border: 1px solid #858383;
+}
+
+/* Style for placeholder text */
+.search-sort-controlss input::placeholder {
+    color: #b3b3b3; /* Lighter color for placeholder */
+    opacity: 1; /* Ensures color is not faded out */
+}
+
+.btn_row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 13px;
 }

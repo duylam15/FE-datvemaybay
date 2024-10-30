@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useEffectDataQuyen } from "../../../utils/useEffectDataQuyen";
 import { useNavigate } from "react-router-dom";
 import QuyenList from "./QuyenList";
 import Pagination from "@mui/material/Pagination"; // Import Pagination
 import Stack from "@mui/material/Stack"; // Import Stack
 import "./quyen.css";
 import { searchQuyen } from "../../../services/quyenService";
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
 
 const Quyen = ({ size = 2 }) => {
   const [currentPage, setCurrentPage] = useState(1); // State for current page
@@ -25,7 +25,7 @@ const Quyen = ({ size = 2 }) => {
         setTotalPages(result.data.totalPages); // Update total pages based on API response
       } else {
         setNhomQuyen([]);
-        setTotalPages(0)
+        setTotalPages(0);
       }
     } catch (error) {
       console.error("Error fetching permissions:", error);
@@ -55,18 +55,14 @@ const Quyen = ({ size = 2 }) => {
   const handleBlock = async (idQuyen) => {
     console.log("Block permission:", idQuyen);
   };
-  console.log("nhom quyen chuan: ~", nhomQuyen)
+  console.log("nhom quyen chuan: ~", nhomQuyen);
 
   return (
     <div className="may-bay-page">
       <h1>Danh sách nhóm quyền</h1>
-      <button
-        onClick={() => navigate("/admin/quyen/add")}
-        className="btn them-button"
-      >
-        Thêm nhóm quyền
-      </button>
 
+      <IconLabelButtons></IconLabelButtons>
+      <div className="separate_block"></div>
       <QuyenList
         nhomQuyen={nhomQuyen}
         searchName={searchName}

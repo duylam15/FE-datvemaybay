@@ -1,7 +1,9 @@
 import React from "react";
 import "./quyen.css";
 import PaginationRounded from "../../../components/Admin/Pagination";
-
+import SearchBtn from "../../../components/Admin/ColorButtons/SearchBtn";
+import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
+import DeleteBtn from "../../../components/Admin/ColorButtons/deleteBtn";
 
 const QuyenList = ({
   nhomQuyen,
@@ -19,14 +21,15 @@ const QuyenList = ({
 
   return (
     <div>
-      <div className="search-sort-controls">
+      <div className="search-sort-controlss">
         <input
+          className="input_search"
           type="text"
           placeholder="Tìm kiếm nhóm quyền..."
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
-        <button onClick={handleSearch}>Tìm Kiếm</button>
+        <SearchBtn onClick={handleSearch}></SearchBtn>
       </div>
       <table className="table">
         <thead className="thead-dark">
@@ -48,9 +51,7 @@ const QuyenList = ({
           </tr>
         </thead>
         <tbody>
-          {nhomQuyen &&
-          nhomQuyen == ""
-          ? (
+          {nhomQuyen && nhomQuyen == "" ? (
             <tr>
               <td colSpan="4" className="text-center">
                 Không tìm thấy kết quả tìm kiếm!
@@ -67,21 +68,9 @@ const QuyenList = ({
                     ? "Hoạt động"
                     : "Không hoạt động"}
                 </td>
-                <td>
-                  <div className="button-group">
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => onEdit(nq.idQuyen)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className={`btn btn-block`}
-                      onClick={() => onBlock(nq.idQuyen)}
-                    >
-                      {nq.trangThaiActive === "ACTIVE" ? "Block" : "Unblock"}
-                    </button>
-                  </div>
+                <td className="btn_row">
+                <EditBtn></EditBtn>
+                <DeleteBtn></DeleteBtn>
                 </td>
               </tr>
             ))
