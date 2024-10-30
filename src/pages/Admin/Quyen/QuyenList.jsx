@@ -1,5 +1,7 @@
 import React from "react";
 import "./quyen.css";
+import PaginationRounded from "../../../components/Admin/Pagination";
+
 
 const QuyenList = ({
   nhomQuyen,
@@ -12,9 +14,6 @@ const QuyenList = ({
   loading,
   onEdit,
   onBlock,
-  currentPage,
-  totalPages,
-  handlePageChange,
 }) => {
   if (loading) return <p>Loading...</p>;
 
@@ -50,7 +49,7 @@ const QuyenList = ({
         </thead>
         <tbody>
           {nhomQuyen &&
-          nhomQuyen.data.length === 0
+          nhomQuyen == ""
           ? (
             <tr>
               <td colSpan="4" className="text-center">
@@ -59,8 +58,7 @@ const QuyenList = ({
             </tr>
           ) : (
             nhomQuyen &&
-            nhomQuyen.data &&
-            nhomQuyen.data.content.map((nq) => (
+            nhomQuyen.map((nq) => (
               <tr key={nq.idQuyen}>
                 <td>{nq.idQuyen}</td>
                 <td>{nq.tenQuyen}</td>
@@ -90,36 +88,6 @@ const QuyenList = ({
           )}
         </tbody>
       </table>
-      {/* Phân trang */}
-      <div className="pagination">
-        <button
-          onClick={() => handlePageChange(0)}
-          disabled={currentPage === 0}
-        >
-          Trang đầu
-        </button>
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 0}
-        >
-          Trước đó
-        </button>
-        <span>
-          Trang {currentPage + 1} / {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages - 1}
-        >
-          Tiếp theo
-        </button>
-        <button
-          onClick={() => handlePageChange(totalPages - 1)}
-          disabled={currentPage >= totalPages - 1}
-        >
-          Trang cuối
-        </button>
-      </div>
     </div>
   );
 };

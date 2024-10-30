@@ -2,48 +2,44 @@ import React, { useState, useEffect } from "react";
 import { useEffectDataQuyen } from "../../../utils/useEffectDataQuyen";
 import { useNavigate } from "react-router-dom";
 import QuyenList from "./QuyenList";
+import Pagination from "@mui/material/Pagination"; // Import Pagination
+import Stack from "@mui/material/Stack"; // Import Stack
 import "./quyen.css";
 import { searchQuyen } from "../../../services/quyenService";
 
-const Quyen = ({ page = 0, size = 2 }) => {
-  const {
-    nhomQuyen: initialNhomQuyen,
-    loadingNhomQuyen,
-    errorNhomQuyen,
-  } = useEffectDataQuyen(page, size);
+const Quyen = ({ size = 2 }) => {
+  const [currentPage, setCurrentPage] = useState(1); // State for current page
   const [searchName, setSearchName] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [nhomQuyen, setNhomQuyen] = useState(initialNhomQuyen);
+  const [nhomQuyen, setNhomQuyen] = useState([]);
   const [sortField, setSortField] = useState("");
+  const [totalPages, setTotalPages] = useState(0); // State for total pages
   const navigate = useNavigate();
 
-  // Function to fetch permissions
+  // Fetch permissions based on current page and search term
   const fetchQuyen = async (searchName, page) => {
-    const result = await searchQuyen(searchName, page, size);
-    console.log("result ~" , result)
-    console.log("totalPage ~ ", result.data.totalPages )
-    if (result && result.data) {
-      setNhomQuyen(result.data.content); // Update state with new content
+    try {
+      const result = await searchQuyen(searchName, page - 1, size); // API usually uses 0-based indexing
+      if (result && result.data) {
+        setNhomQuyen(result.data.content);
+        setTotalPages(result.data.totalPages); // Update total pages based on API response
+      } else {
+        setNhomQuyen([]);
+        setTotalPages(0)
+      }
+    } catch (error) {
+      console.error("Error fetching permissions:", error);
     }
   };
-  
 
-  // Fetch initial data
+  // Use effect to fetch data when currentPage changes or when searchName changes
   useEffect(() => {
-    fetchQuyen(""); // Fetch without search term on mount
-  }, []); // Chỉ chạy khi component mount
-
-  useEffect(() => {
-    setNhomQuyen(initialNhomQuyen);
-  }, [initialNhomQuyen]);
-
-  console.log("NQ: ", nhomQuyen);
-  if (loadingNhomQuyen) return <p>Loading...</p>;
-  if (errorNhomQuyen) return <p>Error: {errorNhomQuyen}</p>;
+    fetchQuyen(searchName, currentPage);
+  }, [currentPage, searchName]); // Fetch data when currentPage or searchName changes
 
   const handleSearch = () => {
-    // Add your search logic here
-    searchQuyen(searchName, page, size, setNhomQuyen);
+    setCurrentPage(1); // Reset to page 1 on new search
+    fetchQuyen(searchName, 1); // Fetch with the new search term
   };
 
   const handleSort = (field) => {
@@ -52,26 +48,14 @@ const Quyen = ({ page = 0, size = 2 }) => {
     // Add sorting logic here if needed
   };
 
-
-  const handleEdit = (idMayBay) => {
-    // editPlane(navigate, idMayBay);
-    console.log("chay vao ham edit");
+  const handleEdit = (idQuyen) => {
+    console.log("Edit permission:", idQuyen);
   };
 
-  const handleBlock = async (idMayBay) => {
-    console.log("handleBlock");
-    // try {
-    //     const updatedPlane = await blockPlane(idMayBay);
-    //     // Cập nhật state mayBay để thay đổi trạng thái máy bay trong giao diện
-    //     setMayBay((prevMayBay) =>
-    //         prevMayBay.map((mb) =>
-    //             mb.idMayBay === idMayBay ? { ...mb, trangThaiActive: updatedPlane.trangThaiActive } : mb
-    //         )
-    //     );
-    // } catch (error) {
-    //     console.error('Failed to block the plane!', error);
-    // }
+  const handleBlock = async (idQuyen) => {
+    console.log("Block permission:", idQuyen);
   };
+  console.log("nhom quyen chuan: ~", nhomQuyen)
 
   return (
     <div className="may-bay-page">
@@ -93,8 +77,18 @@ const Quyen = ({ page = 0, size = 2 }) => {
         sortField={sortField}
         onEdit={handleEdit}
         onBlock={handleBlock}
-        fetchQuyen={fetchQuyen}
       />
+
+      {/* Pagination Component */}
+      <Stack spacing={2}>
+        <Pagination
+          count={totalPages} // Total number of pages
+          page={currentPage} // Current page
+          variant="outlined"
+          shape="rounded"
+          onChange={(event, value) => setCurrentPage(value)} // Update current page
+        />
+      </Stack>
     </div>
   );
 };

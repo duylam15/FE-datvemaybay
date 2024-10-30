@@ -9,7 +9,7 @@ export const getAllQuyen = (page = 0, size = 2) => {
 };
 
 
-export const searchQuyen = async (tenQuyen, page = 0, size = 2, setNhomQuyen) => {
+export const searchQuyen = async (tenQuyen, page = 0, size = 2) => {
     try {
         // Gọi API với tham số tìm kiếm và phân trang
         const response = await axios.get(`${REST_API_BASE_URL}/quyen/search`, {
@@ -19,12 +19,9 @@ export const searchQuyen = async (tenQuyen, page = 0, size = 2, setNhomQuyen) =>
                 size
             }
         });
-
-        // Thiết lập dữ liệu vào state
         console.log("search ~ ", response);
-        setNhomQuyen(response);
+        return response
     } catch (error) {
-        console.error("Error fetching quyen:", error);
-        // Bạn có thể xử lý lỗi tại đây nếu cần
+        console.error("Error fetching search quyen:", error);
     }
 };
