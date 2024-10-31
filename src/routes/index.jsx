@@ -40,8 +40,7 @@ import ThemSanBay from '../pages/admin/SanBay/ThemSanBay';
 import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import Post from '../pages/Post';
-import FlightResults from '../pages/Flight/FlightResults';
-import FlightDetails from '../pages/Flight/FlightDetails';
+import FlightResults from '../pages/Flight/FlightResult';
 import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
@@ -50,6 +49,8 @@ import FlightPopup from '../pages/Flight/FlightPopup';
 import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
 import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
 import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
+
+import FlightDetails from "../pages/FlightDetails";
 
 export const router = createBrowserRouter([
   {

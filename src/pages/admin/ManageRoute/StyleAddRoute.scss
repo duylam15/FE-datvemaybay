@@ -1,103 +1,93 @@
-
-.container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .form-container {
-    
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow-x: auto;
-    width: 600px;
-    justify-content: center; 
-    align-items: center;
-    height: 100vh; 
-    display: flex;
-
-    
-    
-    form {
-      display: flex;
-      flex-direction: column;
-      width: 500px;
-      
-      padding: 20px;
-      
-      
-  
-      div {
-        margin-bottom: 15px;
-  
-        label {
-          font-weight: bold;
-          margin-bottom: 5px;
-        }
-  
-        input,select {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ddd;
-          border-radius: 5px;
-          font-size: 16px;
-        }
-
-        .input-error {
-          border: 1px solid red; 
-        }
-        
-        .error-message {
-          color: red; 
-          font-size: 14px; 
-          margin-top: 3px;
-        }
-        
-        
-
-        
-      }
-
-      .button-container {
+.addform-manageroute {
+    .container {
         display: flex;
-        justify-content: flex-end; 
-        margin: 20px 0; 
-      }
+        justify-content: center;
+        align-items: center;
 
-      .btn-save{
-        color: #4CAF50;
-        background-color: #fff;
-        border: 1px solid  #4CAF50;
+        .form-container {
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow-x: auto;
+            width: 600px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            display: flex;
+
+            form {
+                display: flex;
+                flex-direction: column;
+                width: 500px;
+
+                padding: 20px;
+
+                div {
+                    margin-bottom: 15px;
+
+                    label {
+                        font-weight: bold;
+                        margin-bottom: 5px;
+                    }
+
+                    input,
+                    select {
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #ddd;
+                        border-radius: 5px;
+                        font-size: 16px;
+                    }
+
+                    .input-error {
+                        border: 1px solid red;
+                    }
+
+                    .error-message {
+                        color: red;
+                        font-size: 14px;
+                        margin-top: 3px;
+                    }
+                }
+
+                .button-container {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin: 20px 0;
+                }
+
+                .btn-save {
+                    color: #4caf50;
+                    background-color: #fff;
+                    border: 1px solid #4caf50;
+                }
+
+                .btn-save:hover {
+                    background-color: #367c39;
+                    color: white;
+                }
+
+                .btn-cancel {
+                    margin-left: 10px;
+                    color: #ffc107;
+                    background-color: #fff;
+                    border: 1px solid #ffc107;
+                }
+
+                .btn-cancel:hover {
+                    background-color: #ffc107;
+                    color: white;
+                }
+
+                .btn {
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                    transition: background-color 0.3s ease;
+                }
+            }
+        }
     }
-
-    .btn-save:hover {
-        background-color: #367c39;
-        color: white;
-      }
-
-    .btn-cancel{
-      margin-left: 10px;
-        color: #ffc107;
-        background-color: #fff;
-        border: 1px solid  #ffc107;
-    }
-
-    .btn-cancel:hover {
-        background-color: #ffc107;
-        color: white;
-      }
-  
-      .btn {
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-top: 20px;
-        transition: background-color 0.3s ease;
-      }
-
-    
-      
-    }
-  }
 }
