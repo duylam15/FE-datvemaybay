@@ -25,3 +25,7 @@ export const searchQuyen = async (tenQuyen, page = 0, size = 2) => {
         console.error("Error fetching search quyen:", error);
     }
 };
+
+export const getAllChucNang = () => {
+    return axios.get(`${REST_API_BASE_URL}/chucnang`)
+}

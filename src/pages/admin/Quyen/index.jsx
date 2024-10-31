@@ -1,92 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import QuyenList from "./QuyenList";
-import Pagination from "@mui/material/Pagination"; // Import Pagination
-import Stack from "@mui/material/Stack"; // Import Stack
-import "./quyen.css";
-import { searchQuyen } from "../../../services/quyenService";
-import IconLabelButtons from "../../../components/Admin/ColorButtons";
-
-const Quyen = ({ size = 2 }) => {
-  const [currentPage, setCurrentPage] = useState(1); // State for current page
-  const [searchName, setSearchName] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [nhomQuyen, setNhomQuyen] = useState([]);
-  const [sortField, setSortField] = useState("");
-  const [totalPages, setTotalPages] = useState(0); // State for total pages
-  const navigate = useNavigate();
-
-  // Fetch permissions based on current page and search term
-  const fetchQuyen = async (searchName, page) => {
-    try {
-      const result = await searchQuyen(searchName, page - 1, size); // API usually uses 0-based indexing
-      if (result && result.data) {
-        setNhomQuyen(result.data.content);
-        setTotalPages(result.data.totalPages); // Update total pages based on API response
-      } else {
-        setNhomQuyen([]);
-        setTotalPages(0);
-      }
-    } catch (error) {
-      console.error("Error fetching permissions:", error);
-    }
-  };
-
-  // Use effect to fetch data when currentPage changes or when searchName changes
-  useEffect(() => {
-    fetchQuyen(searchName, currentPage);
-  }, [currentPage, searchName]); // Fetch data when currentPage or searchName changes
-
-  const handleSearch = () => {
-    setCurrentPage(1); // Reset to page 1 on new search
-    fetchQuyen(searchName, 1); // Fetch with the new search term
-  };
-
-  const handleSort = (field) => {
-    setSortField(field);
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    // Add sorting logic here if needed
-  };
-
-  const handleEdit = (idQuyen) => {
-    console.log("Edit permission:", idQuyen);
-  };
-
-  const handleBlock = async (idQuyen) => {
-    console.log("Block permission:", idQuyen);
-  };
-  console.log("nhom quyen chuan: ~", nhomQuyen);
-
+import React from "react";
+import { Outlet } from "react-router-dom";
+const Quyen = () => {
   return (
     <div className="may-bay-page">
-      <h1>Danh sách nhóm quyền</h1>
-
-      <IconLabelButtons></IconLabelButtons>
-      <div className="separate_block"></div>
-      <QuyenList
-        nhomQuyen={nhomQuyen}
-        searchName={searchName}
-        setSearchName={setSearchName}
-        handleSearch={handleSearch}
-        handleSort={handleSort}
-        sortOrder={sortOrder}
-        sortField={sortField}
-        onEdit={handleEdit}
-        onBlock={handleBlock}
-      />
-
-      {/* Pagination Component */}
-      <Stack spacing={2}>
-        <Pagination
-          count={totalPages} // Total number of pages
-          page={currentPage} // Current page
-          variant="outlined"
-          shape="rounded"
-          onChange={(event, value) => setCurrentPage(value)} // Update current page
-        />
-      </Stack>
+      <Outlet></Outlet>
     </div>
   );
 };
 
 export default Quyen;
+
