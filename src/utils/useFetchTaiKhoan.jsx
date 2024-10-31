@@ -12,8 +12,12 @@ export const useFetchTaiKhoan = () => {
             try {
                 const data = await getTaiKhoan();
                 setTaiKhoan(data);
-            } catch (err) {
-                setError(err.message);
+            } catch (error) {
+                if (error.response && error.response.status === 204) {
+                    setTaiKhoan([]);
+                } else {
+                    console.error("An error occurred:", error.message);
+                }
             } finally {
                 setLoading(false);
             }

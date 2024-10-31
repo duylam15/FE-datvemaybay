@@ -10,9 +10,96 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  .booking-list {
-    flex-grow: 1; /* Cho phép .booking-list mở rộng để lấp đầy không gian còn lại */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+.check-booking-page h1 {
+  font-size: 1.8em;
+  padding: 10px;
+  margin: 10px 0px;
+}
+  
+.booking-list {
+  flex-grow: 1; /* Cho phép .booking-list mở rộng để lấp đầy không gian còn lại */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 30px;
+}
+
+.ticket-item {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  margin: 20px 0px;
+}
+
+.ticket-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #898989;
+  transition: background-color 0.3s;
+}
+
+.ticket-item:hover::before {
+  background-color: #25b62c;
+}
+
+.ticket-item h3 {
+  color: #333333;
+  margin-top: 0;
+  font-size: 1.3em;
+}
+
+.ticket-item p {
+  color: #666666;
+  margin: 5px 0;
+  font-size: 1.1em;
+}
+
+.ticket-item .status {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-item .status.PAID {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+.ticket-item .status.CANCELLED {
+  background-color: #F44336;
+  color: #ffffff;
+}
+.ticket-item .status.PENDING {
+  background-color: #0099ff;
+  color: #ffffff;
+
+}
+.ticket-item .status.REFUNDED {
+  background-color: #414141;
+  color: #ffffff;
+}
+.ticket-item .status.EXPIRED {
+  background-color: #7a0000;
+  color: #ffffff;
+}

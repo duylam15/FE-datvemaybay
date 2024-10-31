@@ -39,9 +39,6 @@ const ChiTietHoaDonList = ({
 						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('soTien')}>
                             Số tiền {sortField === 'soTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope='col' className='col-1 align-bottom text-success'>
-                            Actions
-                        </th>
                     </tr>
                 </thead>
                 <tbody className='fs-3'>
@@ -51,9 +48,6 @@ const ChiTietHoaDonList = ({
                             <td>{cthd.hangHoa.tenHangHoa}</td>
                             <td>{cthd.ve.codeVe}</td>
                             <td>{cthd.soTien}</td>
-                            <td>
-                                <button className="btn btn-primary mr-2" onClick={() => viewDetail(cthd.idChiTietHoaDon)}>Detail</button>
-                            </td>
                         </tr>
                     )))
                     : (

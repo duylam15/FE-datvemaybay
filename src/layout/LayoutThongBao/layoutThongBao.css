@@ -1,0 +1,75 @@
+.layoutThongBao{
+  position: fixed !important;;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(139, 132, 132, 0.5) !important;
+  top: 0px;
+  left: 0px !important;
+}
+
+.hopThoai {
+  background-color: #FFFFFF;
+  width: 400px;
+  border-radius: 15px; /* Bo góc hộp thoại */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho hộp thoại */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tieuDeHopThoai {
+  height: 60px; /* Thay đổi chiều cao tiêu đề */
+  color: #FFFFFF; /* Màu chữ trắng */
+  background-color: #4A90E2 !important; /* Màu nền xanh nhẹ hơn */
+  
+  display: flex;
+  align-items: center; /* Căn giữa dọc */
+  padding: 10px 10px; /* Thêm padding cho tiêu đề */
+  font-weight: bold; /* Đậm chữ tiêu đề */
+}
+
+.displayMessage{
+  color: black !important;
+  height: 80px;
+  text-align: center;
+}
+
+
+.buttonHopThoai {
+  height: 50px; /* Thay đổi chiều cao nút */
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+
+}
+
+.buttonHopThoai button {
+  padding: 10px 20px; /* Thêm padding cho nút */
+  border: none; /* Xóa viền */
+  border-radius: 5px; /* Bo góc nút */
+  background-color: #28A745; /* Màu nền nút */
+  color: white; /* Màu chữ nút */
+  font-size: 18px; /* Kích thước chữ nút */
+  cursor: pointer; /* Con trỏ khi hover lên nút */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+}
+
+.buttonHopThoai button:hover {
+  background-color: #218838; /* Màu nền khi hover */
+}
+
+.itemHopThoai {
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; /* Kích thước chữ cho thông điệp */
+  color: #FFFFFF; /* Màu chữ cho thông điệp */
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
+}

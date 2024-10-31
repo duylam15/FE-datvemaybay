@@ -1,11 +1,12 @@
-import React from 'react';
-
+import React from "react";
+import { Outlet } from "react-router-dom";
 const Quyen = () => {
-    return (
-        <div>
-            This is a quyen page admin
-        </div>
-    );
+  return (
+    <div className="may-bay-page">
+      <Outlet></Outlet>
+    </div>
+  );
 };
 
 export default Quyen;
+

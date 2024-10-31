@@ -3,18 +3,17 @@ import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import DeleteConfirmation from '../../../components/QL/DeleteConfirmation'; // Import DeleteConfirmation component
+import DeleteConfirmation from '../../../components/QL/DeleteConfirmation';
 import './StyleTuyenBay.scss';
 import { FaPlus } from 'react-icons/fa';
-import { handleSort } from '../../../services/RouteServices';
 
 const RouteTable = () => {
   const [routes, setRoutes] = useState([]);
   const [airports, setAirports] = useState([]);
   const [sortField, setSortField] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // State for showing delete confirmation modal
-  const [selectedRouteId, setSelectedRouteId] = useState(null); // State for storing selected route ID for deletion
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedRouteId, setSelectedRouteId] = useState(null);
 
   const loadRoutes = async () => {
     try {
@@ -40,15 +39,39 @@ const RouteTable = () => {
     }
   };
 
+  const sortRoutes = (field, order, routes) => {
+    return [...routes].sort((a, b) => {
+      const aValue = field === 'idTuyenBay' ? Number(a[field]) : a[field]; // Chuyển ID thành số
+      const bValue = field === 'idTuyenBay' ? Number(b[field]) : b[field];
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return order === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return order === 'asc' ? aValue - bValue : bValue - aValue;
+    });
+  };
+
   const handleSortClick = (field) => {
+    // Kiểm tra xem cột có thể sắp xếp không
+    if (!field || field === 'status' || field === 'Actions') {
+      return; // Không thực hiện sắp xếp
+    }
+
     const newSortOrder =
       sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
-    handleSort(field, newSortOrder, setRoutes, setSortOrder, setSortField);
+
+    const sortedRoutes = sortRoutes(field, newSortOrder, routes);
+    setRoutes(sortedRoutes);
+    setSortOrder(newSortOrder);
+    setSortField(field);
   };
 
   const getAirportNameById = (id) => {
     const airport = airports.find((a) => a.idSanBay === id);
-    return airport ? airport.tenSanBay : 'Không tìm thấy'; // Return 'Not found' if airport does not exist
+    return airport ? airport.tenSanBay : 'Không tìm thấy';
   };
 
   const handleDelete = async (idTuyenBay) => {
@@ -60,19 +83,17 @@ const RouteTable = () => {
     try {
       await axios.delete(`http://localhost:8080/deleteRoute/${idTuyenBay}`);
       setShowDeleteConfirm(false);
-      loadRoutes(); // Gọi lại hàm loadRoutes để lấy danh sách mới
+      loadRoutes(); // Reload routes after deletion
     } catch (error) {
       console.error('Error deleting route:', error);
     }
   };
 
-  // Show delete confirmation modal
   const showDeleteModal = (idTuyenBay) => {
     setSelectedRouteId(idTuyenBay);
     setShowDeleteConfirm(true);
   };
 
-  // Cancel the delete process
   const cancelDelete = () => {
     setShowDeleteConfirm(false);
     setSelectedRouteId(null);
@@ -85,7 +106,11 @@ const RouteTable = () => {
   };
 
   const columns = [
-    { header: 'STT', render: (item, index) => index + 1 },
+    {
+      header: 'ID',
+      render: (item) => item.idTuyenBay,
+      sortField: 'idTuyenBay',
+    },
     {
       header: 'Thời gian chuyến bay (phút)',
       render: (item) => formatFlightTime(item.thoiGianChuyenBay),
@@ -109,13 +134,12 @@ const RouteTable = () => {
     {
       header: 'Trạng thái',
       render: (item) => item.status,
-      sortField: 'status',
     },
     {
       header: 'Actions',
       render: (item) => (
         <Actions
-          editLink={`/EditRoute/${item.idTuyenBay}`}
+          editLink={`editRoute/${item.idTuyenBay}`}
           onDelete={() => showDeleteModal(item.idTuyenBay)}
         />
       ),
@@ -133,7 +157,7 @@ const RouteTable = () => {
   return (
     <div>
       <div className='button-container'>
-        <Link to='/AddForm' className='add-btn'>
+        <Link to='add' className='add-btn'>
           <FaPlus />
         </Link>
       </div>
@@ -145,11 +169,10 @@ const RouteTable = () => {
         currentSortOrder={sortOrder}
       />
 
-      {/* Delete confirmation modal */}
       <DeleteConfirmation
         show={showDeleteConfirm}
-        onDeleteConfirm={() => handleDelete(selectedRouteId)} // Confirm deletion of selected route
-        onCancel={cancelDelete} // Cancel deletion
+        onDeleteConfirm={() => handleDelete(selectedRouteId)}
+        onCancel={cancelDelete}
       />
     </div>
   );

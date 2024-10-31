@@ -132,13 +132,16 @@ const API_URL = 'http://localhost:8080';
 
 const BookingCard = ({ booking }) => {
   return (
-    <div className="booking-card">
+    <div class="ticket-item">
       <h3>Thông tin đặt chỗ</h3>
+      <div className={`status ${booking.hoaDon.status}`}>{booking.hoaDon.status}</div>
+      <p>Hành khách: {booking.ve.hanhKhach.hoTen}</p>
+      <p>Giới tính: {booking.ve.hanhKhach.gioiTinhEnum}</p>
+      <p>Vé: {booking.ve.maVe}</p>
       <p>Chuyến bay: {booking.ve.chuyenBay.iataChuyenBay}</p>
       <p>Ngày bay: {booking.ve.chuyenBay.ngayBay}</p>
-      <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauDuTinh}</p>
-      <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucDuTinh}</p>
-      <p>Trạng thái: {booking.ve.trangThai}</p>
+      <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauThucTe}</p>
+      <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucThucTe}</p>
     </div>
   );
 };
@@ -153,41 +156,51 @@ const CheckBookingPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Set loading true trước khi gọi API
-      try {
-        if (profile) {
-          // Fetch hóa đơn
-          const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
-          const hoaDonList = responseHD.data.data;
-          setHD(hoaDonList);
-          console.log("List hoa don: ", hoaDonList);
+        setLoading(true);
+        try {
+            if (profile) {
+                // Fetch hóa đơn
+                const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
+                
+                if (responseHD.status === 204 || !responseHD.data?.data) {  // Kiểm tra mã phản hồi 204 hoặc phản hồi rỗng
+                    setHD([]);
+                    setCTHD([]);
+                } else {
+                    const hoaDonList = responseHD.data.data;
+                    setHD(hoaDonList);
+                    console.log("List hoa don: ", hoaDonList);
 
-          // Fetch chi tiết hóa đơn nếu có hóa đơn
-          if (hoaDonList.length > 0) {
-            const promises = hoaDonList.map(async (hoaDon) => {
-              const responseCTHD = await fetch(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
-              if (!responseCTHD.ok) {
-                throw new Error('Failed to fetch CTHD');
-              }
-              const data = await responseCTHD.json();
-              return data.data; // Kiểm tra xem data.data có chứa kết quả không
-            });
+                    if (hoaDonList.length > 0) {
+                        const promises = hoaDonList.map(async (hoaDon) => {
+                            const responseCTHD = await fetch(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
+                            
+                            if (!responseCTHD.ok) {
+                                throw new Error('Failed to fetch CTHD');
+                            }
+                            
+                            const data = await responseCTHD.json();
+                            if (!data || !data.data) {  // Kiểm tra JSON rỗng
+                                return [];
+                            }
+                            return data.data; // Lấy `data.data` nếu có
+                        });
 
-            const allCTHD = await Promise.all(promises);
-            console.log("Raw allCTHD data: ", allCTHD);
-            setCTHD(allCTHD.flat());
-          }
+                        const allCTHD = await Promise.all(promises);
+                        console.log("Raw allCTHD data: ", allCTHD);
+                        setCTHD(allCTHD.flat());
+                    }
+                }
+            }
+        } catch (err) {
+            setError('Lỗi khi lấy thông tin hóa đơn hoặc chi tiết hóa đơn');
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
-      } catch (err) {
-        setError('Lỗi khi lấy thông tin hóa đơn hoặc chi tiết hóa đơn');
-        console.error(err);
-      } finally {
-        setLoading(false); // Set loading false sau khi hoàn thành
-      }
     };
 
     fetchData();
-  }, [profile]); // Chỉ gọi khi profile thay đổi
+}, [profile]); // Chỉ gọi khi profile thay đổi
 
   if (loading || loadingProfile) {
     return <div>Loading...</div>;
@@ -200,13 +213,13 @@ const CheckBookingPage = () => {
   return (
     <div className="check-booking-page">
       <h1>Danh sách vé đã đặt</h1>
-      <div className="form-profile-customer">
+      {/* <div className="form-profile-customer">
         <div className="form-group-profile">
           <p className="user-info-hoten">{profile.data?.khachHang?.hoTen}</p>
           <p className="user-info-gioitinh">{profile.data?.khachHang?.gioiTinh}</p>
         </div>
-      </div>
-      <div className="booking-list">
+      </div> */}
+      <div class="ticket-list">
         {cthd.length > 0 ? (
           cthd.map((booking, index) => (
             <BookingCard key={index} booking={booking} />

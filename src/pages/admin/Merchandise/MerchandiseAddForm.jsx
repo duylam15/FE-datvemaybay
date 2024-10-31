@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const AddMerchandise = () => {
   const navigate = useNavigate();
+  const [typeMerchans, setTypeMerchans] = useState([]);
   const [merchan, setMerchan] = useState({
     idLoaiHangHoa: '',
     tenHangHoa: '',
@@ -24,6 +25,23 @@ const AddMerchandise = () => {
     });
     validateField(name, value);
   };
+
+  const loadTypeMerchandises = async () => {
+    try {
+      const result = await axios.get(
+        'http://localhost:8080/api/loaiHangHoa/all'
+      );
+      if (result.status === 200) {
+        setTypeMerchans(result.data.data);
+      }
+    } catch (error) {
+      console.error('Error loading type merchandises:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadTypeMerchandises();
+  }, []);
 
   const validateField = (name, value) => {
     let errorMessage = '';
@@ -62,7 +80,7 @@ const AddMerchandise = () => {
         }
       );
       console.log('Merchandise saved successfully:', result);
-      navigate('/Merchandise');
+      navigate('/admin/merchandise');
     } catch (error) {
       // Log detailed error information
       console.error(
@@ -73,49 +91,64 @@ const AddMerchandise = () => {
   };
 
   return (
-    <div className='form-container'>
-      <form onSubmit={handleSave}>
-        <FormInput
-          label='Loại hàng hóa'
-          name='idLoaiHangHoa'
-          value={merchan.idLoaiHangHoa}
-          onChange={handleChange}
-          error={errors.idLoaiHangHoa}
-          required // Make this required if necessary
-        />
-        <FormInput
-          label='Tên hàng hóa'
-          name='tenHangHoa'
-          value={merchan.tenHangHoa}
-          onChange={handleChange}
-          error={errors.tenHangHoa}
-          required // Make this required if necessary
-        />
-        <FormInput
-          label='Tải trọng (kg)'
-          name='taiTrong'
-          value={merchan.taiTrong}
-          onChange={handleChange}
-          error={errors.taiTrong}
-          required // Make this required if necessary
-        />
-        <FormInput
-          label='Giá phát sinh (VND)'
-          name='giaPhatSinh'
-          value={merchan.giaPhatSinh}
-          onChange={handleChange}
-          error={errors.giaPhatSinh}
-          required // Make this required if necessary
-        />
-        <div className='button-container'>
-          <button type='submit' className='btn btn-save'>
-            Lưu
-          </button>
-          <Link to='/Merchandise' className='btn btn-cancel'>
-            Hủy
-          </Link>
-        </div>
-      </form>
+    <div className='container'>
+      <div className='form-container'>
+        <form onSubmit={handleSave}>
+          <div>
+            <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
+            <select
+              name='idLoaiHangHoa'
+              id='idLoaiHangHoa'
+              onChange={handleChange}
+              value={merchan.idLoaiHangHoa}
+              error={errors.idLoaiHangHoa}
+              required
+            >
+              <option value='0' hidden>
+                Chọn loại hàng hoá
+              </option>
+              {typeMerchans.map((item) => (
+                <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
+                  {item.tenLoaiHangHoa}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <FormInput
+            label='Tên hàng hóa'
+            name='tenHangHoa'
+            value={merchan.tenHangHoa}
+            onChange={handleChange}
+            error={errors.tenHangHoa}
+            required // Make this required if necessary
+          />
+          <FormInput
+            label='Tải trọng (kg)'
+            name='taiTrong'
+            value={merchan.taiTrong}
+            onChange={handleChange}
+            error={errors.taiTrong}
+            required // Make this required if necessary
+          />
+          <FormInput
+            label='Giá phát sinh (VND)'
+            name='giaPhatSinh'
+            value={merchan.giaPhatSinh}
+            onChange={handleChange}
+            error={errors.giaPhatSinh}
+            required // Make this required if necessary
+          />
+          <div className='button-container'>
+            <button type='submit' className='btn btn-save'>
+              Lưu
+            </button>
+            <Link to='/admin/merchandise' className='btn btn-cancel'>
+              Hủy
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

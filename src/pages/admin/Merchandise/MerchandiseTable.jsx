@@ -13,6 +13,7 @@ import {
 
 const MerchandiseTable = () => {
   const [merchans, setMerchans] = useState([]);
+  const [typeMerchans, setTypeMerchans] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -38,6 +39,24 @@ const MerchandiseTable = () => {
     }
   };
 
+  const loadTypeMerchandises = async () => {
+    try {
+      const result = await axios.get(
+        'http://localhost:8080/api/loaiHangHoa/all'
+      );
+      if (result.status === 200) {
+        setTypeMerchans(result.data.data);
+      }
+    } catch (error) {
+      console.error('Error loading type merchandises:', error);
+    }
+  };
+
+  const getNameById = (id) => {
+    const typeItem = typeMerchans.find((a) => a.idLoaiHangHoa === id);
+    return typeItem ? typeItem.tenLoaiHangHoa : 'Không tìm thấy';
+  };
+
   const handleSearch = useCallback(
     async (event) => {
       const term = event.target.value;
@@ -54,7 +73,7 @@ const MerchandiseTable = () => {
         }
       }
     },
-    [originalMerchans]
+    [originalMerchans, setMerchans]
   );
 
   const handleDelete = async (idHangHoa) => {
@@ -81,15 +100,32 @@ const MerchandiseTable = () => {
     setSelectedMerchandiseId(null);
   };
 
+  const toggleSortOrder = () =>
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+
   const handleSortClick = (field) => {
-    handleSort(field, sortOrder, setMerchans, setSortOrder, setSortField);
+    // Kiểm tra xem cột có thể sắp xếp không
+    if (!field || field === 'status' || field === 'Actions') {
+      return; // Không thực hiện sắp xếp
+    }
+
+    setSortField(field);
+    handleSort(
+      field,
+      sortOrder,
+      setMerchans,
+      toggleSortOrder,
+      setSortField,
+      originalMerchans,
+      typeMerchans
+    );
   };
 
   const columns = [
-    { header: 'STT', render: (item, index) => index + 1 },
+    { header: 'ID', render: (item) => item.idHangHoa, sortField: 'idHangHoa' },
     {
       header: 'Loại hàng hoá',
-      render: (item) => item.idLoaiHangHoa,
+      render: (item) => getNameById(item.idLoaiHangHoa),
       sortField: 'idLoaiHangHoa',
     },
     {
@@ -110,13 +146,12 @@ const MerchandiseTable = () => {
     {
       header: 'Trạng thái',
       render: (item) => item.trangThaiActive,
-      sortField: 'trangThaiActive',
     },
     {
       header: 'Actions',
       render: (item) => (
         <Actions
-          editLink={`/EditMerchandise/${item.idHangHoa}`}
+          editLink={`editMerchandise/${item.idHangHoa}`}
           onDelete={() => showDeleteModal(item.idHangHoa)}
         />
       ),
@@ -125,6 +160,10 @@ const MerchandiseTable = () => {
 
   useEffect(() => {
     loadMerchans();
+  }, []);
+
+  useEffect(() => {
+    loadTypeMerchandises();
   }, []);
 
   return (
@@ -138,7 +177,7 @@ const MerchandiseTable = () => {
             onChange={handleSearch}
           />
         </div>
-        <Link to='/addMerchandise' className='add-btn'>
+        <Link to='add' className='add-btn'>
           <FaPlus />
         </Link>
       </div>

@@ -7,7 +7,7 @@ import axios from 'axios';
 const AddMerchandise = () => {
   let navigate = useNavigate();
   const { idHangHoa } = useParams();
-
+  const [typeMerchans, setTypeMerchans] = useState([]);
   const [merchan, setMerchan] = useState({
     idLoaiHangHoa: '',
     tenHangHoa: '',
@@ -41,6 +41,23 @@ const AddMerchandise = () => {
       setMerchan([]);
     }
   };
+
+  const loadTypeMerchandises = async () => {
+    try {
+      const result = await axios.get(
+        'http://localhost:8080/api/loaiHangHoa/all'
+      );
+      if (result.status === 200) {
+        setTypeMerchans(result.data.data);
+      }
+    } catch (error) {
+      console.error('Error loading type merchandises:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadTypeMerchandises();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -83,53 +100,68 @@ const AddMerchandise = () => {
         merchan
       );
       console.log('Merchandise updated successfully:', result);
-      navigate('/Merchandise');
+      navigate('/admin/merchandise');
     } catch (error) {
       console.error('Error updating merchandise:', error);
     }
   };
 
   return (
-    <div className='form-container'>
-      <form onSubmit={handleSave}>
-        <FormInput
-          label='Loại hàng hóa'
-          name='idLoaiHangHoa'
-          value={merchan.idLoaiHangHoa}
-          onChange={handleChange}
-          error={errors.idLoaiHangHoa}
-        />
-        <FormInput
-          label='Tên hàng hóa'
-          name='tenHangHoa'
-          value={merchan.tenHangHoa}
-          onChange={handleChange}
-          error={errors.tenHangHoa}
-        />
-        <FormInput
-          label='Tải trọng (kg)'
-          name='taiTrong'
-          value={merchan.taiTrong}
-          onChange={handleChange}
-          error={errors.taiTrong}
-        />
-        <FormInput
-          label='Giá phát sinh (VND)'
-          name='giaPhatSinh'
-          value={merchan.giaPhatSinh}
-          onChange={handleChange}
-          error={errors.giaPhatSinh}
-        />
+    <div className='container'>
+      <div className='form-container'>
+        <form onSubmit={handleSave}>
+          <div>
+            <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
+            <select
+              name='idLoaiHangHoa'
+              id='idLoaiHangHoa'
+              onChange={handleChange}
+              value={merchan.idLoaiHangHoa}
+              error={errors.idLoaiHangHoa}
+              required
+            >
+              <option value='0' hidden>
+                Chọn loại hàng hoá
+              </option>
+              {typeMerchans.map((item) => (
+                <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
+                  {item.tenLoaiHangHoa}
+                </option>
+              ))}
+            </select>
+          </div>
+          <FormInput
+            label='Tên hàng hóa'
+            name='tenHangHoa'
+            value={merchan.tenHangHoa}
+            onChange={handleChange}
+            error={errors.tenHangHoa}
+          />
+          <FormInput
+            label='Tải trọng (kg)'
+            name='taiTrong'
+            value={merchan.taiTrong}
+            onChange={handleChange}
+            error={errors.taiTrong}
+          />
+          <FormInput
+            label='Giá phát sinh (VND)'
+            name='giaPhatSinh'
+            value={merchan.giaPhatSinh}
+            onChange={handleChange}
+            error={errors.giaPhatSinh}
+          />
 
-        <div className='button-container'>
-          <button type='submit' className='btn btn-save'>
-            Update
-          </button>
-          <Link to='/Merchandise' className='btn btn-cancel'>
-            Cancel
-          </Link>
-        </div>
-      </form>
+          <div className='button-container'>
+            <button type='submit' className='btn btn-save'>
+              Update
+            </button>
+            <Link to='/admin/merchandise' className='btn btn-cancel'>
+              Cancel
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -91,7 +91,7 @@ thead th, tbody td {
 }
 
 thead th:first-child {
-    width: 30px; /* Đặt chiều rộng cột đầu tiên */
+    width: 45px; /* Đặt chiều rộng cột đầu tiên */
 }
 
 tbody tr:nth-child(even) {
