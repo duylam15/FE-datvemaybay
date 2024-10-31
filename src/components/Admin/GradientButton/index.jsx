@@ -5,7 +5,9 @@ import { createStyles } from 'antd-style';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`
-    &.${prefixCls}-btn-primary:not([disabled]):not(.${prefixCls}-btn-dangerous) {
+    &.${prefixCls}-btn-primary:not([disabled]):not(
+        .${prefixCls}-btn-dangerous
+      ) {
       border-width: 0;
 
       > span {
@@ -32,7 +34,7 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 // Component GradientButton
 const GradientButton = () => {
   const { styles } = useStyle();
-  
+
   return (
     <ConfigProvider
       button={{
@@ -40,7 +42,7 @@ const GradientButton = () => {
       }}
     >
       <Space>
-        <Button type="primary" size="large" icon={<AntDesignOutlined />}>
+        <Button type='primary' size='large' icon={<AntDesignOutlined />}>
           Lưu
         </Button>
       </Space>
@@ -51,7 +53,7 @@ const GradientButton = () => {
 // Component GradientButtonCancel
 const GradientButtonCancel = () => {
   const { styles } = useStyle();
-  
+
   return (
     <ConfigProvider
       button={{
@@ -59,28 +61,27 @@ const GradientButtonCancel = () => {
       }}
     >
       <Space>
-        <Button size="large">Hủy</Button>
+        <Button size='large'>Hủy</Button>
       </Space>
     </ConfigProvider>
   );
 };
 
-
 // Component GradientButtonCancel
 const GradientButtonBack = () => {
-    const { styles } = useStyle();
-    
-    return (
-      <ConfigProvider
-        button={{
-          className: styles.linearGradientButton,
-        }}
-      >
-        <Space>
-          <Button size="large">Quay lại</Button>
-        </Space>
-      </ConfigProvider>
-    );
-  };
+  const { styles } = useStyle();
+
+  return (
+    <ConfigProvider
+      button={{
+        className: styles.linearGradientButton,
+      }}
+    >
+      <Space>
+        <Button size='large'>Quay lại</Button>
+      </Space>
+    </ConfigProvider>
+  );
+};
 
 export { GradientButton, GradientButtonCancel, GradientButtonBack };

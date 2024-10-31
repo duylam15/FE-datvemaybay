@@ -419,7 +419,7 @@ const FlightResult = () => {
                                     onChange={() =>
                                       handleRadioChange(
                                         classTicket.idHangVe,
-                                        flight.idChuyenBay
+                                        flight
                                       )
                                     }
                                   />
@@ -506,7 +506,7 @@ const FlightResult = () => {
                                     onChange={() =>
                                       handleRadioChange(
                                         classTicket.idHangVe,
-                                        flight.idChuyenBay
+                                        flight
                                       )
                                     }
                                   />
@@ -592,7 +592,7 @@ const FlightResult = () => {
                                     onChange={() =>
                                       handleRadioChange(
                                         classTicket.idHangVe,
-                                        flight.idChuyenBay
+                                        flight
                                       )
                                     }
                                   />
