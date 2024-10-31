@@ -121,7 +121,7 @@ const FlightResult = () => {
 
   const handleContinue = () => {
     if (selectedTicket) {
-      navigate('/checkout', {
+      navigate('/flightDetails', {
         state: {
           selectedTicket,
         },
@@ -136,29 +136,34 @@ const FlightResult = () => {
   }
   console.error(flights);
   console.error(tickets);
-  console.error(classTickets);
+  // console.error(classTickets);
   console.error(selectedTicket);
-  console.error(airports);
+  // console.error(airports);
 
-  // Lấy vé trống cho chuyến bay cụ thể
-  const totalEmptyTickets = (hangVe, flightId) => {
-    // Kiểm tra xem tickets có vé cho chuyến bay cụ thể không
-    const flightTickets = tickets[flightId] || []; // Lấy vé cho chuyến bay
-    return flightTickets.filter(
+  // Get total number of empty tickets for a specific class and flight
+  const totalEmptyTickets = (classId, flightId) => {
+    const flightTickets = tickets[flightId] || []; // Get tickets for the flight
+
+    // Filter tickets that are empty and match the specified class
+    const emptyTickets = flightTickets.filter(
       (ticket) =>
-        ticket.trangThai === 'EMPTY' && ticket.hangVe.idHangVe === hangVe
-    ).length;
+        ticket.trangThai === 'EMPTY' && ticket.hangVe.idHangVe === classId
+    );
+
+    return emptyTickets.length; // Return the count of empty tickets
   };
 
-  // Tìm giá vé thấp nhất cho chuyến bay cụ thể
-  const leastPrice = (hangVe, flightId) => {
-    const flightTickets = tickets[flightId] || []; // Lấy vé cho chuyến bay
-    const prices = flightTickets
-      .filter((ticket) => ticket.hangVe.idHangVe === hangVe)
-      .map((ticket) => ticket.giaVe)
-      .filter((giaVe) => giaVe); // Lọc các giá vé hợp lệ
+  // Get the lowest price for a specific class and flight
+  const leastPrice = (classId, flightId) => {
+    const flightTickets = tickets[flightId] || []; // Get tickets for the flight
 
-    return prices.length > 0 ? Math.min(...prices) : null; // Trả về giá thấp nhất hoặc null nếu không có giá
+    // Extract prices for tickets that match the specified class
+    const prices = flightTickets
+      .filter((ticket) => ticket.hangVe.idHangVe === classId && ticket.giaVe)
+      .map((ticket) => ticket.giaVe);
+
+    // Return the lowest price or null if there are no matching prices
+    return prices.length > 0 ? Math.min(...prices) : 'Không có giá phù hợp';
   };
 
   function formatDate(dateString) {

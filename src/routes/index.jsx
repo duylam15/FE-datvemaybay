@@ -41,6 +41,7 @@ import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import Post from '../pages/Post';
 import FlightResults from '../pages/Flight/FlightResults';
+import FlightDetails from '../pages/Flight/FlightDetails';
 import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
@@ -74,6 +75,11 @@ export const router = createBrowserRouter([
       {
         path: 'flightPopup',
         element: <FlightPopup />,
+      },
+
+      {
+        path: 'flightDetails',
+        element: <FlightDetails />,
       },
     ],
   },
