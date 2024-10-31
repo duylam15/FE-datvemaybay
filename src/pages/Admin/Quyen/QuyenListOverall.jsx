@@ -47,9 +47,9 @@ const QuyenListOverall = ({ size = 2 }) => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     // Add sorting logic here if needed
   };
-
+  
   const handleEdit = (idQuyen) => {
-    console.log("Edit permission:", idQuyen);
+    navigate(`/admin/quyen/edit/${idQuyen}`); // Điều hướng đến trang sửa
   };
 
   const handleBlock = async (idQuyen) => {

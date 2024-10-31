@@ -2,32 +2,52 @@ import React, { useEffect, useState } from 'react';
 import './themQuyen.css';
 import { Input } from 'antd';
 import { GradientButton, GradientButtonBack, GradientButtonCancel } from '../../../components/Admin/GradientButton';
-import { getAllChucNang } from '../../../services/quyenService';
-import { useNavigate } from 'react-router-dom';
+import { getAllChucNang, getChiTietQuyenTheoId } from '../../../services/quyenService';
+import { useNavigate, useParams } from 'react-router-dom';
 import ChonTatCa from '../../../components/Admin/ButtonForTableQuyen/ChonTatCa';
 import HuyChonTatCa from '../../../components/Admin/ButtonForTableQuyen/HuyChonTatCa';
 
-
-const QuyenThem = () => {
+const QuyenEdit = () => {
+    const { idQuyen } = useParams();
     const [chucNang, setChucNang] = useState([]);
     const [permissions, setPermissions] = useState({});
+    const [initialPermissions, setInitialPermissions] = useState({}); // State để lưu quyền ban đầu
+    const [tenQuyen, setTenQuyen] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllChucNang()
-            .then(response => {
-                console.log("oke ne : ", response);
-                setChucNang(response.data);
-                const initialPermissions = response.data.reduce((acc, item) => {
+        const fetchData = async () => {
+            try {
+                // Lấy tất cả các chức năng và khởi tạo các quyền cho từng chức năng
+                const chucNangResponse = await getAllChucNang();
+                setChucNang(chucNangResponse.data);
+
+                const initialPermissions = chucNangResponse.data.reduce((acc, item) => {
                     acc[item.tenChucNang] = { view: false, create: false, edit: false, delete: false };
                     return acc;
                 }, {});
                 setPermissions(initialPermissions);
-            })
-            .catch(error => {
+                setInitialPermissions(initialPermissions); // Lưu quyền ban đầu
+
+                // Lấy thông tin quyền theo ID sau khi permissions đã được khởi tạo
+                const quyenResponse = await getChiTietQuyenTheoId(idQuyen);
+                setTenQuyen(quyenResponse.data.tenQuyen);
+
+                // Cập nhật các quyền từ API
+                const updatedPermissions = { ...initialPermissions };
+                quyenResponse.data.chiTietQuyenDTOList.forEach(({ tenChucNang, hanhDong }) => {
+                    if (updatedPermissions[tenChucNang]) {
+                        updatedPermissions[tenChucNang][hanhDong.toLowerCase()] = true;
+                    }
+                });
+                setPermissions(updatedPermissions);
+            } catch (error) {
                 console.error("Error fetching data:", error);
-            });
-    }, []);
+            }
+        };
+
+        fetchData();
+    }, [idQuyen]);
 
     const handleCheckboxChange = (tenChucNang, permissionType) => {
         setPermissions(prev => ({
@@ -37,6 +57,14 @@ const QuyenThem = () => {
                 [permissionType]: !prev[tenChucNang][permissionType]
             }
         }));
+    };
+
+    const handleBack = () => {
+        navigate('/admin/quyen');
+    };
+
+    const handleCancel = () => {
+        setPermissions(initialPermissions); // Quay trở lại trạng thái ban đầu
     };
 
     const selectAllRow = (tenChucNang) => {
@@ -63,23 +91,14 @@ const QuyenThem = () => {
         }));
     };
 
-    const handleBack = () => {
-        console.log("backkk")
-        navigate('/admin/quyen');
-    };
-
-    const handleCancel = () => {
-        const resetPermissions = Object.keys(permissions).reduce((acc, key) => {
-            acc[key] = { view: false, create: false, edit: false, delete: false };
-            return acc;
-        }, {});
-        setPermissions(resetPermissions);
-    };
-
     return (
         <div className='them_quyen_container'>
-            <h1 className="title">Thêm nhóm quyền</h1>
-            <Input placeholder="Nhập tên nhóm quyền" />
+            <h1 className="title">Chỉnh sửa nhóm quyền</h1>
+            <Input
+                placeholder="Nhập tên nhóm quyền"
+                value={tenQuyen}
+                onChange={(e) => setTenQuyen(e.target.value)}
+            />
             <table className='table'>
                 <thead>
                     <tr>
@@ -139,15 +158,13 @@ const QuyenThem = () => {
             </table>
             <div className='row_last'>
                 <div onClick={handleBack}> <GradientButtonBack /> </div>
-                
                 <div className="btn_row_last">
-                <div onClick={handleCancel}> <GradientButtonCancel/> </div>
-                <div > <GradientButton /></div>
-
+                    <div onClick={handleCancel}> <GradientButtonCancel /> </div>
+                    <div> <GradientButton /> </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default QuyenThem;
+export default QuyenEdit;

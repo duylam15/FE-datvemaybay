@@ -29,3 +29,7 @@ export const searchQuyen = async (tenQuyen, page = 0, size = 2) => {
 export const getAllChucNang = () => {
     return axios.get(`${REST_API_BASE_URL}/chucnang`)
 }
+
+export const getChiTietQuyenTheoId = (idQuyen) => {
+    return axios.get(`${REST_API_BASE_URL}/quyen/${idQuyen}`)
+}

@@ -69,8 +69,8 @@ const QuyenList = ({
                     : "Không hoạt động"}
                 </td>
                 <td className="btn_row">
-                <EditBtn></EditBtn>
-                <DeleteBtn></DeleteBtn>
+                <div className="btn_block" onClick={() => onEdit(nq.idQuyen)}><EditBtn></EditBtn></div>
+                <div className="btn_block"><DeleteBtn></DeleteBtn></div>
                 </td>
               </tr>
             ))
