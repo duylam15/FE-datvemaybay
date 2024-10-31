@@ -417,7 +417,10 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     dataNhanVien()
       .then((response) => {
-        setNhanViens(response.data.data);
+        const data = response.data.data;
+        console.log(data.filter((item) => item.trangThaiActive == "ACTIVE"));
+        const filterActive = data.filter((item) => item.trangThaiActive == "ACTIVE")
+        setNhanViens(filterActive);
       })
   }, [])
 
