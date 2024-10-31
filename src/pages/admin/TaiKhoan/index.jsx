@@ -57,7 +57,7 @@ const TaiKhoanPage = () => {
             <TaiKhoanList
                 taiKhoan={taiKhoan} 
                 onEdit={handleEdit} 
-                onBlock={handleBlock} 
+                // onBlock={handleBlock} 
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} 
                 handleSearch={handleSearch} 

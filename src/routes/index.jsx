@@ -49,8 +49,10 @@ import FlightPopup from '../pages/Flight/FlightPopup';
 import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
 import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
 import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
-
 import FlightDetails from "../pages/FlightDetails";
+import TaiKhoanPage from "../pages/admin/TaiKhoan/index"
+import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
+import TaiKhoanAddForm from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 
 export const router = createBrowserRouter([
   {
@@ -256,18 +258,18 @@ export const router = createBrowserRouter([
         path: 'loaihoadon/edit/:idLoaiHD',
         element: <LoaiHoaDonEdit />,
       },
-      // {
-      // 	path: "taikhoan",
-      // 	element: <TaiKhoanPage />
-      // },
-      // {
-      // 	path: "taikhoan/add",
-      // 	element: <TaiKhoanAddForm />
-      // },
-      // {
-      // 	path: "taikhoan/edit/:idTaiKhoan",
-      // 	element: <TaiKhoanEdit />
-      // },
+      {
+      	path: "taikhoan",
+      	element: <TaiKhoanPage />
+      },
+      {
+      	path: "taikhoan/add",
+      	element: <TaiKhoanAddForm />
+      },
+      {
+      	path: "taikhoan/edit/:idTaiKhoan",
+      	element: <TaiKhoanEdit />
+      },
     ],
   },
 ]);
