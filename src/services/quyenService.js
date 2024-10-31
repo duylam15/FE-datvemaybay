@@ -33,3 +33,7 @@ export const getAllChucNang = () => {
 export const getChiTietQuyenTheoId = (idQuyen) => {
     return axios.get(`${REST_API_BASE_URL}/quyen/${idQuyen}`)
 }
+
+export const themQuyen = (data) => {
+    return axios.post(`${REST_API_BASE_URL}/quyen/create`, data)
+}
