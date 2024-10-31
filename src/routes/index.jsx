@@ -47,6 +47,9 @@ import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
 import FlightPopup from '../pages/Flight/FlightPopup';
+import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
+import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
+import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
 
 export const router = createBrowserRouter([
   {
@@ -144,7 +147,21 @@ export const router = createBrowserRouter([
         ],
       },
 
-      { path: 'quyen', element: <Quyen /> }, // Route con khác
+      {
+        path: 'quyen',
+        element: <Quyen />,
+        children: [
+          { index: true, element: <QuyenListOverall /> },
+          {
+            path: 'add',
+            element: <QuyenThem></QuyenThem>,
+          },
+          {
+            path: 'edit/:idQuyen',
+            element: <QuyenEdit></QuyenEdit>,
+          },
+        ],
+      },
       {
         path: 'maybay',
         element: <MayBayPage />,

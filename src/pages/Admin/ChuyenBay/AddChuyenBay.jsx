@@ -189,10 +189,10 @@ export const AddChuyenBay = () => {
     let trangThaiMoi = "";
     if (timeStartReal.getTime() > currentTime.getTime() && e.target.value == "CANCELED")
       trangThaiMoi = e.target.value;
-    if (timeStartWish.getTime() == timeStartReal.getTime() && e.target.value == "SCHEDULED") {
+    if (timeStartWish.getTime() == timeStartReal.getTime() && timeStartReal.getTime() > currentTime.getTime() && e.target.value == "SCHEDULED") {
       trangThaiMoi = e.target.value;
     }
-    if (timeStartReal.getTime() != timeStartWish.getTime() && e.target.value == "DELAYED") {
+    if (timeStartReal.getTime() != timeStartWish.getTime() && timeStartReal.getTime() > currentTime.getTime() && e.target.value == "DELAYED") {
       trangThaiMoi = e.target.value;
     }
     if (currentTime.getTime() >= timeStartReal.getTime() && currentTime.getTime() <= timeEndReal.getTime() && e.target.value == "IN_FLIGHT")
@@ -347,7 +347,7 @@ export const AddChuyenBay = () => {
     }
     if (tuyenBay == undefined || thoiGianBatDauDuTinh == "")
       return;
-
+    const currentTime = new Date();
     // Tính tổng số giây từ thời gian chuyến bay
     const totalSeconds = tuyenBay.thoiGianChuyenBay * 60;
     //tông thời gian delay
@@ -355,6 +355,10 @@ export const AddChuyenBay = () => {
     // Chuyển đổi thoiGianBatDauDuTinh thành đối tượng Date
     const startDateTime = new Date(thoiGianBatDauDuTinh);
     const startDateTimeForDelay = new Date(startDateTime.getTime() + delayInMilliseconds);
+    if (startDateTimeForDelay.getTime() <= currentTime.getTime()) {
+      setErrorDelay("Thời gian bắt đầu thực tế phải lớn hơn thời gian hiện tại");
+      return;
+    }
     setthoiGianBatDauThucTe(formatDateTime(startDateTimeForDelay))
     // Tính thời gian kết thúc
     const endDateTime = new Date(startDateTime.getTime() + totalSeconds * 1000);
@@ -362,6 +366,12 @@ export const AddChuyenBay = () => {
     setThoiGianKetThucDuTinh(formatDateTime(endDateTime));
     setThoiGianKetThucThucTe(formatDateTime(endDateTimeForDelay));
     console.log("thoi gian bat dau thuc te : " + formatDateTime(startDateTimeForDelay));
+    if (startDateTime.getTime() != startDateTimeForDelay.getTime() && startDateTimeForDelay.getTime() > currentTime.getTime()) {
+      setTrangThai("DELAYED");
+    }
+    if (startDateTime.getTime() == startDateTimeForDelay.getTime() && startDateTimeForDelay.getTime() > currentTime.getTime()) {
+      setTrangThai("SCHEDULED");
+    }
   }, [thoiGianBatDauDuTinh, tuyenBay, delay])
 
   // xac dinh icao cho chuyen bay,iata cho chuyến bay
@@ -417,7 +427,10 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     dataNhanVien()
       .then((response) => {
-        setNhanViens(response.data.data);
+        const data = response.data.data;
+        console.log(data.filter((item) => item.trangThaiActive == "ACTIVE"));
+        const filterActive = data.filter((item) => item.trangThaiActive == "ACTIVE")
+        setNhanViens(filterActive);
       })
   }, [])
 

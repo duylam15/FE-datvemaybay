@@ -159,14 +159,14 @@ const AddComponent = (props) => {
         // navigator(`${newPath}/nhanvien`, { replace: true })
         // props.setAction("main");
         setTypeDisplay("block");
-        setThongBao({ message: message.sucessAdd, typeMessage: 'answer' });
+        setThongBao({ message: message.sucessAdd, typeMessage: 'outpagehere' });
       })
       .catch(error => {
         console.log(error.response.data);
         const errorData = error.response.data.data;
         setErrorData(errorData);
         setTypeDisplay("block");
-        setThongBao({ message: message.errorField, typeMessage: 'error' });
+        setThongBao({ message: message.errorField, typeMessage: 'inpage' });
       });
     console.log(nhanvien);
   }
@@ -181,14 +181,14 @@ const AddComponent = (props) => {
       // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
       // props.setAction("main");
       setTypeDisplay("block");
-      setThongBao({ message: message.sucessEdit, typeMessage: "answer" });
+      setThongBao({ message: message.sucessEdit, typeMessage: "outpagehere" });
     })
       .catch(error => {
         console.log(error.response?.data);
         const errorData = error.response.data.data;
         setErrorData(errorData);
         setTypeDisplay("block");
-        setThongBao({ message: message.errorField, typeMessage: "error" });
+        setThongBao({ message: message.errorField, typeMessage: "inpage" });
       });
 
     console.log(nhanvien);
@@ -200,7 +200,7 @@ const AddComponent = (props) => {
     // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
     // props.setAction("main");
     setTypeDisplay("block");
-    setThongBao({ message: message.cancle, typeMessage: 'question' });
+    setThongBao({ message: message.cancle, typeMessage: 'inpage' });
   }
 
 
@@ -208,7 +208,7 @@ const AddComponent = (props) => {
   const [typeDisplay, setTypeDisplay] = useState('none'); /// display layout
   const [thongBao, setThongBao] = useState({
     message: "",
-    typeMessage: "" // "error" ,"answer" ,  "question"
+    typeMessage: "" // "inpage" ,"outpage" ,  ""
   });
   const message = {
     cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idNhanVien ? "sửa nhân viên" : "thêm nhân viên"),

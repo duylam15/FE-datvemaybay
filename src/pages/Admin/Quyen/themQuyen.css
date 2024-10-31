@@ -1,0 +1,38 @@
+.title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 20px;
+}
+.table {
+  margin-top: 20px;
+}
+.table input {
+  width: 15px;
+  height: 15px;
+}
+.row_last {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn_row_last {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 80%;
+  justify-content: center;
+}
+
+.table tr {
+  align-items: center;
+}
+tbody td {
+  height: 100%; /* Make sure the height is taken up */
+}
+
+.head_info {
+  display: flex;
+  gap: 15px;
+}

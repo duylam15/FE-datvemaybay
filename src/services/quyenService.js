@@ -25,3 +25,19 @@ export const searchQuyen = async (tenQuyen, page = 0, size = 2) => {
         console.error("Error fetching search quyen:", error);
     }
 };
+
+export const getAllChucNang = () => {
+    return axios.get(`${REST_API_BASE_URL}/chucnang`)
+}
+
+export const getChiTietQuyenTheoId = (idQuyen) => {
+    return axios.get(`${REST_API_BASE_URL}/quyen/${idQuyen}`)
+}
+
+export const themQuyen = (data) => {
+    return axios.post(`${REST_API_BASE_URL}/quyen/create`, data)
+}
+
+export const suaQuyen = (idQuyen,data) => {
+    return axios.post(`${REST_API_BASE_URL}/quyen/update/${idQuyen}`, data)
+}
