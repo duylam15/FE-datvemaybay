@@ -8,6 +8,7 @@ const AddMayBayForm = () => {
     console.log('ThemMayBay');
     const [tenMayBay, setTenMayBay] = useState('');
     const [hangBay, setHangBay] = useState(null);
+    const [sanBay, setSanBay] = useState(null);
     const [icaoMayBay, setIcaoMaybay] = useState('');
     const [soHangGheThuong, setSoHangGheThuong] = useState('');
     const [soCotGheThuong, setSoCotGheThuong] = useState('');
@@ -17,6 +18,7 @@ const AddMayBayForm = () => {
     const [namSanXuat, setNamSanXuat] = useState();
     const [trangThaiActive, setTrangThaiActive] = useState('ACTIVE');
     const [listHangBay, setListHangBay] = useState([]);
+    const [listSanBay, setListSanBay] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
@@ -44,6 +46,29 @@ const AddMayBayForm = () => {
         fetchData();
     }, []);
 
+    const getSanBay = async () => {
+        const response = await fetch(`${API_URL}/admin/sanbay/getAllAirport`); // Thay đổi endpoint theo API của bạn
+        if (!response.ok) {
+            throw new Error('Failed to fetch airport');
+        }
+        const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+        return data.data; // Trả về phần data bên trong JSON
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSanBay();
+                setListSanBay(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    
 
     const handleSelectHangBay = (e) => {
         const selectedId = parseInt(e.target.value, 10); // Lấy value từ sự kiện
@@ -51,6 +76,12 @@ const AddMayBayForm = () => {
         console.log('Selected airline: ', selectedHangBay);
         setHangBay(selectedHangBay);
     };
+    const handleSelectSanBay = (e) => {
+        const selectedId = parseInt(e.target.value, 10);
+        const selectedSanBay = listSanBay.find(sb => sb.idSanBay === selectedId);
+        console.log('Selected airport: ', selectedSanBay);
+        setSanBay(selectedSanBay);
+    }
     console.log(listHangBay)
     // Xử lý submit form
     const handleSubmit = async (event) => {
@@ -58,13 +89,13 @@ const AddMayBayForm = () => {
 
         const mayBay = {
             tenMayBay,
-            hangBay, // Gửi ID của hãng bay
+            hangBay, 
+            sanBay,
             icaoMayBay,
-            // soLuongGhe: parseInt(soLuongGhe),
-            soCotGheThuong: parseInt(soCotGheThuong),
-            soHangGheThuong,
-            soHangGheVip,
-            soCotGheVip: parseInt(soCotGheVip),
+            soCotGheThuong,
+            soHangGheThuong: parseInt(soHangGheThuong),
+            soHangGheVip: parseInt(soHangGheVip),
+            soCotGheVip,
             soHieu,
             namSanXuat: parseInt(namSanXuat),
             trangThaiActive
@@ -118,6 +149,23 @@ const AddMayBayForm = () => {
                     ))}
                 </select>
                 {fieldErrors.hangBay && <div className="invalid-feedback">{fieldErrors.hangBay}</div>}
+            </div>
+            <div className="form-group">
+                <label>Sân Bay</label>
+                <select
+                    className={`form-control ${fieldErrors.sanBay ? 'is-invalid' : ''}`}
+                    value={sanBay ? sanBay.idSanBay : ''} // Chỉ lấy ID
+                    onChange={handleSelectSanBay}
+                    required
+                >
+                    <option value="">Chọn Hãng Bay</option>
+                    {listSanBay.map((hb) => (
+                        <option value={hb.idSanBay} key={hb.idSanBay}>
+                            {hb.tenSanBay}
+                        </option>
+                    ))}
+                </select>
+                {fieldErrors.sanBay && <div className="invalid-feedback">{fieldErrors.sanBay}</div>}
             </div>
             <div className="form-group">
                 <label>ICAO Máy Bay</label>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Space } from 'antd';
-import { createStyles } from 'antd-style';
+import { createStyles } from '../../../../node_modules/antd-style';
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`

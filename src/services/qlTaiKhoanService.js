@@ -16,7 +16,7 @@ export const editTaiKhoan= (navigate, idTaiKhoan) => {
 
 export const searchTaiKhoan = async (searchTerm, setTaiKhoan) => {
     try {
-        const response = await axios.get(`${API_URL}/taikhoan`, { params: { page: 0, size: 10 } });
+        const response = await axios.get(`${API_URL}/taikhoan/findByKeyWord?keyWord=${searchTerm}`);
         console.log('Search results:', response.data);
         setTaiKhoan(response.data.data);
     } catch (error) {
@@ -31,10 +31,10 @@ export const searchTaiKhoan = async (searchTerm, setTaiKhoan) => {
 };
 
 export const handleSort = async (field, sortOrder, setTaiKhoan, setSortOrder, setSortField) => {
-    axios.get(`${API_URL}/taikhoan/getAllTaiKhoanSorted`, { params: { sortBy: field, direction: sortOrder, page: 0, size: 10  } })
+    axios.get(`${API_URL}/taikhoan/getAllTaiKhoanSorted?sortBy=${field}&order=${sortOrder}`)
         .then(response => {
             console.log('Sorted results:', response.data);
-            setTaiKhoan(response.data.data.content);
+            setTaiKhoan(response.data.data);
             setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
             setSortField(field); // Set the current field being sorted
         })

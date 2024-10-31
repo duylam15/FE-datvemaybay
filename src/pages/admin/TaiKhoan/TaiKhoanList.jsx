@@ -3,7 +3,7 @@ import { useState } from 'react';
 
     const TaiKhoanList = ({
         taiKhoan,          // Danh sách các phương thức thanh toán
-        onEdit,              // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
+        onEdit,            // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
         searchTerm,          // Giá trị tìm kiếm
         setSearchTerm,       // Hàm cập nhật giá trị tìm kiếm
         handleSearch,        // Hàm xử lý sự kiện tìm kiếm

@@ -61,11 +61,10 @@ export const getSoLuong = async (idMayBay) => {
         // Kiểm tra dữ liệu trả về
         if (!data) throw new Error('Không tìm thấy thông tin máy bay!');
 
-        const soCotThuong = data.soCotGheThuong || 0;
-        const soHangThuong = data.soHangGheThuong ? data.soHangGheThuong.length : 0;
-        const soCotVIP = data.soCotGheVip || 0;
-        const soHangVip = data.soHangGheVip ? data.soHangGheVip.length : 0;
-
+        const soCotThuong = data.soCotGheThuong ? data.soCotGheThuong.length : 0;
+        const soHangThuong = data.soHangGheThuong || 0;
+        const soCotVIP = data.soCotGheVip ? data.soCotGheVip.length : 0;
+        const soHangVip = data.soHangGheVip || 0;
         // Tính tổng số ghế
         const soLuongGhe = (soCotThuong * soHangThuong) + (soCotVIP * soHangVip);
         return soLuongGhe;
@@ -83,6 +82,26 @@ export const getByAirline = async(idHangBay, setMayBay) => {
         else {
             const response = await axios.get(`${API_URL}/admin/maybay/getPlaneByAirline/${idHangBay}`);
             console.log('Get plane by airline ', idHangBay, ' is ', response.data);
+            setMayBay(response.data.data)
+        }
+    } catch (error) {
+        // console.error('Not search by airlines!', error);
+        if (error.response && error.response.status === 404) {
+            setMayBay([]);
+        }
+        console.error('Error fetching search results:', error);
+    }
+}
+
+export const getByAirport = async(idSanBay, setMayBay) => {
+    try {
+        if(idSanBay === 'Lọc theo sân bay'){
+            const response = await axios.get(`${API_URL}/admin/maybay/getAllPlane`);
+            setMayBay(response.data.data);
+        }
+        else {
+            const response = await axios.get(`${API_URL}/admin/maybay/getPlaneByAirport/${idSanBay}`);
+            console.log('Get plane by airport ', idSanBay, ' is ', response.data);
             setMayBay(response.data.data)
         }
     } catch (error) {
