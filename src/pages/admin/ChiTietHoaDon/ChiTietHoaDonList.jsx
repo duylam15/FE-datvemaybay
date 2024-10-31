@@ -33,8 +33,8 @@ const ChiTietHoaDonList = ({
                         <th scope="col" className='align-bottom text-success' onClick={() => handleSort('hangHoa.tenHangHoa')}>
                             Hàng hóa {sortField === 'hangHoa.tenHangHoa' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('ve.codeVe')}>
-                            Vé {sortField === 've.codeVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('ve.maVe')}>
+                            Vé {sortField === 've.maVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
 						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('soTien')}>
                             Số tiền {sortField === 'soTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -46,7 +46,7 @@ const ChiTietHoaDonList = ({
                         <tr key={cthd.idChiTietHoaDon}>
                             <td  className='align-middle'>{cthd.idChiTietHoaDon}</td>
                             <td>{cthd.hangHoa.tenHangHoa}</td>
-                            <td>{cthd.ve.codeVe}</td>
+                            <td>{cthd.ve ? cthd.ve.maVe : '-'}</td>
                             <td>{cthd.soTien}</td>
                         </tr>
                     )))

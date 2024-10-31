@@ -18,7 +18,6 @@ const HoaDonList = ({
     handleFilter,
     handleState
 }) => {
-    console.log(hoaDon);
 
     const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
 
@@ -47,7 +46,6 @@ const HoaDonList = ({
         fetchFieldValue();
     }, []);
 
-    // console.log(currentHoaDon);
     return (
         <div className='hoa-don-controls'>
             <div className="search-sort-controls">
@@ -122,7 +120,7 @@ const HoaDonList = ({
                             <td className='align-middle'>{hd.phuongThucThanhToan.tenPhuongThucTT}</td>
                             <td className='align-middle'>{hd.tongTien}</td>
                             <td className='align-middle'>
-                                <select name="status" id="hd.status" value={hd.status} onChange={(e) => {
+                                <select name="status" id="hd.status" className='status-select' value={hd.status} onChange={(e) => {
                                     (handleState(hd.idHoaDon, e.target.value));
                                     console.log(e.target.value);
                                     console.log(hd.status);
@@ -133,7 +131,7 @@ const HoaDonList = ({
                                 </select>
                             </td>
                             <td className='align-middle'>
-                                <button className="btn btn-primary mr-2" onClick={() => viewDetail(hd.idHoaDon)}>Detail</button>
+                                <button className="btn btn-primary mr-2 detail-btn" onClick={() => viewDetail(hd.idHoaDon)}>Detail</button>
                             </td>
                         </tr>
                     )))

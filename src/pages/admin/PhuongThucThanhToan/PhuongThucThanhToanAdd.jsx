@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080';
 const PhuongThucTTAddForm = () => {
     const [tenPTTT, setTenPTTT] = useState('');
     const [moTa, setMoTa] = useState('');
-    const [trangThaiActive, setTrangThaiActive] = useState('ACTIVE');
+    const [status, setStatus] = useState('ACTIVE');
     const [error, setError] = useState(null); 
     const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const PhuongThucTTAddForm = () => {
         const phuongThucTT = {
             tenPTTT,
             moTa,
-            trangThaiActive,
+            status,
         };
 
         try {
@@ -65,9 +65,9 @@ const PhuongThucTTAddForm = () => {
              <div className="mb-3">
                  <label className="form-label">Trạng thái</label>
                  <select
-                    className={`form-control form-control-lg ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
-                    value={trangThaiActive}
-                    onChange={(e) => setTrangThaiActive(e.target.value)}
+                    className={`form-control form-control-lg`} 
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
                 >
                     <option value="ACTIVE">Kích Hoạt</option>
                     <option value="INACTIVE">Không Kích Hoạt</option>

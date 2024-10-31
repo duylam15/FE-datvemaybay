@@ -13,32 +13,68 @@ const HoaDonAdd = () => {
     const [loaiHoaDon, setLoaiHoaDon] = useState('');
     const [phuongThucThanhToan, setPhuongThucThanhToan] = useState('');
     const [tongTien, setTongTien] = useState('');
-    const [thoiGianLap, setThoiGianLap] = useState('');
-    const [trangThaiActive, setTrangThaiActive] = useState('ACTIVE');
+    const [trangThaiActive, setTrangThaiActive] = useState('PENDING');
+
+    const [loaiHangHoa, setLoaiHangHoa] = useState('');
+    const [tenHangHoa, setTenHangHoa] = useState('');
+    const [taiTrong, setTaiTrong] = useState('');
+    const [giaPhatSinh, setGiaPhatSinh] = useState('');
+
+    const [idHangHoa, setIdHangHoa] = useState('');
+    const [soTien, setSoTien] = useState('');
+    
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
     const navigate = useNavigate();
+
     const [khachHangList, setKhachHangList] = useState([]);
+    const [nhanVienList, setNhanVienList] = useState([]);
     const [loaiHoaDonList, setLoaiHoaDonList] = useState([]);
     const [phuongThucThanhToanList, setPhuongThucThanhToanList] = useState([]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hoaDon = {
-            khachHang,
-            nhanVien,
-            soLuongVe,
-            loaiHoaDon,
-            phuongThucThanhToan,
+        const hangHoa = {
+            tenHangHoa,
+            idLoaiHangHoa: 3,
+            taiTrong,
+            giaPhatSinh,
+            trangThaiActive: 'ACTIVE',
+        }
+
+        const hoaDonDTO = {
+            khachHang: {idKhachHang: khachHang},
+            nhanVien: {idNhanVien: nhanVien},
+            soLuongVe: 0,
+            loaiHoaDon: {idLoaiHoaDon: 2},
+            phuongThucThanhToan: {idPhuongThucTT: phuongThucThanhToan},
             tongTien,
-            thoiGianLap,
-            trangThaiActive
+            thoiGianLap: new Date(),
+            trangThaiActive: 'PENDING'
         };
 
+        const chiTietHoaDonDTOList = [
+            {
+                hangHoa: {idHangHoa},
+                ve: null,
+                soTien
+            }
+        ]
+
+        const hoaDonCreate = {
+            hoaDonDTO, 
+            chiTietHoaDonDTOList
+        }
+
         try {
-            const response = await axios.post(`${API_URL}/addHoaDon`, hoaDon);
+            console.log("hangHoa ", hangHoa);
+            const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
+            setIdHangHoa(hangHoaResponse.data.data.idHangHoa);
+
+            console.log(hoaDonCreate);
+            const response = await axios.post(`${API_URL}/createHoaDon`, hoaDonCreate);
             console.log('Thêm hóa đơn thành công', response.data);
-            navigate('/hoadon'); // Điều hướng về trang danh sách khách hàng
+            navigate('/admin/hoadon'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -56,13 +92,34 @@ const HoaDonAdd = () => {
         fetchKhachHang();
         fetchLoaiHoaDonList();
         fetchPTTTList();
+        fetchNhanVien();
+        fetchLoaiHangHoa();
     }, []);
     
+    const fetchLoaiHangHoa = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/api/loaiHangHoa/3`);
+            setLoaiHangHoa(response.data.data);
+        } catch (error) {
+            console.error('Error fetching LoaiHangHoa list:', error);
+        }
+    }
+
     const fetchKhachHang = async () => {
         try {
-            const response = await fetch(`${API_URL}/getAllCustomer`);
+            const response = await fetch(`${API_URL}/khachhang/getAllCustomer`);
             const data = await response.json();
             setKhachHangList(data.data);
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách khách hàng:', error);
+        }
+    };
+
+    const fetchNhanVien = async () => {
+        try {
+            const response = await fetch(`${API_URL}/admin/nhanvien/getallnhanvien`);
+            const data = await response.json();
+            setNhanVienList(data.data);
         } catch (error) {
             console.error('Lỗi khi lấy danh sách khách hàng:', error);
         }
@@ -90,103 +147,97 @@ const HoaDonAdd = () => {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-             <div className="mb-3">
+        <form onSubmit={handleSubmit} className="row">
+             <div className="mb-3 col-4">
                  <label className="form-label">Khách hàng</label>
                  <select
-                    className={`form-control ${fieldErrors.khachHang ? 'is-invalid' : ''}`}
+                    className={`form-control`}
                     value={khachHang}
-                    onChange={(e) => setKhachHang(e.target.value)}
+                    onChange={(e) => setKhachHang(parseInt(e.target.value), 10)}
                 >
                     <option value="" selected>Chọn khách hàng</option>
-                    {khachHangList.map((kh) => (
+                    {khachHangList.filter(kh => kh.trangThaiActive !== 'IN_ACTIVE').map((kh) => (
                         <option key={kh.idKhachHang} value={kh.idKhachHang}>
                             {kh.hoTen}
                         </option>
                     ))}
                 </select>
-                 {fieldErrors.khachHang && <div className="invalid-feedback">{fieldErrors.khachHang}</div>} {/* Hiển thị thông báo lỗi */}
              </div>
-             <div className="mb-3">
+             <div className="mb-3 col-4">
                  <label className="form-label">Nhân viên</label>
                  <select
-                    className={`form-control ${fieldErrors.nhanVien ? 'is-invalid' : ''}`}
+                    className={`form-control`}
                     value={nhanVien}
-                    onChange={(e) => setNhanVien(e.target.value)}
+                    onChange={(e) => setNhanVien(parseInt(e.target.value), 10)}
                 >
                     <option value="">Chọn nhân viên</option> {/*lấy tạm danh sách khách hàng*/}
-                    {khachHangList.map((kh) => (
-                        <option key={kh.idKhachHang} value={kh.idKhachHang}>
-                            {kh.hoTen}
+                    {nhanVienList.filter(nv => nv.trangThaiActive !== 'IN_ACTIVE').map((nv) => (
+                        <option key={nv.idNhanVien} value={nv.idNhanVien}>
+                            {nv.hoTen}
                         </option>
                     ))}
                 </select>
-                 {fieldErrors.nhanVien && <div className="invalid-feedback">{fieldErrors.nhanVien}</div>} {/* Hiển thị thông báo lỗi */}
              </div>
-             <div className="mb-3">
-                 <label className="form-label">Số lượng vé</label>
+             <div className="mb-3 col-4">
+                 <label className="form-label">Phương thức thanh toán</label>
+                 <select
+                    className={`form-control`}
+                    value={phuongThucThanhToan}
+                    onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value), 10)}
+                >
+                    <option value="">Chọn phương thức thanh toán</option>
+                    {phuongThucThanhToanList
+                        .filter(pttt => pttt.status !== 'IN_ACTIVE') // Lọc các phương thức thanh toán
+                        .map((pttt) => (
+                            <option key={pttt.idPTTT} value={pttt.idPTTT}>
+                                {pttt.tenPTTT}
+                            </option>
+                        ))}
+                </select>
+             </div>
+             <div className="mb-3 col-4">
+                 <label className={`form-label`}>Tên hàng hóa</label>
                  <input 
                     type="text" 
                     className={`form-control`} 
-                    value={soLuongVe}
-                    onChange={(e) => setSoLuongVe(e.target.value)}
+                    value={tenHangHoa}
+                    onChange={(e) => setTenHangHoa(e.target.value)}
                  />
-                 {fieldErrors.soLuongVe && <div className="invalid-feedback">{fieldErrors.soLuongVe}</div>} {/* Hiển thị thông báo lỗi */}
              </div>
-             <div className="mb-3">
-                 <label className="form-label">Loại hóa đơn</label>
-                 <select
-                    className={`form-control ${fieldErrors.loaiHoaDon ? 'is-invalid' : ''}`}
-                    value={loaiHoaDon}
-                    onChange={(e) => setLoaiHoaDon(e.target.value)}
-                >
-                    <option value="">Chọn loại hóa đơn</option>
-                    {loaiHoaDonList.map((lhd) => (
-                        <option key={lhd.idLoaiHD} value={lhd.idLoaiHD}>
-                            {lhd.tenLoaiHD}
-                        </option>
-                    ))}
-                </select>
-                 {fieldErrors.loaiHoaDon && <div className="invalid-feedback">{fieldErrors.loaiHoaDon}</div>} {/* Hiển thị thông báo lỗi */}
+             <div className="mb-3 col-4">
+                 <label className={`form-label `}>Tải trọng</label>
+                 <input 
+                    type="text" 
+                    className={`form-control`} 
+                    value={taiTrong}
+                    onChange={(e) =>{ 
+                        setTaiTrong(e.target.value);
+                        setGiaPhatSinh(e.target.value*loaiHangHoa.giaThemMoiKg);
+                        setTongTien(e.target.value*loaiHangHoa.giaThemMoiKg);
+                    }}
+                 />
+                </div>
+             <div className="mb-3 col-4">
+                 <label className={`form-label`}>Giá phát sinh</label>
+                 <input 
+                    type="text" 
+                    className={`form-control`} 
+                    value={giaPhatSinh}
+                    disabled={true}
+                    onChange={(e) => setGiaPhatSinh(e.target.value)}
+                 />
              </div>
-             <div className="mb-3">
-                 <label className="form-label">Phương thức thanh toán</label>
-                 <select
-                    className={`form-control ${fieldErrors.loaiHoaDon ? 'is-invalid' : ''}`}
-                    value={phuongThucThanhToan}
-                    onChange={(e) => setPhuongThucThanhToan(e.target.value)}
-                >
-                    <option value="">Chọn phương thức thanh toán</option>
-                    {phuongThucThanhToanList.map((pttt) => (
-                        <option key={pttt.idPTTT} value={pttt.idPTTT}>
-                            {pttt.tenPTTT}
-                        </option>
-                    ))}
-                </select>
-                 {fieldErrors.phuongThucThanhToan && <div className="invalid-feedback">{fieldErrors.phuongThucThanhToan}</div>} {/* Hiển thị thông báo lỗi */}
-             </div>
-             <div className="mb-3">
+             <div className="mb-3 col-4">
                  <label className="form-label">Tổng tiền</label>
                  <input 
                     type="text" 
                     className={`form-control`} 
                     value={tongTien}
                     onChange={(e) => setTongTien(e.target.value)}
-                    disabled="true"
+                    disabled={true}
                  />
-                 {fieldErrors.tongTien && <div className="invalid-feedback">{fieldErrors.tongTien}</div>} {/* Hiển thị thông báo lỗi */}
              </div>
-             <div className="mb-3">
-                 <label className="form-label">Trạng thái</label>
-                 <select
-                    className={`form-control ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
-                    value={trangThaiActive}
-                    onChange={(e) => setTrangThaiActive(e.target.value)}
-                >
-                    <option value="ACTIVE">Kích Hoạt</option>
-                    <option value="INACTIVE">Không Kích Hoạt</option>
-                </select>
-             </div>
+             
              <button type="submit" className="btn btn-primary">Submit</button>
          </form>
     );

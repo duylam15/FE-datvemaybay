@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080';
 const LoaiHoaDonAdd = () => {
     const [tenLoaiHD, setTenLoaiHD] = useState('');
     const [moTa, setMoTa] = useState('');
-    const [trangThaiActive, setTrangThaiActive] = useState('ACTIVE');
+    const [status, setStatus] = useState('ACTIVE');
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const LoaiHoaDonAdd = () => {
         const loaiHoaDon = {
             tenLoaiHD,
             moTa,
-            trangThaiActive
+            status
         };
 
         try {
@@ -65,8 +65,8 @@ const LoaiHoaDonAdd = () => {
                     <label className="form-label">Trạng thái</label>
                     <select
                         className={`form-control ${fieldErrors.trangThaiActive ? 'is-invalid' : ''}`} 
-                        value={trangThaiActive}
-                        onChange={(e) => setTrangThaiActive(e.target.value)}
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
                     >
                         <option value="ACTIVE">Kích Hoạt</option>
                         <option value="INACTIVE">Không Kích Hoạt</option>

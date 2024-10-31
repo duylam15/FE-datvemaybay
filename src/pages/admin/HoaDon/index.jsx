@@ -78,6 +78,9 @@ const HoaDonPage = () => {
                 <div className="text">
                     <h1>Danh Sách Hóa Đơn</h1>
                 </div>
+                <div className="button-group">
+                    <button className="btn btn-primary" onClick={() => navigate('/admin/hoadon/add')}>Thêm hóa đơn</button>
+                </div>
             </div>
             
             <HoaDonList
