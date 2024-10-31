@@ -3,7 +3,7 @@ import { useFetchMayBay } from '../../../utils/useFetchMayBay.jsx';
 import MayBayList from '../../../pages/admin/MayBay/MayBayList.jsx';
 import AddMayBayForm from './ThemMayBay.jsx';
 import { useNavigate } from 'react-router-dom';
-import { handleSort, searchPlanes, editPlane, blockPlane, getSoLuong, getByAirline} from '../../../services/planesServices.js';
+import { handleSort, searchPlanes, editPlane, blockPlane, getSoLuong, getByAirline, getByAirport} from '../../../services/planesServices.js';
 import './MayBay.css';
 import axios from 'axios';
 const API_URL = 'http://localhost:8080';
@@ -68,6 +68,13 @@ const MayBayPage = () => {
         }
     };
 
+    const getPlaneByAirport = async (idSanBay) => {
+        try {
+            await getByAirport(idSanBay, setMayBay); // Gọi hàm với setMayBay
+        } catch (error) {
+            console.error;
+        }
+    };
     
 
     if (loadingMayBay) return <p>Loading...</p>;
@@ -85,6 +92,7 @@ const MayBayPage = () => {
                 onEdit={handleEdit} 
                 getSoLuongGhe={(id) => soGhe[id] || 'Đang tải...'}
                 getPlaneByAirline={getPlaneByAirline}
+                getPlaneByAirport={getPlaneByAirport}
                 onBlock={handleBlock} 
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} 

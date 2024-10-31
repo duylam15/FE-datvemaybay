@@ -136,8 +136,8 @@ const BookingCard = ({ booking }) => {
       <h3>Thông tin đặt chỗ</h3>
       <p>Chuyến bay: {booking.ve.chuyenBay.iataChuyenBay}</p>
       <p>Ngày bay: {booking.ve.chuyenBay.ngayBay}</p>
-      <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauThucTe}</p>
-      <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucThucTe}</p>
+      <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauDuTinh}</p>
+      <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucDuTinh}</p>
       <p>Trạng thái: {booking.ve.trangThai}</p>
     </div>
   );

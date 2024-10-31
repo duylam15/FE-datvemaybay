@@ -3,10 +3,12 @@ import axios from 'axios';
 import './MayBay.css'
 
 const API_URL = 'http://localhost:8080';
-const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
+const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlaneByAirport, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
     const [hangBay, setHangBay] = useState([]);
+    const [sanBay, setSanBay] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    console.log("MayBay: ", mayBay);
     const getHangBay = async () => {
         const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
@@ -28,6 +30,29 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
         };
         fetchData();
     }, []);
+
+    const getSanBay = async () => {
+        const response = await fetch(`${API_URL}/admin/sanbay/getAllAirport`); // Thay đổi endpoint theo API của bạn
+        if (!response.ok) {
+            throw new Error('Failed to fetch airport');
+        }
+        const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+        return data.data; // Trả về phần data bên trong JSON
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSanBay();
+                setSanBay(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
@@ -48,6 +73,14 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                         </option>
                     ))}
                 </select>
+                <select onChange={(e) => getPlaneByAirport(e.target.value)} className='form-control'>
+                    <option value="Lọc theo sân bay">Lọc theo sân bay</option>
+                    {sanBay.map((sb) => (
+                        <option value={sb.idSanBay} key={sb.idSanBay}>
+                            {sb.idSanBay} - {sb.tenSanBay}
+                        </option>
+                    ))}
+                </select>
             </div>
             <table className="table">
                 <thead className="thead-dark">
@@ -60,6 +93,9 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                         </th>
                         <th onClick={() => handleSort('hangBay')}>
                             Hãng Bay {sortField === 'hangBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        </th>
+                        <th onClick={() => handleSort('hangBay')}>
+                            Sân Bay {sortField === 'sanBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th onClick={() => handleSort('icaoMayBay')}>
                             ICAO Máy Bay {sortField === 'icaoMayBay' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -80,6 +116,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, onBlock,
                                 <td>{mb.idMayBay}</td>
                                 <td>{mb.tenMayBay}</td>
                                 <td>{mb.hangBay.tenHangBay}</td>
+                                <td>{mb.sanBay.tenSanBay}</td>
                                 <td>{mb.icaoMayBay}</td>
                                 <td>{mb.soHieu}</td>
                                 <td>{getSoLuongGhe(mb.idMayBay)}</td>

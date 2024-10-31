@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useFetchTaiKhoan } from '../../../utils/useFetchTaiKhoan.jsx';
 import TaiKhoanList from './TaiKhoanList.jsx';
 import { useNavigate } from 'react-router-dom';
-import { editTaiKhoan, handlePaginatonServ, handleSort } from '../../../services/qlTaiKhoanService.js';
+import { editTaiKhoan, handlePaginatonServ, handleSort, searchTaiKhoan } from '../../../services/qlTaiKhoanService.js';
 
 const TaiKhoanPage = () => {
     const { taiKhoan: initialTaiKhoan, loading, error } = useFetchTaiKhoan();

@@ -10,6 +10,7 @@ const MayBayEdit = () => {
     const [mayBay, setMayBay] = useState({
         tenMayBay: '',
         hangBay: null,
+        sanBay: null,
         icaoMayBay: '',
         soHangGheThuong: '',
         soHangGheVip: '',
@@ -20,6 +21,7 @@ const MayBayEdit = () => {
         trangThaiActive: ''
     });
     const [listHangBay, setListHangBay] = useState([]);
+    const [listSanBay, setListSanBay] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({}); // State để lưu lỗi cho từng trường
@@ -60,6 +62,29 @@ const MayBayEdit = () => {
         fetchData();
     }, []);
 
+    const getSanBay = async () => {
+        const response = await fetch(`${API_URL}/admin/sanbay/getAllAirport`); // Thay đổi endpoint theo API của bạn
+        if (!response.ok) {
+            throw new Error('Failed to fetch airport');
+        }
+        const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+        return data.data; // Trả về phần data bên trong JSON
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getSanBay();
+                setListSanBay(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+
     // Xử lý submit form
     const handleSubmit = async (event) => {
         event.preventDefault(); // Ngăn chặn hành động mặc định của form
@@ -67,8 +92,8 @@ const MayBayEdit = () => {
             // Chuyển đổi kiểu dữ liệu trước khi gửi
             const updatedMayBay = {
                 ...mayBay,
-                soCotGheThuong: parseInt(mayBay.soCotGheThuong, 10),
-                soCotGheVip : parseInt(mayBay.soCotGheVip, 10),
+                soHangGheThuong: parseInt(mayBay.soHangGheThuong, 10),
+                soHangGheVip : parseInt(mayBay.soHangGheVip, 10),
                 namSanXuat: parseInt(mayBay.namSanXuat, 10),
             };
 
@@ -94,7 +119,11 @@ const MayBayEdit = () => {
         if (name === 'hangBay') {
             const selectedHangBay = listHangBay.find(hb => hb.idHangBay === parseInt(value, 10));
             setMayBay({ ...mayBay, hangBay: selectedHangBay });
-        } else {
+        } else if (name == 'sanBay') {
+            const selectedSanBay = listSanBay.find(sb => sb.idSanBay === parseInt(value, 10));
+            setMayBay({...mayBay, sanBay: selectedSanBay });
+        }
+        else {
             setMayBay({ ...mayBay, [name]: value });
         }
         // Xóa lỗi cho trường đã chỉnh sửa
@@ -135,6 +164,23 @@ const MayBayEdit = () => {
                         ))}
                     </select>
                     {fieldErrors.hangBay && <div className="invalid-feedback">{fieldErrors.hangBay}</div>}
+                </div>
+                <div className="form-group">
+                    <label>Sân Bay</label>
+                    <select
+                        name='sanBay'
+                        className={`form-control ${fieldErrors.sanBay ? 'is-invalid' : ''}`}
+                        value={mayBay.sanBay ? mayBay.sanBay.idSanBay : ''}
+                        onChange={handleChange}
+                    >
+                        <option value="">Chọn sân bay</option>
+                        {listSanBay.map((hb) => (
+                            <option value={hb.idSanBay} key={hb.idSanBay}>
+                                {hb.tenSanBay}
+                            </option>
+                        ))}
+                    </select>
+                    {fieldErrors.sanBay && <div className="invalid-feedback">{fieldErrors.sanBay}</div>}
                 </div>
                 <div className="form-group">
                     <label>ICAO Máy Bay:</label>
