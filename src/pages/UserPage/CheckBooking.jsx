@@ -158,45 +158,41 @@ const CheckBookingPage = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            if (profile) {
-                // Fetch hóa đơn
-                const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
-                
-                if (responseHD.status === 204 || !responseHD.data?.data) {  // Kiểm tra mã phản hồi 204 hoặc phản hồi rỗng
-                    setHD([]);
-                    setCTHD([]);
-                } else {
-                    const hoaDonList = responseHD.data.data;
-                    setHD(hoaDonList);
-                    console.log("List hoa don: ", hoaDonList);
-
-                    if (hoaDonList.length > 0) {
-                        const promises = hoaDonList.map(async (hoaDon) => {
-                            const responseCTHD = await fetch(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
-                            
-                            if (!responseCTHD.ok) {
-                                throw new Error('Failed to fetch CTHD');
-                            }
-                            
-                            const data = await responseCTHD.json();
-                            if (!data || !data.data) {  // Kiểm tra JSON rỗng
-                                return [];
-                            }
-                            return data.data; // Lấy `data.data` nếu có
-                        });
-
-                        const allCTHD = await Promise.all(promises);
-                        console.log("Raw allCTHD data: ", allCTHD);
-                        setCTHD(allCTHD.flat());
-                    }
-                }
+          if (profile) {
+              // Fetch hóa đơn
+              const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
+      
+              if (responseHD.status === 204 || !responseHD.data?.data) {  
+                  setHD([]);
+                  setCTHD([]);
+              } else {
+                  const hoaDonList = responseHD.data.data;
+                  setHD(hoaDonList);
+                  console.log("List hoa don: ", hoaDonList);
+      
+                  if (hoaDonList.length > 0) {
+                      const promises = hoaDonList.map(async (hoaDon) => {
+                          const responseCTHD = await axios.get(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
+                          
+                          if (!responseCTHD.data || !responseCTHD.data.data) {  
+                              return [];
+                          }
+                          return responseCTHD.data.data; // Lấy `data.data` nếu có
+                      });
+      
+                      const allCTHD = await Promise.all(promises);
+                      console.log("Raw allCTHD data: ", allCTHD);
+                      setCTHD(allCTHD.flat());
+                  }
+              }
             }
-        } catch (err) {
-            setError('Lỗi khi lấy thông tin hóa đơn hoặc chi tiết hóa đơn');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
+          } catch (err) {
+              setError(`Lỗi khi lấy thông tin hóa đơn hoặc chi tiết hóa đơn: ${err.message}`);
+              console.error(err);
+          } finally {
+              setLoading(false);
+          }
+      
     };
 
     fetchData();
