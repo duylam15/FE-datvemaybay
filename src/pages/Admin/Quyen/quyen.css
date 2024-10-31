@@ -1,15 +1,16 @@
-/* MayBay.css */
 
-.san-bay-page {
+.may-bay-page {
     width: 100%;
 }
-.san-bay-page h1 {
+.may-bay-page h1 {
     font-size: 2em;
     font-weight: bold;
     text-align: center;
     margin: 20px;
 }
-
+.separate_block {
+    padding: 15px;
+}
 .them-button {
     width: 150px;
     height: 40px;
@@ -152,7 +153,7 @@ tbody tr:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-add-Airport {
+.form-add-plane {
     width: 100%;                 /* Form chiếm toàn bộ chiều ngang */
     max-width: 1100px;            /* Đặt giới hạn chiều rộng */
     margin: 0 auto;              /* Căn giữa form */
@@ -161,7 +162,7 @@ tbody tr:hover {
     flex-direction: column;
 }
 
-.form-add-Airport .btn-primary {
+.form-add-plane .btn-primary {
     width: 150px;
     height: 50px;
     text-align: center;
@@ -171,7 +172,7 @@ tbody tr:hover {
     font-size: 1.15em;
 }
 
-.form-add-Airport h2 {
+.form-add-plane h2 {
     font-size: 1.5em;
     text-align: center;
     font-weight: bold;
@@ -197,4 +198,33 @@ tbody tr:hover {
     text-align: center;
     font-weight: bold;
     margin-bottom: 20px;
+}
+.search-sort-controlss {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding-bottom: 30px;
+    /* justify-content: space-between; */
+}
+.search-sort-controlss input {
+    width: 500px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    outline: none;
+    height: 38px;
+    border: 1px solid #858383;
+}
+
+/* Style for placeholder text */
+.search-sort-controlss input::placeholder {
+    color: #b3b3b3; /* Lighter color for placeholder */
+    opacity: 1; /* Ensures color is not faded out */
+}
+
+.btn_row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 13px;
 }

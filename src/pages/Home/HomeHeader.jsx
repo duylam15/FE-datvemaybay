@@ -28,12 +28,7 @@ export default function HomeHeader() {
     setDepartureLocation(`${option.label} `);
   };
 
-  console.log(departureLocation);
-
-  console.log('aa');
   const handleSelectArrivalLocation = (value, option) => {
-    console.log(option, value);
-
     setArrivalLocation(`${option.label}`);
   };
 
@@ -83,14 +78,11 @@ export default function HomeHeader() {
     //   return;
     // }
 
-    // Encode các tham số để tránh lỗi
-    const encodedDepartureLocation = encodeURIComponent('Hà Nội');
-    const encodedArrivalLocation = encodeURIComponent('Thành phố Hồ Chí Minh');
-    const encodedDepartureDate = encodeURIComponent('2024-10-09');
-    const encodedReturnDate = encodeURIComponent('2024-10-09');
-    const encodedNumberOfTickets = encodeURIComponent('1');
-
-    const url = `http://localhost:8080/admin/chuyenbay/search?departureLocation=${encodedDepartureLocation}&arrivalLocation=${encodedArrivalLocation}&departureDate=${encodedDepartureDate}&returnDate=${encodedReturnDate}&numberOfTickets=${encodedNumberOfTickets}`;
+    const url = `http://localhost:8080/admin/chuyenbay/search?departureLocation=${departureLocation.trim()}&arrivalLocation=${arrivalLocation.trim()}&departureDate=${String(
+      departureDate
+    ).trim()}&returnDate=${String(returnDate).trim()}&numberOfTickets=${String(
+      numberOfTickets
+    ).trim()}`;
 
     try {
       const flights = await axios.get(url, {
@@ -128,8 +120,8 @@ export default function HomeHeader() {
         const response = await getListLocations();
         setLocations(
           response.data?.map((location) => ({
-            label: `${location.label} (${location.value})`,
-            value: `${location.label} (${location.value})`,
+            label: `${location.label} `,
+            value: `(${location.value})`,
           }))
         );
       } catch (error) {
