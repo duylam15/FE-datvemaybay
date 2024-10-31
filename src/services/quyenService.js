@@ -37,3 +37,7 @@ export const getChiTietQuyenTheoId = (idQuyen) => {
 export const themQuyen = (data) => {
     return axios.post(`${REST_API_BASE_URL}/quyen/create`, data)
 }
+
+export const suaQuyen = (idQuyen,data) => {
+    return axios.post(`${REST_API_BASE_URL}/quyen/update/${idQuyen}`, data)
+}

@@ -31,3 +31,8 @@
 tbody td {
   height: 100%; /* Make sure the height is taken up */
 }
+
+.head_info {
+  display: flex;
+  gap: 15px;
+}

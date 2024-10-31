@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './themQuyen.css';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import { GradientButton, GradientButtonBack, GradientButtonCancel } from '../../../components/Admin/GradientButton';
-import { getAllChucNang, getChiTietQuyenTheoId } from '../../../services/quyenService';
+import { getAllChucNang, getChiTietQuyenTheoId, suaQuyen } from '../../../services/quyenService';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChonTatCa from '../../../components/Admin/ButtonForTableQuyen/ChonTatCa';
 import HuyChonTatCa from '../../../components/Admin/ButtonForTableQuyen/HuyChonTatCa';
+import { Select } from 'antd';
 
 const QuyenEdit = () => {
     const { idQuyen } = useParams();
     const [chucNang, setChucNang] = useState([]);
     const [permissions, setPermissions] = useState({});
-    const [initialPermissions, setInitialPermissions] = useState({}); // State để lưu quyền ban đầu
+    const [initialPermissions, setInitialPermissions] = useState({});
     const [tenQuyen, setTenQuyen] = useState("");
     const navigate = useNavigate();
+    const { Option } = Select;
+    const [selectedValue, setSelectedValue] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Lấy tất cả các chức năng và khởi tạo các quyền cho từng chức năng
                 const chucNangResponse = await getAllChucNang();
                 setChucNang(chucNangResponse.data);
 
@@ -27,13 +29,12 @@ const QuyenEdit = () => {
                     return acc;
                 }, {});
                 setPermissions(initialPermissions);
-                setInitialPermissions(initialPermissions); // Lưu quyền ban đầu
+                setInitialPermissions(initialPermissions);
 
-                // Lấy thông tin quyền theo ID sau khi permissions đã được khởi tạo
                 const quyenResponse = await getChiTietQuyenTheoId(idQuyen);
                 setTenQuyen(quyenResponse.data.tenQuyen);
+                setSelectedValue(quyenResponse.data.trangThaiActive);
 
-                // Cập nhật các quyền từ API
                 const updatedPermissions = { ...initialPermissions };
                 quyenResponse.data.chiTietQuyenDTOList.forEach(({ tenChucNang, hanhDong }) => {
                     if (updatedPermissions[tenChucNang]) {
@@ -55,7 +56,7 @@ const QuyenEdit = () => {
             [tenChucNang]: {
                 ...prev[tenChucNang],
                 [permissionType]: !prev[tenChucNang][permissionType]
-            }
+            },
         }));
     };
 
@@ -64,7 +65,8 @@ const QuyenEdit = () => {
     };
 
     const handleCancel = () => {
-        setPermissions(initialPermissions); // Quay trở lại trạng thái ban đầu
+        setPermissions(initialPermissions);
+        setSelectedValue(selectedValue); // Reset the selectedValue when canceling
     };
 
     const selectAllRow = (tenChucNang) => {
@@ -91,14 +93,64 @@ const QuyenEdit = () => {
         }));
     };
 
+    // Function to handle the update permission
+    const handleUpdatePermissions = async () => {
+        const permissionsToSend = Object.entries(permissions).flatMap(([key, value]) =>
+            Object.entries(value)
+                .filter(([, isAllowed]) => isAllowed)
+                .map(([action]) => ({
+                    idChucNang: chucNang.find(chucNang => chucNang.tenChucNang === key)?.idChucNang,
+                    hanhDong: action.toUpperCase()
+                }))
+        );
+
+        const dataToSend = {
+            tenQuyen,
+            chiTietQuyenDTO: permissionsToSend,
+            activeEnum: selectedValue // Pass the selectedValue as activeEnum
+        };
+
+        console.log("data send update", dataToSend);
+        suaQuyen(idQuyen, dataToSend)
+            .then(response => {
+                if (response.statusCode === 200) {
+                    message.success('Cập nhật quyền thành công!');
+                } else if (response.statusCode === 234) {
+                    message.error('Tên quyền đã tồn tại!');
+                } else {
+                    message.error('Tên quyền không bỏ trống!');
+                }
+            })
+            .catch(error => {
+                message.error('Có lỗi xảy ra khi thêm quyền.');
+                console.error("Lỗi khi thêm quyền:", error);
+            });
+    };
+
+    const handleChangeSelectBox = (value) => {
+        setSelectedValue(value);
+        console.log(`Selected: ${value}`);
+    };
+    
+
     return (
         <div className='them_quyen_container'>
             <h1 className="title">Chỉnh sửa nhóm quyền</h1>
-            <Input
-                placeholder="Nhập tên nhóm quyền"
-                value={tenQuyen}
-                onChange={(e) => setTenQuyen(e.target.value)}
-            />
+            <div className='head_info'>
+                <Input
+                    placeholder="Nhập tên nhóm quyền"
+                    value={tenQuyen}
+                    onChange={(e) => setTenQuyen(e.target.value)}
+                />
+                <Select
+                    value={selectedValue} // Set the value of the Select
+                    style={{ width: 200 }}
+                    onChange={handleChangeSelectBox}
+                >
+                    <Option value="ACTIVE">Hoạt động</Option>
+                    <Option value="IN_ACTIVE">Không hoạt động</Option>
+                </Select>
+            </div>
             <table className='table'>
                 <thead>
                     <tr>
@@ -160,7 +212,7 @@ const QuyenEdit = () => {
                 <div onClick={handleBack}> <GradientButtonBack /> </div>
                 <div className="btn_row_last">
                     <div onClick={handleCancel}> <GradientButtonCancel /> </div>
-                    <div> <GradientButton /> </div>
+                    <div onClick={handleUpdatePermissions}> <GradientButton /> </div> {/* Save Button */}
                 </div>
             </div>
         </div>
