@@ -69,7 +69,7 @@ const LoaiHoaDonList =({
                     )))
                     : (
                         <tr>
-                            <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
+                            <td colSpan="9" className="text-center">Không có loại hóa đơn!</td>
                         </tr>
                     )
                     }

@@ -16,7 +16,9 @@ const HoaDonList = ({
     selectedValue,
     setSelectedValue,
     handleFilter,
-    handleState
+    handleState,
+    comboBoxValues,
+    handleComboBoxValues
 }) => {
 
     const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
@@ -35,16 +37,6 @@ const HoaDonList = ({
     // Hàm chuyển trang
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // State để lưu các giá trị cho combobox
-    const [comboBoxValues, setComboBoxValues] = useState([]);
-
-    useEffect(() => {
-        const fetchFieldValue = async () => {
-            // const values = await getHoaDon(); lấy danh sách value theo trường thông tin
-            setComboBoxValues([1]);
-        };
-        fetchFieldValue();
-    }, []);
 
     return (
         <div className='hoa-don-controls'>
@@ -59,8 +51,12 @@ const HoaDonList = ({
             </div>
             <div className="filter-controls">
                 <label htmlFor="hoadon-filter-field">Lọc theo:</label>
-                <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className='filter-field' id='hoadon-filter-field'>
-                    <option value="">Chọn trường</option>
+                <select className='filter-field' id='hoadon-filter-field' value={filterType} onChange={(e) => {
+                    setFilterType(e.target.value);
+                    console.log("Filter type selected: ", e.target.value);
+                    handleComboBoxValues(e.target.value);}} 
+                >
+                    <option value="0">Chọn trường</option>
                     <option value="nhanVien">Nhân viên</option>
                     <option value="khachHang">Khách hàng</option>
                     <option value="phuongThucThanhToan">Phương thức thanh toán</option>
@@ -69,12 +65,15 @@ const HoaDonList = ({
 
                 <label htmlFor="hoadon-filter-value">Giá trị:</label>
                 <select onChange={(e) => setSelectedValue(e.target.value)} className='filter-value' id='hoadon-filter-value'>
-                    <option value="">Chọn giá trị</option>
-                    {comboBoxValues.map(item => (
-                        <option key={item} value={item}>{item}</option>
-                    ))}
-            </select>
-                <button className='btn-primary' onClick={() => handleFilter(filterType, selectedValue)}>Lọc</button>
+                <option value="">Chọn giá trị</option>
+                    {comboBoxValues.length>0 ? comboBoxValues.map(item => (
+                        <option key={item.id} value={item.id}>{item.ten}</option>
+                    )) : <option value="0">0</option>}
+                </select>
+                <button className='btn-primary' onClick={() => {
+                    handleFilter(filterType, selectedValue)
+                    }}
+                    >Lọc</button>
             </div>
              
             <table className="table table-hover table-bordered pad-x">
@@ -137,7 +136,7 @@ const HoaDonList = ({
                     )))
                     : (
                         <tr>
-                            <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
+                            <td colSpan="9" className="text-center">Không có hóa đơn!</td>
                         </tr>
                     )}
                 </tbody>

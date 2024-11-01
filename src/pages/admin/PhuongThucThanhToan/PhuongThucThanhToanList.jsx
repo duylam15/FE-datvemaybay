@@ -69,7 +69,7 @@ import { useState } from 'react';
                     )))
                     : (
                         <tr>
-                            <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
+                            <td colSpan="9" className="text-center">Không có phương thức thanh toán!</td>
                         </tr>
                     )
                     }
