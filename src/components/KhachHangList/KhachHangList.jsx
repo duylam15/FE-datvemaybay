@@ -19,6 +19,7 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                         <th onClick={() => handleSort('idKhachHang')}>
                             ID {sortField === 'idKhachHang' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
+                        {/* <th>#</th> */}
                         <th onClick={() => handleSort('hoTen')}>
                             Họ Tên {sortField === 'hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
@@ -28,7 +29,9 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                         <th onClick={() => handleSort('soDienThoai')}>
                             Số Điện Thoại {sortField === 'soDienThoai' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th>CCCD</th>
+                        <th onClick={() => handleSort('point')}>
+                            Điểm {sortField === 'point' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        </th>
                         <th>Giới Tính</th>
                         <th>Trạng Thái</th>
                         <th>Actions</th>
@@ -37,11 +40,28 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                 <tbody>
                     {khachHang.map(kh => (
                         <tr key={kh.idKhachHang}>
+                            {/* <td>
+                                {kh.point >= 1000000 ? (
+                                    <span>
+                                        <img src="/public/images/star-badge.png" alt="Diamond" style={{ width: '24px', height: '24px' }} />
+                                    </span>
+                                ) : kh.point >= 700000 ? (
+                                    <span>
+                                        <img src="/public/images/silver-badge.png" alt="Gold" style={{ width: '24px', height: '24px' }} />
+                                    </span>
+                                ) : kh.point >= 200000 ? (
+                                    <span>
+                                        <img src="/public/images/coin.png" alt="Silver" style={{ width: '24px', height: '24px' }} />
+                                    </span>
+                                ) : (
+                                    <span></span>
+                                )}
+                            </td> */}
                             <td>{kh.idKhachHang}</td>
                             <td>{kh.hoTen}</td>
                             <td>{kh.email}</td>
                             <td>{kh.soDienThoai}</td>
-                            <td>{kh.cccd}</td>
+                            <td>{kh.point}</td>
                             <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
                             <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                             <td>
