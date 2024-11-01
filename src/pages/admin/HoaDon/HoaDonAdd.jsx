@@ -42,46 +42,47 @@ const HoaDonAdd = () => {
             trangThaiActive: 'ACTIVE',
         }
 
-        const hoaDonDTO = {
-            khachHang: {idKhachHang: khachHang},
-            nhanVien: {idNhanVien: nhanVien},
-            soLuongVe: 0,
-            loaiHoaDon: {idLoaiHoaDon: 2},
-            phuongThucThanhToan: {idPhuongThucTT: phuongThucThanhToan},
-            tongTien,
-            thoiGianLap: new Date(),
-            trangThaiActive: 'PENDING'
-        };
-
-        const chiTietHoaDonDTOList = [
-            {
-                hangHoa: {idHangHoa},
-                ve: null,
-                soTien
-            }
-        ]
-
-        const hoaDonCreate = {
-            hoaDonDTO, 
-            chiTietHoaDonDTOList
-        }
-
         try {
-            console.log("hangHoa ", hangHoa);
+            // Thêm hàng hóa mới và lấy ID của hàng hóa từ phản hồi
             const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
-            setIdHangHoa(hangHoaResponse.data.data.idHangHoa);
-
-            console.log(hoaDonCreate);
+            const idHangHoa = hangHoaResponse.data.data.idHangHoa;
+            setIdHangHoa(idHangHoa);
+    
+            // Tạo chi tiết hóa đơn với idHangHoa đã được gán
+            const chiTietHoaDonDTOList = [
+                {
+                    hangHoa: { idHangHoa },
+                    ve: null,
+                    soTien,
+                },
+            ];
+    
+            const hoaDonDTO = {
+                khachHang: { idKhachHang: khachHang },
+                nhanVien: { idNhanVien: nhanVien },
+                soLuongVe: 0,
+                loaiHoaDon: { idLoaiHoaDon: 2 },
+                phuongThucThanhToan: { idPhuongThucTT: phuongThucThanhToan },
+                tongTien,
+                thoiGianLap: new Date(),
+                trangThaiActive: 'PENDING',
+            };
+    
+            const hoaDonCreate = {
+                hoaDonDTO,
+                chiTietHoaDonDTOList,
+            };
+    
+            // Thêm hóa đơn
             const response = await axios.post(`${API_URL}/createHoaDon`, hoaDonCreate);
             console.log('Thêm hóa đơn thành công', response.data);
-            navigate('/admin/hoadon'); // Điều hướng về trang danh sách khách hàng
+            navigate('/admin/hoadon');
         } catch (error) {
-            // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
-                const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
-                setFieldErrors(errors); // Cập nhật lỗi cho từng trường
+                const errors = error.response.data.data;
+                setFieldErrors(errors);
             } else {
-                setError('Đã xảy ra lỗi trong quá trình thêm hóa đơn!'); // Đặt thông báo lỗi chung
+                setError('Đã xảy ra lỗi trong quá trình thêm hóa đơn!');
             }
             console.error('There was an error adding bill!', error);
         }
@@ -155,7 +156,7 @@ const HoaDonAdd = () => {
                     value={khachHang}
                     onChange={(e) => setKhachHang(parseInt(e.target.value), 10)}
                 >
-                    <option value="" selected>Chọn khách hàng</option>
+                    <option value="">Chọn khách hàng</option>
                     {khachHangList.filter(kh => kh.trangThaiActive !== 'IN_ACTIVE').map((kh) => (
                         <option key={kh.idKhachHang} value={kh.idKhachHang}>
                             {kh.hoTen}
