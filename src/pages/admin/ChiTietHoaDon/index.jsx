@@ -47,7 +47,7 @@ const ChiTietHoaDonPage = () => {
         <div className="chi-tiet-hoa-don-page page">
             <div className="top-bar">
                 <div className="text">
-                    <h1>Chi Tiết Hóa Đơn</h1>
+                    <h1>Chi Tiết Hóa Đơn #{idHoaDon}</h1>
                 </div>
             </div>
             
@@ -63,6 +63,11 @@ const ChiTietHoaDonPage = () => {
                 sortOrder={sortOrder}
                 sortField={sortField}
             />
+            <div className="bottom-bar">
+                <div className="tongTien">
+                    <p>Tổng tiền: {chiTietHoaDon.reduce((tongTien, cthd) => tongTien + cthd.soTien, 0)}VND</p>
+                </div>
+            </div>
         </div>
     );
 }

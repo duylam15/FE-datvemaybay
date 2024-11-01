@@ -191,3 +191,117 @@
     height: max-content;
     font-size: 0.9em;
 }
+
+//cthd
+
+.chi-tiet-hoa-don-page .tongTien {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #414141;
+    letter-spacing: 0.5px;
+}
+
+.page .bill-detail-item {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    width: 90%;
+}
+
+
+.bill-detail-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+  
+.bill-detail-item::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 5px;
+background-color: #898989;
+transition: background-color 0.3s;
+}
+
+.bill-detail-item:hover::before {
+background-color: #25b62c;
+}
+
+.bill-detail-item h3 {
+color: #333333;
+margin-top: 0;
+font-size: 1.3em;
+}
+
+.bill-detail-item p {
+color: #666666;
+margin: 5px 0;
+font-size: 1.1em;
+}
+
+.bill-detail-item .status {
+position: absolute;
+top: 20px;
+right: 20px;
+font-weight: bold;
+padding: 8px 16px;
+border-radius: 20px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bill-detail-item .status.PAID {
+background-color: #4CAF50;
+color: #ffffff;
+}
+.bill-detail-item .status.CANCELLED {
+background-color: #F44336;
+color: #ffffff;
+}
+.bill-detail-item .status.PENDING {
+background-color: #0099ff;
+color: #ffffff;
+
+}
+.bill-detail-item .status.REFUNDED {
+background-color: #414141;
+color: #ffffff;
+}
+.bill-detail-item .status.EXPIRED {
+background-color: #7a0000;
+color: #ffffff;
+}
+
+.page .bill-detail-item-info {
+    display: flex;
+    float: left;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0px;
+}
+.bill-detail-item-info .item {
+    width: 45%;
+    margin: 0px 10px;
+}
+.bill-detail-item-info .ve {
+    border-right: 1px solid black;
+}
+.bill-detail-item .foot {
+    position: absolute;
+    bottom: 0;
+    // height: max-content;
+    width: 100%;
+    font-size: 1.2em;
+}
+.bill-detail-item .foot .so-tien {
+    margin: 10px ;
+    text-align: left;
+}

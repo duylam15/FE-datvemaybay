@@ -34,24 +34,26 @@ const HoaDonAdd = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hangHoa = {
-            tenHangHoa,
-            idLoaiHangHoa: 3,
-            taiTrong,
-            giaPhatSinh,
-            trangThaiActive: 'ACTIVE',
-        }
+        const hangHoaDTOList = [
+            {
+                tenHangHoa,
+                idLoaiHangHoa: 3,
+                taiTrong,
+                giaPhatSinh,
+                trangThaiActive: 'ACTIVE',
+            }
+            
+        ]
 
         try {
             // Thêm hàng hóa mới và lấy ID của hàng hóa từ phản hồi
-            const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
-            const idHangHoa = hangHoaResponse.data.data.idHangHoa;
-            setIdHangHoa(idHangHoa);
+            // const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
+            // const idHangHoa = hangHoaResponse.data.data.idHangHoa;
+            // setIdHangHoa(idHangHoa);
     
             // Tạo chi tiết hóa đơn với idHangHoa đã được gán
             const chiTietHoaDonDTOList = [
                 {
-                    hangHoa: { idHangHoa },
                     ve: null,
                     soTien,
                 },
@@ -71,6 +73,7 @@ const HoaDonAdd = () => {
             const hoaDonCreate = {
                 hoaDonDTO,
                 chiTietHoaDonDTOList,
+                hangHoaDTOList
             };
     
             // Thêm hóa đơn
@@ -148,6 +151,8 @@ const HoaDonAdd = () => {
 
 
     return (
+        <>
+        <h1 style={{"font-size": "1.4em", "padding": "10px 0px", "margin": "20px 0px"}}>Thêm hóa đơn hàng hóa</h1>
         <form onSubmit={handleSubmit} className="row">
              <div className="mb-3 col-4">
                  <label className="form-label">Khách hàng</label>
@@ -177,6 +182,23 @@ const HoaDonAdd = () => {
                             {nv.hoTen}
                         </option>
                     ))}
+                </select>
+             </div>
+             <div className="mb-3 col-4">
+                 <label className="form-label">Loại hóa đơn</label>
+                 <select
+                    className={`form-control`}
+                    value={loaiHoaDon}
+                    onChange={(e) => setLoaiHoaDon(parseInt(e.target.value), 10)}
+                >
+                    <option value="">Chọn phương thức thanh toán</option>
+                    {loaiHoaDonList
+                        .filter(lhd => lhd.status !== 'IN_ACTIVE') // Lọc các phương thức thanh toán
+                        .map((lhd) => (
+                            <option key={lhd.idLoaiHD} value={lhd.idLoaiHD}>
+                                {lhd.tenLoaiHD}
+                            </option>
+                        ))}
                 </select>
              </div>
              <div className="mb-3 col-4">
@@ -241,6 +263,7 @@ const HoaDonAdd = () => {
              
              <button type="submit" className="btn btn-primary">Submit</button>
          </form>
+        </>
     );
 
 }
