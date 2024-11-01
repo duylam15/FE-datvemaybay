@@ -521,52 +521,48 @@
 .seat-grid {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
 }
 
 .seat-grid__header {
     display: flex;
-    width: inherit;
+    justify-content: center;
 }
 
 .seat-grid__header-cell {
-    width: 50px; /* Độ rộng của mỗi cột */
+    width: 40px; /* Chiều rộng của cột */
     text-align: center;
     font-weight: bold;
 }
 
 .seat-grid__row {
     display: flex;
-    align-items: center;
 }
 
-.seat-grid__row-label {
-    width: 40px; /* Độ rộng cho nhãn hàng */
-    text-align: center;
-}
-
-.seat-grid__header-spacer {
-    width: 50px; /* Khoảng cách 50px giữa các nhóm cột */
-}
-
-.seat-grid__header-cell,
-.seat-grid__row-label,
 .seat {
-    display: inline-block; /* Để các ô có thể nằm trên cùng một hàng */
-    width: 50px; /* Đặt chiều rộng cho cột ghế */
-    text-align: center; /* Căn giữa nội dung trong ô */
+    width: 40px; /* Chiều rộng của ghế */
+    height: 40px; /* Chiều cao của ghế */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
-.seat-icon {
+.seat--icon {
     width: 30px;
     height: 30px;
 }
 
+.numRow {
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+}
+
 .seat-selection--model {
     display: flex;
+    justify-content: space-around;
     &__left {
-        width: 500px;
+        width: 40%;
     }
 }
 
@@ -575,7 +571,7 @@
     margin-top: -50px;
 }
 
-.seat-grid__wc-row {
+.wc-icon-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -599,23 +595,25 @@
     border-radius: 5px;
 }
 
+.exitgroup {
+    display: flex;
+    justify-content: space-between;
+    margin-left: -10px;
+    position: absolute;
+    top: 500px;
+}
+
 .exit-icon--left {
-    width: 25px;
+    width: 30px;
     height: 30px;
-    margin-left: -20px;
-    border: 1px solid var(--color-secondary-main);
-    margin-top: -5px;
-    border-radius: 5px;
-    background: var(--color-secondary-main);
+    left: 10px;
+    position: absolute;
 }
 .exit-icon--right {
-    width: 25px;
+    width: 30px;
     height: 30px;
-    margin-right: -20px;
-    border: 1px solid var(--color-secondary-main);
-    margin-top: -5px;
-    border-radius: 5px;
-    background: var(--color-secondary-main);
+    right: 10px;
+    position: absolute;
 }
 
 .selected-seat-icon {
@@ -664,6 +662,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    margin-bottom: 20px;
     &-icon {
         width: 15px;
         height: 15px;

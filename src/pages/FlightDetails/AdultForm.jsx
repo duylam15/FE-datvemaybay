@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
-const AdultForm = ({ index, adultData, setAdultData }) => {
+const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTicketsToDetail }) => {
 	const [errors, setErrors] = useState({});
 	const [touched, setTouched] = useState({});
 	const [showForm, setShowForm] = useState(false);
+
+	console.log(numberOfTicketsToDetail)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -57,11 +59,8 @@ const AdultForm = ({ index, adultData, setAdultData }) => {
 				<div className="adult-form">
 					<div className='adult-form__header' onClick={toggleForm}>
 						<h3 className='form-title form__heading'>NGƯỜI LỚN {index} (Người lớn)</h3>
-						<div className="toggle-button-adult-form">
-							{showForm ? 'Ẩn Thông Tin' : 'Điền Thông Tin'}
-						</div>
 					</div>
-					<div className={`form-content ${showForm ? 'show' : ''}`}>
+					<div className={`form-content show `}>
 						<div className="form-group-adultform">
 							<label className={touched.fullName && errors.fullName ? 'error-adult-label' : ''}>Nhập Tên Đệm và Tên*</label>
 							<input
