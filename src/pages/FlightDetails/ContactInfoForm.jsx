@@ -81,12 +81,9 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 				<div className="contact-info-form">
 					<div className='adult-form__header' onClick={toggleForm}>
 						<h1 className='form__heading '>THÔNG TIN LIÊN LẠC</h1>
-						<div onClick={toggleForm} className="toggle-button-adult-form">
-							{showForm ? 'Ẩn Thông Tin' : 'Điền Thông Tin'}
-						</div>
 					</div>
-					<div className={`form-content ${showForm ? 'show' : ''}`}>
-						<div className="form-group">
+					<div className={`form-content show`}>
+						<div className="form-group-adultform">
 							<label className={touched.email && error.email ? 'error-adult-label' : ''}>Địa chỉ email</label>
 							<input
 								type="email"
@@ -98,14 +95,14 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 							/>
 							{error.email && touched.email && <span className="error-adult-form">{error.email}</span>}
 						</div>
-						<div className="form-group">
+						<div className="form-group-adultform">
 							<label >Loại điện thoại</label>
 							<select name="phoneType" onChange={handleChange}>
 								<option value="personal">Cá nhân</option>
 								<option value="business">Doanh nghiệp</option>
 							</select>
 						</div>
-						<div className="form-group">
+						<div className="form-group-adultform">
 							<label className={touched.countryCode && error.countryCode ? 'error-adult-label' : ''}>Mã quốc gia</label>
 							<input
 								type="text"
@@ -117,7 +114,7 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 							/>
 							{error.countryCode && touched.countryCode && <span className="error-adult-form">{error.countryCode}</span>}
 						</div>
-						<div className="form-group">
+						<div className="form-group-adultform">
 							<label className={touched.phone && error.phone ? 'error-adult-label' : ''}>Số điện thoại</label>
 							<input
 								type="text"
@@ -132,6 +129,7 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 					</div>
 				</div>
 			</div>
+
 		</div>
 	);
 };

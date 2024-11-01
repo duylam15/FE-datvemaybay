@@ -3,8 +3,8 @@ import AdultForm from './AdultForm';
 import ContactInfoForm from './ContactInfoForm';
 import SeatSelectionBanner from './SeatSelectionBanner';
 
-const BookingForm = () => {
-	const [adults, setAdults] = useState(2); // Set số người lớn
+const BookingForm = ({ selectedTicket, numberOfTicketsToDetail }) => {
+	const [adults, setAdults] = useState(numberOfTicketsToDetail); // Set số người lớn
 	const [adultData, setAdultData] = useState(Array(adults).fill({ fullName: '', lastName: '', cccd: '', passPort: '', gender: '', birthDate: '' }));
 	const [contactData, setContactData] = useState({
 		email: '',
@@ -16,14 +16,21 @@ const BookingForm = () => {
 	return (
 		<div className="booking-form__flight">
 			{[...Array(adults)].map((_, index) => (
-				<AdultForm key={index + 1} index={index + 1} adultData={adultData} setAdultData={setAdultData} />
+				<AdultForm key={index + 1} index={index + 1} adultData={adultData} setAdultData={setAdultData}
+					selectedTicket={selectedTicket} numberOfTicketsToDetail={numberOfTicketsToDetail}
+				/>
 			))}
-			<ContactInfoForm contactData={contactData} setContactData={setContactData} />
+			<ContactInfoForm contactData={contactData} setContactData={setContactData}
+				selectedTicket={selectedTicket} numberOfTicketsToDetail={numberOfTicketsToDetail}
+			/>
 			<SeatSelectionBanner
-				customerCount={2}
+				customerCount={adults}
 				adultData={adultData} // Truyền dữ liệu người lớn
 				contactData={contactData} // Truyền dữ liệu liên lạc
+				selectedTicket={selectedTicket} numberOfTicketsToDetail={numberOfTicketsToDetail}
 			/>
+
+
 		</div>
 	);
 };

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, notification } from 'antd';
-import axios from "axios"
+import axios from "axios";
 
-const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
+const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTicket, numberOfTicketsToDetail }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [seatData, setSeatData] = useState([]);
 	const [selectedSeats, setSelectedSeats] = useState([]);
+	const [columns, setColumns] = useState([]);
+	const [firstHalf, setFirstHalf] = useState([]);
+	const [secondHalf, setSecondHalf] = useState([]);
 
 	const showModal = () => {
 		setIsModalVisible(true);
@@ -19,6 +22,7 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 		setIsModalVisible(false);
 		setSelectedSeats([]); // Xóa ghế đã chọn khi đóng modal
 	};
+
 
 	const handleSubmit = () => {
 		// Kiểm tra thông tin người lớn
@@ -79,13 +83,13 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 		const bookingData = selectedSeats.map((seat, index) => ({
 			idHanhKhach: index + 1,
 			idVe: index + 1,
-			hoTen: adultData[index].fullName,
-			ngaySinh: adultData[index].birthDate,
+			hoTen: adultData[index]?.fullName,
+			ngaySinh: adultData[index]?.birthDate,
 			soDienThoai: contactData.phone,
 			email: contactData.email,
-			cccd: adultData[index].cccd,
-			hoChieu: adultData[index].passPort,
-			gioiTinhEnum: adultData[index].gender === 'male' ? 'NAM' : adultData[index].gender === 'female' ? 'NU' : 'KHAC',
+			cccd: adultData[index]?.cccd,
+			hoChieu: adultData[index]?.passPort,
+			gioiTinhEnum: adultData[index]?.gender === 'male' ? 'NAM' : adultData[index]?.gender === 'female' ? 'NU' : 'KHAC',
 			trangThaiActive: "ACTIVE"
 		}));
 
@@ -116,6 +120,7 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 		}
 	};
 
+
 	useEffect(() => {
 		if (isModalVisible) {
 			axios.get('http://localhost:3005/data')
@@ -127,6 +132,30 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 				});
 		}
 	}, [isModalVisible]);
+
+	useEffect(() => {
+		if (seatData.length > 0) {
+			const uniqueColumns = [...new Set(seatData.map(seat => seat.column))]; // Lấy các cột duy nhất
+
+			// Tính chỉ số giữa
+			const midIndex = Math.floor(uniqueColumns.length / 2);
+			const updatedColumns = [
+				...uniqueColumns.slice(0, midIndex),
+				" ", // Thêm "them"
+				...uniqueColumns.slice(midIndex)
+			];
+
+			// Chia thành hai mảng con
+			setFirstHalf(uniqueColumns.slice(0, midIndex)); // Mảng đầu tiên
+			setSecondHalf(uniqueColumns.slice(midIndex)); // Mảng thứ hai
+			setColumns(updatedColumns); // Lưu vào mảng columns
+
+			// In giá trị ngay sau khi cập nhật
+			console.log("updatedColumns", updatedColumns);
+			console.log("firstHalf", uniqueColumns.slice(0, midIndex));
+			console.log("secondHalf", uniqueColumns.slice(midIndex));
+		}
+	}, [seatData]);
 
 	const handleSeatClick = (seat) => {
 		if (seat.trangThaiChoNgoi === 'BOOKED') return;
@@ -140,8 +169,7 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 		}
 	};
 
-	const maxColumn = Math.max(...seatData.map(seat => seat.row));
-	const columnsCount = maxColumn;
+	const maxRow = Math.max(...seatData.map(seat => seat.row));
 	return (
 		<div className="seat-selection">
 			<h2 className='book--heading'>Dịch vụ bổ sung</h2>
@@ -166,147 +194,122 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 								<div className="seat-selection--model__left">
 									<h1 className='seat-selection--model__left--heading'>Chú giải Sơ đồ chỗ ngồi</h1>
 									<div className="seat-selection--model__left--list">
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/ghetieuchuan.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">Ghế tiêu chuẩn</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/gheyentinh.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">
-												Ghế ngồi yên tĩnh</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/booked-seat.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">Không còn trống</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/available-seat.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">Ghế ngồi ưa thích</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/exit-seat.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">Hàng ghế lối thoát hiểm</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/selected-seat.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon selected-seat-icon" />
-											<p className="seat-selection--model__left--desc">
-												Ghế đang chọn</p>
-										</div>
-										<div className="seat-selection--model__left--item space"></div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/left-svgrepo-com (3).svg" alt="" className="seat-selection--model__left--icon selected-seat-icon  exit-icon-menu" />
-											<p className="seat-selection--model__left--desc">Lối thoát hiểm
-											</p>
-										</div>
-										<div className="seat-selection--model__left--item">
-											<img src="public/icons/wc-svgrepo-com.svg" alt="" className="seat-selection--model__left--icon selected-seat-icon selected-seat-icon wc-icon-left" />
-											<p className="seat-selection--model__left--desc">
-												Nhà vệ sinh</p>
-										</div>
+										{/* Chú giải chỗ ngồi */}
+										{[
+											{ icon: "public/icons/ghetieuchuan.svg", desc: "Ghế tiêu chuẩn" },
+											{ icon: "public/icons/gheyentinh.svg", desc: "Ghế ngồi yên tĩnh" },
+											{ icon: "public/icons/booked-seat.svg", desc: "Không còn trống" },
+											{ icon: "public/icons/available-seat.svg", desc: "Ghế ngồi ưa thích" },
+											{ icon: "public/icons/exit-seat.svg", desc: "Hàng ghế lối thoát hiểm" },
+											{ icon: "public/icons/selected-seat.svg", desc: "Ghế đang chọn" },
+											{ icon: "public/icons/exit-to-app-solid-svgrepo-com (1).svg", desc: "Lối thoát hiểm" },
+											{ icon: "public/icons/wc-svgrepo-com.svg", desc: "Nhà vệ sinh" }
+
+										].map((item, index) => (
+											<div key={index} className="seat-selection--model__left--item">
+												<img src={item.icon} alt="" className="seat-selection--model__left--icon selected-seat-icon" />
+												<p className="seat-selection--model__left--desc">{item.desc}</p>
+											</div>
+										))}
 									</div>
 								</div>
 								<div className="seat-selection__right">
-									<div className="seat-grid">
-										<div className='body-plane'><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com.svg" alt="" /><div className='body-plane-desc'>Đầu máy bay</div><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com.svg" alt="" />
-										</div>
-										<div className="seat-grid__header">
-											{['A', 'B', 'C'].map((letter) => (
-												<div key={letter} className="seat-grid__header-cell">{letter}</div>
-											))}
-											<div className="seat-grid__header-spacer" /> {/* Cell tạo khoảng cách */}
-											{['D', 'E', 'F'].map((letter) => (
-												<div key={letter} className="seat-grid__header-cell">{letter}</div>
-											))}
-										</div>
-
-										{/* Phân loại và hiển thị ghế */}
-										{Array.from({ length: columnsCount }, (_, index) => (
-											<>
-												{/* Hiển thị icon WC sau mỗi 3 hàng */}
-												{index % 3 === 0 && index !== 0 && (
-													<div className="seat-grid__wc-row">
-														<img src="/public/icons/wc-svgrepo-com.svg" alt="WC Icon Left" className="wc-icon-left" />
-														<img src="/public/icons/wc-svgrepo-com.svg" alt="WC Icon Right" className="wc-icon-right" />
-													</div>
-												)}
-
-												{/* Hàng ghế */}
-												<div key={index + 1} className="seat-grid__row">
-													{/* Hiển thị icon exit ở hàng 4, 7, 10, 13 */}
-													{[4, 7, 10, 13].includes(index + 1) && (
-														<>
-															<img src="/public/icons/left-svgrepo-com (3).svg" alt="Exit Icon Left" className="exit-icon--left" />
-														</>
-													)}
-
-													{['A', 'B', 'C'].map(column => {
-														const seat = seatData.find(seat => seat.row === (index + 1) && seat.column === column);
-														if (seat) {
-															const isSelected = selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi);
-															return (
-																<div
-																	key={seat.idChoNgoi}
-																	className={`seat ${seat.trangThaiChoNgoi === 'BOOKED' ? 'booked' : isSelected ? 'selected' : 'available'}`}
-																	onClick={() => handleSeatClick(seat)}
-																>
-																	{seat.trangThaiChoNgoi === 'BOOKED' ? (
-																		<img className='seat-icon' src="/public/icons/booked-seat.svg" alt="Ghế đã đặt" />
-																	) : isSelected ? (
-																		<img className='seat-icon' src="/public/icons/selected-seat.svg" alt="Ghế đang chọn" />
-																	) : (
-																		<img className='seat-icon' src="/public/icons/available-seat.svg" alt="Ghế có sẵn" />
-																	)}
-																</div>
-															);
-														}
-														return null;
-													})}
-													<div className="seat-grid__row-label">{index + 1}</div>
-													<div className="seat-grid__spacer" /> {/* Cell tạo khoảng cách */}
-													{['D', 'E', 'F'].map(column => {
-														const seat = seatData.find(seat => seat.row === (index + 1) && seat.column === column);
-														if (seat) {
-															const isSelected = selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi);
-															return (
-																<div
-																	key={seat.idChoNgoi}
-																	className={`seat ${seat.trangThaiChoNgoi === 'BOOKED' ? 'booked' : isSelected ? 'selected' : 'available'}`}
-																	onClick={() => handleSeatClick(seat)}
-																>
-																	{seat.trangThaiChoNgoi === 'BOOKED' ? (
-																		<img className='seat-icon' src="/public/icons/booked-seat.svg" alt="Ghế đã đặt" />
-																	) : isSelected ? (
-																		<img className='seat-icon' src="/public/icons/selected-seat.svg" alt="Ghế đang chọn" />
-																	) : (
-																		<img className='seat-icon' src="/public/icons/available-seat.svg" alt="Ghế có sẵn" />
-																	)}
-																</div>
-															);
-														}
-														return null;
-													})}
-
-													{/* Hiển thị icon exit ở hàng 4, 7, 10, 13 bên phải */}
-													{[4, 7, 10, 13].includes(index + 1) && (
-														<>
-															<img src="/public/icons/left-svgrepo-com (2).svg" alt="Exit Icon Right" className="exit-icon exit-icon--right" />
-														</>
-													)}
-												</div>
-											</>
-										))}
-										<div className='body-plane'><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com (1).svg" alt="" /><div className='body-plane-desc'>Đuôi máy bay</div><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com (1).svg" alt="" />
-										</div>
+									<div className='body-plane'><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com.svg" alt="" /><div className='body-plane-desc'>Đầu máy bay</div><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com.svg" alt="" />
 									</div>
-									<p className='num-seat-selected'>Số ghế đã chọn: {selectedSeats.length}</p>
+									<div className="seat-grid">
+										<div className="seat-grid__header">
+											{columns.map((letter) => (
+												<div key={letter} className="seat-grid__header-cell">{letter}</div>
+											))}
+										</div>
+
+										{/* Hiển thị ghế */}
+										{Array.from({ length: Math.ceil(maxRow / 10) }, (_, groupIndex) => (
+											<div key={groupIndex} className="seat-grid__group">
+												{Array.from({ length: 10 }, (_, rowIndex) => {
+													const currentRowIndex = groupIndex * 10 + rowIndex;
+
+													// Kiểm tra nếu currentRowIndex lớn hơn maxRow thì không tạo thêm hàng
+													if (currentRowIndex >= maxRow) return null;
+
+													return (
+														<div key={currentRowIndex + 1} className="seat-grid__row">
+															{firstHalf.map(column => {
+																const seat = seatData.find(seat => seat.row === (currentRowIndex + 1) && seat.column === column);
+
+																return seat ? (
+																	<div
+																		key={seat.idChoNgoi}
+																		className={`seat ${seat.trangThaiChoNgoi === 'BOOKED'
+																			? 'booked'
+																			: selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi)
+																				? 'selected'
+																				: 'available'
+																			}`}
+																		onClick={() => seat.trangThaiChoNgoi !== 'BOOKED' && handleSeatClick(seat)}
+																	>
+																		{seat.trangThaiChoNgoi === 'BOOKED' ? (
+																			<img src="public/icons/booked-seat.svg" alt="Booked Seat" className="seat--icon" />
+																		) : selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi) ? (
+																			<img src="public/icons/selected-seat.svg" alt="Selected Seat" className="seat--icon" />
+																		) : seat.trangThaiChoNgoi === 'AVAILABLE' ? (
+																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
+																		) : (
+																			''
+																		)}
+																	</div>
+																) : (
+																	<div key={`${column}-${currentRowIndex}`} className="seat empty-seat"></div>
+																);
+															})}
+
+															<div className='numRow'>{currentRowIndex + 1}</div>
+
+															{secondHalf.map(column => {
+																const seat = seatData.find(seat => seat.row === (currentRowIndex + 1) && seat.column === column);
+																return seat ? (
+																	<div
+																		key={seat.idChoNgoi}
+																		className={`seat ${seat.trangThaiChoNgoi === 'BOOKED'
+																			? 'booked'
+																			: selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi)
+																				? 'selected'
+																				: 'available'
+																			}`}
+																		onClick={() => seat.trangThaiChoNgoi !== 'BOOKED' && handleSeatClick(seat)}
+																	>
+																		{seat.trangThaiChoNgoi === 'BOOKED' ? (
+																			<img src="public/icons/booked-seat.svg" alt="Booked Seat" className="seat--icon" />
+																		) : selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi) ? (
+																			<img src="public/icons/selected-seat.svg" alt="Selected Seat" className="seat--icon" />
+																		) : seat.trangThaiChoNgoi === 'AVAILABLE' ? (
+																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
+																		) : (
+																			''
+																		)}
+																	</div>
+																) : (
+																	<div key={`${column}-${currentRowIndex}`} className="seat empty-seat"></div>
+																);
+															})}
+														</div>
+													);
+												})}
+
+												{/* Dành riêng một hàng cho icon WC */}
+												<div className="wc-icon-row">
+													<img src="public/icons/wc-svgrepo-com.svg" alt="WC" className="wc-icon-left" />
+													<img src="public/icons/wc-svgrepo-com.svg" alt="WC" className="wc-icon-right" />
+												</div>
+											</div>
+										))}
+
+									</div>
+									<div className='body-plane'><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com (1).svg" alt="" /><div className='body-plane-desc'>Đuôi máy bay</div><img className='body-plane-icon' src="public/icons/up-direction-svgrepo-com (1).svg" alt="" />
+									</div>
 								</div>
 							</div>
 						</Modal>
-
-
-
-
-
 					</div>
 					<img src="public/images/seat-selection__banner.jpg" alt="" className="seat-selection__banner" />
 				</div>
@@ -318,6 +321,8 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData }) => {
 					</div>
 				</div>
 			</div>
+
+
 		</div>
 	);
 };

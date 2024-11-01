@@ -1,11 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
-export default function FlightTimeLine() {
+export default function FlightTimeLine({ selectedTicket, numberOfTicketsToDetail }) {
 	const [isExpanded, setIsExpanded] = useState(false);
+	const [sanBayBatDau, setSanBayBatDau] = useState(null);
+	const [sanBayKetThuc, setSanBayKetThuc] = useState(null);
+	const [error, setError] = useState(null);
+
 
 	const handleFareClick = () => {
 		setIsExpanded(!isExpanded);
 	};
+
+	useEffect(() => {
+		const fetchAirport = async () => {
+			try {
+				const sanBayBatDau = await axios.get(`http://localhost:8080/admin/sanbay/getAirport/${selectedTicket.flightId.tuyenBay.idSanBayBatDau}`);
+				const sanBayKetThuc = await axios.get(`http://localhost:8080/admin/sanbay/getAirport/${selectedTicket.flightId.tuyenBay.idSanBayKetThuc}`);
+				setSanBayBatDau(sanBayBatDau);
+				setSanBayKetThuc(sanBayKetThuc);
+				// console.log("sanBayBatDau", sanBayBatDau)
+				// console.log("sanBayKetThuc", sanBayKetThuc)
+			} catch (err) {
+				setError(err.response ? err.response.data.message : 'Error fetching airport');
+			}
+		};
+
+		fetchAirport();
+	}, []);
+
 
 	const flightData = [
 		{
@@ -50,6 +73,62 @@ export default function FlightTimeLine() {
 		mileage: "⭐Tích lũy 50% số dặm"
 	}]
 
+	function convertDate(inputDate) {
+		const daysOfWeek = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+		const months = ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6', 'tháng 7', 'tháng 8', 'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12'];
+
+		// Chuyển đổi chuỗi ngày thành đối tượng Date
+		const date = new Date(inputDate);
+
+		// Lấy ngày, tháng, năm và thứ
+		const day = daysOfWeek[date.getDay()];
+		const month = months[date.getMonth()];
+		const dateNumber = date.getDate();
+		const year = date.getFullYear();
+
+		// Tạo chuỗi định dạng mong muốn
+		return `${day}, ${dateNumber} ${month} ${year}`;
+	}
+
+	function convertToTime(inputDateTime) {
+		// Tạo đối tượng Date từ chuỗi đầu vào
+		const date = new Date(inputDateTime);
+
+		// Lấy giờ và phút
+		const hours = String(date.getHours()).padStart(2, '0'); // Đảm bảo có 2 chữ số
+		const minutes = String(date.getMinutes()).padStart(2, '0'); // Đảm bảo có 2 chữ số
+
+		// Tạo chuỗi thời gian định dạng mong muốn
+		return `${hours}:${minutes}`;
+	}
+
+	function calculateFlightDuration(startTime, endTime) {
+		const startDate = new Date(startTime);
+		const endDate = new Date(endTime);
+		const durationMilliseconds = endDate - startDate;
+		const hours = Math.floor((durationMilliseconds / (1000 * 60 * 60)) % 24);
+		const minutes = Math.floor((durationMilliseconds / (1000 * 60)) % 60);
+		return { hours, minutes };
+	}
+	// Tính toán và in kết quả
+	const flightDuration = calculateFlightDuration(selectedTicket.flightId.thoiGianBatDauDuTinh, selectedTicket.flightId.thoiGianKetThucDuTinh);
+	console.log(`Thời gian bay: ${flightDuration.hours} giờ ${flightDuration.minutes} phút`); // Kết quả: Thời gian bay: 12 giờ 30 phút
+
+	console.log("selectedTicket from timeline", selectedTicket)
+	console.log("ngayBay from timeline", selectedTicket.flightId.ngayBay)
+	console.log("thoi gian bat dau from timeline", selectedTicket.flightId.thoiGianBatDauDuTinh) //thoi gian bat dau from timeline 2024-10-09T00:00:00
+
+	console.log("thoi gian ket thuc from timeline", selectedTicket.flightId.thoiGianKetThucDuTinh) //thoi gian ket thuc from timeline 2024-10-09T12:30:00
+
+	console.log("cong from timeline", selectedTicket.flightId.cong.idCong)
+	console.log("cong from timeline", selectedTicket.flightId.mayBay.icaoMayBay)
+	console.log("iataSanBay", sanBayBatDau?.data.data.iataSanBay)
+	console.log("diaChi", sanBayBatDau?.data.data.diaChi)
+	console.log("tenSanBay", sanBayBatDau?.data.data.tenSanBay)
+	console.log("quoc gia", sanBayBatDau?.data.data.thanhPho.quocGia.tenQuocGia)
+	console.log("sanBayKetThuc", sanBayKetThuc)
+
+
 	return (
 		<div>
 			<div className="flightDetail">
@@ -59,29 +138,28 @@ export default function FlightTimeLine() {
 						<div className={`flightDetail__flight ${isExpanded ? 'expanded' : ''}`}>
 							<div className="flightDetail__flight--bound-information">
 								<div className="flightDetail__flight--text">
-									Hà Nội đến TP. Hồ Chí Minh
+									{sanBayBatDau?.data.data.diaChi} đến {sanBayKetThuc?.data.data.diaChi}
 								</div>
 								<div className="flightDetail__flight--time">
-									-
-									Thứ Bảy, 19 tháng 10, 2024
+									{convertDate(selectedTicket?.flightId?.ngayBay)}
 								</div>
 							</div>
 							<div className="flightDetail__flight--bound">
 								<div className="flightDetail__flight--bound-timeline">
 									<div className="flightDetail__flight--bound-timeline-from">
 										<div className="flightDetail__flight--bound-timeline-time">
-											06:45
+											{convertToTime(selectedTicket.flightId.thoiGianBatDauDuTinh)}
 										</div>
 										<div className="flightDetail__flight--bound-timeline-airport">
-											HAN
+											{sanBayBatDau?.data.data.iataSanBay}
 										</div>
 										<div className="flightDetail__flight--bound-timeline-gas">
-											Nhà ga 10
+											Nhà ga {selectedTicket.flightId.tuyenBay.idSanBayBatDau}
 										</div>
 									</div>
 									<div className="flightDetail__flight--bound-timeline-transport">
 										---------------------------------------------------------------
-										{!flightData ? <p>Bay thẳng</p> :
+										{flightData ? <p>Bay thẳng</p> :
 											<div className='flightDetail__flight--bound-timeline-transport-wrap'>
 												<div className="flightDetail__flight--bound-timeline-transport-number">
 													1
@@ -95,13 +173,13 @@ export default function FlightTimeLine() {
 									</div>
 									<div className="flightDetail__flight--bound-timeline-to">
 										<div className="flightDetail__flight--bound-timeline-time">
-											06:45
+											{convertToTime(selectedTicket.flightId.thoiGianKetThucDuTinh)}
 										</div>
 										<div className="flightDetail__flight--bound-timeline-airport">
-											SDD
+											{sanBayKetThuc?.data.data.iataSanBay}
 										</div>
 										<div className="flightDetail__flight--bound-timeline-gas">
-											Nhà ga 4
+											Nhà ga {selectedTicket.flightId.tuyenBay.idSanBayKetThuc}
 										</div>
 									</div>
 								</div>
@@ -111,13 +189,13 @@ export default function FlightTimeLine() {
 											<div className="flightDetail__flight--bound-details-sect">
 												<img src="public/icons/clock-ui-web-svgrepo-com.svg" alt="" className="flightDetail__flight--bound-details-icon" />
 												<div className="flightDetail__flight--bound-details-text">
-													Thời gian bay 2h 10min
+													{`Thời gian bay ${flightDuration.hours}h ${flightDuration.minutes}min`}
 												</div>
 											</div>
 											<div className="flightDetail__flight--bound-details-sect">
 												<img src="public/icons/plane-taking-off-svgrepo-com.svg" alt="" className="flightDetail__flight--bound-details-icon" />
 												<div className="flightDetail__flight--bound-details-text">
-													QH 201 được Bamboo Airways khai thác.
+													{selectedTicket.flightId.mayBay.icaoMayBay} được Bamboo Airways khai thác.
 												</div>
 											</div>
 										</div>
@@ -134,59 +212,49 @@ export default function FlightTimeLine() {
 						<div className="flightDetail__flight--breakdown">
 							<div className="flightDetail__flight--breakdown-details-list">
 								<h4 className="flightDetail__flight--breakdown-details-title">Chi tiết hành trình</h4>
-								{flightData.map((flight, index) => (
-									<div className="flightDetail__flight--breakdown-details" key={index}>
-										<div className="flightDetail__flight--breakdown-details-wrap">
-											<div className="flightDetail__flight--breakdown-details-timeline">
-												{flight.journeyDetails.timeline}
-											</div>
-											<div className="flightDetail__flight--breakdown-details-places-wrap">
-												<div className="flightDetail__flight--breakdown-details-places">
-													<div className="flightDetail__flight--breakdown-details-time">
-														{flight.journeyDetails.departureTime} {flight.journeyDetails.departureCity}
-													</div>
-													<div className="flightDetail__flight--breakdown-details-location">
-														{flight.journeyDetails.departureAirport}
-													</div>
-													<div className="flightDetail__flight--breakdown-details-gas">
-														{flight.journeyDetails.terminal}
-													</div>
-												</div>
-												<div className="flightDetail__flight--breakdown-details-places">
-													<div className="flightDetail__flight--breakdown-details-time">
-														{flight.journeyDetails.departureTime} {flight.journeyDetails.departureCity}
-													</div>
-													<div className="flightDetail__flight--breakdown-details-location">
-														{flight.journeyDetails.departureAirport}
-													</div>
-													<div className="flightDetail__flight--breakdown-details-gas">
-														{flight.journeyDetails.terminal}
-													</div>
-												</div>
-											</div>
+								<div className="flightDetail__flight--breakdown-details">
+									<div className="flightDetail__flight--breakdown-details-wrap">
+										<div className="flightDetail__flight--breakdown-details-timeline">
+											{`${flightDuration.hours} giờ ${flightDuration.minutes} phút`}
 										</div>
-										<div className="flightDetail__flight--breakdown-details-plane">
-											<div className="flightDetail__flight--breakdown-details-number">
-												Số hiệu chuyến bay: {flight.journeyDetails.flightNumber}
-											</div>
-											<div className="flightDetail__flight--breakdown-details-exploit">
-												Khai thác bởi: {flight.journeyDetails.operatedBy}
-											</div>
-											<div className="flightDetail__flight--breakdown-details-code">
-												Mẫu máy bay: {flight.journeyDetails.planeModel}
-											</div>
-										</div>
-										{flight.journeyDetails.stopover ? <div className="flightDetail__flight--breakdown-details-transport">
-											<div className="flightDetail__flight--breakdown-details-transport-timeline"> {flight.journeyDetails.stopover.timeline}
-											</div>
-											<img src="public/icons/building-2-svgrepo-com.svg" alt="" className="flightDetail__flight--breakdown-details-transport-icon" />
-											<div className="flightDetail__flight--breakdown-details-transport-places">
-												{flight.journeyDetails.stopover.stops} điểm dừng tại {flight.journeyDetails.stopover.location}
-											</div>
-										</div> : <></>}
+										<div className="flightDetail__flight--breakdown-details-places-wrap">
+											<div className="flightDetail__flight--breakdown-details-places">
+												<div className="flightDetail__flight--breakdown-details-time">
+													{convertToTime(selectedTicket.flightId.thoiGianBatDauDuTinh)} {sanBayBatDau?.data.data.diaChi}
+												</div>
+												<div className="flightDetail__flight--breakdown-details-location">
+													Sân bay {sanBayBatDau?.data.data.tenSanBay}, {sanBayBatDau?.data.data.thanhPho.quocGia.tenQuocGia}
 
+												</div>
+												<div className="flightDetail__flight--breakdown-details-gas">
+													Nhà ga {selectedTicket.flightId.tuyenBay.idSanBayBatDau}
+												</div>
+											</div>
+											<div className="flightDetail__flight--breakdown-details-places">
+												<div className="flightDetail__flight--breakdown-details-time">
+													{convertToTime(selectedTicket.flightId.thoiGianKetThucDuTinh)} {sanBayKetThuc?.data.data.diaChi}
+												</div>
+												<div className="flightDetail__flight--breakdown-details-location">
+													Sân bay {sanBayKetThuc?.data.data.tenSanBay}, {sanBayKetThuc?.data.data.thanhPho.quocGia.tenQuocGia}
+												</div>
+												<div className="flightDetail__flight--breakdown-details-gas">
+													Nhà ga {selectedTicket.flightId.tuyenBay.idSanBayKetThuc}
+												</div>
+											</div>
+										</div>
 									</div>
-								))}
+									<div className="flightDetail__flight--breakdown-details-plane">
+										<div className="flightDetail__flight--breakdown-details-number">
+											Số hiệu chuyến bay: {selectedTicket.flightId.mayBay.soHieu}
+										</div>
+										<div className="flightDetail__flight--breakdown-details-exploit">
+											Khai thác bởi: Bamboo Airways
+										</div>
+										<div className="flightDetail__flight--breakdown-details-code">
+											Mẫu máy bay: {selectedTicket.flightId.mayBay.icaoMayBay}
+										</div>
+									</div>
+								</div>
 							</div>
 
 							<div className="flightDetail__flight--breakdown-fare">
