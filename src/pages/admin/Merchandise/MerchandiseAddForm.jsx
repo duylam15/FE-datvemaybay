@@ -91,6 +91,7 @@ const AddMerchandise = () => {
   };
 
   return (
+  <div className='machidiseaddform'>
     <div className='container'>
       <div className='form-container'>
         <form onSubmit={handleSave}>
@@ -150,6 +151,7 @@ const AddMerchandise = () => {
         </form>
       </div>
     </div>
+  </div>
   );
 };
 

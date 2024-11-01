@@ -145,9 +145,9 @@ const AddRoute = () => {
       console.error('Error updating route:', error);
     }
   };
-
   return (
-    <div className='container'>
+   <div className='addform-manageroute'>
+     <div className='container'>
       <div className='form-container'>
         <form onSubmit={handleSave}>
           <div>
@@ -251,6 +251,7 @@ const AddRoute = () => {
         </form>
       </div>
     </div>
+   </div>
   );
 };
 
