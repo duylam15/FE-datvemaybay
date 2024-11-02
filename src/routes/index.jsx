@@ -52,7 +52,7 @@ import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
 import FlightDetails from "../pages/FlightDetails";
 import TaiKhoanPage from "../pages/admin/TaiKhoan/index"
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import TaiKhoanAddForm from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 
 export const router = createBrowserRouter([
   {
@@ -264,7 +264,7 @@ export const router = createBrowserRouter([
       },
       {
       	path: "taikhoan/add",
-      	element: <TaiKhoanAddForm />
+      	element: <TaiKhoanAdd />
       },
       {
       	path: "taikhoan/edit/:idTaiKhoan",

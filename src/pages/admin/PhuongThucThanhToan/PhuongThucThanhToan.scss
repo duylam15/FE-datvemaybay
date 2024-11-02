@@ -305,3 +305,24 @@ color: #ffffff;
     margin: 10px ;
     text-align: left;
 }
+
+//taikhoan
+
+.taikhoan-add h1 {
+    font-size: 2em;
+    padding: 10px;
+}
+.taikhoan-add .radio-group {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    font-size: 1.2em;
+    
+}
+.taikhoan-add .radio-group label {
+    margin: 0px 10px;
+}
+
+.add-form label {
+    margin: 5px 0px;
+}

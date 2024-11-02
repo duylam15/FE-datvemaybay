@@ -9,7 +9,6 @@ const API_URL = 'http://localhost:8080';
 const HoaDonAdd = () => {
     const [khachHang, setKhachHang] = useState();
     const [nhanVien, setNhanVien] = useState('');
-    const [soLuongVe, setSoLuongVe] = useState('');
     const [loaiHoaDon, setLoaiHoaDon] = useState('');
     const [phuongThucThanhToan, setPhuongThucThanhToan] = useState('');
     const [tongTien, setTongTien] = useState('');
@@ -23,6 +22,8 @@ const HoaDonAdd = () => {
     const [idHangHoa, setIdHangHoa] = useState('');
     const [soTien, setSoTien] = useState('');
     
+    const [ve, setVe] = useState('');
+
     const [error, setError] = useState(null);
     const [fieldErrors, setFieldErrors] = useState({}); // Thêm state cho lỗi từng trường
     const navigate = useNavigate();
@@ -31,7 +32,17 @@ const HoaDonAdd = () => {
     const [nhanVienList, setNhanVienList] = useState([]);
     const [loaiHoaDonList, setLoaiHoaDonList] = useState([]);
     const [phuongThucThanhToanList, setPhuongThucThanhToanList] = useState([]);
+    const [veList, setVeList] = useState([]);
 
+    const [showVeDropdown, setShowVeDropdown] = useState(false);
+
+    const handleLoaiHoaDonChange = (e) => {
+        const selectedLoaiHoaDon = parseInt(e.target.value, 10);
+        setLoaiHoaDon({ ...loaiHoaDon, idLoaiHoaDon: selectedLoaiHoaDon });
+        console.log(veList);
+        // Kiểm tra nếu loại hóa đơn có id = 1 thì hiển thị dropdown Vé
+        setShowVeDropdown(selectedLoaiHoaDon === 1);
+    };
     const handleSubmit = async (event) => {
         event.preventDefault();
         const hangHoaDTOList = [
@@ -63,7 +74,7 @@ const HoaDonAdd = () => {
                 khachHang: { idKhachHang: khachHang },
                 nhanVien: { idNhanVien: nhanVien },
                 soLuongVe: 0,
-                loaiHoaDon: { idLoaiHoaDon: 2 },
+                loaiHoaDon,
                 phuongThucThanhToan: { idPhuongThucTT: phuongThucThanhToan },
                 tongTien,
                 thoiGianLap: new Date(),
@@ -98,7 +109,9 @@ const HoaDonAdd = () => {
         fetchPTTTList();
         fetchNhanVien();
         fetchLoaiHangHoa();
+        fetchAvailableVe();
     }, []);
+
     
     const fetchLoaiHangHoa = async () => {
         try {
@@ -149,10 +162,18 @@ const HoaDonAdd = () => {
         }
     }
 
+    const fetchAvailableVe = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/ve`);
+            setVeList(response.data.data.content); // Truy cập trực tiếp vào `response.data`
+        } catch (error) {
+            console.error('Lỗi khi lấy danh sách vé:', error);
+        }
+    };
 
     return (
         <>
-        <h1 style={{"font-size": "1.4em", "padding": "10px 0px", "margin": "20px 0px"}}>Thêm hóa đơn hàng hóa</h1>
+        <h1 style={{"fontSize": "1.4em", "padding": "10px 0px", "margin": "20px 0px"}}>Thêm hóa đơn hàng hóa</h1>
         <form onSubmit={handleSubmit} className="row">
              <div className="mb-3 col-4">
                  <label className="form-label">Khách hàng</label>
@@ -185,39 +206,42 @@ const HoaDonAdd = () => {
                 </select>
              </div>
              <div className="mb-3 col-4">
-                 <label className="form-label">Loại hóa đơn</label>
-                 <select
-                    className={`form-control`}
-                    value={loaiHoaDon}
-                    onChange={(e) => setLoaiHoaDon(parseInt(e.target.value), 10)}
+                <label className="form-label">Loại hóa đơn</label>
+                <select
+                    className="form-control"
+                    value={loaiHoaDon.idLoaiHoaDon || ""}
+                    onChange={handleLoaiHoaDonChange}
                 >
-                    <option value="">Chọn phương thức thanh toán</option>
+                    <option value="">Chọn loại hóa đơn</option>
                     {loaiHoaDonList
-                        .filter(lhd => lhd.status !== 'IN_ACTIVE') // Lọc các phương thức thanh toán
+                        .filter((lhd) => lhd.status !== 'IN_ACTIVE')
                         .map((lhd) => (
                             <option key={lhd.idLoaiHD} value={lhd.idLoaiHD}>
                                 {lhd.tenLoaiHD}
                             </option>
                         ))}
                 </select>
-             </div>
-             <div className="mb-3 col-4">
-                 <label className="form-label">Phương thức thanh toán</label>
-                 <select
-                    className={`form-control`}
-                    value={phuongThucThanhToan}
-                    onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value), 10)}
-                >
-                    <option value="">Chọn phương thức thanh toán</option>
-                    {phuongThucThanhToanList
-                        .filter(pttt => pttt.status !== 'IN_ACTIVE') // Lọc các phương thức thanh toán
-                        .map((pttt) => (
-                            <option key={pttt.idPTTT} value={pttt.idPTTT}>
-                                {pttt.tenPTTT}
-                            </option>
-                        ))}
-                </select>
-             </div>
+            </div>
+
+            {showVeDropdown && (
+                <div className="mb-3 col-4">
+                    <label className="form-label">Vé</label>
+                    <select
+                        className="form-control"
+                        value={ve.idVe || ""}
+                        onChange={(e) => setVe({ idVe: parseInt(e.target.value, 10) })}
+                    >
+                        <option value="">Chọn vé</option>
+                        {veList
+                            .filter((ve) => ve.status !== 'IN_ACTIVE')
+                            .map((ve) => (
+                                <option key={ve.idVe} value={ve.idVe}>
+                                    {ve.maVe}
+                                </option>
+                            ))}
+                    </select>
+                </div>
+            )}
              <div className="mb-3 col-4">
                  <label className={`form-label`}>Tên hàng hóa</label>
                  <input 
@@ -251,6 +275,23 @@ const HoaDonAdd = () => {
                  />
              </div>
              <div className="mb-3 col-4">
+                 <label className="form-label">Phương thức thanh toán</label>
+                 <select
+                    className={`form-control`}
+                    value={phuongThucThanhToan}
+                    onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value), 10)}
+                >
+                    <option value="">Chọn phương thức thanh toán</option>
+                    {phuongThucThanhToanList
+                        .filter(pttt => pttt.status !== 'IN_ACTIVE') // Lọc các phương thức thanh toán
+                        .map((pttt) => (
+                            <option key={pttt.idPTTT} value={pttt.idPTTT}>
+                                {pttt.tenPTTT}
+                            </option>
+                        ))}
+                </select>
+             </div>
+             <div className="mb-3 col-10">
                  <label className="form-label">Tổng tiền</label>
                  <input 
                     type="text" 
