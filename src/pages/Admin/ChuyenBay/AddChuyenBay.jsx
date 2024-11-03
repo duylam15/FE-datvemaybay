@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import LayOutThongBao from '../../../layout/LayoutThongBao/layOutThongBao';
 import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../../services/chuyenBayServices';
 import { dataCong } from '../../../services/congServices';
-import { dataMayBay } from '../../../services/mayBayServices';
+import { dataMayBay, editMayBay } from '../../../services/mayBayServices';
 import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
 import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
@@ -236,7 +236,6 @@ export const AddChuyenBay = () => {
     const fetchData = async () => {
       const reponseDataChuyenBayID = await getChuyenBayById(Number(idChuyenBay));
       const data = reponseDataChuyenBayID.data.data;
-      console.log(data);
       setDataSelectChuyenBay(data);
       setDelay(data.delay);
       setMayBay(data.mayBay);
@@ -398,7 +397,7 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     if (thoiGianBatDauThucTe == "")
       return;
-    const getDate = thoiGianBatDauThucTe.split("T")[0];
+    const getDate = thoiGianBatDauThucTe?.split("T")[0];
     setNgayBay(getDate);
   }, [thoiGianBatDauThucTe])
 
@@ -632,7 +631,11 @@ export const AddChuyenBay = () => {
   const suaChuyenBay = () => {
 
     /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
-
+    if (trangThaiCu == "IN_FLIGHT") {
+      setTypeDisplay("block");
+      setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
+      return;
+    }
     if (trangThai == "CANCELED" || trangThai == "COMPLETED") {
       if (selectedCoTruongCu) {
         selectedCoTruongCu.chuyenBay = null;
@@ -688,6 +691,20 @@ export const AddChuyenBay = () => {
     const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
+        if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
+          const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
+          mayBay.sanBay = sanBayMoi;
+          editMayBay(mayBay.idMayBay, mayBay)
+            .then(() => {
+
+            })
+            .catch((error) => {
+
+            })
+        }
+        else {
+          console.log("chuyen bay chua hoan tat , khong the thay doi");
+        }
         setTypeDisplay("block");
         setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
       })
