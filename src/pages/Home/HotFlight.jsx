@@ -65,18 +65,79 @@ export default function HotFlight() {
 	}
 
 	const [hotFlightsData, setHotFlightsData] = useState([]);
-
-	useEffect(() => {
-		const fetchServiceData = async () => {
-			try {
-				const response = await getHotFlightsData()
-				setHotFlightsData(response.data);
-			} catch (error) {
-				console.error("Error fetching service data:", error);
-			}
-		};
-		fetchServiceData();
-	}, []);
+	const hotFlightsDataaa = [
+		{
+			"id": 1,
+			"title": "Quà tặng Bamboo",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"description": "Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.",
+			"imgSrc": "public/images/portlet-01.png",
+			"departureDate": "2024-02-20",
+			"price": "200.000"
+		},
+		{
+			"id": 2,
+			"title": "Quà tặng Hè",
+			"description": "Món quà tuyệt vời cho mùa hè.",
+			"departureDate": "2024-02-20",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"price": "200.000",
+			"imgSrc": "public/images/portlet-01.png"
+		},
+		{
+			"id": 3,
+			"title": "Quà tặng Tết",
+			"description": "Quà Tết ý nghĩa dành cho người thân.",
+			"departureDate": "2024-02-20",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"price": "200.000",
+			"imgSrc": "public/images/portlet-01.png"
+		},
+		{
+			"id": 4,
+			"title": "Quà tặng Noel",
+			"description": "Món quà thú vị cho dịp lễ Giáng sinh.",
+			"departureDate": "2024-02-20",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"price": "200.000",
+			"imgSrc": "public/images/portlet-01.png"
+		},
+		{
+			"id": 5,
+			"title": "Quà tặng Sinh Nhật",
+			"description": "Món quà độc đáo cho ngày sinh nhật.",
+			"departureDate": "2024-02-20",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"price": "200.000",
+			"imgSrc": "public/images/portlet-01.png"
+		},
+		{
+			"id": 6,
+			"title": "Quà tặng Khuyến Mãi",
+			"description": "Món quà hấp dẫn trong các chương trình khuyến mãi.",
+			"departureDate": "2024-02-20",
+			"departureLocation": "ha noi",
+			"arrivalLocation": "hcm",
+			"price": "200.000",
+			"imgSrc": "public/images/portlet-01.png"
+		}
+	]
+	// useEffect(() => {
+	// 	const fetchServiceData = async () => {
+	// 		try {
+	// 			const response = await getHotFlightsData()
+	// 			setHotFlightsData(response.data);
+	// 		} catch (error) {
+	// 			console.error("Error fetching service data:", error);
+	// 		}
+	// 	};
+	// 	fetchServiceData();
+	// }, []);
 
 	const CustomPrevArrow = ({ className, style, onClick }) => {
 		return (
@@ -146,7 +207,7 @@ export default function HotFlight() {
 						nextArrow={<CustomNextArrow />}
 						dots
 					>
-						{hotFlightsData?.map((item) => (
+						{hotFlightsDataaa?.map((item) => (
 							<div
 								className="hotflight__item"
 								key={item.id}

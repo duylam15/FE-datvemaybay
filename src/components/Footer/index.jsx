@@ -8,17 +8,72 @@ const Footer = ({ }) => {
 
 	const [footerMenuPost, setFooterMenuPost] = useState([]);
 
-	useEffect(() => {
-		const fetchServiceData = async () => {
-			try {
-				const response = await getFooterMenuPost()
-				setFooterMenuPost(response.data);
-			} catch (error) {
-				console.error("Error fetching service data:", error);
-			}
-		};
-		fetchServiceData();
-	}, []);
+	const footerMenuPosttt = [
+		{
+			"h1title": "Khám phá",
+			"items": [
+				{
+					"id": 1,
+					"title": "Thông tin đặt vé",
+					"subTitle": [
+						{ "id": 1, "text": "Điều kiện giá vé" },
+						{ "id": 2, "text": "Giá vé đặc biệt" },
+						{ "id": 3, "text": "Hoàn, hủy, đổi vé" },
+						{ "id": 4, "text": "Thuế, phí và phụ thu" },
+						{ "id": 5, "text": "Trễ chuyến, Go - show" },
+						{ "id": 6, "text": "Vé giờ chót" }
+					]
+				},
+				{
+					"id": 2,
+					"title": "Chính sách vé",
+					"subTitle": [
+						{ "id": 1, "text": "Chính sách hoàn vé" },
+						{ "id": 2, "text": "Chính sách hủy vé" },
+						{ "id": 3, "text": "Chính sách đổi vé" },
+						{ "id": 4, "text": "Chính sách phí" },
+						{ "id": 5, "text": "Chính sách giá vé" },
+						{ "id": 6, "text": "Chính sách bảo hiểm" }
+					]
+				},
+				{
+					"id": 3,
+					"title": "Mẹo du lịch",
+					"subTitle": [
+						{ "id": 1, "text": "Chuẩn bị hành lý" },
+						{ "id": 2, "text": "Điều chỉnh thời gian" },
+						{ "id": 3, "text": "Lên kế hoạch cho chuyến đi" },
+						{ "id": 4, "text": "Chọn địa điểm" },
+						{ "id": 5, "text": "Tìm kiếm thông tin" },
+						{ "id": 6, "text": "Đảm bảo an toàn" }
+					]
+				},
+				{
+					"id": 4,
+					"title": "Những địa điểm du lịch nổi bật",
+					"subTitle": [
+						{ "id": 1, "text": "Địa điểm tại Hà Nội" },
+						{ "id": 2, "text": "Địa điểm tại Đà Nẵng" },
+						{ "id": 3, "text": "Địa điểm tại TP.HCM" },
+						{ "id": 4, "text": "Địa điểm tại Nha Trang" },
+						{ "id": 5, "text": "Địa điểm tại Hội An" },
+						{ "id": 6, "text": "Địa điểm tại Phú Quốc" }
+					]
+				}
+			]
+		}
+	]
+	// useEffect(() => {
+	// 	const fetchServiceData = async () => {
+	// 		try {
+	// 			const response = await getFooterMenuPost()
+	// 			setFooterMenuPost(response.data);
+	// 		} catch (error) {
+	// 			console.error("Error fetching service data:", error);
+	// 		}
+	// 	};
+	// 	fetchServiceData();
+	// }, []);
 
 	return (
 		<div className='footer'>
@@ -34,7 +89,7 @@ const Footer = ({ }) => {
 
 			<div className="footer__menu">
 				<div className="container">
-					{footerMenuPost?.map((section, sectionIndex) => (
+					{footerMenuPosttt?.map((section, sectionIndex) => (
 						<div key={sectionIndex} className="footer__menu-item">
 							<div className="footer__submenu--list">
 								<div className="footer__submenu">

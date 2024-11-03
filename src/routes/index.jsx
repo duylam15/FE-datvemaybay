@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
       {
         path: 'flightDetails',
         element: <FlightDetails />,
-      },
+      }
     ],
   },
 
@@ -259,16 +259,16 @@ export const router = createBrowserRouter([
         element: <LoaiHoaDonEdit />,
       },
       {
-      	path: "taikhoan",
-      	element: <TaiKhoanPage />
+        path: "taikhoan",
+        element: <TaiKhoanPage />
       },
       {
-      	path: "taikhoan/add",
-      	element: <TaiKhoanAdd />
+        path: "taikhoan/add",
+        element: <TaiKhoanAdd />
       },
       {
-      	path: "taikhoan/edit/:idTaiKhoan",
-      	element: <TaiKhoanEdit />
+        path: "taikhoan/edit/:idTaiKhoan",
+        element: <TaiKhoanEdit />
       },
     ],
   },

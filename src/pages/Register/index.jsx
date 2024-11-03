@@ -1,55 +1,19 @@
-import React, { useState } from 'react';
-import './Register.scss';
-import slogon from '../../assets/images/slogan.png';
+import { Button, Form, Input, Select, notification } from 'antd';
+import { useState } from 'react';
 import { callRegister } from '../../services/authServeices';
-import { useNavigate } from 'react-router-dom';
-import { notification } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import './Register.scss';
+import '../Login/Login.scss'; // Tệp CSS để định dạng giao diện
 
-export default function Register() {
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
-  const [cccd, setCccd] = useState('');
-  const [email, setEmail] = useState('');
-  const [hoTen, setHoTen] = useState('');
-  const [ngaySinh, setNgaySinh] = useState('');
-  const [soDienThoai, setSoDienThoai] = useState('');
-  const [gioiTinh, setGioiTinh] = useState('');
-  const [errors, setErrors] = useState({});
+const Register = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-
-    const userData = {
-      userName,
-      password,
-      rePassword,
-      cccd,
-      email,
-      hoTen,
-      ngaySinh,
-      soDienThoai,
-      gioiTinh,
-    };
-
-    let isValid = true;
-
-    // Validate từng trường
-    for (let key in userData) {
-      const bool = validateField(key, userData[key]);
-      isValid = isValid && bool;
-    }
-
-    if (!isValid) return;
-
+  const onFinish = async (values) => {
+    console.log("values", values)
     setIsSubmit(true);
-
-    const res = await callRegister(userData);
-    console.log(userData)
-    console.log(res)
-
+    const res = await callRegister(values);
+    console.log("res register", res)
     setIsSubmit(false);
 
     if (res.statusCode === 200) {
@@ -64,148 +28,162 @@ export default function Register() {
     }
   };
 
-  const validateField = (fieldName, fieldValue) => {
-    const formErrors = {};
-    let isValid = true;
-
-    // Logic validate cho từng field
-    if (!fieldValue || fieldValue.trim() === '') {
-      formErrors[fieldName] = `${fieldName} không được để trống`;
-      isValid = false;
-    }
-
-    if (fieldName === 'rePassword' && password !== fieldValue) {
-      formErrors.rePassword = 'Mật khẩu không khớp';
-      isValid = false;
-    }
-
-    setErrors((currentErrors) => {
-      return { ...currentErrors, ...formErrors };
-    });
-
-    return isValid;
-  };
-
   return (
-    <div className="register">
+    <div className="registerForm">
       <div className="container">
-        <div className="register__inner">
-          <div className="register-header">
-            <img src={slogon} alt="Slogan" className="register-slogan" />
-          </div>
-          <form onSubmit={handleSubmit} className="register-form">
-            <input
-              id="userName"
-              name="userName"
-              placeholder="Tên đăng nhập"
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className="input-username"
-            />
-            {errors.userName && <p className="error-text">{errors.userName}</p>}
-
-            <input
-              id="password"
-              name="password"
-              placeholder="Mật khẩu"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-password"
-            />
-            {errors.password && <p className="error-text">{errors.password}</p>}
-
-            <input
-              id="rePassword"
-              name="rePassword"
-              placeholder="Nhập lại mật khẩu"
-              type="password"
-              value={rePassword}
-              onChange={(e) => setRePassword(e.target.value)}
-              className="input-repassword"
-            />
-            {errors.rePassword && <p className="error-text">{errors.rePassword}</p>}
-
-            <input
-              id="cccd"
-              name="cccd"
-              placeholder="CCCD/CMND"
-              type="text"
-              value={cccd}
-              onChange={(e) => setCccd(e.target.value)}
-              className="input-cccd"
-            />
-            {errors.cccd && <p className="error-text">{errors.cccd}</p>}
-
-            <input
-              id="email"
-              name="email"
-              placeholder="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-email"
-            />
-            {errors.email && <p className="error-text">{errors.email}</p>}
-
-            <input
-              id="hoTen"
-              name="hoTen"
-              placeholder="Họ và tên"
-              type="text"
-              value={hoTen}
-              onChange={(e) => setHoTen(e.target.value)}
-              className="input-hoten"
-            />
-            {errors.hoTen && <p className="error-text">{errors.hoTen}</p>}
-
-            <input
-              id="ngaySinh"
-              name="ngaySinh"
-              placeholder="Ngày sinh"
-              type="date"
-              value={ngaySinh}
-              onChange={(e) => setNgaySinh(e.target.value)}
-              className="input-ngaysinh"
-            />
-            {errors.ngaySinh && <p className="error-text">{errors.ngaySinh}</p>}
-
-            <input
-              id="soDienThoai"
-              name="soDienThoai"
-              placeholder="Số điện thoại"
-              type="tel"
-              value={soDienThoai}
-              onChange={(e) => setSoDienThoai(e.target.value)}
-              className="input-sodienthoai"
-            />
-            {errors.soDienThoai && <p className="error-text">{errors.soDienThoai}</p>}
-
-            <select
-              id="gioiTinh"
-              name="gioiTinh"
-              value={gioiTinh}
-              onChange={(e) => setGioiTinh(e.target.value)}
-              className="input-gioitinh"
+        <div className='registerForm__inner'>
+          <section className="wrapper">
+            <div className="heading">
+              <img src="public/icons/logo.svg" alt="" className="heading__img" />
+              <h2 className="heading__text">Đăng Ký Bamboo Club</h2>
+            </div>
+            <Form
+              name="register"
+              onFinish={onFinish}
+              autoComplete="off"
+              className='registerForm__form'
             >
-              <option value="">Chọn giới tính</option>
-              <option value="NAM">Nam</option>
-              <option value="NU">Nữ</option>
-              <option value="FEMALE">Khác</option>
-            </select>
-            {errors.gioiTinh && <p className="error-text">{errors.gioiTinh}</p>}
+              <div className='wrap'>
 
-            <button
-              type="submit"
-              className="btn-submit"
-              disabled={isSubmit}
-            >
-              {isSubmit ? 'Đang xử lý...' : 'Đăng ký'}
-            </button>
-          </form>
+                <div className='wrap__item'>
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+                    label="Tên đăng nhập"
+                    name="userName"
+                    rules={[{ required: true, message: 'Tên đăng nhập không được để trống!' }]}
+                  >
+                    <Input className='registerForm__input' />
+                  </Form.Item>
+
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+
+                    label="Mật khẩu"
+                    name="password"
+                    rules={[{ required: true, message: 'Mật khẩu không được để trống!' }]}
+                  >
+                    <Input.Password className='registerForm__input' />
+                  </Form.Item>
+
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+
+                    label="Nhập lại mật khẩu"
+                    name="rePassword"
+                    dependencies={['password']}
+                    rules={[
+                      { required: true, message: 'Vui lòng xác nhận mật khẩu!' },
+                      ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue('password') === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(new Error('Mật khẩu không khớp!'));
+                        },
+                      }),
+                    ]}
+                  >
+                    <Input.Password className='registerForm__input' />
+                  </Form.Item>
+
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+
+                    label="Họ và tên"
+                    name="hoTen"
+                    rules={[{ required: true, message: 'Họ và tên không được để trống!' }]}
+                  >
+                    <Input className='registerForm__input' />
+                  </Form.Item>
+                </div>
+
+                <div className='wrap__item'>
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+
+                    label="CCCD/CMND"
+                    name="cccd"
+                    rules={[{ required: true, message: 'CCCD /CMND không được để trống!' }]}
+                  >
+                    <Input className='registerForm__input' />
+                  </Form.Item>
+
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, type: 'email', message: 'Email không hợp lệ!' }]}
+                  >
+                    <Input className='registerForm__input' />
+                  </Form.Item>
+
+
+                  <Form.Item
+                    className='registerForm__label'
+                    labelCol={{ span: 24 }}
+                    label="Số điện thoại"
+                    name="soDienThoai"
+                    rules={[{ required: true, message: 'Số điện thoại không được để trống!' }]}
+                  >
+                    <Input className='registerForm__input' />
+                  </Form.Item>
+
+                  <div className='wrap'>
+                    <Form.Item
+                      className='registerForm__label'
+                      labelCol={{ span: 24 }}
+
+                      label="Ngày sinh"
+                      name="ngaySinh"
+                      rules={[{ required: true, message: 'Ngày sinh không được để trống!' }]}
+                    >
+                      <Input className='registerForm__input' type="date" />
+                    </Form.Item>
+
+
+                    <Form.Item
+                      className='registerForm__label'
+                      labelCol={{ span: 24 }}
+                      label="Giới tính"
+                      name="gioiTinh"
+                      rules={[{ required: true, message: 'Vui lòng chọn giới tính!' }]}
+                    >
+                      <Select placeholder="Chọn giới tính"
+                        className='registerForm__select'>
+                        <Select.Option value="NAM">Nam</Select.Option>
+                        <Select.Option value="NU">Nữ</Select.Option>
+                        <Select.Option value="KHAC">Khác</Select.Option>
+                      </Select>
+                    </Form.Item>
+                  </div>
+                </div>
+              </div>
+
+              <Form.Item
+                className='registerForm__label'>
+                <Button type="primary" htmlType="submit" loading={isSubmit} className='registerForm__btn'>
+                  Đăng ký
+                </Button>
+              </Form.Item>
+
+              <p className="text text-normal">Đã có tài khoản?
+                <span>
+                  <Link to='/login' className='registerForm__label'> Đăng nhập ngay </Link>
+                </span>
+              </p>
+            </Form>
+          </section>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Register;

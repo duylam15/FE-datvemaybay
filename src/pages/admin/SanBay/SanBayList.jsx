@@ -3,8 +3,9 @@ import axios from 'axios';
 import './SanBay.css'
 
 const API_URL = 'http://localhost:8080';
-const SanBayList = ({ sanBay, onEdit, getAirportByCity, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
+const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
     const [thanhPho, setThanhPho] = useState([]);
+    const [quocgia, setQuocGia] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const getThanhPho = async () => {
@@ -28,6 +29,29 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, onBlock, searchTerm, set
         };
         fetchData();
     }, []);
+
+    const getQuocGia = async () => {
+        const response = await fetch(`${API_URL}/admin/quocgia/getAllNation`); // Thay đổi endpoint theo API của bạn
+        if (!response.ok) {
+            throw new Error('Failed to fetch nation');
+        }
+        const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+        return data.data; // Trả về phần data bên trong JSON
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getQuocGia();
+                setQuocGia(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
@@ -45,6 +69,14 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, onBlock, searchTerm, set
                     {thanhPho.map((tp) => (
                         <option value={tp.idThanhPho} key={tp.idThanhPho}>
                             {tp.idThanhPho} - {tp.tenThanhPho}
+                        </option>
+                    ))}
+                </select>
+                <select onChange={(e) => getAirportByNation(e.target.value)} className='form-control'>
+                    <option value="Lọc theo quốc gia">Lọc theo quốc gia</option>
+                    {quocgia.map((qg) => (
+                        <option value={qg.idQuocGia} key={qg.idQuocGia}>
+                            {qg.idQuocGia} - {qg.tenQuocGia}
                         </option>
                     ))}
                 </select>

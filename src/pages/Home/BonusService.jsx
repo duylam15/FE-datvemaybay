@@ -51,19 +51,56 @@ export default function BonusService() {
 	};
 
 	const [bonusItems, setBonusItems] = useState([]);
+	const bonusServicesData = [
+		{
+			"id": 1,
+			"imgSrc": "public/images/portlet-01.png",
+			"heading": "Quà tặng Bamboo 1",
+			"desc": "Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách."
+		},
+		{
+			"id": 2,
+			"imgSrc": "public/images/portlet-02.png",
+			"heading": "Quà tặng Bamboo 2",
+			"desc": "Món quà ý nghĩa dành cho hành khách."
+		},
+		{
+			"id": 3,
+			"imgSrc": "public/images/portlet-03.png",
+			"heading": "Quà tặng Bamboo 3",
+			"desc": "Khám phá món quà đặc biệt của Bamboo Airways."
+		},
+		{
+			"id": 4,
+			"imgSrc": "public/images/portlet-04.png",
+			"heading": "Quà tặng Bamboo 4",
+			"desc": "Sản phẩm chất lượng cao dành cho hành khách."
+		},
+		{
+			"id": 5,
+			"imgSrc": "public/images/portlet-05.png",
+			"heading": "Quà tặng Bamboo 5",
+			"desc": "Những món quà kỷ niệm độc đáo."
+		},
+		{
+			"id": 6,
+			"imgSrc": "public/images/portlet-06.png",
+			"heading": "Quà tặng Bamboo 6",
+			"desc": "Món quà tuyệt vời cho hành khách."
+		}
+	]
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		try {
+	// 			const response = await getBonusServicesData();
+	// 			setBonusItems(response.data);
+	// 		} catch (error) {
+	// 			console.error('Lỗi khi lấy dữ liệu dịch vụ bổ trợ:', error);
+	// 		}
+	// 	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await getBonusServicesData();
-				setBonusItems(response.data);
-			} catch (error) {
-				console.error('Lỗi khi lấy dữ liệu dịch vụ bổ trợ:', error);
-			}
-		};
-
-		fetchData();
-	}, []);
+	// 	fetchData();
+	// }, []);
 
 	const [currentIndex, setCurrentIndex] = useState(0); // Lưu chỉ số slide hiện tại
 
@@ -92,7 +129,7 @@ export default function BonusService() {
 								slidesToScroll={1}
 								afterChange={handleAfterChange}
 							>
-								{bonusItems?.map(item => (
+								{bonusServicesData?.map(item => (
 									<div className="bonus-service__item" key={item.id}>
 										<img src={item.imgSrc} alt="" className="bonus-service__img" />
 										<section className="bonus-service__section">

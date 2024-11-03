@@ -112,22 +112,6 @@ export default function FlightTimeLine({ selectedTicket, numberOfTicketsToDetail
 	}
 	// Tính toán và in kết quả
 	const flightDuration = calculateFlightDuration(selectedTicket.flightId.thoiGianBatDauDuTinh, selectedTicket.flightId.thoiGianKetThucDuTinh);
-	console.log(`Thời gian bay: ${flightDuration.hours} giờ ${flightDuration.minutes} phút`); // Kết quả: Thời gian bay: 12 giờ 30 phút
-
-	console.log("selectedTicket from timeline", selectedTicket)
-	console.log("ngayBay from timeline", selectedTicket.flightId.ngayBay)
-	console.log("thoi gian bat dau from timeline", selectedTicket.flightId.thoiGianBatDauDuTinh) //thoi gian bat dau from timeline 2024-10-09T00:00:00
-
-	console.log("thoi gian ket thuc from timeline", selectedTicket.flightId.thoiGianKetThucDuTinh) //thoi gian ket thuc from timeline 2024-10-09T12:30:00
-
-	console.log("cong from timeline", selectedTicket.flightId.cong.idCong)
-	console.log("cong from timeline", selectedTicket.flightId.mayBay.icaoMayBay)
-	console.log("iataSanBay", sanBayBatDau?.data.data.iataSanBay)
-	console.log("diaChi", sanBayBatDau?.data.data.diaChi)
-	console.log("tenSanBay", sanBayBatDau?.data.data.tenSanBay)
-	console.log("quoc gia", sanBayBatDau?.data.data.thanhPho.quocGia.tenQuocGia)
-	console.log("sanBayKetThuc", sanBayKetThuc)
-
 
 	return (
 		<div>

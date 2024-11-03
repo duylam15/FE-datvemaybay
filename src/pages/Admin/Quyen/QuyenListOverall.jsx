@@ -32,15 +32,17 @@ const QuyenListOverall = ({ size = 2 }) => {
     }
   };
 
-  // Use effect to fetch data when currentPage changes or when searchName changes
+  // Fetch data when currentPage changes or when searchName changes
   useEffect(() => {
-    fetchQuyen(searchName, currentPage);
-  }, [currentPage, searchName]); // Fetch data when currentPage or searchName changes
+    // When searchName changes, reset to page 1
+    if (searchName !== "") {
+      setCurrentPage(1); // Reset to page 1 when searchName changes
+    }
+  }, [searchName]); // Only listen to searchName changes
 
-  const handleSearch = () => {
-    setCurrentPage(1); // Reset to page 1 on new search
-    fetchQuyen(searchName, 1); // Fetch with the new search term
-  };
+  useEffect(() => {
+    fetchQuyen(searchName, currentPage); // Fetch with the current page
+  }, [currentPage, searchName]); // Fetch data when currentPage or searchName changes
 
   const handleSort = (field) => {
     setSortField(field);
@@ -68,7 +70,6 @@ const QuyenListOverall = ({ size = 2 }) => {
         nhomQuyen={nhomQuyen}
         searchName={searchName}
         setSearchName={setSearchName}
-        handleSearch={handleSearch}
         handleSort={handleSort}
         sortOrder={sortOrder}
         sortField={sortField}

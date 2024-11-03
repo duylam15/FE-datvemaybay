@@ -6,18 +6,49 @@ import { useNavigate } from 'react-router-dom';
 export default function Popular() {
 	const navigate = useNavigate()
 	const [popularData, setPopularData] = useState([]);
-
-	useEffect(() => {
-		const fetchServiceData = async () => {
-			try {
-				const response = await getPopularData()
-				setPopularData(response.data);
-			} catch (error) {
-				console.error("Error fetching service data:", error);
-			}
-		};
-		fetchServiceData();
-	}, []);
+	const popularDataaa = [
+		{
+			"id": 1,
+			"title": "Đà Nẵng",
+			"description": "Những món quà lưu niệm của Bamboo Airways luôn nhận được sự yêu thích của hành khách.",
+			"imgSrc": "public/images/experience-01.png"
+		},
+		{
+			"id": 2,
+			"title": "Tp. Hồ Chí Minh",
+			"description": "Các món quà tặng cho mùa hè đầy năng lượng và vui tươi.",
+			"imgSrc": "public/images/experience-02.png"
+		},
+		{
+			"id": 3,
+			"title": "Hà Nội",
+			"description": "Những món quà ý nghĩa cho mùa Tết cổ truyền.",
+			"imgSrc": "public/images/experience-03.png"
+		},
+		{
+			"id": 4,
+			"title": "Bangcook",
+			"description": "Món quà tuyệt vời cho mùa Giáng sinh.",
+			"imgSrc": "public/images/experience-04.png"
+		},
+		{
+			"id": 5,
+			"title": "Seoul",
+			"description": "Món quà đầy bất ngờ cho ngày sinh nhật của bạn bè.",
+			"imgSrc": "public/images/experience-05.png"
+		}
+	]
+	// useEffect(() => {
+	// 	const fetchServiceData = async () => {
+	// 		try {
+	// 			const response = await getPopularData()
+	// 			setPopularData(response.data);
+	// 		} catch (error) {
+	// 			console.error("Error fetching service data:", error);
+	// 		}
+	// 	};
+	// 	fetchServiceData();
+	// }, []);
 	return (
 		<>
 			<div className="popular">
@@ -45,7 +76,7 @@ export default function Popular() {
 								autoplaySpeed={3000}
 
 							>
-								{popularData?.map((item, index) => (
+								{popularDataaa?.map((item, index) => (
 									<div
 										className={`popular__item `}
 										key={item.id}
@@ -58,13 +89,13 @@ export default function Popular() {
 										</section>
 										<div className="popular__thumb">
 											<img
-												src={index + 1 < popularData.length ? popularData[index + 1].imgSrc : popularData[0].imgSrc}
-												alt={`Thumbnail for ${index + 1 < popularData.length ? popularData[index + 1].title : popularData[0].title}`}
+												src={index + 1 < popularDataaa.length ? popularDataaa[index + 1].imgSrc : popularDataaa[0].imgSrc}
+												alt={`Thumbnail for ${index + 1 < popularDataaa.length ? popularDataaa[index + 1].title : popularDataaa[0].title}`}
 												className="popular__thumb--img"
 											/>
 											<div className="popular__thumb--title">
 												<p className="popular__thumb--text">Bạn cũng có thể thích</p>
-												{index + 1 < popularData.length ? popularData[index + 1].title : popularData[0].title}
+												{index + 1 < popularDataaa.length ? popularDataaa[index + 1].title : popularDataaa[0].title}
 											</div>
 										</div>
 									</div>
