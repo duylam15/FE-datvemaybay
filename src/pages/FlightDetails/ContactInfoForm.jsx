@@ -82,7 +82,7 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 					<div className='adult-form__header' onClick={toggleForm}>
 						<h1 className='form__heading '>THÔNG TIN LIÊN LẠC</h1>
 					</div>
-					<div className={`form-content show`}>
+					<form className={`form-content show`} autoComplete="off">
 						<div className="form-group-adultform">
 							<label className={touched.email && error.email ? 'error-adult-label' : ''}>Địa chỉ email</label>
 							<input
@@ -126,7 +126,7 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 							/>
 							{error.phone && touched.phone && <span className="error-adult-form">{error.phone}</span>}
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 

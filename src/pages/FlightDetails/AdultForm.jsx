@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTicketsToDetail }) => {
+const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTicketsToDetailNumber }) => {
 	const [errors, setErrors] = useState({});
 	const [touched, setTouched] = useState({});
 	const [showForm, setShowForm] = useState(false);
 
-	console.log(numberOfTicketsToDetail)
+	console.log("adultDataadultDataadultData", adultData)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -60,7 +60,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 					<div className='adult-form__header' onClick={toggleForm}>
 						<h3 className='form-title form__heading'>NGƯỜI LỚN {index} (Người lớn)</h3>
 					</div>
-					<div className={`form-content show `}>
+					<form className={`form-content show `} autoComplete="off">
 						<div className="form-group-adultform">
 							<label className={touched.fullName && errors.fullName ? 'error-adult-label' : ''}>Nhập Tên Đệm và Tên*</label>
 							<input
@@ -68,7 +68,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 								name="fullName"
 								placeholder="Tên Đệm và Tên"
 								onChange={handleChange}
-								onBlur={handleBlur}
+								onBlur={adultData.fullName ? "" : handleBlur}
 								className={touched.fullName && errors.fullName ? 'error-adult-input' : ''}
 							/>
 							{touched.fullName && errors.fullName && <span className="error-adult-form">{errors.fullName}</span>}
@@ -135,7 +135,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 							/>
 							{touched.birthDate && errors.birthDate && <span className="error-adult-form">{errors.birthDate}</span>}
 						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>

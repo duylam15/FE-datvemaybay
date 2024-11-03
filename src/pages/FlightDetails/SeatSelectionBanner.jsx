@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, notification } from 'antd';
+import { useLocation } from 'react-router-dom';
 import axios from "axios";
 
-const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTicket, numberOfTicketsToDetail }) => {
+const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contactData, selectedTicket, setAdultData,
+	setContactData }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [seatData, setSeatData] = useState([]);
 	const [selectedSeats, setSelectedSeats] = useState([]);
@@ -69,11 +71,11 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 			return;
 		}
 
-		if (selectedSeats.length < customerCount) {
+		if (selectedSeats.length < numberOfTicketsToDetailNumber) {
 			// Nếu chưa chọn đủ ghế, hiển thị thông báo
 			notification.warning({
 				message: 'Chưa chọn đủ ghế',
-				description: `Bạn cần chọn ${customerCount} ghế cho ${customerCount} khách hàng.`,
+				description: `Bạn cần chọn ${numberOfTicketsToDetailNumber} ghế cho ${numberOfTicketsToDetailNumber} khách hàng.`,
 				duration: 3,
 			});
 			return;
@@ -82,7 +84,7 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 		// Nếu tất cả đều hợp lệ, gửi dữ liệu
 		const bookingData = selectedSeats.map((seat, index) => ({
 			idHanhKhach: index + 1,
-			idVe: index + 1,
+			idVe: seat.idVe,
 			hoTen: adultData[index]?.fullName,
 			ngaySinh: adultData[index]?.birthDate,
 			soDienThoai: contactData.phone,
@@ -109,6 +111,8 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 					console.log("Response from server:", response);
 					console.log("Response from server:", response?.data?.data?.paymentUrl);
 					const paymentUrl = response?.data?.data?.paymentUrl;
+					// Reset form state after successful submission
+					window.location.href = paymentUrl
 				})
 				.catch((error) => {
 					console.error('Error submitting booking data:', error);
@@ -123,9 +127,10 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 
 	useEffect(() => {
 		if (isModalVisible) {
-			axios.get('http://localhost:3005/data')
+			axios.get(`http://localhost:8080/getChoNgoiByChuyenBayAndHangVe?idChuyenBay=${selectedTicket.flightId.idChuyenBay}&idHangVe=${selectedTicket.classTicketId}`)
 				.then((response) => {
-					setSeatData(response.data);
+					console.log("response getChoNgoiByChuyenBayAndHangVe", response.data.data)
+					setSeatData(response.data.data)
 				})
 				.catch((error) => {
 					console.error('Error fetching seat data:', error);
@@ -135,7 +140,7 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 
 	useEffect(() => {
 		if (seatData.length > 0) {
-			const uniqueColumns = [...new Set(seatData.map(seat => seat.column))]; // Lấy các cột duy nhất
+			const uniqueColumns = [...new Set(seatData.map(seat => seat.columnIndex))]; // Lấy các cột duy nhất
 
 			// Tính chỉ số giữa
 			const midIndex = Math.floor(uniqueColumns.length / 2);
@@ -158,18 +163,18 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 	}, [seatData]);
 
 	const handleSeatClick = (seat) => {
-		if (seat.trangThaiChoNgoi === 'BOOKED') return;
+		if (seat.trangThai === 'BOOKED') return;
 
 		const isSelected = selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi);
 
 		if (isSelected) {
 			setSelectedSeats(selectedSeats.filter(s => s.idChoNgoi !== seat.idChoNgoi));
-		} else if (selectedSeats.length < customerCount) {
+		} else if (selectedSeats.length < numberOfTicketsToDetailNumber) {
 			setSelectedSeats([...selectedSeats, seat]);
 		}
 	};
 
-	const maxRow = Math.max(...seatData.map(seat => seat.row));
+	const maxRow = Math.max(...seatData.map(seat => seat.rowIndex));
 	return (
 		<div className="seat-selection">
 			<h2 className='book--heading'>Dịch vụ bổ sung</h2>
@@ -235,24 +240,24 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 													return (
 														<div key={currentRowIndex + 1} className="seat-grid__row">
 															{firstHalf.map(column => {
-																const seat = seatData.find(seat => seat.row === (currentRowIndex + 1) && seat.column === column);
+																const seat = seatData.find(seat => seat.rowIndex === (currentRowIndex + 1) && seat.columnIndex === column);
 
 																return seat ? (
 																	<div
 																		key={seat.idChoNgoi}
-																		className={`seat ${seat.trangThaiChoNgoi === 'BOOKED'
+																		className={`seat ${seat.trangThai === 'BOOKED'
 																			? 'booked'
 																			: selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi)
 																				? 'selected'
-																				: 'available'
+																				: 'empty'
 																			}`}
-																		onClick={() => seat.trangThaiChoNgoi !== 'BOOKED' && handleSeatClick(seat)}
+																		onClick={() => seat.trangThai !== 'BOOKED' && handleSeatClick(seat)}
 																	>
-																		{seat.trangThaiChoNgoi === 'BOOKED' ? (
+																		{seat.trangThai === 'BOOKED' ? (
 																			<img src="public/icons/booked-seat.svg" alt="Booked Seat" className="seat--icon" />
 																		) : selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi) ? (
 																			<img src="public/icons/selected-seat.svg" alt="Selected Seat" className="seat--icon" />
-																		) : seat.trangThaiChoNgoi === 'AVAILABLE' ? (
+																		) : seat.trangThai === 'EMPTY' ? (
 																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
 																		) : (
 																			''
@@ -266,23 +271,23 @@ const SeatSelectionBanner = ({ customerCount, adultData, contactData, selectedTi
 															<div className='numRow'>{currentRowIndex + 1}</div>
 
 															{secondHalf.map(column => {
-																const seat = seatData.find(seat => seat.row === (currentRowIndex + 1) && seat.column === column);
+																const seat = seatData.find(seat => seat.rowIndex === (currentRowIndex + 1) && seat.columnIndex === column);
 																return seat ? (
 																	<div
 																		key={seat.idChoNgoi}
-																		className={`seat ${seat.trangThaiChoNgoi === 'BOOKED'
+																		className={`seat ${seat.trangThai === 'BOOKED'
 																			? 'booked'
 																			: selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi)
 																				? 'selected'
-																				: 'available'
+																				: 'empty'
 																			}`}
-																		onClick={() => seat.trangThaiChoNgoi !== 'BOOKED' && handleSeatClick(seat)}
+																		onClick={() => seat.trangThai !== 'BOOKED' && handleSeatClick(seat)}
 																	>
-																		{seat.trangThaiChoNgoi === 'BOOKED' ? (
+																		{seat.trangThai === 'BOOKED' ? (
 																			<img src="public/icons/booked-seat.svg" alt="Booked Seat" className="seat--icon" />
 																		) : selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi) ? (
 																			<img src="public/icons/selected-seat.svg" alt="Selected Seat" className="seat--icon" />
-																		) : seat.trangThaiChoNgoi === 'AVAILABLE' ? (
+																		) : seat.trangThai === 'EMPTY' ? (
 																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
 																		) : (
 																			''

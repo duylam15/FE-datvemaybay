@@ -21,7 +21,7 @@ const Login = () => {
     // const RefreshToken = await callRefreshToken();
     // console.log("RefreshToken", RefreshToken)
     let infoUser
-    if(res.data) {
+    if (res.data) {
       console.log("abccasc")
       infoUser = await callInfoUser(res.data);
     }
@@ -61,9 +61,9 @@ const Login = () => {
             >
               <Form.Item
                 labelCol={{ span: 24 }} // Cài đặt label chiếm toàn bộ cột
-                label="Email"
+                label="Tên đăng nhập"
                 name="username" // Tên trường dữ liệu
-                rules={[{ required: true, message: 'Email không được để trống!' }]}
+                rules={[{ required: true, message: 'Tên đăng nhập không được để trống!' }]}
                 className='loginForm__label'
               >
                 <Input className='loginForm__input' />

@@ -58,4 +58,9 @@
         margin-bottom: 10px;
         margin-top: -10px;
     }
+    .text {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+    }
 }

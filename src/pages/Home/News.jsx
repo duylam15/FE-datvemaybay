@@ -35,18 +35,34 @@ export default function News() {
 	};
 
 	const [dataNews, setDataNews] = useState([]);
-
-	useEffect(() => {
-		const fetchdataNews = async () => {
-			try {
-				const response = await getNewsData()
-				setDataNews(response.data);
-			} catch (error) {
-				console.error("Error fetching service data:", error);
-			}
-		};
-		fetchdataNews();
-	}, []);
+	const newsDataa = [
+		{
+			"date": "01/12/2022",
+			"title": "title 1",
+			"desc": "desc 1"
+		},
+		{
+			"date": "01/10/2024",
+			"title": "title 2",
+			"desc": "desc 2 "
+		},
+		{
+			"date": "01/02/2023",
+			"title": "title 3",
+			"desc": "desc 3 "
+		}
+	]
+	// useEffect(() => {
+	// 	const fetchdataNews = async () => {
+	// 		try {
+	// 			const response = await getNewsData()
+	// 			setDataNews(response.data);
+	// 		} catch (error) {
+	// 			console.error("Error fetching service data:", error);
+	// 		}
+	// 	};
+	// 	fetchdataNews();
+	// }, []);
 
 
 
@@ -93,7 +109,7 @@ export default function News() {
 							infinite={false}
 							afterChange={onChangeSlide}
 						>
-							{dataNews?.map((newsItem, index) => (
+							{newsDataa?.map((newsItem, index) => (
 								<div key={index}>
 									<div style={contentStyle}>
 										<span className='news__date'>{newsItem.date}</span>

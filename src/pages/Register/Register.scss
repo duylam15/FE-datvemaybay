@@ -1,29 +1,61 @@
-.register {
-    &__inner {
+.registerForm {
+    background-image: url("public/images/sky-bg.svg");
+    background-repeat: no-repeat;
+    background-position: center; /* Căn giữa */
+    background-size: cover; /* Để hình nền phủ đầy phần tử */
+    height: 120vh;
+    padding: 20px;
+    .heading {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 30px;
+        &__text {
+            font-size: 24px;
+            line-height: 120%;
+            font-weight: 500;
+            color: #00558f !important;
+        }
     }
-    .register-header {
-        background-image: url("public/images/register-banner.png");
-        height: inherit;
-        background-repeat: no-repeat;
-        background-position: center; /* Căn giữa */
-        background-size: cover; /* Để hình nền phủ đầy phần tử */
+    .registerForm__inner {
+        background: #fff;
+        border-radius: 10px;
+        width: 650px;
+        padding: 30px;
+        margin: 0 auto;
+        .wrap {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .wrap__item {
+            width: 50%;
+        }
     }
-    .register-form {
+    &__label {
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: 600;
+        letter-spacing: 0.06rem;
+        color: #344054 !important;
     }
-    .register-form {
+    &__input {
+        width: 100%;
+    }
+    .ant-form-item-control-input{
+        
+    }
+    &__btn {
+        width: 100%;
+        height: 40px;
+        background: var(--color-secondary-dark);
+    }
+    .text{
         display: flex;
-        flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ không gian */
-        gap: 10px; /* Khoảng cách giữa các ô nhập liệu */
-    }
-
-    .input-username,
-    .input-password,
-    .input-repassword {
-        flex: 1; /* Mỗi ô chiếm đều không gian */
-        min-width: 300px; /* Đặt chiều rộng tối thiểu để tránh ô quá nhỏ */
+        justify-content: flex-end;
+        gap: 20px;
     }
 }

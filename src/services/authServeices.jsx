@@ -36,3 +36,7 @@ export const callInfoUser = (token) => {
 	});
 }
 
+export const getListLocationsForHeader = () => {
+	return axios.get(`/admin/sanbay/getAllAirport`);
+}
+
