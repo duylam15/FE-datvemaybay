@@ -3,7 +3,7 @@ import { useFetchSanBay } from '../../../utils/useFetchSanBay.jsx';
 import SanBayList from '../../../pages/admin/SanBay/SanBayList.jsx';
 import AddSanBayForm from './ThemSanBay.jsx';
 import { useNavigate } from 'react-router-dom';
-import { blockAirport, editAirport, getByCity, handleSortAirport, searchAirports } from '../../../services/airportsService.js';
+import { blockAirport, editAirport, getByCity, getByNation, handleSortAirport, searchAirports } from '../../../services/airportsService.js';
 import './SanBay.css';
 import axios from 'axios';
 const API_URL = 'http://localhost:8080';
@@ -57,7 +57,13 @@ const SanBayPage = () => {
         }
     };
 
-    
+    const getAirportByNation = async (idQuocGia) => {
+        try {
+            await getByNation(idQuocGia, setsanBay);
+        } catch (error) {
+            console.error;
+        }
+    }
 
     if (loadingsanBay) return <p>Loading...</p>;
     if (errorsanBay) return <p>Error: {errorsanBay}</p>;
@@ -73,6 +79,7 @@ const SanBayPage = () => {
                 sanBay={sanBay}
                 onEdit={handleEdit} 
                 getAirportByCity={getAirportByCity}
+                getAirportByNation={getAirportByNation}
                 onBlock={handleBlock} 
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} 

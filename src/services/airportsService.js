@@ -72,3 +72,21 @@ export const getByCity = async(idThanhPho, setSanBay) => {
         console.error('Error fetching search results:', error);
     }
 }
+export const getByNation = async(idQuocGia, setSanBay) => {
+    try {
+        if(idQuocGia === 'Lọc theo quốc gia'){
+            const response = await axios.get(`${API_URL}/admin/sanbay/getAllAirport`);
+            setSanBay(response.data.data);
+        }
+        else {
+            const response = await axios.get(`${API_URL}/admin/sanbay/getAirportByNation/${idQuocGia}`);
+            console.log('Get Airport by nation ', idQuocGia, ' is ', response.data);
+            setSanBay(response.data.data)
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            setSanBay([]);
+        }
+        console.error('Error fetching search results:', error);
+    }
+}
