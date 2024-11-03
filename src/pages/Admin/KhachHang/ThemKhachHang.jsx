@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
 const API_URL = 'http://localhost:8080';
 
 const AddKhachHangForm = () => {
@@ -32,7 +31,7 @@ const AddKhachHangForm = () => {
         try {
             const response = await axios.post(`${API_URL}/addCustomer`, khachHang);
             console.log('Customer added successfully!', response.data);
-            navigate('/customers'); // Điều hướng về trang danh sách khách hàng
+            navigate('/admin/customers'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {

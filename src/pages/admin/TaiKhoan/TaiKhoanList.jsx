@@ -62,9 +62,15 @@ import { useState } from 'react';
                             <td className=' align-middle '>{tk.idTaiKhoan}</td>
                             <td className=' align-middle '>{tk.tenDangNhap}</td>
                             <td className=' align-middle '>{tk.quyen.tenQuyen}</td>
-                            <td className=' align-middle '>{tk.khachHang.hoTen}</td>
-                            <td className=' align-middle '>{tk.khachHang.email}</td>
-                            <td className=' align-middle '>{tk.khachHang.cccd}</td>
+                            <td className='align-middle'>
+                                {tk.nhanVien ? tk.nhanVien.hoTen : tk.khachHang?.hoTen || ''}
+                            </td>
+                            <td className='align-middle'>
+                                {tk.nhanVien ? tk.nhanVien.email : tk.khachHang?.email || ''}
+                            </td>
+                            <td className='align-middle'>
+                                {tk.nhanVien ? tk.nhanVien.cccd : tk.khachHang?.cccd || ''}
+                            </td>
                             <td className=' align-middle '>{tk.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                             <td className=' align-middle '>
                                 <button className="btn btn-primary mr-2" onClick={() => onEdit(tk.idTaiKhoan)}>Edit</button>

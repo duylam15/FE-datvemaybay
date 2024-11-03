@@ -200,7 +200,7 @@ const AddComponent = (props) => {
     // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
     // props.setAction("main");
     setTypeDisplay("block");
-    setThongBao({ message: message.cancle, typeMessage: 'inpage' });
+    setThongBao({ message: message.cancle, typeMessage: 'outpage' });
   }
 
 

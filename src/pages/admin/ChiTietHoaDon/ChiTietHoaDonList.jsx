@@ -15,50 +15,42 @@ const ChiTietHoaDonList = ({
     console.log(chiTietHoaDon)
     return (
         <div>
-            <div className="search-sort-controls">
-                <input
-                    type="text"
-                    placeholder="Tìm kiếm chi tiết hóa đơn..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+            {chiTietHoaDon.length > 0 ? (
+                chiTietHoaDon.map(cthd => (
+                    <div className="bill-detail-item" key={cthd.idChiTietHoaDon}>
+                        <h3 style={{'paddingBottom': '10px'}}>#{cthd.idChiTietHoaDon}</h3>
+                        <div className={`status ${cthd.hoaDon.status}`}>{cthd.hoaDon.status}</div>
+                        <div  className="bill-detail-item-info">
+                            {cthd.ve ? (
+                            <>
+                                <div className="item ve">
+                                    <h3>Thông tin vé</h3>
+                                    <p>Hành khách: {cthd.ve.hanhKhach.hoTen}</p>
+                                    <p>Giới tính: {cthd.ve.hanhKhach.gioiTinhEnum}</p>
+                                    <p>Vé: {cthd.ve.maVe}</p>
+                                    <p>Giá vé: {cthd.ve.giaVe}VND</p>
+                                    <p>Chuyến bay: {cthd.ve.chuyenBay.iataChuyenBay}</p>
+                                </div>
+                            </>
+                            ):''}
+                                <div className="item hang-hoa">
+                                    <h3>Thông tin hàng hóa</h3>
+                                    <p>Tên hàng hóa: {cthd.hangHoa.tenHangHoa}</p>
+                                    <p>Loại hàng hóa: {cthd.hangHoa.loaiHangHoa.tenLoaiHangHoa}</p>
+                                    <p>Tải trọng: {cthd.hangHoa.taiTrong}Kg</p>
+                                    <p>Giá tiền: {cthd.hangHoa.giaPhatSinh}VND</p>
+                                </div>
+                        </div>
+                        <div className="foot">
+                            <h2 className='so-tien'>Số tiền: {cthd.soTien}VND</h2>
+                        </div>
+                        
+                    </div>
+                ))
+            ) : (
+                <p>Không có thông tin đặt chỗ nào.</p>
+            )}
             </div>
-            <table className="table table-hover table-bordered pad-x">
-                <thead>
-                    <tr className='align-bottom fs-2 fw-medium text-success'>
-                        <th scope="col" className='align-bottom  text-success' onClick={() => handleSort('idChiTietHoaDon')}>
-                            ID {sortField === 'idChiTietHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
-                        </th>
-                        <th scope="col" className='align-bottom text-success' onClick={() => handleSort('hangHoa.tenHangHoa')}>
-                            Hàng hóa {sortField === 'hangHoa.tenHangHoa' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
-						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('ve.maVe')}>
-                            Vé {sortField === 've.maVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
-						<th scope="col" className='align-bottom text-success' onClick={() => handleSort('soTien')}>
-                            Số tiền {sortField === 'soTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className='fs-3'>
-                    {chiTietHoaDon.length > 0 ? (chiTietHoaDon.map(cthd => (
-                        <tr key={cthd.idChiTietHoaDon}>
-                            <td  className='align-middle'>{cthd.idChiTietHoaDon}</td>
-                            <td>{cthd.hangHoa.tenHangHoa}</td>
-                            <td>{cthd.ve ? cthd.ve.maVe : '-'}</td>
-                            <td>{cthd.soTien}</td>
-                        </tr>
-                    )))
-                    : (
-                        <tr>
-                            <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
-                        </tr>
-                    )
-                    }
-                </tbody>
-                </table>
-        </div>
     );
 };
 

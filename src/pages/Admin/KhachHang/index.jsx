@@ -40,7 +40,7 @@ const KhachHangPage = () => {
     return (
         <div className="khach-hang-page">
             <h1>Danh Sách Khách Hàng</h1>
-            <button onClick={() => navigate('/customer/add')} className="btn btn-success mb-3">
+            <button onClick={() => navigate('/admin/customer/add')} className="btn btn-success mb-3">
                 Thêm Khách Hàng
             </button>
             <KhachHangList 
