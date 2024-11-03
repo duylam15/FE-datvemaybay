@@ -260,9 +260,15 @@ export const AddChuyenBay = () => {
         const mayBayChuaChon = mayBayTheoSanBayBatDau.filter((item) => !chuyenBays.find((item1) => item1.mayBay.idMayBay == item.idMayBay));
         const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
         const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
-        mayBay != undefined ? setMayBays([mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay]) : setMayBays([...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay]);
+        const mayBayDaHoanThanhChuyenBay1 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
+        const danhSachMayBay = mayBay != undefined ? [mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1] : [...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1];
+        const uniqueArray = danhSachMayBay.filter((item, index, self) =>
+          index == self.findIndex((t) => t.idMayBay == item.idMayBay)
+        );
+        setMayBays(uniqueArray);
         console.log("do dai may bay voi id san bay : " + sanBayBatDau)
         console.log([...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay])
+        console.log(uniqueArray)
       })
   }, [sanBayBatDau])
 
@@ -271,7 +277,7 @@ export const AddChuyenBay = () => {
     const temp = mayBays?.find((item) => item?.idMayBay == selectMayBay)
     setMayBay(temp);
     console.log(temp);
-    setSoGhe((temp?.soHangGheThuong.toString().length * temp?.soCotGheThuong) + (temp?.soHangGheVip.toString().length * temp?.soCotGheVip));
+    setSoGhe((temp?.soHangGheThuong * temp?.soCotGheThuong.toString().length) + (temp?.soHangGheVip * temp?.soCotGheVip.toString().length));
   }, [selectMayBay, mayBays])
 
   // set tuyên bay
@@ -355,7 +361,8 @@ export const AddChuyenBay = () => {
     // Chuyển đổi thoiGianBatDauDuTinh thành đối tượng Date
     const startDateTime = new Date(thoiGianBatDauDuTinh);
     const startDateTimeForDelay = new Date(startDateTime.getTime() + delayInMilliseconds);
-    if (startDateTimeForDelay.getTime() <= currentTime.getTime()) {
+    console.log(trangThaiCu);
+    if (startDateTimeForDelay.getTime() <= currentTime.getTime() && trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED" && trangThaiCu != "IN_FLIGHT") {
       setErrorDelay("Thời gian bắt đầu thực tế phải lớn hơn thời gian hiện tại");
       return;
     }
@@ -711,6 +718,7 @@ export const AddChuyenBay = () => {
           setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
         })
         .catch((error) => {
+          setThongBao({ message: "Không thể sửa chuyến bay ", typeMessage: "inpage" })
           console.log("khong the sua chuyen bay")
           console.log(error.response.data);
           const errorData = error.response.data.data;
@@ -845,7 +853,6 @@ export const AddChuyenBay = () => {
   return (
     <>
       <div className="container-all">
-
         <div className="container-chuyenbay">
           <div className="container-tuyenbay container-infor">
             <h3>Tuyến bay</h3>
@@ -859,7 +866,7 @@ export const AddChuyenBay = () => {
                         sanBay?.filter((item) => item.idSanBay != sanBayKetThuc).length != 0 && <option value="0">Chon San Bay</option>
                       }
                       {
-                        sanBay?.filter((item) => item.idSanBay == sanBayKetThuc).length != 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
+                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc).length == 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
                       }
                       {
                         sanBay?.filter((item) => item.idSanBay != sanBayKetThuc)
