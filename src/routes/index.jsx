@@ -53,6 +53,8 @@ import FlightDetails from "../pages/FlightDetails";
 import TaiKhoanPage from "../pages/admin/TaiKhoan/index"
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
 import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+import Ve from '../pages/Admin/Ve';
+import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 
 export const router = createBrowserRouter([
   {
@@ -270,6 +272,20 @@ export const router = createBrowserRouter([
         path: "taikhoan/edit/:idTaiKhoan",
         element: <TaiKhoanEdit />
       },
+
+           
+      {
+        path: 've',
+        element: <Ve></Ve>,
+        children: [
+          { index: true, element: <VeListOverall /> },
+          {
+            path: 'edit/:idQuyen',
+            element: <QuyenEdit></QuyenEdit>,
+          },
+        ],
+      },
+
     ],
   },
 ]);
