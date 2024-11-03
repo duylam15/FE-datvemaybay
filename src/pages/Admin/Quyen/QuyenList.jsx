@@ -9,7 +9,6 @@ const QuyenList = ({
   nhomQuyen,
   searchName,
   setSearchName,
-  handleSearch,
   handleSort,
   sortOrder,
   sortField,
@@ -29,7 +28,7 @@ const QuyenList = ({
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
-        <SearchBtn onClick={handleSearch}></SearchBtn>
+        <SearchBtn></SearchBtn>
       </div>
       <table className="table">
         <thead className="thead-dark">
