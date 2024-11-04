@@ -165,3 +165,10 @@
 .custom-form-input label{
   width: 110px !important;
 }
+
+.form-input2{
+    display: flex !important;
+    justify-content: space-between;
+    height: 30px;
+    align-items: center;
+}

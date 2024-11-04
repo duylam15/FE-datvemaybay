@@ -5,9 +5,6 @@ export default function LayOutThongBao(props) {
   function removeActionAndPathFromURL(url) {
     return url.replace(/\/(add|edit).*$/, ""); // Thay thế từ "add" hoặc "edit" đến hết chuỗi bằng chuỗi rỗng
   }
-  useEffect(() => {
-    console.log(props.thongBao);
-  }, [])
 
   const navigator = useNavigate();
   const OK = () => {

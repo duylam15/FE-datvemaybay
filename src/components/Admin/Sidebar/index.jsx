@@ -8,11 +8,19 @@ import {
   FaRegMoneyBillAlt,
   FaRegUser,
   FaSdCard,
+<<<<<<< HEAD
   FaGavel,
 } from 'react-icons/fa';
 import { MdSpaceDashboard } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
+=======
+} from "react-icons/fa";
+import { MdSpaceDashboard } from "react-icons/md";
+import { Link, useLocation } from "react-router-dom";
+import { MdAirplaneTicket } from "react-icons/md";
+import "./Sidebar.css";
+>>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
 
 const Sidebar = () => {
   const location = useLocation();
@@ -58,7 +66,26 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
+<<<<<<< HEAD
                 location.pathname === '/admin/maybay' ? 'active' : ''
+=======
+                location.pathname.includes("/admin/ve") ? "active" : ""
+              }`}
+              to="/admin/ve"
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname.includes("/admin/ve") ? "active" : ""
+                }`}
+              >
+                <MdAirplaneTicket></MdAirplaneTicket>
+                Vé
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === "/admin/maybay" ? "active" : ""
+>>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
               }`}
               to='/admin/maybay'
             >

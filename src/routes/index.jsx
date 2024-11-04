@@ -53,9 +53,14 @@ import FlightDetails from '../pages/FlightDetails';
 import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
 import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+<<<<<<< HEAD
 import RuleTable from '../pages/admin/QuyDinh/RuleTable';
 import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
 import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
+=======
+import Ve from '../pages/Admin/Ve';
+import VeListOverall from '../pages/Admin/Ve/VeListOverall';
+>>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
 
 export const router = createBrowserRouter([
   {
@@ -89,7 +94,7 @@ export const router = createBrowserRouter([
       {
         path: 'flightDetails',
         element: <FlightDetails />,
-      },
+      }
     ],
   },
 
@@ -275,6 +280,7 @@ export const router = createBrowserRouter([
         element: <LoaiHoaDonEdit />,
       },
       {
+<<<<<<< HEAD
         path: 'taikhoan',
         element: <TaiKhoanPage />,
       },
@@ -285,7 +291,33 @@ export const router = createBrowserRouter([
       {
         path: 'taikhoan/edit/:idTaiKhoan',
         element: <TaiKhoanEdit />,
+=======
+        path: "taikhoan",
+        element: <TaiKhoanPage />
       },
+      {
+        path: "taikhoan/add",
+        element: <TaiKhoanAdd />
+      },
+      {
+        path: "taikhoan/edit/:idTaiKhoan",
+        element: <TaiKhoanEdit />
+>>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
+      },
+
+           
+      {
+        path: 've',
+        element: <Ve></Ve>,
+        children: [
+          { index: true, element: <VeListOverall /> },
+          {
+            path: 'edit/:idQuyen',
+            element: <QuyenEdit></QuyenEdit>,
+          },
+        ],
+      },
+
     ],
   },
 ]);

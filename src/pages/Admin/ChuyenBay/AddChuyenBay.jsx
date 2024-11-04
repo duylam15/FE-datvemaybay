@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import LayOutThongBao from '../../../layout/LayoutThongBao/layOutThongBao';
 import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../../services/chuyenBayServices';
-import { dataCongBySanBay, getCongById } from '../../../services/congServices';
-import { dataMayBay } from '../../../services/mayBayServices';
+import { dataCong } from '../../../services/congServices';
+import { dataMayBay, editMayBay } from '../../../services/mayBayServices';
 import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
-import { dataSanBay, dataSanBayById } from '../../../services/sanBayService';
+import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
 export const AddChuyenBay = () => {
@@ -15,80 +15,7 @@ export const AddChuyenBay = () => {
   const idChuyenBay = queryParams.get('id');
   const action = idChuyenBay ? "edit" : "add";
   const [dataSelectChuyenBay, setDataSelectChuyenBay] = useState([]);
-
-  const [chuyenBays, setChuyenBays] = useState([]);
   const [loadData, setLoadData] = useState(0);
-  let [tuyenBays, setTuyenBays] = useState([]);
-  const [datacong, setdatacong] = useState([]);
-  const [selectCong, setSelectCong] = useState(0);
-  const [cong, setCong] = useState();
-  const [sanBayBatDau, setSanBayBatDau] = useState("0");
-  const [sanBayKetThuc, setSanBayKetThuc] = useState("0");
-  const [sanBay, setDataSanBay] = useState([]);
-  let [dataSanBayBatDau, setDataSanBayBatDau] = useState({
-    idSanBay: 0,
-    iataSanBay: "",
-    icaoSanBay: "",
-    diaChi: "",
-    thanhPho: "",
-    quocGia: ""
-  });
-  let [dataSanBayKetThuc, setDataSanBayKetThuc] = useState({
-    idSanBay: 0,
-    iataSanBay: "",
-    icaoSanBay: "",
-    diaChi: "",
-    thanhPho: "",
-    quocGia: ""
-  });
-  const [tuyenBay, setTuyenBay] = useState();
-  const [mayBays, setMayBays] = useState([]);
-  const [selectMayBay, setSelectMayBay] = useState("0");
-  const [mayBay, setMayBay] = useState();
-
-  useEffect(() => {
-    dataMayBay()
-      .then((response) => {
-      })
-    dataSanBay()
-      .then((response) => {
-        setDataSanBay(response.data.data);
-      })
-    dataTuyenBay()
-      .then((response) => {
-
-        setTuyenBays(response.data.data);
-      })
-    setLoadData(1);
-  }, [])
-
-  useEffect(() => {
-    dataChuyenBay()
-      .then((response) => {
-        let udpateData = [...response.data.data];
-        udpateData?.map((item) => {
-          const sanBayBatDau = sanBay.filter((sanbayitem) => sanbayitem?.idSanBay == item.tuyenBay.idSanBayBatDau);
-          const sanBayKetThuc = sanBay.filter((sanbayitem) => sanbayitem?.idSanBay == item.tuyenBay.idSanBayKetThuc);
-          item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
-          item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
-        })
-        setChuyenBays(udpateData);
-        setLoadData(1);
-      })
-  }, [sanBay])
-
-
-  const updateTuyenBays = (data) => {
-    let dataupdate = [...data];
-    dataupdate.map((item) => {
-      const sanbaybatdau = sanBay.filter((s) => s.idSanBay == item.idSanBayBatDau);
-      const sanbayketthuc = sanBay.filter((s) => s.idSanBay == item.idSanBayKetThuc);
-      item.sanBayBatDau = sanbaybatdau[0];
-      item.sanBayKetThuc = sanbayketthuc[0];
-    })
-    setTuyenBays(dataupdate);
-  }
-
   const [delay, setDelay] = useState(0);
   const [errorDelay, setErrorDelay] = useState("");
   const [iataChuyenBay, setIataChuyenBay] = useState("");
@@ -103,16 +30,44 @@ export const AddChuyenBay = () => {
   const [trangThaiActive, setTrangThaiActive] = useState("0");
   const [soGhe, setSoGhe] = useState(0);
 
-  useEffect(() => {
-    const setMinDatetime = () => {
-      const currentDatetime = new Date().toISOString().slice(0, 16);
-      document.getElementById('startDatetime').min = currentDatetime;
-      document.getElementById('endDatetime').min = currentDatetime;
-    };
-    setMinDatetime();
-    const interval = setInterval(setMinDatetime, 600000);
-    return () => clearInterval(interval);
-  }, []);
+  const [chuyenBays, setChuyenBays] = useState([]);
+  let [tuyenBays, setTuyenBays] = useState([]);
+  const [datacong, setdatacong] = useState([]);
+  const [selectCong, setSelectCong] = useState(0);
+  const [cong, setCong] = useState();
+  const [sanBayBatDau, setSanBayBatDau] = useState(0);
+  const [sanBayBatDauCu, setSanBayBatDauCu] = useState(0);
+  const [sanBayKetThuc, setSanBayKetThuc] = useState(0);
+  const [sanBay, setDataSanBay] = useState([]);
+  const [mayBays, setMayBays] = useState([]);
+  const [selectMayBay, setSelectMayBay] = useState("0");
+  const [mayBay, setMayBay] = useState();
+
+  let [dataSanBayBatDau, setDataSanBayBatDau] = useState({
+    idSanBay: 0,
+    tenSanBay: "",
+    iataSanBay: "",
+    icaoSanBay: "",
+    diaChi: "",
+    thanhPho: "",
+    quocGia: ""
+  });
+  let [dataSanBayKetThuc, setDataSanBayKetThuc] = useState({
+    idSanBay: 0,
+    tenSanBay: "",
+    iataSanBay: "",
+    icaoSanBay: "",
+    diaChi: "",
+    thanhPho: "",
+    quocGia: ""
+  });
+
+  const [tuyenBay, setTuyenBay] = useState();
+  const [selectTuyenBay, setSelectTuyenBay] = useState(0);
+  const handleSelectTuyenBay = (e) => {
+    setSelectTuyenBay(e.target.value);
+    const id = e.target.value;
+  }
 
   const handleIataChuyenBay = (e) => {
     setIataChuyenBay(e.target.value);
@@ -166,10 +121,6 @@ export const AddChuyenBay = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(delay)
-  }, [delay])
-
   const [increaseDelay, setIncreaseDelay] = useState(0);
   const handleIncreaseDelay = (e) => {
     setIncreaseDelay(e.target.value);
@@ -182,10 +133,6 @@ export const AddChuyenBay = () => {
     const timeStartReal = new Date(thoiGianBatDauThucTe);
     const timeEndReal = new Date(thoiGianKetThucThucTe);
     const timeStartWish = new Date(thoiGianBatDauDuTinh);
-    console.log("time real :" + timeStartReal.getTime());
-    console.log("time wwish :" + timeStartWish.getTime());
-    console.log("time curren : " + currentTime.getTime());
-    console.log(e.target.value);
     let trangThaiMoi = "";
     if (timeStartReal.getTime() > currentTime.getTime() && e.target.value == "CANCELED")
       trangThaiMoi = e.target.value;
@@ -211,124 +158,182 @@ export const AddChuyenBay = () => {
     setTrangThaiActive(e.target.value);
   }
 
-  useEffect(() => {
-    dataSanBayById(sanBayBatDau)
-      .then((response) => {
-        const data = response.data.data;
-        let result = {
-          idSanBay: data?.idSanBay,
-          iataSanBay: data?.iataSanBay,
-          icaoSanBay: data?.icaoSanBay,
-          diaChi: data?.diaChi,
-          thanhPho: data?.thanhPho.tenThanhPho,
-          quocGia: data?.thanhPho?.quocGia?.tenQuocGia
-        }
-        setDataSanBayBatDau(result);
-      })
-  }, [sanBayBatDau])
-
 
   const handleSelectCong = (e) => {
     setSelectCong(e.target.value);
   }
 
-  // LOAD DATA CỔNG THEO SAN BAY BẮT ĐẦU
-  useEffect(() => {
-    dataCongBySanBay(sanBayBatDau)
-      .then((response) => {
-        setdatacong(response.data.data);
-      })
-  }, [sanBayBatDau])
-
-  // SET DATA CỦA CỔNG VỪA CHỌN
-  useEffect(() => {
-    getCongById(selectCong)
-      .then((response) => {
-        setCong(response.data.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-  }, [selectCong])
-
-  // get may bay theo san bay bat dau
-  useEffect(() => {
-    dataMayBay()
-      .then((response) => {
-        const data = response.data.data;
-        const mayBayTheoSanBayBatDau = data.filter((item) => item?.sanBay?.idSanBay == sanBayBatDau);
-        const mayBayChuaChon = mayBayTheoSanBayBatDau.filter((item) => !chuyenBays.find((item1) => item1.mayBay.idMayBay == item.idMayBay));
-        const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
-        const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
-        const mayBayDaHoanThanhChuyenBay1 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
-        const danhSachMayBay = mayBay != undefined ? [mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1] : [...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1];
-        const uniqueArray = danhSachMayBay.filter((item, index, self) =>
-          index == self.findIndex((t) => t.idMayBay == item.idMayBay)
-        );
-        setMayBays(uniqueArray);
-        console.log("do dai may bay voi id san bay : " + sanBayBatDau)
-        console.log([...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay])
-        console.log(uniqueArray)
-      })
-  }, [sanBayBatDau])
-
-  // TÌM MÁY BAY THEO SELECTMAYBAY
-  useEffect(() => {
-    const temp = mayBays?.find((item) => item?.idMayBay == selectMayBay)
-    setMayBay(temp);
-    console.log(temp);
-    setSoGhe((temp?.soHangGheThuong * temp?.soCotGheThuong.toString().length) + (temp?.soHangGheVip * temp?.soCotGheVip.toString().length));
-  }, [selectMayBay, mayBays])
-
-  // set tuyên bay
-  useEffect(() => {
-    updateTuyenBays(tuyenBays);
-    // Kiểm tra nếu cả hai sân bay và dữ liệu tuyến bay đã có
-    if (tuyenBays.length > 0) {
-      // Tìm tuyến bay dựa trên sanBayBatDau và sanBayKetThuc
-      const tuyenBay = tuyenBays.find(
-        (item) =>
-          item?.idSanBayBatDau == sanBayBatDau &&
-          item?.idSanBayKetThuc == sanBayKetThuc
-      );
-      setTuyenBay(tuyenBay);
-      let temp = tuyenBay?.sanBayBatDau;
-      let result = {
-        idSanBay: temp?.idSanBay,
-        iataSanBay: temp?.iataSanBay,
-        icaoSanBay: temp?.icaoSanBay,
-        diaChi: temp?.diaChi,
-        thanhPho: temp?.thanhPho.tenThanhPho,
-        quocGia: temp?.thanhPho?.quocGia?.tenQuocGia
-      }
-      setDataSanBayBatDau(result);
-      temp = tuyenBay?.sanBayKetThuc;
-      result = {
-        idSanBay: temp?.idSanBay,
-        iataSanBay: temp?.iataSanBay,
-        icaoSanBay: temp?.icaoSanBay,
-        diaChi: temp?.diaChi,
-        thanhPho: temp?.thanhPho?.tenThanhPho,
-        quocGia: temp?.thanhPho?.quocGia?.tenQuocGia
-      }
-      setDataSanBayKetThuc(result);
-    }
-  }, [sanBayBatDau, sanBayKetThuc]);
-
-
-  const handleSanBayBatDau = (e) => {
-    setSanBayBatDau(e.target.value);
-    setSelectMayBay("0");
-    setMayBay(undefined);
-  }
-
-  const handleSanBayKetThuc = (e) => {
-    setSanBayKetThuc(e.target.value);
-  }
-
   const handleMayBay = (e) => {
     setSelectMayBay(e.target.value);
   }
+
+  useEffect(() => {
+    console.log("start chuyenBay");
+  }, [])
+
+  const [one, setone] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseSanBay = await dataSanBay();
+      const getDataSanbay = responseSanBay.data.data;
+      setDataSanBay(getDataSanbay.filter((item) => item.trangThaiActive == "ACTIVE"));
+      setone(true);
+    };
+    fetchData();
+  }, [])
+
+  const [two, settwo] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseTuyenBay = await dataTuyenBay();
+      let getdataTuyenBay = responseTuyenBay.data.data;
+
+      getdataTuyenBay.map((item) => {
+        const sanbaybatdau = sanBay.find((s) => s.idSanBay == item.idSanBayBatDau);
+        const sanbayketthuc = sanBay.find((s) => s.idSanBay == item.idSanBayKetThuc);
+        item.sanBayBatDau = sanbaybatdau;
+        item.sanBayKetThuc = sanbayketthuc;
+      });
+
+      setTuyenBays(getdataTuyenBay.filter((item) => item.status == "ACTIVE")
+        .sort((a, b) => a.sanBayBatDau?.tenSanBay.localeCompare(b.sanBayBatDau?.tenSanBay)));
+      settwo(true);
+    }
+    fetchData();
+  }, [one])
+
+  const [three, setthree] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseChuyenBay = await dataChuyenBay();
+      let udpateData = [...responseChuyenBay.data.data];
+
+      udpateData.map((item) => {
+        const sanBayBatDau = sanBay.filter((sanbayitem) => sanbayitem?.idSanBay == item.tuyenBay.idSanBayBatDau);
+        const sanBayKetThuc = sanBay.filter((sanbayitem) => sanbayitem?.idSanBay == item.tuyenBay.idSanBayKetThuc);
+        item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
+        item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
+      });
+      setChuyenBays(udpateData);
+      setthree(!three);
+    }
+    fetchData();
+  }, [two])
+
+  useEffect(() => {
+    const setMinDatetime = () => {
+      const currentDatetime = new Date().toISOString().slice(0, 16);
+      document.getElementById('startDatetime').min = currentDatetime;
+      document.getElementById('endDatetime').min = currentDatetime;
+    };
+    setMinDatetime();
+    const interval = setInterval(setMinDatetime, 600000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const [four, setfour] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const reponseDataChuyenBayID = await getChuyenBayById(Number(idChuyenBay));
+      const data = reponseDataChuyenBayID.data.data;
+      setDataSelectChuyenBay(data);
+      setDelay(data.delay);
+      setMayBay(data.mayBay);
+      setSelectMayBay(data.mayBay?.idMayBay);
+      setSelectCong(data.cong?.idCong);
+      setCong(data.cong);
+      setSanBayBatDauCu(data?.tuyenBay?.idSanBayBatDau);
+      setSelectTuyenBay(data.tuyenBay?.idTuyenBay);
+      setIataChuyenBay(data.iataChuyenBay);
+      setIcaoChuyenBay(data.icaoChuyenBay);
+      setNgayBay(data.ngayBay?.toString()?.split("T")[0]);
+      setthoiGianBatDauDuTinh(data.thoiGianBatDauDuTinh);
+      setthoiGianBatDauThucTe(data.thoiGianBatDauThucTe);
+      setThoiGianKetThucDuTinh(data.thoiGianKetThucDuTinh);
+      setThoiGianKetThucThucTe(data.thoiGianKetThucThucTe);
+      setTrangThaiCu(data.trangThai);
+      setTrangThai(data.trangThai);
+      setTrangThaiActive(data.trangThaiActive);
+      setfour(!four);
+    }
+    fetchData();
+  }, [three])
+
+  const [five, setfive] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const tb = tuyenBays.find((item) => selectTuyenBay == item.idTuyenBay)
+      setTuyenBay(tb);
+      setDataSanBayBatDau({
+        idSanBay: tb?.sanBayBatDau?.idSanBay,
+        tenSanBay: tb?.sanBayBatDau?.tenSanBay,
+        iataSanBay: tb?.sanBayBatDau?.iataSanBay,
+        icaoSanBay: tb?.sanBayBatDau?.icaoSanBay,
+        diaChi: tb?.sanBayBatDau?.diaChi,
+        thanhPho: tb?.sanBayBatDau?.thanhPho.tenThanhPho,
+        quocGia: tb?.sanBayBatDau?.thanhPho?.quocGia?.tenQuocGia
+      });
+      setSanBayBatDau(tb?.sanBayBatDau?.idSanBay);
+      setDataSanBayKetThuc({
+        idSanBay: tb?.sanBayKetThuc?.idSanBay,
+        tenSanBay: tb?.sanBayKetThuc?.tenSanBay,
+        iataSanBay: tb?.sanBayKetThuc?.iataSanBay,
+        icaoSanBay: tb?.sanBayKetThuc?.icaoSanBay,
+        diaChi: tb?.sanBayKetThuc?.diaChi,
+        thanhPho: tb?.sanBayKetThuc?.thanhPho?.tenThanhPho,
+        quocGia: tb?.sanBayKetThuc?.thanhPho?.quocGia?.tenQuocGia
+      });
+      setSanBayKetThuc(tb?.sanBayKetThuc?.idSanBay)
+      setfive(!five);
+    }
+    fetchData();
+  }, [selectTuyenBay, tuyenBays, four, sanBayBatDau])
+
+  const [six, setsix] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseDataMayBay = await dataMayBay();
+      const data = responseDataMayBay.data.data;
+      const temp = data?.find((item) => Number(item?.idMayBay) == Number(selectMayBay))
+      setMayBay(temp);
+      setSoGhe((temp?.soHangGheThuong * temp?.soCotGheThuong.toString().length) + (temp?.soHangGheVip * temp?.soCotGheVip.toString().length));
+      const mayBayTheoSanBayBatDau = data.filter((item) => item?.sanBay?.idSanBay == sanBayBatDau);
+      const mayBayChuaChon = mayBayTheoSanBayBatDau.filter((item) => !chuyenBays.find((item1) => item1.mayBay.idMayBay == item.idMayBay));
+      const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
+      const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
+      const mayBayDaHoanThanhChuyenBay1 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
+      const danhSachMayBay = mayBay != undefined && sanBayBatDauCu == sanBayBatDau ? [mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1] : [...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1];
+      const uniqueArray = danhSachMayBay.filter((item, index, self) =>
+        index == self.findIndex((t) => t.idMayBay == item.idMayBay)
+      );
+      setMayBays(uniqueArray);
+    }
+    fetchData();
+  }, [five])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const responseCong = await dataCong();
+      const responseCongBySanBay = responseCong.data.data.filter((item) => item.sanBay.idSanBay == sanBayBatDau);
+      setdatacong(responseCongBySanBay);
+    }
+    fetchData();
+  }, [sanBayBatDau, five])
+
+  // SET DATA CỦA CỔNG VỪA CHỌN
+  useEffect(() => {
+    const getdatacong = datacong.find((item) => item.idCong == selectCong)
+    setCong(getdatacong);
+  }, [selectCong])
+
+
+  // TÌM MÁY BAY THEO SELECTMAYBAY
+  useEffect(() => {
+    const temp = mayBays?.find((item) => Number(item?.idMayBay) == Number(selectMayBay))
+    setMayBay(temp);
+    setSoGhe((temp?.soHangGheThuong * temp?.soCotGheThuong.toString().length) + (temp?.soHangGheVip * temp?.soCotGheVip.toString().length));
+  }, [selectMayBay]);
+
 
   const formatDateTime = (inputDateTime) => {
     // Định dạng lại kết quả về dạng yyyy-MM-dd hh:mm:ss
@@ -361,7 +366,6 @@ export const AddChuyenBay = () => {
     // Chuyển đổi thoiGianBatDauDuTinh thành đối tượng Date
     const startDateTime = new Date(thoiGianBatDauDuTinh);
     const startDateTimeForDelay = new Date(startDateTime.getTime() + delayInMilliseconds);
-    console.log(trangThaiCu);
     if (startDateTimeForDelay.getTime() <= currentTime.getTime() && trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED" && trangThaiCu != "IN_FLIGHT") {
       setErrorDelay("Thời gian bắt đầu thực tế phải lớn hơn thời gian hiện tại");
       return;
@@ -372,7 +376,6 @@ export const AddChuyenBay = () => {
     const endDateTimeForDelay = new Date(endDateTime.getTime() + delayInMilliseconds);
     setThoiGianKetThucDuTinh(formatDateTime(endDateTime));
     setThoiGianKetThucThucTe(formatDateTime(endDateTimeForDelay));
-    console.log("thoi gian bat dau thuc te : " + formatDateTime(startDateTimeForDelay));
     if (startDateTime.getTime() != startDateTimeForDelay.getTime() && startDateTimeForDelay.getTime() > currentTime.getTime()) {
       setTrangThai("DELAYED");
     }
@@ -388,40 +391,13 @@ export const AddChuyenBay = () => {
     setIcaoChuyenBay(mayBay.soHieu + " " + dataSanBayBatDau.icaoSanBay + "-" + dataSanBayKetThuc.icaoSanBay)
     setIataChuyenBay(mayBay.soHieu);
   }, [tuyenBay, mayBay])
-  const navigator = useNavigate();
 
-
-  useEffect(() => {
-    getChuyenBayById(idChuyenBay)
-      .then((response) => {
-        console.log(response.data.data);
-        setDataSelectChuyenBay(response.data.data);
-        const data = response.data.data;
-        setDelay(data.delay);
-        setMayBay(data.mayBay);
-        setSelectMayBay(data.mayBay?.idMayBay);
-        setSanBayBatDau(data.tuyenBay?.idSanBayBatDau);
-        setSanBayKetThuc(data.tuyenBay?.idSanBayKetThuc);
-        setSelectCong(data.cong.idCong);
-        setTuyenBay(data.tuyenBay);
-        setIataChuyenBay(data.iataChuyenBay);
-        setIcaoChuyenBay(data.icaoChuyenBay);
-        setNgayBay(data.ngayBay.toString().split("T")[0]);
-        setthoiGianBatDauDuTinh(data.thoiGianBatDauDuTinh);
-        setthoiGianBatDauThucTe(data.thoiGianBatDauThucTe)
-        setThoiGianKetThucDuTinh(data.thoiGianKetThucDuTinh);
-        setThoiGianKetThucThucTe(data.thoiGianKetThucThucTe);
-        setTrangThaiCu(data.trangThai);
-        setTrangThai(data.trangThai);
-        setTrangThaiActive(data.trangThaiActive);
-      })
-  }, [])
 
   // set ngay bay khi chọn thoi gian bat dau du tinh
   useEffect(() => {
     if (thoiGianBatDauThucTe == "")
       return;
-    const getDate = thoiGianBatDauThucTe.split("T")[0];
+    const getDate = thoiGianBatDauThucTe?.split("T")[0];
     setNgayBay(getDate);
   }, [thoiGianBatDauThucTe])
 
@@ -432,13 +408,13 @@ export const AddChuyenBay = () => {
 
   const [nhanviens, setNhanViens] = useState([]);
   useEffect(() => {
-    dataNhanVien()
-      .then((response) => {
-        const data = response.data.data;
-        console.log(data.filter((item) => item.trangThaiActive == "ACTIVE"));
-        const filterActive = data.filter((item) => item.trangThaiActive == "ACTIVE")
-        setNhanViens(filterActive);
-      })
+    const fetchData = async () => {
+      const response = await dataNhanVien();
+      const data = response.data.data;
+      const filterActive = data.filter((item) => item.trangThaiActive == "ACTIVE")
+      setNhanViens(filterActive);
+    }
+    fetchData();
   }, [])
 
   const [coTruongs, setCoTruong] = useState([]);
@@ -546,8 +522,8 @@ export const AddChuyenBay = () => {
   const HasError = () => {
     let hasError = false;
     if (mayBay == undefined) {
-      setErrorNhanVien("CHọn máy bay để chọn nhân viên")
-      setErrorMayBay("Chọn sân bay bắt đầu để chọn máy bay  ");
+      setErrorNhanVien("Chọn máy bay để chọn nhân viên")
+      setErrorMayBay("Chọn tuyến bay để chọn máy bay  ");
       hasError = true;
     }
     if (!selectedCoTruong) {
@@ -566,16 +542,9 @@ export const AddChuyenBay = () => {
       hasError = true;
     }
 
-    if (sanBayBatDau == "0") {
+    if (selectTuyenBay == 0) {
       hasError = true;
-      setErrorSanBayBatDau("Chọn sân bay bắt đầu");
-      setErrorSanBayKetThuc("Chọn sân bay bắt đầu để chọn sân bay kết thúc");
-      setErrorCong("Chọn sân bay bắt đầu để chọn cổng");
-    }
-
-    if (sanBayBatDau != "0" && sanBayKetThuc == "0") {
-      hasError = true;
-      setErrorSanBayKetThuc("CHọn sân bay kết thúc");
+      setErrorTuyenBay("Chọn tuyến bay");
     }
 
     if (selectCong == 0 && sanBayBatDau != 0) {
@@ -621,27 +590,19 @@ export const AddChuyenBay = () => {
 
           if (selectedCoTruong) {
             selectedCoTruong.chuyenBay = chuyenBayMoi;
-            console.log('edit co truong')
-            console.log(selectedCoTruong)
             editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong)
               .then(() => {
               })
               .catch((err) => {
-                console.log("khong the update nhan vien");
-                console.log(err.response);
               })
           }
 
           if (selectedCoPho) {
-            console.log("update co pho")
-            console.log(selectedCoPho)
             selectedCoPho.chuyenBay = chuyenBayMoi;
             editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
               .then(() => {
               })
               .catch((err) => {
-                console.log("khong the update nhan vien");
-                console.log(err.response);
               })
           }
 
@@ -653,8 +614,6 @@ export const AddChuyenBay = () => {
                 .then(() => {
                 })
                 .catch((err) => {
-                  console.log("khong the update nhan vien");
-                  console.log(err.response);
                 })
             });
           }
@@ -672,7 +631,11 @@ export const AddChuyenBay = () => {
   const suaChuyenBay = () => {
 
     /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
-
+    if (trangThaiCu == "IN_FLIGHT") {
+      setTypeDisplay("block");
+      setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
+      return;
+    }
     if (trangThai == "CANCELED" || trangThai == "COMPLETED") {
       if (selectedCoTruongCu) {
         selectedCoTruongCu.chuyenBay = null;
@@ -680,8 +643,6 @@ export const AddChuyenBay = () => {
           .then(() => {
           })
           .catch((err) => {
-            console.log("khong the update nhan vien");
-            console.log(err.response);
           })
       }
       if (selectedCoPhoCu) {
@@ -691,8 +652,6 @@ export const AddChuyenBay = () => {
 
           })
           .catch((err) => {
-            console.log("khong the update nhan vien");
-            console.log(err.response);
           })
       }
 
@@ -703,8 +662,6 @@ export const AddChuyenBay = () => {
             .then(() => {
             })
             .catch((err) => {
-              console.log("khong the update nhan vien");
-              console.log(err.response);
             })
         });
       }
@@ -719,8 +676,6 @@ export const AddChuyenBay = () => {
         })
         .catch((error) => {
           setThongBao({ message: "Không thể sửa chuyến bay ", typeMessage: "inpage" })
-          console.log("khong the sua chuyen bay")
-          console.log(error.response.data);
           const errorData = error.response.data.data;
         })
 
@@ -736,40 +691,45 @@ export const AddChuyenBay = () => {
     const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
+        if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
+          const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
+          mayBay.sanBay = sanBayMoi;
+          editMayBay(mayBay.idMayBay, mayBay)
+            .then(() => {
+
+            })
+            .catch((error) => {
+
+            })
+        }
+        else {
+          console.log("chuyen bay chua hoan tat , khong the thay doi");
+        }
         setTypeDisplay("block");
         setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
       })
       .catch((error) => {
-        console.log(error.response.data);
         const errorData = error.response.data.data;
       })
 
     if (selectedCoTruongCu && selectedCoTruong && selectedCoTruong.idNhanVien != selectedCoTruongCu.idNhanVien) {
       selectedCoTruong.chuyenBay = dataSelectChuyenBay;
-      console.log("edit co truong")
-      console.log(selectedCoTruong)
       editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong)
         .then(() => {
-          console.log("thanh cong");
         })
       selectedCoTruongCu.chuyenBay = null;
       editNhanVien(selectedCoTruongCu.idNhanVien, selectedCoTruongCu)
         .then(() => {
-          console.log("thanh cong");
         })
     }
     if (selectedCoPhoCu && selectedCoPho && selectedCoPho.idNhanVien != selectedCoPhoCu.idNhanVien) {
       selectedCoPho.chuyenBay = dataSelectChuyenBay;
-      console.log('edit co pho')
-      console.log(selectedCoPho)
       editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
         .then(() => {
-          console.log("thanh cong");
         })
       selectedCoPhoCu.chuyenBay = null;
       editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu)
         .then(() => {
-          console.log("thanh cong");
         })
     }
 
@@ -797,7 +757,6 @@ export const AddChuyenBay = () => {
         item.chuyenBay = null;
         editNhanVien(item.idNhanVien, item)
           .then(() => {
-            console.log("thanh cong");
           })
       });
     }
@@ -823,6 +782,7 @@ export const AddChuyenBay = () => {
   const [errorCong, setErrorCong] = useState("");
   const [errorThoiGianBayDauDuTinh, setErrorThoiGianBayDauDuTinh] = useState("");
   const [errorTrangThai, setErrorTrangThai] = useState("");
+  const [errorTuyenBay, setErrorTuyenBay] = useState("");
 
   const noError = () => {
     setErrorCoPho("");
@@ -835,6 +795,7 @@ export const AddChuyenBay = () => {
     setErrorSanBayKetThuc("");
     setErrorThoiGianBayDauDuTinh("");
     setErrorTrangThai("");
+    setErrorTuyenBay("")
   }
 
   /// bat tat layout thong bao va gui thong bao 
@@ -856,25 +817,26 @@ export const AddChuyenBay = () => {
         <div className="container-chuyenbay">
           <div className="container-tuyenbay container-infor">
             <h3>Tuyến bay</h3>
+            <div className='container__input'>
+              <div className="form-input2">
+                <label htmlFor="">Tuyến bay</label>
+                <select name="" id="" onChange={handleSelectTuyenBay} value={selectTuyenBay}>
+                  {selectTuyenBay == 0 && <option value="0">Chọn tuyến bay</option>}
+                  {
+                    tuyenBays.map((item) => (
+                      <option value={item.idTuyenBay}>{item.sanBayBatDau?.tenSanBay}{"->"}{item.sanBayKetThuc?.tenSanBay}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <span>{errorTuyenBay}</span>
+            </div>
             <div className="container-sanbay">
               <div className="container-inforsanbay">
                 <div className='container__input'>
                   <div className="form-input">
                     <label> San bay bat dau </label>
-                    <select name="" id="" onChange={handleSanBayBatDau} value={sanBayBatDau}>
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc).length != 0 && <option value="0">Chon San Bay</option>
-                      }
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc).length == 0 && <option value="0">Sân bay bắt đầu không có sẵn</option>
-                      }
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayKetThuc)
-                          .map((item) => (
-                            <option value={item.idSanBay}>{item.tenSanBay}</option>
-                          ))
-                      }
-                    </select>
+                    <input type="text" value={dataSanBayBatDau.tenSanBay} disabled={true} />
                   </div>
                   <span>{errorSanBayBatDau}</span>
                 </div>
@@ -922,20 +884,7 @@ export const AddChuyenBay = () => {
                 <div className='container__input'>
                   <div className="form-input">
                     <label> San Bay Ket Thuc </label>
-                    <select name="" id="" onChange={handleSanBayKetThuc} value={sanBayKetThuc} disabled={sanBayBatDau != 0 ? false : true}>
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayBatDau).length != 0 && <option value="0">Chon San Bay</option>
-                      }
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayBatDau).length == 0 && <option value="0">Sân bay kết thúc không có sẵn</option>
-                      }
-                      {
-                        sanBay?.filter((item) => item.idSanBay != sanBayBatDau)
-                          .map((item) => (
-                            <option value={item.idSanBay}>{item.tenSanBay}</option>
-                          ))
-                      }
-                    </select>
+                    <input type="text" value={dataSanBayKetThuc.tenSanBay} disabled={true} />
                   </div>
                   <span>{errorSanBayKeThuc}</span>
                 </div>

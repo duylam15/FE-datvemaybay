@@ -228,9 +228,3 @@ tbody tr:hover {
     justify-items: center;
     gap: 13px;
 }
-.center {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin: 0 auto;
-}

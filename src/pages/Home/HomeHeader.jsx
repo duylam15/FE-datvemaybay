@@ -6,6 +6,7 @@ import {
   getListLocations,
 } from '../../services/homePageServices';
 import axios from 'axios';
+import { getListLocationsForHeader } from '../../services/authServeices';
 
 export default function HomeHeader() {
   const navigate = useNavigate();
@@ -118,11 +119,11 @@ export default function HomeHeader() {
     const fetchLocations = async () => {
       setLoading(true); // Bật trạng thái loading khi bắt đầu fetch dữ liệu locations
       try {
-        const response = await getListLocations();
+        const response = await getListLocationsForHeader();
         setLocations(
           response.data?.map((location) => ({
-            label: `${location.label} `,
-            value: `(${location.value})`,
+            label: `${location.diaChi} `,
+            value: `(${location.diaChi})`,
           }))
         );
       } catch (error) {
