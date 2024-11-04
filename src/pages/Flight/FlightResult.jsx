@@ -435,7 +435,7 @@ const FlightResult = () => {
                                     checked={
                                       selectedTicket?.classTicketId ===
                                         classTicket.idHangVe &&
-                                      selectedTicket?.flightId ===
+                                      selectedTicket?.flightId?.idChuyenBay ===
                                         flight.idChuyenBay
                                     }
                                     onChange={() =>
@@ -522,7 +522,7 @@ const FlightResult = () => {
                                     checked={
                                       selectedTicket?.classTicketId ===
                                         classTicket.idHangVe &&
-                                      selectedTicket?.flightId ===
+                                      selectedTicket?.flightId?.idChuyenBay ===
                                         flight.idChuyenBay
                                     }
                                     onChange={() =>
@@ -608,7 +608,7 @@ const FlightResult = () => {
                                     checked={
                                       selectedTicket?.classTicketId ===
                                         classTicket.idHangVe &&
-                                      selectedTicket?.flightId ===
+                                      selectedTicket?.flightId?.idChuyenBay ===
                                         flight.idChuyenBay
                                     }
                                     onChange={() =>
