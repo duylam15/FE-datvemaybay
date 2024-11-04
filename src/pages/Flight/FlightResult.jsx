@@ -22,7 +22,7 @@ const FlightResult = () => {
   const [selectedFlightId, setSelectedFlightId] = useState(null);
 
   const numberOfTicketsToDetail = location.state.numberOfTickets || {};
-  console.log("numberOfTicketsnumberOfTickets", location.state.numberOfTickets)
+  console.log('numberOfTicketsnumberOfTickets', location.state.numberOfTickets);
 
   const handleViewDetails = (flightId) => {
     setSelectedFlightId(flightId);
@@ -124,12 +124,12 @@ const FlightResult = () => {
 
   const handleContinue = () => {
     if (selectedTicket) {
-      console.log("selectedTicket from flight result", selectedTicket)
+      console.log('selectedTicket from flight result', selectedTicket);
 
       navigate('/flightDetails', {
         state: {
           selectedTicket,
-          numberOfTicketsToDetail
+          numberOfTicketsToDetail,
         },
       });
     } else {
@@ -140,11 +140,6 @@ const FlightResult = () => {
   if (loading) {
     return <div>Đang tải dữ liệu...</div>; // Hiển thị thông báo khi đang tải dữ liệu
   }
-  // console.error(flights);
-  // console.error(tickets);
-  // // console.error(classTickets);
-  // console.error(selectedTicket);
-  // console.error(airports);
 
   // Get total number of empty tickets for a specific class and flight
   const totalEmptyTickets = (classId, flightId) => {
@@ -197,6 +192,16 @@ const FlightResult = () => {
     return `${dayOfWeek}, ${day} tháng ${month}, ${year}`;
   }
 
+  const MyComponent = ({ content }) => {
+    return <div>{content ? <div>{content}</div> : null}</div>;
+  };
+
+  // console.error(flights);
+  console.error(tickets);
+  console.error(classTickets);
+  // console.error(selectedTicket);
+  // console.error(airports);
+
   // Sử dụng hàm
   console.log({ tickets });
   // Kết quả: Thứ Tư, 09 tháng 10, 2024
@@ -210,23 +215,29 @@ const FlightResult = () => {
                 <div className='seat-empty'>
                   {classTickets.map((classTicket, index) => (
                     <div key={index}>
-                      <button
-                        className={`remaining-seats ${classTicket.idHangVe === 1
-                          ? 'seat-green'
-                          : classTicket.idHangVe === 2
-                            ? 'seat-blue'
-                            : classTicket.idHangVe === 3
+                      {totalEmptyTickets(
+                        classTicket.idHangVe,
+                        flight.idChuyenBay
+                      ) > 0 && (
+                        <button
+                          className={`remaining-seats ${
+                            classTicket.idHangVe === 1
+                              ? 'seat-green'
+                              : classTicket.idHangVe === 2
+                              ? 'seat-blue'
+                              : classTicket.idHangVe === 3
                               ? 'seat-red'
                               : ''
                           }`}
-                      >
-                        Còn lại{' '}
-                        {totalEmptyTickets(
-                          classTicket.idHangVe,
-                          flight.idChuyenBay
-                        )}{' '}
-                        chỗ
-                      </button>
+                        >
+                          Còn lại{' '}
+                          {totalEmptyTickets(
+                            classTicket.idHangVe,
+                            flight.idChuyenBay
+                          )}
+                          chỗ
+                        </button>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -247,7 +258,7 @@ const FlightResult = () => {
                           <div className='flex-collum flex-center'>
                             <span className='status'>Bay thẳng</span>
                             <span>
-                              ......................................................
+                              ................................................
                             </span>
                           </div>
                           <div className='flex-collum textR'>
@@ -345,41 +356,49 @@ const FlightResult = () => {
                   <div className='card-flight-left '>
                     {classTickets.map((classTicket, index) => (
                       <div key={index}>
-                        <button
-                          className={`flex-collum ${classTicket.idHangVe === 1
-                            ? 'btn-green'
-                            : classTicket.idHangVe === 2
-                              ? 'btn-blue'
-                              : classTicket.idHangVe === 3
+                        {totalEmptyTickets(
+                          classTicket.idHangVe,
+                          flight.idChuyenBay
+                        ) > 0 && (
+                          <button
+                            className={`flex-collum ${
+                              classTicket.idHangVe === 1
+                                ? 'btn-green'
+                                : classTicket.idHangVe === 2
+                                ? 'btn-blue'
+                                : classTicket.idHangVe === 3
                                 ? 'btn-red'
                                 : ''
                             }`}
-                          onClick={() =>
-                            handleSelectFlight(index, classTicket.tenHangVe)
-                          }
-                        >
-                          <span>
-                            <div className='title'>{classTicket.tenHangVe}</div>
-                            <img src={tag} className='imgtop' alt='tag' />
-                            <div className='flight-price-section flex-collum'>
-                              <span>từ</span>
-                              <p>
-                                {formatCurrency(
-                                  leastPrice(
-                                    classTicket.idHangVe,
-                                    flight.idChuyenBay
-                                  )
-                                )}
-                              </p>
-                              <span> VND</span>
-                              <img
-                                src={chevron}
-                                className='imgbottom'
-                                alt='chevron'
-                              />
-                            </div>
-                          </span>
-                        </button>
+                            onClick={() =>
+                              handleSelectFlight(index, classTicket.tenHangVe)
+                            }
+                          >
+                            <span>
+                              <div className='title'>
+                                {classTicket.tenHangVe}
+                              </div>
+                              <img src={tag} className='imgtop' alt='tag' />
+                              <div className='flight-price-section flex-collum'>
+                                <span>từ</span>
+                                <p className='money26'>
+                                  {formatCurrency(
+                                    leastPrice(
+                                      classTicket.idHangVe,
+                                      flight.idChuyenBay
+                                    )
+                                  )}
+                                </p>
+                                <span> VND</span>
+                                <img
+                                  src={chevron}
+                                  className='imgbottom'
+                                  alt='chevron'
+                                />
+                              </div>
+                            </span>
+                          </button>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -397,13 +416,14 @@ const FlightResult = () => {
                           .map((classTicket, ticketIndex) => (
                             <div key={ticketIndex}>
                               <div
-                                className={`ticket economy-smart ${selectedTicket?.classTicketId ===
-                                  classTicket.idHangVe &&
-                                  selectedTicket?.flightId ===
-                                  flight.idChuyenBay
-                                  ? 'selected'
-                                  : ''
-                                  }`}
+                                className={`ticket economy-smart ${
+                                  selectedTicket?.classTicketId ===
+                                    classTicket.idHangVe &&
+                                  selectedTicket?.flightId?.idChuyenBay ===
+                                    flight.idChuyenBay
+                                    ? 'selected'
+                                    : ''
+                                }`}
                               >
                                 <div className='top-ticket'>
                                   <input
@@ -414,9 +434,9 @@ const FlightResult = () => {
                                     )}
                                     checked={
                                       selectedTicket?.classTicketId ===
-                                      classTicket.idHangVe &&
+                                        classTicket.idHangVe &&
                                       selectedTicket?.flightId ===
-                                      flight.idChuyenBay
+                                        flight.idChuyenBay
                                     }
                                     onChange={() =>
                                       handleRadioChange(
@@ -483,13 +503,14 @@ const FlightResult = () => {
                           .map((classTicket, ticketIndex) => (
                             <div key={ticketIndex}>
                               <div
-                                className={`ticket economy-smart ${selectedTicket?.classTicketId ===
-                                  classTicket.idHangVe &&
-                                  selectedTicket?.flightId ===
-                                  flight.idChuyenBay
-                                  ? 'selected'
-                                  : ''
-                                  }`}
+                                className={`ticket economy-smart ${
+                                  selectedTicket?.classTicketId ===
+                                    classTicket.idHangVe &&
+                                  selectedTicket?.flightId?.idChuyenBay ===
+                                    flight.idChuyenBay
+                                    ? 'selected'
+                                    : ''
+                                }`}
                               >
                                 <div className='top-ticket'>
                                   <input
@@ -500,9 +521,9 @@ const FlightResult = () => {
                                     )}
                                     checked={
                                       selectedTicket?.classTicketId ===
-                                      classTicket.idHangVe &&
+                                        classTicket.idHangVe &&
                                       selectedTicket?.flightId ===
-                                      flight.idChuyenBay
+                                        flight.idChuyenBay
                                     }
                                     onChange={() =>
                                       handleRadioChange(
@@ -568,13 +589,14 @@ const FlightResult = () => {
                           .map((classTicket, ticketIndex) => (
                             <div key={ticketIndex}>
                               <div
-                                className={`ticket economy-smart ${selectedTicket?.classTicketId ===
-                                  classTicket.idHangVe &&
-                                  selectedTicket?.flightId ===
-                                  flight.idChuyenBay
-                                  ? 'selected'
-                                  : ''
-                                  }`}
+                                className={`ticket economy-smart ${
+                                  selectedTicket?.classTicketId ===
+                                    classTicket.idHangVe &&
+                                  selectedTicket?.flightId?.idChuyenBay ===
+                                    flight.idChuyenBay
+                                    ? 'selected'
+                                    : ''
+                                }`}
                               >
                                 <div className='top-ticket'>
                                   <input
@@ -585,9 +607,9 @@ const FlightResult = () => {
                                     )}
                                     checked={
                                       selectedTicket?.classTicketId ===
-                                      classTicket.idHangVe &&
+                                        classTicket.idHangVe &&
                                       selectedTicket?.flightId ===
-                                      flight.idChuyenBay
+                                        flight.idChuyenBay
                                     }
                                     onChange={() =>
                                       handleRadioChange(

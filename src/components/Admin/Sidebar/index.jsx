@@ -1,4 +1,4 @@
-import { default as React } from "react";
+import { default as React } from 'react';
 import {
   FaBox,
   FaCriticalRole,
@@ -8,32 +8,33 @@ import {
   FaRegMoneyBillAlt,
   FaRegUser,
   FaSdCard,
-} from "react-icons/fa";
-import { MdSpaceDashboard } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
-import "./Sidebar.css";
+  FaGavel,
+} from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
+import { Link, useLocation } from 'react-router-dom';
+import './Sidebar.css';
 
 const Sidebar = () => {
   const location = useLocation();
   return (
     <>
-      <nav className="col-md-3 col-lg-2 d-md-block sidebar">
+      <nav className='col-md-3 col-lg-2 d-md-block sidebar'>
         <img
-          src="https://www.bambooairways.com/o/wpbav-home-theme/css/assets/logo.png"
-          alt=""
-          className="logo"
+          src='https://www.bambooairways.com/o/wpbav-home-theme/css/assets/logo.png'
+          alt=''
+          className='logo'
         />
-        <div className="position-sticky">
-          <div className="nav flex-column">
+        <div className='position-sticky'>
+          <div className='nav flex-column'>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/dashboard" ? "active" : ""
+                location.pathname === '/admin/dashboard' ? 'active' : ''
               }`}
-              to="/admin/dashboard"
+              to='/admin/dashboard'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/dashboard" ? "active" : ""
+                  location.pathname === '/admin/dashboard' ? 'active' : ''
                 }`}
               >
                 <MdSpaceDashboard />
@@ -42,13 +43,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname.includes("/admin/quyen") ? "active" : ""
+                location.pathname.includes('/admin/quyen') ? 'active' : ''
               }`}
-              to="/admin/quyen"
+              to='/admin/quyen'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname.includes("/admin/quyen") ? "active" : ""
+                  location.pathname.includes('/admin/quyen') ? 'active' : ''
                 }`}
               >
                 <FaCriticalRole />
@@ -57,13 +58,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/maybay" ? "active" : ""
+                location.pathname === '/admin/maybay' ? 'active' : ''
               }`}
-              to="/admin/maybay"
+              to='/admin/maybay'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/maybay" ? "active" : ""
+                  location.pathname === '/admin/maybay' ? 'active' : ''
                 }`}
               >
                 <FaPlane></FaPlane>
@@ -72,13 +73,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/sanbay" ? "active" : ""
+                location.pathname === '/admin/sanbay' ? 'active' : ''
               }`}
-              to="/admin/sanbay"
+              to='/admin/sanbay'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/sanbay" ? "active" : ""
+                  location.pathname === '/admin/sanbay' ? 'active' : ''
                 }`}
               >
                 <FaPlaneDeparture></FaPlaneDeparture>
@@ -88,13 +89,13 @@ const Sidebar = () => {
 
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/pttt" ? "active" : ""
+                location.pathname === '/admin/pttt' ? 'active' : ''
               }`}
-              to="/admin/pttt"
+              to='/admin/pttt'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/pttt" ? "active" : ""
+                  location.pathname === '/admin/pttt' ? 'active' : ''
                 }`}
               >
                 <FaSdCard />
@@ -103,13 +104,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/hoadon" ? "active" : ""
+                location.pathname === '/admin/hoadon' ? 'active' : ''
               }`}
-              to="/admin/hoadon"
+              to='/admin/hoadon'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/hoadon" ? "active" : ""
+                  location.pathname === '/admin/hoadon' ? 'active' : ''
                 }`}
               >
                 <FaRegMoneyBillAlt />
@@ -118,13 +119,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/loaihoadon" ? "active" : ""
+                location.pathname === '/admin/loaihoadon' ? 'active' : ''
               }`}
-              to="/admin/loaihoadon"
+              to='/admin/loaihoadon'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/loaihoadon" ? "active" : ""
+                  location.pathname === '/admin/loaihoadon' ? 'active' : ''
                 }`}
               >
                 <FaRegMoneyBillAlt />
@@ -133,13 +134,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/customers" ? "active" : ""
+                location.pathname === '/admin/customers' ? 'active' : ''
               }`}
-              to="/admin/customers"
+              to='/admin/customers'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/customers" ? "active" : ""
+                  location.pathname === '/admin/customers' ? 'active' : ''
                 }`}
               >
                 <FaPlane></FaPlane>
@@ -148,13 +149,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/merchandise" ? "active" : ""
+                location.pathname === '/admin/merchandise' ? 'active' : ''
               }`}
-              to="/admin/merchandise"
+              to='/admin/merchandise'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/merchandise" ? "active" : ""
+                  location.pathname === '/admin/merchandise' ? 'active' : ''
                 }`}
               >
                 <FaBox></FaBox>
@@ -163,13 +164,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/route" ? "active" : ""
+                location.pathname === '/admin/route' ? 'active' : ''
               }`}
-              to="/admin/route"
+              to='/admin/route'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/route" ? "active" : ""
+                  location.pathname === '/admin/route' ? 'active' : ''
                 }`}
               >
                 <FaMapMarkerAlt></FaMapMarkerAlt>
@@ -178,13 +179,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/taikhoan" ? "active" : ""
+                location.pathname === '/admin/taikhoan' ? 'active' : ''
               }`}
-              to="/admin/taikhoan"
+              to='/admin/taikhoan'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/taikhoan" ? "active" : ""
+                  location.pathname === '/admin/taikhoan' ? 'active' : ''
                 }`}
               >
                 <FaRegUser />
@@ -193,13 +194,13 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/chuyenbay" ? "active" : ""
+                location.pathname === '/admin/chuyenbay' ? 'active' : ''
               }`}
-              to="/admin/chuyenbay"
+              to='/admin/chuyenbay'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/chuyenbay" ? "active" : ""
+                  location.pathname === '/admin/chuyenbay' ? 'active' : ''
                 }`}
               >
                 <FaRegUser />
@@ -208,21 +209,36 @@ const Sidebar = () => {
             </Link>
             <Link
               className={`nav-link ${
-                location.pathname === "/admin/quanlinhanvien/nhanvien"
-                  ? "active"
-                  : ""
+                location.pathname === '/admin/quanlinhanvien/nhanvien'
+                  ? 'active'
+                  : ''
               }`}
-              to="/admin/quanlinhanvien/nhanvien"
+              to='/admin/quanlinhanvien/nhanvien'
             >
               <div
                 className={`nav-item row ${
-                  location.pathname === "/admin/quanlinhanvien/nhanvien"
-                    ? "active"
-                    : ""
+                  location.pathname === '/admin/quanlinhanvien/nhanvien'
+                    ? 'active'
+                    : ''
                 }`}
               >
                 <FaRegUser />
                 Nhân viên
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${
+                location.pathname === '/admin/rule' ? 'active' : ''
+              }`}
+              to='/admin/rule'
+            >
+              <div
+                className={`nav-item row ${
+                  location.pathname === '/admin/rule' ? 'active' : ''
+                }`}
+              >
+                <FaGavel />
+                Quy định
               </div>
             </Link>
           </div>

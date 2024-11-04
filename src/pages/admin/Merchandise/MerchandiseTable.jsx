@@ -8,7 +8,7 @@ import { FaPlus } from 'react-icons/fa';
 import DeleteConfirmation from '../../../components/QL/DeleteConfirmation';
 import {
   searchMerchans,
-  handleSort,
+  handleSort as serverSort,
 } from '../../../services/MerchandiseService';
 
 const MerchandiseTable = () => {
@@ -33,7 +33,7 @@ const MerchandiseTable = () => {
         setOriginalMerchans(result.data.data);
       }
     } catch (error) {
-      console.error('Lỗi khi tải hàng hóa:', error);
+      console.error('Error loading merchandise:', error);
     } finally {
       setLoading(false);
     }
@@ -48,13 +48,13 @@ const MerchandiseTable = () => {
         setTypeMerchans(result.data.data);
       }
     } catch (error) {
-      console.error('Error loading type merchandises:', error);
+      console.error('Error loading merchandise types:', error);
     }
   };
 
   const getNameById = (id) => {
     const typeItem = typeMerchans.find((a) => a.idLoaiHangHoa === id);
-    return typeItem ? typeItem.tenLoaiHangHoa : 'Không tìm thấy';
+    return typeItem ? typeItem.tenLoaiHangHoa : 'Not Found';
   };
 
   const handleSearch = useCallback(
@@ -69,7 +69,7 @@ const MerchandiseTable = () => {
           const response = await searchMerchans(term);
           setMerchans(response.data.data || []);
         } catch (error) {
-          console.error('Lỗi trong quá trình tìm kiếm:', error);
+          console.error('Error in search:', error);
         }
       }
     },
@@ -86,7 +86,7 @@ const MerchandiseTable = () => {
       );
       setShowDeleteConfirm(false);
     } catch (error) {
-      console.error('Lỗi khi xóa hàng hóa:', error);
+      console.error('Error deleting merchandise:', error);
     }
   };
 
@@ -100,25 +100,27 @@ const MerchandiseTable = () => {
     setSelectedMerchandiseId(null);
   };
 
-  const toggleSortOrder = () =>
-    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+  const sortData = (data, field, order) => {
+    return data.sort((a, b) => {
+      const aValue =
+        typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
+      const bValue =
+        typeof b[field] === 'string' ? b[field].toLowerCase() : b[field];
+
+      if (aValue < bValue) return order === 'asc' ? -1 : 1;
+      if (aValue > bValue) return order === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
 
   const handleSortClick = (field) => {
-    // Kiểm tra xem cột có thể sắp xếp không
-    if (!field || field === 'status' || field === 'Actions') {
-      return; // Không thực hiện sắp xếp
-    }
+    const newSortOrder =
+      sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+    const sortedMerchans = sortData([...merchans], field, newSortOrder);
 
+    setMerchans(sortedMerchans);
+    setSortOrder(newSortOrder);
     setSortField(field);
-    handleSort(
-      field,
-      sortOrder,
-      setMerchans,
-      toggleSortOrder,
-      setSortField,
-      originalMerchans,
-      typeMerchans
-    );
   };
 
   const columns = [
@@ -160,9 +162,6 @@ const MerchandiseTable = () => {
 
   useEffect(() => {
     loadMerchans();
-  }, []);
-
-  useEffect(() => {
     loadTypeMerchandises();
   }, []);
 
@@ -172,7 +171,7 @@ const MerchandiseTable = () => {
         <div className='search-sort-controls'>
           <input
             type='text'
-            placeholder='Tìm kiếm...'
+            placeholder='Search...'
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -182,7 +181,7 @@ const MerchandiseTable = () => {
         </Link>
       </div>
       {loading ? (
-        <p>Đang tải...</p>
+        <p>Loading...</p>
       ) : (
         <Table
           columns={columns}

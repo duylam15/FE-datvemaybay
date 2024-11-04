@@ -74,10 +74,9 @@ export default function HomeHeader() {
     e.preventDefault();
 
     // Kiểm tra form hợp lệ
-    // if (!validateForm()) {
-    //   return;
-    // }
-
+    if (!validateForm()) {
+      return;
+    }
 
     const url = `http://localhost:8080/admin/chuyenbay/search?departureLocation=${departureLocation.trim()}&arrivalLocation=${arrivalLocation.trim()}&departureDate=${String(
       departureDate
@@ -91,11 +90,12 @@ export default function HomeHeader() {
       });
 
       if (flights.status === 200) {
-        console.log('chuyến bay:', flights.data);
-        navigate(`/flightResult`, { state: { flights: flights.data, numberOfTickets: numberOfTickets } });
+        navigate(`/flightResult`, {
+          state: { flights: flights.data, numberOfTickets: numberOfTickets },
+        });
       } else {
         console.error('Error with API call. Status code:', flights.status);
-        setErrorMessage('An error occurred while searching for flights.');
+        setErrorMessage('Không tìm thấy chuyến bay');
       }
     } catch (error) {
       if (error.response) {
