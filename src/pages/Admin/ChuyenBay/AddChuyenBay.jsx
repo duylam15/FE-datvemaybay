@@ -631,7 +631,11 @@ export const AddChuyenBay = () => {
   const suaChuyenBay = () => {
 
     /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
-    if (trangThaiCu == "IN_FLIGHT") {
+    const currentTime = new Date();
+    const endreal = new Date(thoiGianKetThucThucTe);
+    console.log(currentTime)
+    console.log(endreal)
+    if (trangThaiCu == "IN_FLIGHT" && currentTime.getTime() < endreal.getTime()) {
       setTypeDisplay("block");
       setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
       return;
