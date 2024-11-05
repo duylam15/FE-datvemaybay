@@ -58,6 +58,7 @@ import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
 import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
 import Ve from '../pages/Admin/Ve';
 import VeListOverall from '../pages/Admin/Ve/VeListOverall';
+import EditVe from '../pages/Admin/Ve/EditVe';
 
 export const router = createBrowserRouter([
   {
@@ -295,8 +296,8 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <VeListOverall /> },
           {
-            path: 'edit/:idQuyen',
-            element: <QuyenEdit></QuyenEdit>,
+            path: 'edit/:idVe',
+            element: <EditVe></EditVe>
           },
         ],
       },

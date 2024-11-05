@@ -33,3 +33,7 @@ export const getChiTietVeTheoId = (idVe) => {
     return axios.get(`${REST_API_BASE_URL}/ve/${idVe}`)
 }
 
+export const getAllStatusVe = () => {
+    return axios.get(`${REST_API_BASE_URL}/ve/statuses`)
+}
+

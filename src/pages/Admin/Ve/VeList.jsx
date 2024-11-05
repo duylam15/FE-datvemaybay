@@ -13,7 +13,7 @@ const VeList = ({
     loading,
     onEdit,
 }) => {
-   
+
     if (loading) return <p>Loading...</p>;
 
     return (
@@ -21,18 +21,8 @@ const VeList = ({
             <table className="table">
                 <thead className="thead-dark">
                     <tr>
-                        <th onClick={() => handleSort("idQuyen")}>
-                            ID{" "}
-                            {sortField === "idQuyen" ? (sortOrder === "asc" ? "↑" : "↓") : ""}
-                        </th>
-                        <th onClick={() => handleSort("tenQuyen")}>
-                            Mã vé{" "}
-                            {sortField === "tenQuyen"
-                                ? sortOrder === "asc"
-                                    ? "↑"
-                                    : "↓"
-                                : ""}
-                        </th>
+                        <th>ID</th>
+                        <th>Mã vé</th>
                         <th>Tên máy bay</th>
                         <th>Giá vé</th>
                         <th>Hạng vé</th>

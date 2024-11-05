@@ -73,12 +73,12 @@ const VeListOverall = ({ size = 10 }) => {
     // Add sorting logic here if needed
   };
 
-  const handleEdit = (idQuyen) => {
-    navigate(`/admin/quyen/edit/${idQuyen}`); // Điều hướng đến trang sửa
+  const handleEdit = (idVe) => {
+    navigate(`/admin/ve/edit/${idVe}`); // Điều hướng đến trang sửa
   };
 
-  const handleBlock = async (idQuyen) => {
-    console.log("Block permission:", idQuyen);
+  const handleBlock = async (idVe) => {
+    console.log("Block permission:", idVe);
   };
   console.log("ve: ~", ve);
 
