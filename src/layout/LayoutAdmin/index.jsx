@@ -11,11 +11,11 @@ const LayoutAdmin = () => {
   // const userRole = user?.data?.quyen?.tenQuyen;
   return (
     <>
-      <div className="container-fluid">
-        <div className="row">
+      <div className="container-fluidd">
+        <div className="row_admin">
           {/* {isAdminRoute && userRole === 'admin' ?  : <></>} */}
           <Sidebar />
-          <main className="col-md-9 ms-sm-auto col-lg-9 px-md-4 content-admin">
+          <main className="content-admin">
             <Outlet></Outlet>
           </main>
         </div>

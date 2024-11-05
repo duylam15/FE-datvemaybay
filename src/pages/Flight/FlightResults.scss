@@ -136,7 +136,7 @@
           margin-left: 1px;
           position: relative;
           height: 171px;
-          padding: 20px;
+          padding: 17px;
           width: -webkit-fill-available;
           align-items: center;
 
@@ -147,6 +147,10 @@
           .title {
             line-height: 36px;
             font-weight: 600;
+            color: #fff;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 0;
           }
 
           span {
@@ -160,10 +164,14 @@
             }
 
             .flight-price-section {
+              .money26 {
+                font-size: 26px;
+                font-weight: 600;
+              }
               .imgbottom {
                 position: absolute;
                 bottom: 7px;
-                right: 62px;
+                right: 56px;
                 height: 18px;
                 width: 15px;
               }
@@ -230,10 +238,6 @@
             transition: box-shadow 0.3s, background-color 0.3s,
               border-color 0.3s;
 
-            // &:hover {
-            //   border: 7px solid var(--primary-color);
-            // }
-
             &.selected {
               border: 3px solid var(--primary-color);
               .top-ticket {
@@ -243,6 +247,7 @@
                   background-color: var(--primary-color);
                   border-color: var(--white);
                 }
+
                 h3,
                 p {
                   color: var(--white);
@@ -472,10 +477,6 @@
             transition: box-shadow 0.3s, background-color 0.3s,
               border-color 0.3s;
 
-            // &:hover {
-            //   border: 7px solid #00558f;
-            // }
-
             &.selected {
               border: 3px solid var(--third-color);
               .top-ticket {
@@ -598,7 +599,7 @@
 .flex-row {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: baseline;
 }
 
 .textR {
