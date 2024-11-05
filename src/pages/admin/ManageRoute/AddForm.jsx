@@ -20,51 +20,13 @@ const AddRoute = () => {
     loadAirport();
   }, []);
 
-  const rawData = {
-    statusCode: 200,
-    message: 'Get all airport success!!',
-    data: [
-      {
-        idSanBay: 1,
-        tenSanBay: 'Tân Sơn Nhất',
-        iataSanBay: '132',
-        icaoSanBay: '123',
-        diaChi: 'HCM',
-        thanhPho: {
-          idThanhPho: 2,
-          tenThanhPho: 'Thành phố Hồ Chí Minh',
-          quocGia: {
-            idQuocGia: 1,
-            tenQuocGia: 'Việt Nam',
-          },
-        },
-      },
-      {
-        idSanBay: 2,
-        tenSanBay: 'Nội Bài',
-        iataSanBay: '134',
-        icaoSanBay: '124',
-        diaChi: 'HN',
-        thanhPho: {
-          idThanhPho: 1,
-          tenThanhPho: 'Hà Nội',
-          quocGia: {
-            idQuocGia: 1,
-            tenQuocGia: 'Việt Nam',
-          },
-        },
-      },
-      // ... thêm dữ liệu sân bay khác
-    ],
-  };
-
   const loadAirport = async () => {
     try {
       const result = await axios.get(
         'http://localhost:8080/admin/sanbay/getAllAirport'
       );
       if (result.status === 200) {
-        setAirports(rawData.data);
+        setAirports(result.data.data);
       }
     } catch (error) {
       console.error('Error loading airports:', error);
@@ -134,7 +96,7 @@ const AddRoute = () => {
   };
 
   return (
-   <div className='addform-manageroute'>
+    <div className='addform-manageroute'>
       <div className='container'>
         <div className='form-container'>
           <form onSubmit={handleSave}>
@@ -183,7 +145,7 @@ const AddRoute = () => {
                 <option value='IN_ACTIVE'>INACTIVE</option>
               </select>
             </div>
-  
+
             <div>
               <label htmlFor='idSanBayBatDau'>Sân bay BĐ:</label>
               <select
@@ -202,7 +164,7 @@ const AddRoute = () => {
                 ))}
               </select>
             </div>
-  
+
             <div>
               <label htmlFor='idSanBayKetThuc'>Sân bay KT:</label>
               <select
@@ -227,7 +189,7 @@ const AddRoute = () => {
                 <p className='error-message'>{errors.idSanBayKetThuc}</p>
               )}
             </div>
-  
+
             <div className='button-container'>
               <button type='submit' className='btn btn-save'>
                 Lưu
@@ -239,7 +201,7 @@ const AddRoute = () => {
           </form>
         </div>
       </div>
-   </div>
+    </div>
   );
 };
 
