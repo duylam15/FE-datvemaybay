@@ -90,14 +90,14 @@ export default function HomeHeader() {
         validateStatus: () => true, // Accepts all status codes
       });
 
-      if (flights.status === 200) {
-        navigate(`/flightResult`, {
-          state: { flights: flights.data, numberOfTickets: numberOfTickets },
-        });
-      } else {
-        console.error('Error with API call. Status code:', flights.status);
-        setErrorMessage('Không tìm thấy chuyến bay');
-      }
+      navigate(`/flightResult`, {
+        state: {
+          flights: flights.data,
+          numberOfTickets: numberOfTickets,
+          departureLocation: departureLocation,
+          arrivalLocation: arrivalLocation,
+        },
+      });
     } catch (error) {
       if (error.response) {
         console.error('Server error response:', error.response.data);
