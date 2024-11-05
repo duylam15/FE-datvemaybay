@@ -3,10 +3,15 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination"; // Import Pagination
 import Stack from "@mui/material/Stack"; // Import Stack
 import "./ve.css";
-import { searchQuyen } from "../../../services/quyenService";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
 import VeList from "./VeList";
 import { searchVe } from "../../../services/veService";
+import { DatePicker, Space } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 
 const VeListOverall = ({ size = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1); // State for current page
@@ -16,11 +21,30 @@ const VeListOverall = ({ size = 10 }) => {
   const [sortField, setSortField] = useState("");
   const [totalPages, setTotalPages] = useState(0); // State for total pages
   const navigate = useNavigate();
+  const [selectedDates, setSelectedDates] = useState(["", ""]); // State để lưu ngày
+
+  const handleDateChange = (dates) => {
+    if (dates && dates.length === 2 && dates[0] && dates[1]) {
+      // Cập nhật ngày nếu có
+      const [startDate, endDate] = dates;
+      setSelectedDates([startDate, endDate]);
+      fetchVe(searchName, startDate, endDate, currentPage);
+    } else {
+      // Nếu ngày bị hủy chọn, đặt thành ["", ""] và lấy tất cả kết quả
+      setSelectedDates(["", ""]);
+      fetchVe(searchName, "", "", currentPage);
+    }
+  };
 
   // Fetch permissions based on current page and search term
-  const fetchVe = async (searchName, page) => {
+  const fetchVe = async (searchName, startDate, endDate, page) => {
     try {
-      const result = await searchVe(searchName, page - 1, size); // API usually uses 0-based indexing
+      const startDateFormatted = startDate ? startDate.format(dateFormat) : null;
+      const endDateFormatted = endDate ? endDate.format(dateFormat) : null;
+      console.log("start Date : ", startDate)
+      console.log("end Date: ", endDate)
+
+      const result = await searchVe(searchName, startDateFormatted, endDateFormatted, page - 1, size); // API usually uses 0-based indexing
       if (result && result.data) {
         setVe(result.data.content);
         setTotalPages(result.data.totalPages); // Update total pages based on API response
@@ -35,15 +59,13 @@ const VeListOverall = ({ size = 10 }) => {
 
   // Fetch data when currentPage changes or when searchName changes
   useEffect(() => {
-    // When searchName changes, reset to page 1
-    if (searchName !== "") {
-      setCurrentPage(1); // Reset to page 1 when searchName changes
-    }
-  }, [searchName]); // Only listen to searchName changes
+    setCurrentPage(1); // Reset to page 1 when searchName or selectedDates change
+    fetchVe(searchName, selectedDates[0], selectedDates[1], 1);
+  }, [searchName, selectedDates]);
 
   useEffect(() => {
-    fetchVe(searchName, currentPage); // Fetch with the current page
-  }, [currentPage, searchName]); // Fetch data when currentPage or searchName changes
+    fetchVe(searchName, selectedDates[0], selectedDates[1], currentPage);
+  }, [currentPage]);
 
   const handleSort = (field) => {
     setSortField(field);
@@ -59,6 +81,8 @@ const VeListOverall = ({ size = 10 }) => {
     console.log("Block permission:", idQuyen);
   };
   console.log("ve: ~", ve);
+
+
   return (
     <>
       <h1>Danh sách vé</h1>
@@ -68,6 +92,22 @@ const VeListOverall = ({ size = 10 }) => {
       </Link>
       <div className="separate_block"></div>
 
+      <div className="search-sort-controlss">
+        <input
+          className="input_search"
+          type="text"
+          placeholder="Nhập mã vé cần tìm..."
+          value={searchName}
+          onChange={(e) => setSearchName(e.target.value)}
+        />
+        {/* <SearchBtn></SearchBtn> */}
+        <Space direction="vertical" size={12}>
+          <RangePicker
+            format={dateFormat}
+            onChange={handleDateChange}
+          />
+        </Space>
+      </div>
       <VeList
         ve={ve}
         searchName={searchName}
@@ -96,3 +136,7 @@ const VeListOverall = ({ size = 10 }) => {
 };
 
 export default VeListOverall;
+
+
+
+

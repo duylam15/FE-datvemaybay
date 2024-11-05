@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ve.css";
 import PaginationRounded from "../../../components/Admin/Pagination";
 import SearchBtn from "../../../components/Admin/ColorButtons/SearchBtn";
@@ -7,29 +7,17 @@ import DeleteBtn from "../../../components/Admin/ColorButtons/deleteBtn";
 
 const VeList = ({
     ve,
-    searchName,
-    setSearchName,
     handleSort,
     sortOrder,
     sortField,
     loading,
     onEdit,
-    onBlock,
 }) => {
+   
     if (loading) return <p>Loading...</p>;
 
     return (
         <div>
-            <div className="search-sort-controlss">
-                <input
-                    className="input_search"
-                    type="text"
-                    placeholder="Nhập mã vé cần tìm..."
-                    value={searchName}
-                    onChange={(e) => setSearchName(e.target.value)}
-                />
-                <SearchBtn></SearchBtn>
-            </div>
             <table className="table">
                 <thead className="thead-dark">
                     <tr>

@@ -9,12 +9,14 @@ export const getAllVe = (page = 0, size = 2) => {
 };
 
 
-export const searchVe = async (maVe, page = 0, size = 2) => {
+export const searchVe = async (maVe, startDate, endDate, page = 0, size = 2) => {
     try {
         // Gọi API với tham số tìm kiếm và phân trang
         const response = await axios.get(`${REST_API_BASE_URL}/ve/search`, {
             params: {
                 maVe: maVe,
+                startDate: startDate,
+                endDate: endDate,
                 page,
                 size
             }

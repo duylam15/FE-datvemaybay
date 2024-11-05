@@ -228,3 +228,7 @@ tbody tr:hover {
     justify-items: center;
     gap: 13px;
 }
+
+.ant-picker-content thead tr th {
+    color: #fff !important;
+}
