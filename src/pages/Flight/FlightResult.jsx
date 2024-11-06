@@ -167,7 +167,7 @@ const FlightResult = () => {
       .map((ticket) => ticket.giaVe);
 
     // Return the lowest price or null if there are no matching prices
-    return prices.length > 0 ? Math.min(...prices) : 'Không có giá phù hợp';
+    return prices.length > 0 ? Math.min(...prices) : 'Hết hạn đặt chỗ';
   };
 
   function formatDate(dateString) {
@@ -249,7 +249,7 @@ const FlightResult = () => {
                           {totalEmptyTickets(
                             classTicket.idHangVe,
                             flight.idChuyenBay
-                          )}
+                          )}{' '}
                           chỗ
                         </button>
                       )}
@@ -374,7 +374,7 @@ const FlightResult = () => {
                         {totalEmptyTickets(
                           classTicket.idHangVe,
                           flight.idChuyenBay
-                        ) > 0 && (
+                        ) > 0 ? (
                           <button
                             className={`flex-collum ${
                               classTicket.idHangVe === 1
@@ -410,6 +410,25 @@ const FlightResult = () => {
                                   className='imgbottom'
                                   alt='chevron'
                                 />
+                              </div>
+                            </span>
+                          </button>
+                        ) : (
+                          <button className='flex-collum btn-gray' disabled>
+                            <span>
+                              <div className='title'>
+                                {classTicket.tenHangVe}
+                              </div>
+                              <img src={tag} className='imgtop' alt='tag' />
+                              <div className='flight-price-section flex-collum'>
+                                <button className='notifi-out-off'>
+                                  {formatCurrency(
+                                    leastPrice(
+                                      classTicket.idHangVe,
+                                      flight.idChuyenBay
+                                    )
+                                  )}
+                                </button>
                               </div>
                             </span>
                           </button>
