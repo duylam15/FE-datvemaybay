@@ -7,7 +7,6 @@ import {
   FaRegMoneyBillAlt,
   FaRegUser,
   FaSdCard,
-  FaGavel,
 } from 'react-icons/fa';
 
 import { MdSpaceDashboard } from 'react-icons/md';
