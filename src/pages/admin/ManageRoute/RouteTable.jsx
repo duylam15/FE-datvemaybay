@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import DeleteConfirmation from '../../../components/QL/DeleteConfirmation';
 import './StyleTuyenBay.scss';
 import { FaPlus } from 'react-icons/fa';
+import FailToast from '../../../components/FailToast';
 
 const RouteTable = () => {
   const [routes, setRoutes] = useState([]);
@@ -14,6 +15,7 @@ const RouteTable = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedRouteId, setSelectedRouteId] = useState(null);
+  const [showFailToast, setShowFailToast] = useState(false);
 
   const loadRoutes = async () => {
     try {
@@ -41,7 +43,7 @@ const RouteTable = () => {
 
   const sortRoutes = (field, order, routes) => {
     return [...routes].sort((a, b) => {
-      const aValue = field === 'idTuyenBay' ? Number(a[field]) : a[field]; // Chuyển ID thành số
+      const aValue = field === 'idTuyenBay' ? Number(a[field]) : a[field];
       const bValue = field === 'idTuyenBay' ? Number(b[field]) : b[field];
 
       if (typeof aValue === 'string' && typeof bValue === 'string') {
@@ -55,14 +57,12 @@ const RouteTable = () => {
   };
 
   const handleSortClick = (field) => {
-    // Kiểm tra xem cột có thể sắp xếp không
     if (!field || field === 'status' || field === 'Actions') {
-      return; // Không thực hiện sắp xếp
+      return;
     }
 
     const newSortOrder =
       sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
-
     const sortedRoutes = sortRoutes(field, newSortOrder, routes);
     setRoutes(sortedRoutes);
     setSortOrder(newSortOrder);
@@ -83,9 +83,14 @@ const RouteTable = () => {
     try {
       await axios.delete(`http://localhost:8080/deleteRoute/${idTuyenBay}`);
       setShowDeleteConfirm(false);
-      loadRoutes(); // Reload routes after deletion
+      loadRoutes();
     } catch (error) {
-      console.error('Error deleting route:', error);
+      if (error.response && error.response.status === 409) {
+        setShowDeleteConfirm(false);
+        setShowFailToast(true); // Show FailToast on 409 error
+      } else {
+        console.error('Error deleting route:', error);
+      }
     }
   };
 
@@ -148,9 +153,6 @@ const RouteTable = () => {
 
   useEffect(() => {
     loadAirport();
-  }, []);
-
-  useEffect(() => {
     loadRoutes();
   }, []);
 
@@ -168,11 +170,15 @@ const RouteTable = () => {
         currentSortField={sortField}
         currentSortOrder={sortOrder}
       />
-
       <DeleteConfirmation
         show={showDeleteConfirm}
         onDeleteConfirm={() => handleDelete(selectedRouteId)}
         onCancel={cancelDelete}
+      />
+      <FailToast
+        message='Không thể xoá dữ liệu đã liên kết với dữ liệu khác'
+        show={showFailToast}
+        onClose={() => setShowFailToast(false)}
       />
     </div>
   );

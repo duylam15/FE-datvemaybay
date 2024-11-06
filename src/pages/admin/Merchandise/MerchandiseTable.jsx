@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import './StyleHangHoa.scss';
 import { FaPlus } from 'react-icons/fa';
 import DeleteConfirmation from '../../../components/QL/DeleteConfirmation';
-import {
-  searchMerchans,
-  handleSort as serverSort,
-} from '../../../services/MerchandiseService';
+import FailToast from '../../../components/FailToast';
+import { searchMerchans } from '../../../services/MerchandiseService';
+
+const BASE_URL = 'http://localhost:8080';
 
 const MerchandiseTable = () => {
   const [merchans, setMerchans] = useState([]);
@@ -19,15 +19,14 @@ const MerchandiseTable = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [originalMerchans, setOriginalMerchans] = useState([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showFailToast, setShowFailToast] = useState(false);
   const [selectedMerchandiseId, setSelectedMerchandiseId] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const loadMerchans = async () => {
+  const loadMerchans = useCallback(async () => {
     setLoading(true);
     try {
-      const result = await axios.get(
-        'http://localhost:8080/getAllMerchandises'
-      );
+      const result = await axios.get(`${BASE_URL}/getAllMerchandises`);
       if (result.status === 200) {
         setMerchans(result.data.data);
         setOriginalMerchans(result.data.data);
@@ -37,20 +36,18 @@ const MerchandiseTable = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const loadTypeMerchandises = async () => {
+  const loadTypeMerchandises = useCallback(async () => {
     try {
-      const result = await axios.get(
-        'http://localhost:8080/api/loaiHangHoa/all'
-      );
+      const result = await axios.get(`${BASE_URL}/api/loaiHangHoa/all`);
       if (result.status === 200) {
         setTypeMerchans(result.data.data);
       }
     } catch (error) {
       console.error('Error loading merchandise types:', error);
     }
-  };
+  }, []);
 
   const getNameById = (id) => {
     const typeItem = typeMerchans.find((a) => a.idLoaiHangHoa === id);
@@ -70,23 +67,25 @@ const MerchandiseTable = () => {
           setMerchans(response.data.data || []);
         } catch (error) {
           console.error('Error in search:', error);
+          setShowFailToast(true); // Optional: display a toast on search failure
         }
       }
     },
-    [originalMerchans, setMerchans]
+    [originalMerchans]
   );
 
   const handleDelete = async (idHangHoa) => {
     try {
-      await axios.delete(
-        `http://localhost:8080/deleteMerchandise/${idHangHoa}`
-      );
-      setMerchans((prevMerchans) =>
-        prevMerchans.filter((merch) => merch.idHangHoa !== idHangHoa)
-      );
+      await axios.delete(`${BASE_URL}/deleteMerchandise/${idHangHoa}`);
       setShowDeleteConfirm(false);
+      loadMerchans();
     } catch (error) {
-      console.error('Error deleting merchandise:', error);
+      if (error.response && error.response.status === 409) {
+        setShowDeleteConfirm(false);
+        setShowFailToast(true); // Show FailToast on 409 error
+      } else {
+        console.error('Error deleting merchandise:', error);
+      }
     }
   };
 
@@ -100,7 +99,7 @@ const MerchandiseTable = () => {
     setSelectedMerchandiseId(null);
   };
 
-  const sortData = (data, field, order) => {
+  const sortData = useCallback((data, field, order) => {
     return data.sort((a, b) => {
       const aValue =
         typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
@@ -111,7 +110,7 @@ const MerchandiseTable = () => {
       if (aValue > bValue) return order === 'asc' ? 1 : -1;
       return 0;
     });
-  };
+  }, []);
 
   const handleSortClick = (field) => {
     const newSortOrder =
@@ -168,7 +167,7 @@ const MerchandiseTable = () => {
   useEffect(() => {
     loadMerchans();
     loadTypeMerchandises();
-  }, []);
+  }, [loadMerchans, loadTypeMerchandises]);
 
   return (
     <div>
@@ -200,6 +199,11 @@ const MerchandiseTable = () => {
         show={showDeleteConfirm}
         onDeleteConfirm={() => handleDelete(selectedMerchandiseId)}
         onCancel={cancelDelete}
+      />
+      <FailToast
+        message='Không thể xoá dữ liệu đã liên kết với dữ liệu khác'
+        show={showFailToast}
+        onClose={() => setShowFailToast(false)}
       />
     </div>
   );
