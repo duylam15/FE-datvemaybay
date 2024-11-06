@@ -19,32 +19,34 @@ export const ChuyenBay = () => {
   const [sanbays, setsanbays] = useState([]);
   const [tuyenbays, settuyenbays] = useState([]);
 
+  const [one, setone] = useState(false);
   useEffect(() => {
-    dataSanBay()
-      .then((response) => {
-        setsanbays(response.data.data);
-      })
-    dataTuyenBay()
-      .then((response) => {
-        settuyenbays(response.data.data);
-      })
+    const fetchData = async () => {
+      const responseSanBay = await dataSanBay();
+      setsanbays(responseSanBay.data.data);
+      const responseTuyenBay = await dataTuyenBay();
+      settuyenbays(responseTuyenBay.data.data);
+      setone(!one);
+    }
+    fetchData();
   }, [])
 
+  const [two, settwo] = useState(false);
   useEffect(() => {
-    dataChuyenBay()
-      .then((response) => {
-        let udpateData = [...response.data.data];
-        udpateData?.map((item) => {
-          const sanBayBatDau = sanbays.filter((sanbay) => sanbay.idSanBay == item.tuyenBay.idSanBayBatDau);
-          const sanBayKetThuc = sanbays.filter((sanbay) => sanbay.idSanBay == item.tuyenBay.idSanBayKetThuc);
-          item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
-          item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
-        })
-        setData(udpateData);
+    const fetchData = async () => {
+      const response = await dataChuyenBay();
+      let udpateData = [...response.data.data];
+      udpateData?.map((item) => {
+        const sanBayBatDau = sanbays.filter((sanbay) => sanbay.idSanBay == item.tuyenBay.idSanBayBatDau);
+        const sanBayKetThuc = sanbays.filter((sanbay) => sanbay.idSanBay == item.tuyenBay.idSanBayKetThuc);
+        item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
+        item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
       })
-      .catch((err) => {
-      })
-  }, [sanbays])
+      setData(udpateData);
+      settwo(!two)
+    }
+    fetchData();
+  }, [one])
 
   useEffect(() => {
     filterChuyenBay(selectTrangThai, selectThoiGianBatDau, selectThoiGianKetThuc)
@@ -61,7 +63,7 @@ export const ChuyenBay = () => {
       .catch((error) => {
         setData([]);
       })
-  }, [typeInfo, selectTrangThai, action, selectThoiGianBatDau, selectThoiGianKetThuc])
+  }, [typeInfo, selectTrangThai, action, selectThoiGianBatDau, selectThoiGianKetThuc, two])
 
 
   const handleType = (e) => {

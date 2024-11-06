@@ -33,34 +33,31 @@ import AddComponent from '../pages/Admin/NhanVien/AddComponent';
 import PhuongThucTTPage from '../pages/admin/PhuongThucThanhToan';
 import PhuongThucThanhToanAdd from '../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanAdd';
 import PhuongThucThanhToanEdit from '../pages/admin/PhuongThucThanhToan/PhuongThucThanhToanEdit';
+import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
+import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
+import RuleTable from '../pages/admin/QuyDinh/RuleTable';
 import Quyen from '../pages/admin/Quyen';
+import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
+import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
+import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
 import SanBayPage from '../pages/admin/SanBay';
 import SanBayEdit from '../pages/admin/SanBay/SanBayEdit';
 import ThemSanBay from '../pages/admin/SanBay/ThemSanBay';
+import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
+import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
+import Ve from '../pages/Admin/Ve';
+import VeListOverall from '../pages/Admin/Ve/VeListOverall';
+import FlightPopup from '../pages/Flight/FlightPopup';
+import FlightResults from '../pages/Flight/FlightResult';
+import FlightDetails from '../pages/FlightDetails';
 import ForgotPassword from '../pages/ForgotPassword';
 import Login from '../pages/Login';
 import Post from '../pages/Post';
-import FlightResults from '../pages/Flight/FlightResult';
 import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
-import FlightPopup from '../pages/Flight/FlightPopup';
-import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
-import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
-import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
-import FlightDetails from '../pages/FlightDetails';
-import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
-import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
-<<<<<<< HEAD
-import RuleTable from '../pages/admin/QuyDinh/RuleTable';
-import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
-import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
-=======
-import Ve from '../pages/Admin/Ve';
-import VeListOverall from '../pages/Admin/Ve/VeListOverall';
->>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
 
 export const router = createBrowserRouter([
   {
@@ -280,18 +277,6 @@ export const router = createBrowserRouter([
         element: <LoaiHoaDonEdit />,
       },
       {
-<<<<<<< HEAD
-        path: 'taikhoan',
-        element: <TaiKhoanPage />,
-      },
-      {
-        path: 'taikhoan/add',
-        element: <TaiKhoanAdd />,
-      },
-      {
-        path: 'taikhoan/edit/:idTaiKhoan',
-        element: <TaiKhoanEdit />,
-=======
         path: "taikhoan",
         element: <TaiKhoanPage />
       },
@@ -302,10 +287,9 @@ export const router = createBrowserRouter([
       {
         path: "taikhoan/edit/:idTaiKhoan",
         element: <TaiKhoanEdit />
->>>>>>> 7ca8659f41762a2f766dd31019fdca6776f56b5e
       },
 
-           
+
       {
         path: 've',
         element: <Ve></Ve>,
