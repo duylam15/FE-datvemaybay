@@ -59,6 +59,9 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
+import EditVe from '../pages/Admin/Ve/EditVe';
+import InfoAccount from '../pages/UserPage/InfoAccount';
+import LichSuBay from '../pages/UserPage/LichSuBay';
 
 export const router = createBrowserRouter([
   {
@@ -110,8 +113,16 @@ export const router = createBrowserRouter([
   },
   {
     path: '/my_profile',
-    element: <UsersPage />, // Route register, hiển thị Register
-    // element: <WebSocketDemo></WebSocketDemo>
+    element: <UsersPage />,
+    children: [
+      {
+        index: true, element: <InfoAccount></InfoAccount>
+      },
+      {
+        path: 'account', element: <InfoAccount></InfoAccount>
+      },
+      { path: 'lichsubay', element: <LichSuBay></LichSuBay> }
+    ]
   },
   {
     path: '/fogot_password',

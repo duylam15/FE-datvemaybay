@@ -133,9 +133,13 @@
     display: flex;
     gap: 15px;
     align-items: center;
+    padding-bottom: 5px;
   }
   .row_last {
     margin-top: 25px;
+  }
+  .w-260px  {
+    width: 260px;
   }
 }
 

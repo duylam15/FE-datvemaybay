@@ -41,7 +41,6 @@ const EditVe = () => {
         idChoNgoi: '',
         trangThai: '',
     });
-    const [selectedValue, setSelectedValue] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -105,7 +104,6 @@ const EditVe = () => {
     };
 
     const handleChangeSelectBox = (value) => {
-        setSelectedValue(value);
         setDataVePrint((prevData) => ({
             ...prevData,
             trangThai: value
@@ -118,6 +116,19 @@ const EditVe = () => {
         setDataVePrint((prevData) => ({
             ...prevData,
             giaVe: price ? parseInt(price, 10) : 0, // Convert to integer or set to 0 if empty
+        }));
+    };
+    
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target; // Get the name and value from the input element
+    
+        setDataVePrint((prevData) => ({
+            ...prevData,
+            hanhKhach: {
+                ...prevData.hanhKhach,
+                [name]: value, // Dynamically set the field in hanhKhach
+            },
         }));
     };
     
@@ -151,8 +162,14 @@ const EditVe = () => {
                     <div className='content_hanhKhach'>
                         <div className="row_input">
                             <div className='label'>Họ tên: </div>
-                            <div>
-                                <Input placeholder="Nhập tên hành khách" prefix={<UserOutlined />} value={dataVePrint.hanhKhach.hoTen} />
+                            <div className='w-260px'>
+                                <Input
+                                    placeholder="Nhập tên hành khách"
+                                    name="hoTen"
+                                    prefix={<UserOutlined />}
+                                    value={dataVePrint.hanhKhach.hoTen} 
+                                    onChange={handleInputChange}
+                                />
                             </div>
                         </div>
                         <p><span className='label'>Ngày sinh: </span>{dataVePrint.hanhKhach.ngaySinh}</p>
