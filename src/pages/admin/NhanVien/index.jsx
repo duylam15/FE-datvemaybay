@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { dataChucVu } from '../../../services/chucVuServices';
 import { filterNhanVien } from '../../../services/nhanVienServices';
 import AddComponent from './AddComponent';
 import DanhSachComponent from './DanhSachComponent';
@@ -10,6 +11,7 @@ export default function NhanVien() {
   const [selectChucVu, setSelectChucVu] = useState(0);
   const [typeInfo, setTypeInfo] = useState("0");
   const [data, setData] = useState([]);
+  const [dataCV, setDataChucVu] = useState([]);
   const page = "nhanvien"
 
   const [action, setAction] = useState("main");
@@ -21,6 +23,15 @@ export default function NhanVien() {
     navigator(newPath, { replace: true })
     setAction("addEmployee");
   }
+
+  useEffect(() => {
+    dataChucVu()
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        setDataChucVu(data?.filter((item) => item.trangThaiActive == "ACTIVE"));
+      });
+  }, [])
 
   useEffect(() => {
     console.log(typeInfo);
@@ -68,14 +79,12 @@ export default function NhanVien() {
                     <label htmlFor="">Chức vụ : </label>
                     <select name="" id="" value={selectChucVu} onChange={(e) => setSelectChucVu(e.target.value)}>
                       <option value="0">Toàn bộ chức vụ</option>
-                      <option value="1">Cở trường</option>
-                      <option value="2">Tiếp viên</option>
-                      <option value="3">Cơ phó</option>
+                      {dataCV.map((item) => (<option value={item.idChucVu}>{item.ten}</option>))}
                     </select>
                   </li>
                   <li className='btn btnThem' onClick={addEmployee}>Thêm</li>
                 </ul>
-                <DanhSachComponent data={data ? data : []} setData={setData} setAction={setAction} page={page} />
+                <DanhSachComponent data={data ? data : []} setData={setData} page={page} />
               </>
             )
           }

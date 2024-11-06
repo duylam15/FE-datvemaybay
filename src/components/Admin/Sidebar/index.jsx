@@ -1,18 +1,18 @@
 import { default as React } from 'react';
 import {
   FaBox,
-  FaCriticalRole, FaGavel, FaMapMarkerAlt,
+  FaCriticalRole,
+  FaGavel,
+  FaMapMarkerAlt,
   FaPlane,
   FaPlaneDeparture,
   FaRegMoneyBillAlt,
   FaRegUser,
   FaSdCard,
-  FaGavel,
 } from 'react-icons/fa';
 
-import { MdSpaceDashboard } from 'react-icons/md';
+import { MdAirplaneTicket, MdSpaceDashboard } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
-import { MdAirplaneTicket } from 'react-icons/md';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -225,6 +225,19 @@ const Sidebar = () => {
               >
                 <FaGavel />
                 Quy định
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${location.pathname === '/admin/quanlinhanvien/chucvu' ? 'active' : ''
+                }`}
+              to='/admin/quanlinhanvien/chucvu'
+            >
+              <div
+                className={`nav-item row ${location.pathname === '/admin/quanlinhanvien/chucvu' ? 'active' : ''
+                  }`}
+              >
+                <FaGavel />
+                Chức vụ
               </div>
             </Link>
           </div>

@@ -112,7 +112,7 @@ export const ChuyenBay = () => {
               </li>
               <li className='btn btnThem' onClick={addChuyenBay}>Thêm</li>
             </ul>
-            {<DanhSachCHuyenBay data={data ? data : []} setData={setData} setAction={setAction} page={page} />}
+            {<DanhSachCHuyenBay data={data ? data : []} setData={setData} page={page} />}
           </>
         </div>
       </div>

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 import TableComponent from '../../../components/Table/TableComponent';
-
-export default function DanhSachCHuyenBay(props) {
+import "./chucvu.css"
+export default function DanhSachChucVu(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -18,29 +18,19 @@ export default function DanhSachCHuyenBay(props) {
 
   const columns = [
     'Stt',
-    'Iata chuyến bay',
-    'Sân bay đi',
-    'Nơi đi',
-    'Sân bay đến',
-    'Nơi đến',
-    'Thời gian đi',
-    'Thời gian đến',
+    'Tên',
+    'Mô tả',
     'Trạng thái',
   ];
 
   const dataKeys = [
-    'idChuyenBay',
-    'iataChuyenBay',
-    'tuyenBay.sanBayBatDau.tenSanBay',
-    'tuyenBay.sanBayBatDau.diaChi',
-    'tuyenBay.sanBayKetThuc.tenSanBay',
-    'tuyenBay.sanBayKetThuc.diaChi',
-    'thoiGianBatDauDuTinh',
-    'thoiGianKetThucDuTinh',
-    'trangThai'
+    'idChucVu',
+    'ten',
+    'moTa',
+    'trangThaiActive'
   ];
 
-  const editLink = "edit-chuyenbay";
+  const editLink = "edit-chucvu";
 
   return (
     <div>

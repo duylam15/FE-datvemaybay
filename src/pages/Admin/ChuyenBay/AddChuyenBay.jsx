@@ -27,7 +27,7 @@ export const AddChuyenBay = () => {
   const [thoiGianKetThucThucTe, setThoiGianKetThucThucTe] = useState("");
   const [trangThaiCu, setTrangThaiCu] = useState("0");
   const [trangThai, setTrangThai] = useState(idChuyenBay ? "0" : "SCHEDULED");
-  const [trangThaiActive, setTrangThaiActive] = useState("0");
+  const [trangThaiActive, setTrangThaiActive] = useState("ACTIVE");
   const [soGhe, setSoGhe] = useState(0);
 
   const [chuyenBays, setChuyenBays] = useState([]);
@@ -206,7 +206,7 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     const fetchData = async () => {
       const responseChuyenBay = await dataChuyenBay();
-      let udpateData = [...responseChuyenBay.data.data];
+      let udpateData = [...responseChuyenBay?.data?.data];
 
       udpateData.map((item) => {
         const sanBayBatDau = sanBay.filter((sanbayitem) => sanbayitem?.idSanBay == item.tuyenBay.idSanBayBatDau);
@@ -367,7 +367,7 @@ export const AddChuyenBay = () => {
     const startDateTime = new Date(thoiGianBatDauDuTinh);
     const startDateTimeForDelay = new Date(startDateTime.getTime() + delayInMilliseconds);
     if (startDateTimeForDelay.getTime() <= currentTime.getTime() && trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED" && trangThaiCu != "IN_FLIGHT") {
-      setErrorDelay("Thời gian bắt đầu thực tế phải lớn hơn thời gian hiện tại");
+      setErrorDelay("TGBĐTT phải lớn hơn thời gian hiện tại hoặc đã tới thời gian bay");
       return;
     }
     setthoiGianBatDauThucTe(formatDateTime(startDateTimeForDelay))
@@ -624,7 +624,8 @@ export const AddChuyenBay = () => {
       .catch(error => {
         const errorData = error.response.data.data;
         setTypeDisplay("block");
-        setThongBao({ message: errorData.response.data.message, typeMessage: "inpage" });
+        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
+        // console.log(error.response.data.message)
       })
   }
 
@@ -675,10 +676,25 @@ export const AddChuyenBay = () => {
       const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
+          if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
+            const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
+            mayBay.sanBay = sanBayMoi;
+            editMayBay(mayBay.idMayBay, mayBay)
+              .then(() => {
+
+              })
+              .catch((error) => {
+
+              })
+          }
+          else {
+            console.log("chuyen bay chua hoan tat , khong the thay doi");
+          }
           setTypeDisplay("block");
           setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
         })
         .catch((error) => {
+          setTypeDisplay("block");
           setThongBao({ message: "Không thể sửa chuyến bay ", typeMessage: "inpage" })
           const errorData = error.response.data.data;
         })
@@ -714,6 +730,8 @@ export const AddChuyenBay = () => {
       })
       .catch((error) => {
         const errorData = error.response.data.data;
+        setTypeDisplay("block");
+        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
       })
 
     if (selectedCoTruongCu && selectedCoTruong && selectedCoTruong.idNhanVien != selectedCoTruongCu.idNhanVien) {
@@ -1013,6 +1031,13 @@ export const AddChuyenBay = () => {
               </div>
               <div className='container__input'>
                 <div className="form-input">
+                  <label htmlFor="">TGBDTT{"*"} :</label>
+                  <input type='datetime-local' name="" id="startDatetimeReal" value={thoiGianBatDauThucTe} disabled />
+                </div>
+                <span></span>
+              </div>
+              <div className='container__input'>
+                <div className="form-input">
                   <label htmlFor="">TGKTDT{"*"} :</label>
                   <input type="datetime-local" name="" id="endDatetime" onChange={handleThoiGianKetThucDuTinh} value={thoiGianKetThucDuTinh} disabled={true} />
                 </div>
@@ -1043,7 +1068,7 @@ export const AddChuyenBay = () => {
               <div className='container__input'>
                 <div className="form-input">
                   <label htmlFor="">Trạng thái xử lí</label>
-                  <select name="" id="" onChange={handleTrangThaiActive} value={"ACTIVE"} disabled={true}> STATUS
+                  <select name="" id="" onChange={handleTrangThaiActive} value={trangThaiActive} disabled={idChuyenBay ? false : true}> STATUS
                     <option value="">chọn trạng thái xử lí</option>
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="IN_ACTIVE">IN_ACTIVE</option>
@@ -1126,7 +1151,7 @@ export const AddChuyenBay = () => {
           <button className="btnHuy" onClick={cancle}>huy bo</button>
         </div>
         <div className="container-ghichu">
-          {"*{TGBDDT : Thời gian bắt đầu dự tính ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}
+          {"*{TGBDDT : Thời gian bắt đầu dự tính ; TGBDTT : Thời gian bắt đầu thực tế ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}
         </div>
       </div>
       <div style={{ display: typeDisplay }}>

@@ -1,0 +1,32 @@
+.container__chucvu .container__input_custom{
+  height: 100px !important;
+}
+
+.container__chucvu .container__input_custom span{
+  margin-top: 95px !important;
+}
+
+.container__chucvu .form-custom{
+  align-items: normal !important;
+}
+
+.container__chucvu .form-custom textarea{
+  width: 200px !important;
+  height: 90px !important;
+}
+
+.container__mainChucVu{
+  display: flex !important;
+  justify-content: space-between;
+}
+
+.container__mainChucVu .filter{
+  display: flex !important;
+  align-items: center;
+
+}
+
+.container__mainChucVu .filter .filterTrangThai select{
+  height: 30px !important;
+  width: 150px !important;
+}

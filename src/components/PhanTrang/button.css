@@ -38,6 +38,17 @@
   transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
 }
 
+.btn-default{
+  padding: 8px 12px; /* Khoảng cách bên trong nút */
+  margin: 4px; /* Khoảng cách giữa các nút */
+  border: 1px solid #007bff; /* Viền cho nút */
+  border-radius: 4px; /* Bo góc nút */
+  background-color: white; /* Màu nền mặc định */
+  color: #007bff; /* Màu chữ mặc định */
+  cursor: pointer; /* Thay đổi con trỏ khi hover */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu mượt mà */
+}
+
 .btn-move:hover{
   background-color: #e7f0ff; /* Màu nền khi hover */
 }

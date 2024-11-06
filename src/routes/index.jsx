@@ -10,6 +10,7 @@ import Home from '../pages/Home';
 import React from 'react';
 import ChiTietHoaDonPage from '../pages/admin/ChiTietHoaDon';
 import ChucVu from '../pages/admin/ChucVu';
+import AddChucVu from '../pages/Admin/ChucVu/AddChucVu';
 import Dashboard from '../pages/admin/dashboard';
 import HoaDonPage from '../pages/admin/HoaDon';
 import HoaDonAdd from '../pages/admin/HoaDon/HoaDonAdd';
@@ -46,7 +47,7 @@ import ThemSanBay from '../pages/admin/SanBay/ThemSanBay';
 import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
 import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import Ve from '../pages/Admin/Ve';
+import { default as EditVe, default as Ve } from '../pages/Admin/Ve';
 import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 import FlightPopup from '../pages/Flight/FlightPopup';
 import FlightResults from '../pages/Flight/FlightResult';
@@ -58,19 +59,6 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
-import FlightPopup from '../pages/Flight/FlightPopup';
-import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
-import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
-import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
-import FlightDetails from '../pages/FlightDetails';
-import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
-import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
-import RuleTable from '../pages/admin/QuyDinh/RuleTable';
-import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
-import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
-import Ve from '../pages/Admin/Ve';
-import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 
 export const router = createBrowserRouter([
   {
@@ -164,7 +152,22 @@ export const router = createBrowserRouter([
             ],
           },
           // Bạn có thể thêm các route khác cùng cấp như:
-          { path: 'chucvu', element: <ChucVu></ChucVu> },
+          {
+            path: 'chucvu',
+            element: null,
+            errorElement: <Error />,
+            children: [
+              { index: true, element: <ChucVu /> },
+              {
+                path: 'add',
+                element: <AddChucVu />,
+              },
+              {
+                path: 'edit/:id?',
+                element: <AddChucVu />,
+              },
+            ],
+          },
         ],
       },
 

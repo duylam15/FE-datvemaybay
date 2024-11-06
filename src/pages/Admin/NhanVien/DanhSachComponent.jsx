@@ -48,7 +48,6 @@ export default function DanhSachComponent(props) {
         data={currentData}
         editLink={editLink}
         setData={props.setData}
-        setAction={props.setAction}
         page={props.page}
       />
       <PaginationComponent
