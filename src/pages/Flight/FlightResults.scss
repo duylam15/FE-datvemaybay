@@ -11,6 +11,14 @@
   max-width: calc(100% - 48px);
   margin: auto;
 
+  .container-carousel {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0 auto;
+  }
+
   .card-ticket {
     position: relative;
 
@@ -243,6 +251,16 @@
               .top-ticket {
                 background-color: var(--primary-color);
                 color: var(--white);
+                input[type='radio']::after {
+                  content: '';
+                  width: 7px;
+                  height: 7px;
+                  background-color: var(--white);
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 13.8%;
+                  left: 49%;
+                }
                 input[type='radio'] {
                   background-color: var(--primary-color);
                   border-color: var(--white);
@@ -365,6 +383,16 @@
               .top-ticket {
                 background-color: #00558f;
                 color: var(--white);
+                input[type='radio']::after {
+                  content: '';
+                  width: 7px;
+                  height: 7px;
+                  background-color: var(--white);
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 13.8%;
+                  left: 49%;
+                }
                 input[type='radio'] {
                   background-color: #00558f;
                   border-color: var(--white);
@@ -482,6 +510,16 @@
               .top-ticket {
                 background-color: var(--third-color);
                 color: var(--white);
+                input[type='radio']::after {
+                  content: '';
+                  width: 7px;
+                  height: 7px;
+                  background-color: var(--white);
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 13.8%;
+                  left: 49%;
+                }
                 input[type='radio'] {
                   background-color: var(--third-color);
                   border-color: var(--white);

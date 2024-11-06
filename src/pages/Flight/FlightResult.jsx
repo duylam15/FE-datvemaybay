@@ -8,6 +8,7 @@ import logo from '../../assets/images/LogoBamboo.png';
 import tag from '../../assets/images/tag.png';
 import chevron from '../../assets/images/chevron.png';
 import FlightPopup from './FlightPopup';
+import Carousel from '../../components/Carousel';
 
 const FlightResult = () => {
   const location = useLocation();
@@ -18,7 +19,9 @@ const FlightResult = () => {
   const [loading, setLoading] = useState(true); // Trạng thái loading
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [selectedTicketType, setSelectedTicketType] = useState(null);
-  const flights = location.state?.flights?.data?.chuyenbaydi?.data;
+  const flights = location.state?.flights?.data?.chuyenbaydi?.data || [];
+  const departureLocation = location.state?.departureLocation;
+  const arrivalLocation = location.state?.arrivalLocation;
   const [selectedFlightId, setSelectedFlightId] = useState(null);
 
   const numberOfTicketsToDetail = location.state.numberOfTickets || {};
@@ -197,10 +200,11 @@ const FlightResult = () => {
   };
 
   // console.error(flights);
-  console.error(tickets);
-  console.error(classTickets);
+  // console.error(tickets);
+  // console.error(classTickets);
   // console.error(selectedTicket);
   // console.error(airports);
+  console.error(departureLocation);
 
   // Sử dụng hàm
   console.log({ tickets });
@@ -209,7 +213,18 @@ const FlightResult = () => {
     <div className='container'>
       <div className='ticket-section flex-collum'>
         <div className='section-visible'>
-          {flights.map((flight, index) => (
+          <div className='container-carousel'>
+            <Carousel
+              departureLocation={departureLocation}
+              arrivalLocation={arrivalLocation}
+              message={
+                flights.length === 0
+                  ? 'Không tìm thấy chuyến bay'
+                  : 'Vui lòng chọn chuyến bay'
+              }
+            />
+          </div>
+          {flights.map((flight) => (
             <div key={flight.idChuyenBay}>
               <div className='card-ticket'>
                 <div className='seat-empty'>

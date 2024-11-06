@@ -27,7 +27,7 @@ import MayBayEdit from '../pages/admin/MayBay/MayBayEdit';
 import AddMayBayForm from '../pages/admin/MayBay/ThemMayBay';
 import AddMerchandise from '../pages/admin/Merchandise/MerchandiseAddForm';
 import EditMerchandise from '../pages/admin/Merchandise/MerchandiseEditForm';
-import MerchandiseTable from '../pages/Admin/Merchandise/MerchandiseTable';
+import MerchandiseTable from '../pages/admin/Merchandise/MerchandiseTable';
 import NhanVien from '../pages/Admin/NhanVien';
 import AddComponent from '../pages/Admin/NhanVien/AddComponent';
 import PhuongThucTTPage from '../pages/admin/PhuongThucThanhToan';
@@ -58,6 +58,19 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
+import FlightPopup from '../pages/Flight/FlightPopup';
+import QuyenThem from '../pages/Admin/Quyen/QuyenThem';
+import QuyenListOverall from '../pages/Admin/Quyen/QuyenListOverall';
+import QuyenEdit from '../pages/Admin/Quyen/QuyenEdit';
+import FlightDetails from '../pages/FlightDetails';
+import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
+import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
+import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
+import RuleTable from '../pages/admin/QuyDinh/RuleTable';
+import RuleAdd from '../pages/admin/QuyDinh/RuleAdd';
+import RuleEdit from '../pages/admin/QuyDinh/RuleEdit';
+import Ve from '../pages/Admin/Ve';
+import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 
 export const router = createBrowserRouter([
   {
@@ -91,7 +104,7 @@ export const router = createBrowserRouter([
       {
         path: 'flightDetails',
         element: <FlightDetails />,
-      }
+      },
     ],
   },
 
@@ -296,12 +309,11 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <VeListOverall /> },
           {
-            path: 'edit/:idQuyen',
-            element: <QuyenEdit></QuyenEdit>,
+            path: 'edit/:idVe',
+            element: <EditVe></EditVe>
           },
         ],
       },
-
     ],
   },
 ]);

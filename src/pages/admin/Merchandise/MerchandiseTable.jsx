@@ -131,6 +131,11 @@ const MerchandiseTable = () => {
       sortField: 'idLoaiHangHoa',
     },
     {
+      header: 'Mã hàng hoá',
+      render: (item) => item.maHangHoa,
+      sortField: 'maHangHoa',
+    },
+    {
       header: 'Tên hàng hoá',
       render: (item) => item.tenHangHoa,
       sortField: 'tenHangHoa',

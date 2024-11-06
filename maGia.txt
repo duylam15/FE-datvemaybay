@@ -1,0 +1,23 @@
+    input username
+    input password 
+
+    IF 'username' == "" or 'password' == "": THEN
+        print "Vui lòng nhập đủ tài khoản và mật khẩu".
+        return
+
+    Tạo đối tượng 'taiKhoanBUS'
+    Gọi hàm 'selectAccountUser' của 'taiKhoanBUS' với 'username' để lấy thông tin tài khoản 'taiKhoanSelected'.
+
+    IF taiKhoanSelected == null: THEN
+         print "Không có tài khoản trên hệ thống".
+    ELSE:
+        IF 'password' == taiKhoanSelected.getPassword(): THEN
+            IF taiKhoanSelected.getTrangThai() == 0: THEN
+                 print "Tài khoản của bạn đã bị khóa".
+            ELSE: 
+                Tạo cửa sổ chính 'main' với thông tin tài khoản 'taiKhoanSelected'.
+                Hiển thị cửa sổ chính 'main'.
+                Thiết lập 'UT' cho 'main'.
+                Đóng cửa sổ hiện tại.
+        ELSE:
+           print "Sai tài khoản hoặc mật khẩu".

@@ -44,51 +44,13 @@ const AddRoute = () => {
     loadAirport();
   }, []);
 
-  const rawData = {
-    statusCode: 200,
-    message: 'Get all airport success!!',
-    data: [
-      {
-        idSanBay: 1,
-        tenSanBay: 'Tân Sơn Nhất',
-        iataSanBay: '132',
-        icaoSanBay: '123',
-        diaChi: 'HCM',
-        thanhPho: {
-          idThanhPho: 2,
-          tenThanhPho: 'Thành phố Hồ Chí Minh',
-          quocGia: {
-            idQuocGia: 1,
-            tenQuocGia: 'Việt Nam',
-          },
-        },
-      },
-      {
-        idSanBay: 2,
-        tenSanBay: 'Nội Bài',
-        iataSanBay: '134',
-        icaoSanBay: '124',
-        diaChi: 'HN',
-        thanhPho: {
-          idThanhPho: 1,
-          tenThanhPho: 'Hà Nội',
-          quocGia: {
-            idQuocGia: 1,
-            tenQuocGia: 'Việt Nam',
-          },
-        },
-      },
-      // ... thêm dữ liệu sân bay khác
-    ],
-  };
-
   const loadAirport = async () => {
     try {
       const result = await axios.get(
         'http://localhost:8080/admin/sanbay/getAllAirport'
       );
       if (result.status === 200) {
-        setAirports(rawData.data);
+        setAirports(result.data.data);
       }
     } catch (error) {
       console.error('Error loading airports:', error);
@@ -146,112 +108,112 @@ const AddRoute = () => {
     }
   };
   return (
-   <div className='addform-manageroute'>
-     <div className='container'>
-      <div className='form-container'>
-        <form onSubmit={handleSave}>
-          <div>
-            <label htmlFor='thoiGianChuyenBay'>
-              Thời gian chuyến bay (phút):
-            </label>
-            <input
-              type='text'
-              id='thoiGianChuyenBay'
-              name='thoiGianChuyenBay'
-              value={route.thoiGianChuyenBay}
-              onChange={handleChange}
-              className={errors.thoiGianChuyenBay ? 'input-error' : ''}
-              required
-            />
-            {errors.thoiGianChuyenBay && (
-              <p className='error-message'>{errors.thoiGianChuyenBay}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor='khoangCach'>Khoảng cách (km):</label>
-            <input
-              type='text'
-              id='khoangCach'
-              name='khoangCach'
-              value={route.khoangCach}
-              onChange={handleChange}
-              className={errors.khoangCach ? 'input-error' : ''}
-              required
-            />
-            {errors.khoangCach && (
-              <p className='error-message'>{errors.khoangCach}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor='status'>Trạng thái:</label>
-            <select
-              id='status'
-              name='status'
-              value={route.status}
-              onChange={handleChange}
-              required
-            >
-              <option value='ACTIVE'>ACTIVE</option>
-              <option value='IN_ACTIVE'>INACTIVE</option>
-            </select>
-          </div>
+    <div className='addform-manageroute'>
+      <div className='container'>
+        <div className='form-container'>
+          <form onSubmit={handleSave}>
+            <div>
+              <label htmlFor='thoiGianChuyenBay'>
+                Thời gian chuyến bay (phút):
+              </label>
+              <input
+                type='text'
+                id='thoiGianChuyenBay'
+                name='thoiGianChuyenBay'
+                value={route.thoiGianChuyenBay}
+                onChange={handleChange}
+                className={errors.thoiGianChuyenBay ? 'input-error' : ''}
+                required
+              />
+              {errors.thoiGianChuyenBay && (
+                <p className='error-message'>{errors.thoiGianChuyenBay}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor='khoangCach'>Khoảng cách (km):</label>
+              <input
+                type='text'
+                id='khoangCach'
+                name='khoangCach'
+                value={route.khoangCach}
+                onChange={handleChange}
+                className={errors.khoangCach ? 'input-error' : ''}
+                required
+              />
+              {errors.khoangCach && (
+                <p className='error-message'>{errors.khoangCach}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor='status'>Trạng thái:</label>
+              <select
+                id='status'
+                name='status'
+                value={route.status}
+                onChange={handleChange}
+                required
+              >
+                <option value='ACTIVE'>ACTIVE</option>
+                <option value='IN_ACTIVE'>INACTIVE</option>
+              </select>
+            </div>
 
-          <div>
-            <label htmlFor='idSanBayBatDau'>Sân bay BĐ:</label>
-            <select
-              name='idSanBayBatDau'
-              id='idSanBayBatDau'
-              onChange={handleChange}
-              value={route.idSanBayBatDau}
-            >
-              <option value='0' hidden>
-                Chọn Sân Bay
-              </option>
-              {airports.map((item) => (
-                <option key={item.idSanBay} value={item.idSanBay}>
-                  {item.tenSanBay}
+            <div>
+              <label htmlFor='idSanBayBatDau'>Sân bay BĐ:</label>
+              <select
+                name='idSanBayBatDau'
+                id='idSanBayBatDau'
+                onChange={handleChange}
+                value={route.idSanBayBatDau}
+              >
+                <option value='0' hidden>
+                  Chọn Sân Bay
                 </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor='idSanBayKetThuc'>Sân bay KT:</label>
-            <select
-              name='idSanBayKetThuc'
-              id='idSanBayKetThuc'
-              onChange={handleChange}
-              value={route.idSanBayKetThuc}
-              disabled={route.idSanBayBatDau === 0}
-            >
-              <option value='0' hidden>
-                Chọn Sân Bay
-              </option>
-              {airports
-                .filter((item) => item.idSanBay !== route.idSanBayBatDau)
-                .map((item) => (
+                {airports.map((item) => (
                   <option key={item.idSanBay} value={item.idSanBay}>
                     {item.tenSanBay}
                   </option>
                 ))}
-            </select>
-            {errors.idSanBayKetThuc && (
-              <p className='error-message'>{errors.idSanBayKetThuc}</p>
-            )}
-          </div>
+              </select>
+            </div>
 
-          <div className='button-container'>
-            <button type='submit' className='btn btn-save'>
-              Lưu
-            </button>
-            <Link to='/admin/route' className='btn btn-cancel'>
-              Hủy
-            </Link>
-          </div>
-        </form>
+            <div>
+              <label htmlFor='idSanBayKetThuc'>Sân bay KT:</label>
+              <select
+                name='idSanBayKetThuc'
+                id='idSanBayKetThuc'
+                onChange={handleChange}
+                value={route.idSanBayKetThuc}
+                disabled={route.idSanBayBatDau === 0}
+              >
+                <option value='0' hidden>
+                  Chọn Sân Bay
+                </option>
+                {airports
+                  .filter((item) => item.idSanBay !== route.idSanBayBatDau)
+                  .map((item) => (
+                    <option key={item.idSanBay} value={item.idSanBay}>
+                      {item.tenSanBay}
+                    </option>
+                  ))}
+              </select>
+              {errors.idSanBayKetThuc && (
+                <p className='error-message'>{errors.idSanBayKetThuc}</p>
+              )}
+            </div>
+
+            <div className='button-container'>
+              <button type='submit' className='btn btn-save'>
+                Lưu
+              </button>
+              <Link to='/admin/route' className='btn btn-cancel'>
+                Hủy
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-   </div>
   );
 };
 

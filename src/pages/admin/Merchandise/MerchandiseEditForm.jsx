@@ -107,64 +107,57 @@ const AddMerchandise = () => {
   };
 
   return (
-   <div className='machidiseaddform'>
-     <div className='container'>
-      <div className='form-container'>
-        <form onSubmit={handleSave}>
-          <div>
-            <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
-            <select
-              name='idLoaiHangHoa'
-              id='idLoaiHangHoa'
-              onChange={handleChange}
-              value={merchan.idLoaiHangHoa}
-              error={errors.idLoaiHangHoa}
-              required
-            >
-              <option value='0' hidden>
-                Chọn loại hàng hoá
-              </option>
-              {typeMerchans.map((item) => (
-                <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
-                  {item.tenLoaiHangHoa}
+    <div className='machidiseaddform'>
+      <div className='container'>
+        <div className='form-container'>
+          <form onSubmit={handleSave}>
+            <div>
+              <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
+              <select
+                name='idLoaiHangHoa'
+                id='idLoaiHangHoa'
+                onChange={handleChange}
+                value={merchan.idLoaiHangHoa}
+                error={errors.idLoaiHangHoa}
+                required
+              >
+                <option value='0' hidden>
+                  Chọn loại hàng hoá
                 </option>
-              ))}
-            </select>
-          </div>
-          <FormInput
-            label='Tên hàng hóa'
-            name='tenHangHoa'
-            value={merchan.tenHangHoa}
-            onChange={handleChange}
-            error={errors.tenHangHoa}
-          />
-          <FormInput
-            label='Tải trọng (kg)'
-            name='taiTrong'
-            value={merchan.taiTrong}
-            onChange={handleChange}
-            error={errors.taiTrong}
-          />
-          <FormInput
-            label='Giá phát sinh (VND)'
-            name='giaPhatSinh'
-            value={merchan.giaPhatSinh}
-            onChange={handleChange}
-            error={errors.giaPhatSinh}
-          />
+                {typeMerchans.map((item) => (
+                  <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
+                    {item.tenLoaiHangHoa}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <FormInput
+              label='Tên hàng hóa'
+              name='tenHangHoa'
+              value={merchan.tenHangHoa}
+              onChange={handleChange}
+              error={errors.tenHangHoa}
+            />
+            <FormInput
+              label='Tải trọng (kg)'
+              name='taiTrong'
+              value={merchan.taiTrong}
+              onChange={handleChange}
+              error={errors.taiTrong}
+            />
 
-          <div className='button-container'>
-            <button type='submit' className='btn btn-save'>
-              Update
-            </button>
-            <Link to='/admin/merchandise' className='btn btn-cancel'>
-              Cancel
-            </Link>
-          </div>
-        </form>
+            <div className='button-container'>
+              <button type='submit' className='btn btn-save'>
+                Update
+              </button>
+              <Link to='/admin/merchandise' className='btn btn-cancel'>
+                Cancel
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-   </div>
   );
 };
 

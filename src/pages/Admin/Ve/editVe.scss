@@ -1,0 +1,142 @@
+.page_edit_ve {
+  table td {
+    vertical-align: middle !important;
+    border: none !important;
+  }
+  .title_ {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px;
+  }
+  .titleBIG {
+    font-size: 30px;
+    font-weight: 600;
+    padding: 15px;
+    text-align: center;
+  }
+  .infoHanhKhach_XuatVe .content{
+    display: flex;
+    align-items: center;
+    gap: 500px;
+    .content_hanhKhach p {
+      padding-bottom: 10px;
+    }
+  }
+
+  .infoHanhKhach .label {
+    color: #64af53;
+    font-weight: 600;
+  }
+
+  .infoHanhKhach .content_label {
+    color: #333;
+    font-weight: 500;
+  }
+  .infoVe {
+      padding-left: 100px;
+  }
+
+  .infoVe .label_info {
+    color: #333;
+    font-weight: 500;
+  }
+
+  .infoVe .content_label {
+    color: #333;
+    font-weight: 400;
+    font-size: 15px;
+  }
+
+  .label {
+    color: #64af53;
+    font-weight: 600;
+  }
+  .pb_10 {
+    padding-bottom: 10px;
+  }
+
+  .seperate_block {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 15px;
+  }
+
+  .note {
+    color: #333;
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .seperate {
+    background-color: #64af53;
+    padding: 2px;
+    width: 100%;
+  }
+
+  .notice_label {
+    padding-left: 10px;
+    color: #64af53;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  ul li {
+    color: #333;
+    line-height: 130%;
+    font-size: 14px;
+  }
+
+  .notice_last {
+    display: block;
+    font-size: 14px;
+    padding: 10px;
+    color: #333;
+  }
+
+  .column_4,
+  .column_5 {
+    display: flex;
+    flex-direction: column;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  thead {
+    background-color: #64af53;
+    color: #fff;
+  }
+  thead tr td {
+    padding: 10px;
+  }
+  tbody .row_first{
+    background-color: #b9d7b2;
+  }
+  tbody tr td {
+    padding-left: 10px;
+    padding-top: 10px;
+  }
+  .bold {
+    font-weight: 600;
+  }
+  .row_ {
+    display: flex;
+    gap: 100px;
+    align-items: center;
+  }
+  .row_input {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+  .row_last {
+    margin-top: 25px;
+  }
+}
+
+  

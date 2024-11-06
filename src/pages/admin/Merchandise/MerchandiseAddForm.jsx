@@ -91,67 +91,60 @@ const AddMerchandise = () => {
   };
 
   return (
-  <div className='machidiseaddform'>
-    <div className='container'>
-      <div className='form-container'>
-        <form onSubmit={handleSave}>
-          <div>
-            <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
-            <select
-              name='idLoaiHangHoa'
-              id='idLoaiHangHoa'
-              onChange={handleChange}
-              value={merchan.idLoaiHangHoa}
-              error={errors.idLoaiHangHoa}
-              required
-            >
-              <option value='0' hidden>
-                Chọn loại hàng hoá
-              </option>
-              {typeMerchans.map((item) => (
-                <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
-                  {item.tenLoaiHangHoa}
+    <div className='machidiseaddform'>
+      <div className='container'>
+        <div className='form-container'>
+          <form onSubmit={handleSave}>
+            <div>
+              <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
+              <select
+                name='idLoaiHangHoa'
+                id='idLoaiHangHoa'
+                onChange={handleChange}
+                value={merchan.idLoaiHangHoa}
+                error={errors.idLoaiHangHoa}
+                required
+              >
+                <option value='0' hidden>
+                  Chọn loại hàng hoá
                 </option>
-              ))}
-            </select>
-          </div>
+                {typeMerchans.map((item) => (
+                  <option key={item.idLoaiHangHoa} value={item.idLoaiHangHoa}>
+                    {item.tenLoaiHangHoa}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <FormInput
-            label='Tên hàng hóa'
-            name='tenHangHoa'
-            value={merchan.tenHangHoa}
-            onChange={handleChange}
-            error={errors.tenHangHoa}
-            required // Make this required if necessary
-          />
-          <FormInput
-            label='Tải trọng (kg)'
-            name='taiTrong'
-            value={merchan.taiTrong}
-            onChange={handleChange}
-            error={errors.taiTrong}
-            required // Make this required if necessary
-          />
-          <FormInput
-            label='Giá phát sinh (VND)'
-            name='giaPhatSinh'
-            value={merchan.giaPhatSinh}
-            onChange={handleChange}
-            error={errors.giaPhatSinh}
-            required // Make this required if necessary
-          />
-          <div className='button-container'>
-            <button type='submit' className='btn btn-save'>
-              Lưu
-            </button>
-            <Link to='/admin/merchandise' className='btn btn-cancel'>
-              Hủy
-            </Link>
-          </div>
-        </form>
+            <FormInput
+              label='Tên hàng hóa'
+              name='tenHangHoa'
+              value={merchan.tenHangHoa}
+              onChange={handleChange}
+              error={errors.tenHangHoa}
+              required // Make this required if necessary
+            />
+            <FormInput
+              label='Tải trọng (kg)'
+              name='taiTrong'
+              value={merchan.taiTrong}
+              onChange={handleChange}
+              error={errors.taiTrong}
+              required // Make this required if necessary
+            />
+
+            <div className='button-container'>
+              <button type='submit' className='btn btn-save'>
+                Lưu
+              </button>
+              <Link to='/admin/merchandise' className='btn btn-cancel'>
+                Hủy
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
