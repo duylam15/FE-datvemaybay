@@ -45,7 +45,7 @@ const HoaDonAdd = () => {
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hangHoaDTOList = [
+        const hangHoa = 
             {
                 tenHangHoa,
                 idLoaiHangHoa: 3,
@@ -54,13 +54,13 @@ const HoaDonAdd = () => {
                 trangThaiActive: 'ACTIVE',
             }
             
-        ]
+        
 
         try {
             // Thêm hàng hóa mới và lấy ID của hàng hóa từ phản hồi
-            // const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
-            // const idHangHoa = hangHoaResponse.data.data.idHangHoa;
-            // setIdHangHoa(idHangHoa);
+            const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
+            const idHangHoa = hangHoaResponse.data.data.idHangHoa;
+            setIdHangHoa(idHangHoa);
     
             // Tạo chi tiết hóa đơn với idHangHoa đã được gán
             const chiTietHoaDonDTOList = [
@@ -83,8 +83,7 @@ const HoaDonAdd = () => {
     
             const hoaDonCreate = {
                 hoaDonDTO,
-                chiTietHoaDonDTOList,
-                hangHoaDTOList
+                chiTietHoaDonDTOList
             };
     
             // Thêm hóa đơn

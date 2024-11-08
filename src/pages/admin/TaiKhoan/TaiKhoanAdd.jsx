@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:8080';
 const TaiKhoanAdd = () => {
     const [tenDangNhap, setTenDangNhap] = useState('');
     const [matKhau, setMatKhau] = useState('');
-    const [quyen, setQuyen] = useState(null);
+    const [quyen, setQuyen] = useState('');
     const [khachHang, setKhachHang] = useState(null);
     const [nhanVien, setNhanVien] = useState(null);
     const [thoiGianTao, setThoiGianTao] = useState('');
@@ -158,15 +158,12 @@ const TaiKhoanAdd = () => {
                     <input
                         type="text"
                         name="tenDangNhap"
-                        className={`form-control form-control-lg ${fieldErrors?.tenDangNhap && <div className="invalid-feedback">{fieldErrors.tenDangNhap}</div>}`}
+                        className={`form-control form-control-lg ${fieldErrors.tenDangNhap ? 'is-invalid' : ''}`}
                         value={tenDangNhap || ''}
                         onChange={(e) => setTenDangNhap(e.target.value)}
                         id="tenDangNhap"
-                        required
                     />
-                    {fieldErrors?.tenDangNhap && (
-                        <div className="invalid-feedback">{fieldErrors.tenDangNhap}</div>
-                    )}
+                    {fieldErrors.tenDangNhap && <div className="invalid-feedback">{fieldErrors.tenDangNhap}</div>} {/* Hiển thị thông báo lỗi */}
                 </div>
 
                 <div className="mb-3">
@@ -174,13 +171,12 @@ const TaiKhoanAdd = () => {
                     <input
                         name="matKhau"
                         type="password"
-                        className={`form-control form-control-lg ${fieldErrors?.matKhau ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors.matKhau ? 'is-invalid' : ''}`}
                         value={matKhau}
                         onChange={(e) => setMatKhau(e.target.value)}
                         id="matKhau"
-                        required
                     />
-                    {fieldErrors?.matKhau && (
+                    {fieldErrors.matKhau && (
                         <div className="invalid-feedback">{fieldErrors.matKhau}</div>
                     )}
                 </div>
@@ -189,12 +185,11 @@ const TaiKhoanAdd = () => {
                     <div className="mb-3">
                         <label className="form-label">Khách hàng</label>
                         <select
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${fieldErrors.khachHang ? 'is-invalid' : ''}`}
                             onChange={handleChange}
                             value={khachHang?.idKhachHang || ''}
                             id="khachHang"
                             name="khachHang"
-                            required
                         >
                             <option value="">Chọn khách hàng</option>
                             {listKhachHang.map((kh) => (
@@ -203,6 +198,9 @@ const TaiKhoanAdd = () => {
                                 </option>
                             ))}
                         </select>
+                        {fieldErrors.matKhau && (
+                            <div className="invalid-feedback">{fieldErrors.khachHang}</div>
+                        )}
                     </div>
                 )}
 
@@ -211,12 +209,11 @@ const TaiKhoanAdd = () => {
                     <div className="mb-3">
                         <label className="form-label">Nhân viên</label>
                         <select
-                            className="form-control form-control-lg"
+                            className={`form-control form-control-lg ${fieldErrors.nhanVien ? 'is-invalid' : ''}`}
                             onChange={handleChange}
                             value={nhanVien?.idNhanVien || ''}
                             id="nhanVien"
                             name="nhanVien"
-                            required
                         >
                             <option value="">Chọn nhân viên</option>
                             {listNhanVien.map((nv) => (
@@ -225,18 +222,17 @@ const TaiKhoanAdd = () => {
                                 </option>
                             ))}
                         </select>
-                        {fieldErrors?.nhanVien && (
+                        {fieldErrors.nhanVien && (
                             <div className="invalid-feedback">{fieldErrors.nhanVien}</div>
                         )}
                     </div>
                     <div className="mb-3">
                     <label className="form-label">Quyền</label>
                     <select
-                        className="form-control form-control-lg"
+                        className={`form-control form-control-lg ${fieldErrors.quyen ? 'is-invalid' : ''}`}
                         onChange={handleChange}
                         value={quyen?.idQuyen || ''}
                         name="quyen"
-                        required
                     >
                         <option value="">Chọn quyền</option>
                         {listQuyen.map((quyen) => (

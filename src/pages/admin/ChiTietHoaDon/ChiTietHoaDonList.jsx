@@ -32,7 +32,9 @@ const ChiTietHoaDonList = ({
                                     <p>Chuyến bay: {cthd.ve.chuyenBay.iataChuyenBay}</p>
                                 </div>
                             </>
-                            ):''}
+                            ): ''}
+                            {cthd.hangHoa ? (
+                                <>
                                 <div className="item hang-hoa">
                                     <h3>Thông tin hàng hóa</h3>
                                     <p>Tên hàng hóa: {cthd.hangHoa.tenHangHoa}</p>
@@ -40,6 +42,10 @@ const ChiTietHoaDonList = ({
                                     <p>Tải trọng: {cthd.hangHoa.taiTrong}Kg</p>
                                     <p>Giá tiền: {cthd.hangHoa.giaPhatSinh}VND</p>
                                 </div>
+                                </>
+                            ): ''}
+                                
+                            
                         </div>
                         <div className="foot">
                             <h2 className='so-tien'>Số tiền: {cthd.soTien}VND</h2>
