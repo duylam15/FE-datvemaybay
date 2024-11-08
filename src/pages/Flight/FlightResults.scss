@@ -6,6 +6,10 @@
   --third-color: #dc362e;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .container {
   width: 1128px;
   max-width: calc(100% - 48px);
@@ -23,9 +27,11 @@
     position: relative;
 
     .seat-empty {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: auto;
+      display: flex;
+      flex-direction: row;
+      // display: grid;
+      // grid-template-columns: repeat(3, 1fr);
+      // grid-template-rows: auto;
       gap: 1px;
 
       .remaining-seats {
@@ -130,9 +136,11 @@
       }
 
       .card-flight-left {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto;
+        display: flex;
+        flex-direction: row;
+        // display: grid;
+        // grid-template-columns: repeat(3, 1fr);
+        // grid-template-rows: auto;
         gap: 1px;
         position: absolute;
         top: 0;
@@ -143,13 +151,13 @@
           border: none;
           margin-left: 1px;
           position: relative;
-          height: 171px;
-          padding: 17px;
+          height: 150px;
+          padding: 20px;
           width: -webkit-fill-available;
           align-items: center;
 
           cursor: pointer;
-          background-color: grey;
+
           outline: none;
 
           .title {
@@ -157,7 +165,7 @@
             font-weight: 600;
             color: #fff;
             font-size: 20px;
-            margin-top: 10px;
+            // margin-top: 10px;
             margin-bottom: 0;
           }
 
@@ -176,12 +184,22 @@
                 font-size: 26px;
                 font-weight: 600;
               }
+
               .imgbottom {
                 position: absolute;
                 bottom: 7px;
                 right: 56px;
                 height: 18px;
                 width: 15px;
+              }
+
+              .notifi-out-off {
+                color: #333333;
+                font-size: 16px;
+                padding: 5px;
+                height: auto;
+                font-weight: 600;
+                cursor: default;
               }
             }
           }
@@ -215,6 +233,19 @@
           &:hover {
             background-color: #b51f17;
           }
+        }
+
+        .btnNohover-green {
+          background-color: var(--primary-color);
+        }
+
+        .btnNohover-blue {
+          background-color: var(--secondary-color);
+        }
+
+        .btnNohover-red {
+          background-color: var(--third-color);
+          border-radius: 0 10px 10px 0;
         }
       }
 
@@ -651,6 +682,7 @@
 
 /* CSS cho overlay */
 .overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -662,7 +694,7 @@
 /* CSS cho FlightPopup */
 .flight-popup {
   position: fixed;
-  top: 100%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* Căn giữa popup */
   background: white; /* Nền trắng cho popup */

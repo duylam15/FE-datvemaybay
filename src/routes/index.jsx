@@ -22,7 +22,7 @@ import LoaiHoaDonAdd from '../pages/admin/LoaiHoaDon/LoaiHoaDonAdd';
 import LoaiHoaDonEdit from '../pages/admin/LoaiHoaDon/LoaiHoaDonEdit';
 import AddForm from '../pages/Admin/ManageRoute/AddForm';
 import EditForm from '../pages/Admin/ManageRoute/EditForm';
-import RouteTable from '../pages/Admin/ManageRoute/RouteTable';
+import RouteTable from '../pages/admin/ManageRoute/RouteTable';
 import MayBayPage from '../pages/admin/MayBay/index';
 import MayBayEdit from '../pages/admin/MayBay/MayBayEdit';
 import AddMayBayForm from '../pages/admin/MayBay/ThemMayBay';
@@ -59,6 +59,7 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
+// import EditVe from '../pages/Admin/Ve/EditVe';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 
@@ -115,13 +116,15 @@ export const router = createBrowserRouter([
     element: <UsersPage />,
     children: [
       {
-        index: true, element: <InfoAccount></InfoAccount>
+        index: true,
+        element: <InfoAccount></InfoAccount>,
       },
       {
-        path: 'account', element: <InfoAccount></InfoAccount>
+        path: 'account',
+        element: <InfoAccount></InfoAccount>,
       },
-      { path: 'lichsubay', element: <LichSuBay></LichSuBay> }
-    ]
+      { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
+    ],
   },
   {
     path: '/fogot_password',
@@ -303,18 +306,17 @@ export const router = createBrowserRouter([
         element: <LoaiHoaDonEdit />,
       },
       {
-        path: "taikhoan",
-        element: <TaiKhoanPage />
+        path: 'taikhoan',
+        element: <TaiKhoanPage />,
       },
       {
-        path: "taikhoan/add",
-        element: <TaiKhoanAdd />
+        path: 'taikhoan/add',
+        element: <TaiKhoanAdd />,
       },
       {
-        path: "taikhoan/edit/:idTaiKhoan",
-        element: <TaiKhoanEdit />
+        path: 'taikhoan/edit/:idTaiKhoan',
+        element: <TaiKhoanEdit />,
       },
-
 
       {
         path: 've',
@@ -323,7 +325,7 @@ export const router = createBrowserRouter([
           { index: true, element: <VeListOverall /> },
           {
             path: 'edit/:idVe',
-            element: <EditVe></EditVe>
+            element: <EditVe></EditVe>,
           },
         ],
       },

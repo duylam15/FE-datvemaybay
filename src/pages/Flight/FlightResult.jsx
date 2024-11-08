@@ -157,17 +157,17 @@ const FlightResult = () => {
     return emptyTickets.length; // Return the count of empty tickets
   };
 
-  // Get the lowest price for a specific class and flight
+  // Lấy giá thấp nhất của một hạng vé và chuyến bay cụ thể
   const leastPrice = (classId, flightId) => {
     const flightTickets = tickets[flightId] || []; // Get tickets for the flight
 
-    // Extract prices for tickets that match the specified class
+    // Trích xuất giá vé phù hợp với hạng vé đã chỉ định
     const prices = flightTickets
       .filter((ticket) => ticket.hangVe.idHangVe === classId && ticket.giaVe)
       .map((ticket) => ticket.giaVe);
 
-    // Return the lowest price or null if there are no matching prices
-    return prices.length > 0 ? Math.min(...prices) : 'Không có giá phù hợp';
+    //Trả về giá thấp nhất
+    return prices.length > 0 ? Math.min(...prices) : '';
   };
 
   function formatDate(dateString) {
@@ -249,7 +249,7 @@ const FlightResult = () => {
                           {totalEmptyTickets(
                             classTicket.idHangVe,
                             flight.idChuyenBay
-                          )}
+                          )}{' '}
                           chỗ
                         </button>
                       )}
@@ -374,7 +374,7 @@ const FlightResult = () => {
                         {totalEmptyTickets(
                           classTicket.idHangVe,
                           flight.idChuyenBay
-                        ) > 0 && (
+                        ) > 0 ? (
                           <button
                             className={`flex-collum ${
                               classTicket.idHangVe === 1
@@ -410,6 +410,32 @@ const FlightResult = () => {
                                   className='imgbottom'
                                   alt='chevron'
                                 />
+                              </div>
+                            </span>
+                          </button>
+                        ) : (
+                          <button
+                            className={`flex-collum ${
+                              classTicket.idHangVe === 1
+                                ? 'btnNohover-green'
+                                : classTicket.idHangVe === 2
+                                ? 'btnNohover-blue'
+                                : classTicket.idHangVe === 3
+                                ? 'btnNohover-red'
+                                : ''
+                            }`}
+                            style={{ cursor: 'default' }}
+                            disabled
+                          >
+                            <span>
+                              <div className='title'>
+                                {classTicket.tenHangVe}
+                              </div>
+                              <img src={tag} className='imgtop' alt='tag' />
+                              <div className='flight-price-section flex-collum'>
+                                <button className='notifi-out-off'>
+                                  Vé đã hết
+                                </button>
                               </div>
                             </span>
                           </button>
