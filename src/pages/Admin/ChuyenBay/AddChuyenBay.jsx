@@ -82,6 +82,12 @@ export const AddChuyenBay = () => {
   }
 
   const handleThoiGianBatDauDuTinh = (e) => {
+    const currentTime = new Date();
+    const timeStartWish = new Date(e.target.value);
+    if (currentTime.getTime() >= timeStartWish.getTime()) {
+      setErrorThoiGianBayDauDuTinh("Thời gian bắt đầu dự tính phải lớn hơn thời gian hiện tại")
+      return;
+    }
     setthoiGianBatDauDuTinh(e.target.value);
     handleThoiGianBatDauThucTe(e);
   }
@@ -115,6 +121,14 @@ export const AddChuyenBay = () => {
           setErrorDelay("Thời gian delay phải dương");
           return;
         }
+        const currentTime = new Date();
+        const timeStartWish = new Date(thoiGianBatDauDuTinh);
+        const incrementmilisecond = increment * 60 * 100;
+        const timeStartWishIncrementMiliseconds = new Date(timeStartWish.getTime() + incrementmilisecond);
+        if (timeStartWishIncrementMiliseconds.getTime() < currentTime.getTime()) {
+          setErrorDelay("Thời gian bắt đầu thực tế không được bé hơn thời gian hiện tại")
+          return;
+        }
         setDelay(delay + increment); // Tăng giá trị delay
         setNewDelay(""); // Xóa giá trị trong ô input mới
       }
@@ -134,7 +148,7 @@ export const AddChuyenBay = () => {
     const timeEndReal = new Date(thoiGianKetThucThucTe);
     const timeStartWish = new Date(thoiGianBatDauDuTinh);
     let trangThaiMoi = "";
-    if (timeStartReal.getTime() > currentTime.getTime() && e.target.value == "CANCELED")
+    if (e.target.value == "CANCELED" && trangThai != "IN_FLIGHT")
       trangThaiMoi = e.target.value;
     if (timeStartWish.getTime() == timeStartReal.getTime() && timeStartReal.getTime() > currentTime.getTime() && e.target.value == "SCHEDULED") {
       trangThaiMoi = e.target.value;
@@ -146,7 +160,7 @@ export const AddChuyenBay = () => {
       trangThaiMoi = e.target.value;
     if (timeEndReal.getTime() <= currentTime.getTime() && e.target.value == "COMPLETED")
       trangThaiMoi = e.target.value;
-    if (trangThaiMoi != "")
+    if (trangThaiMoi != "" && trangThaiCu != "IN_FLIGHT")
       setTrangThai(trangThaiMoi);
     else {
       setThongBao({ message: "Không thể đổi trạng thái", typeMessage: "inpage" });
@@ -227,7 +241,7 @@ export const AddChuyenBay = () => {
       document.getElementById('endDatetime').min = currentDatetime;
     };
     setMinDatetime();
-    const interval = setInterval(setMinDatetime, 600000);
+    const interval = setInterval(setMinDatetime, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -287,8 +301,14 @@ export const AddChuyenBay = () => {
       setfive(!five);
     }
     fetchData();
-  }, [selectTuyenBay, tuyenBays, four, sanBayBatDau])
+  }, [selectTuyenBay, tuyenBays, four, sanBayBatDau, thoiGianBatDauDuTinh])
 
+  const differentBetween2Time = (start, end) => {
+    const startTIme = new Date(start);
+    const endTIme = new Date(end);
+    const result = endTIme.getTime() - startTIme.getTime();
+    return result > 2 * 60 * 60 * 1000;
+  }
   const [six, setsix] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -301,8 +321,21 @@ export const AddChuyenBay = () => {
       const mayBayChuaChon = mayBayTheoSanBayBatDau.filter((item) => !chuyenBays.find((item1) => item1.mayBay.idMayBay == item.idMayBay));
       const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
       const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
-      const mayBayDaHoanThanhChuyenBay1 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
-      const danhSachMayBay = mayBay != undefined && sanBayBatDauCu == sanBayBatDau ? [mayBay, ...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1] : [...mayBayChuaChon, ...mayBayDaHoanThanhChuyenBay1];
+      const mayBayCoSan0 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
+      const mayBayCoTheCo = mayBayDaHoanThanhChuyenBay.filter(
+        (item) => chuyenBays.find((item1) =>
+          item.idMayBay == item1.mayBay.idMayBay
+          && (item1.trangThai == "SCHEDULED"
+            || item1.trangThai == "DELAYED"
+            || item1.trangThai == "IN_FLIGHT")
+          && item1.idChuyenBay != idChuyenBay
+          && differentBetween2Time(item1.thoiGianKetThucThucTe, thoiGianBatDauDuTinh)
+        )
+      )
+
+      console.log("may bay cos the co")
+      console.log([...mayBayCoTheCo])
+      const danhSachMayBay = mayBay != undefined && sanBayBatDauCu == sanBayBatDau ? [mayBay, ...mayBayChuaChon, ...mayBayCoSan0, ...mayBayCoTheCo] : [...mayBayChuaChon, ...mayBayCoSan0, ...mayBayCoTheCo];
       const uniqueArray = danhSachMayBay.filter((item, index, self) =>
         index == self.findIndex((t) => t.idMayBay == item.idMayBay)
       );
@@ -366,10 +399,6 @@ export const AddChuyenBay = () => {
     // Chuyển đổi thoiGianBatDauDuTinh thành đối tượng Date
     const startDateTime = new Date(thoiGianBatDauDuTinh);
     const startDateTimeForDelay = new Date(startDateTime.getTime() + delayInMilliseconds);
-    if (startDateTimeForDelay.getTime() <= currentTime.getTime() && trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED" && trangThaiCu != "IN_FLIGHT") {
-      setErrorDelay("TGBĐTT phải lớn hơn thời gian hiện tại hoặc đã tới thời gian bay");
-      return;
-    }
     setthoiGianBatDauThucTe(formatDateTime(startDateTimeForDelay))
     // Tính thời gian kết thúc
     const endDateTime = new Date(startDateTime.getTime() + totalSeconds * 1000);
@@ -688,7 +717,7 @@ export const AddChuyenBay = () => {
               })
           }
           else {
-            console.log("chuyen bay chua hoan tat , khong the thay doi");
+            console.log("chuyen bay chua hoan tat , khong the thay doi san bay");
           }
           setTypeDisplay("block");
           setThongBao({ message: response.data.message, typeMessage: "outpagengay" });

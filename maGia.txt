@@ -14,7 +14,7 @@
         IF 'password' == taiKhoanSelected.getPassword(): THEN
             IF taiKhoanSelected.getTrangThai() == 0: THEN
                  print "Tài khoản của bạn đã bị khóa".
-            ELSE: 
+            ELSE:
                 Tạo cửa sổ chính 'main' với thông tin tài khoản 'taiKhoanSelected'.
                 Hiển thị cửa sổ chính 'main'.
                 Thiết lập 'UT' cho 'main'.

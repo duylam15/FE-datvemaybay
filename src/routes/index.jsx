@@ -59,7 +59,6 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
-import EditVe from '../pages/Admin/Ve/EditVe';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 
