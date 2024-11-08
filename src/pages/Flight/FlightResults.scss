@@ -6,6 +6,10 @@
   --third-color: #dc362e;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 .container {
   width: 1128px;
   max-width: calc(100% - 48px);
@@ -191,10 +195,11 @@
 
               .notifi-out-off {
                 color: #333333;
-                font-size: 12px;
+                font-size: 16px;
                 padding: 5px;
                 height: auto;
                 font-weight: 600;
+                cursor: default;
               }
             }
           }
@@ -230,8 +235,17 @@
           }
         }
 
-        .btn-gray {
-          background: #333333;
+        .btnNohover-green {
+          background-color: var(--primary-color);
+        }
+
+        .btnNohover-blue {
+          background-color: var(--secondary-color);
+        }
+
+        .btnNohover-red {
+          background-color: var(--third-color);
+          border-radius: 0 10px 10px 0;
         }
       }
 
@@ -668,6 +682,7 @@
 
 /* CSS cho overlay */
 .overlay {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -679,7 +694,7 @@
 /* CSS cho FlightPopup */
 .flight-popup {
   position: fixed;
-  top: 100%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* Căn giữa popup */
   background: white; /* Nền trắng cho popup */
