@@ -47,7 +47,6 @@ import ThemSanBay from '../pages/admin/SanBay/ThemSanBay';
 import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
 import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import { default as EditVe, default as Ve } from '../pages/Admin/Ve';
 import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 import FlightPopup from '../pages/Flight/FlightPopup';
 import FlightResults from '../pages/Flight/FlightResult';
@@ -59,9 +58,11 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
-// import EditVe from '../pages/Admin/Ve/EditVe';
+import EditVe from '../pages/Admin/Ve/EditVe';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
+import AddVe from '../pages/Admin/Ve/AddVe';
+import Ve from '../pages/Admin/Ve/index.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -327,6 +328,10 @@ export const router = createBrowserRouter([
             path: 'edit/:idVe',
             element: <EditVe></EditVe>,
           },
+          {
+            path: 'add',
+            element: <AddVe></AddVe>,
+          }
         ],
       },
     ],
