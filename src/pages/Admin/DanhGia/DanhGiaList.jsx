@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DanhGia.css'
+import { FaGrinStars, FaStar, FaStarAndCrescent, FaStarOfDavid, FaStarOfLife } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:8080';
 const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBay, handleSearchByStartTimeAndEndTime,
@@ -30,6 +31,23 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
         };
         fetchData();
     }, []);
+
+    const getSao = (sao) => {
+        switch(sao) {
+            case 'ONE':
+                return <><FaStar/></>;
+            case 'TWO':
+                return <><FaStar/><FaStar/></>;
+            case 'THREE':
+                return <><FaStar/><FaStar/><FaStar/></>;
+            case 'FOUR':
+                return <><FaStar/><FaStar/><FaStar/><FaStar/></>;
+            case 'FIVE':
+                return <><FaStar/><FaStar/><FaStar/><FaStar/><FaStar/></>;
+            default:
+                return null;
+        }
+    }
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -84,22 +102,22 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
             <table className="table">
                 <thead className="thead-dark">
                     <tr>
-                        <th onClick={() => handleSort('idDanhGia')}>
+                        <th >
                             ID 
                         </th>
-                        <th onClick={() => handleSort('tenDanhGia')}>
+                        <th >
                             Sao 
                         </th>
-                        <th onClick={() => handleSort('hangBay')}>
+                        <th >
                             Nội Dung 
                         </th>
-                        <th onClick={() => handleSort('hangBay')}>
+                        <th >
                             Hãng Bay 
                         </th>
-                        <th onClick={() => handleSort('icaoDanhGia')}>
+                        <th >
                             Khách Hàng 
                         </th>
-                        <th onClick={() => handleSort('soHieu')}>
+                        <th >
                             Thời gian tạo 
                         </th>
                         <th>Trạng Thái</th>
@@ -111,7 +129,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                         danhGia.map(mb => (
                             <tr key={mb.idDanhGia}>
                                 <td>{mb.idDanhGia}</td>
-                                <td>{mb.sao}</td>
+                                <td>{mb.sao === null ? 'NULL' : getSao(mb.sao)}</td>
                                 <td>{mb.noiDung}</td>
                                 <td>{mb.hangBay.tenHangBay}</td>
                                 <td>{mb.khachHang.hoTen}</td>
