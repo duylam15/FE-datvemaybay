@@ -65,7 +65,7 @@ const SanBayPage = () => {
     return (
         <div className="may-bay-page">
             <h1>Danh Sách Sân Bay</h1>
-            <button onClick={() => navigate('/admin/sanbay/add')} className="btn them-button">
+            <button onClick={() => navigate('/admin/sanbay/add')} className="add-button">
                 Thêm Sân Bay
             </button>
             
