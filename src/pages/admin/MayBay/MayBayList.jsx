@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './MayBay.css'
+import './MayBay.css';
 
 const API_URL = 'http://localhost:8080';
 const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlaneByAirport, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -57,15 +57,16 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
     if (error) return <p>Error: {error}</p>;
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="menu-search">
                 <input
+                    className='input-search'
                     type="text"
                     placeholder="Tìm kiếm máy bay..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button onClick={handleSearch}>Tìm Kiếm</button>
-                <select onChange={(e) => getPlaneByAirline(e.target.value)} className='form-control'>
+                <select onChange={(e) => getPlaneByAirline(e.target.value)} className='form-search'>
                     <option value="Lọc theo hãng bay">Lọc theo hãng bay</option>
                     {hangBay.map((hb) => (
                         <option value={hb.idHangBay} key={hb.idHangBay}>
@@ -73,7 +74,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                         </option>
                     ))}
                 </select>
-                <select onChange={(e) => getPlaneByAirport(e.target.value)} className='form-control'>
+                <select onChange={(e) => getPlaneByAirport(e.target.value)} className='form-search'>
                     <option value="Lọc theo sân bay">Lọc theo sân bay</option>
                     {sanBay.map((sb) => (
                         <option value={sb.idSanBay} key={sb.idSanBay}>
@@ -106,7 +107,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                         <th>Số Lượng Ghế</th>
                         <th>Năm Sản Xuất</th>
                         <th>Trạng Thái</th>
-                        <th>Actions</th>
+                        <th className='actions'>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,7 +123,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                                 <td>{getSoLuongGhe(mb.idMayBay)}</td>
                                 <td>{mb.namSanXuat}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                                <td>
+                                <td className='actions'>
                                     <div className="button-group">
                                         <button 
                                             className="btn btn-primary"

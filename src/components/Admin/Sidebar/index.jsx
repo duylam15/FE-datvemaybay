@@ -3,6 +3,7 @@ import {
   FaBox,
   FaCriticalRole,
   FaGavel,
+  FaGrinStars,
   FaMapMarkerAlt,
   FaPlane,
   FaPlaneDeparture,
@@ -238,6 +239,19 @@ const Sidebar = () => {
               >
                 <FaGavel />
                 Chức vụ
+              </div>
+            </Link>
+            <Link
+              className={`nav-link ${location.pathname === '/admin/danhgia' ? 'active' : ''
+                }`}
+              to='/admin/danhgia'
+            >
+              <div
+                className={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
+                  }`}
+              >
+                <FaGrinStars />
+                Đánh giá
               </div>
             </Link>
           </div>

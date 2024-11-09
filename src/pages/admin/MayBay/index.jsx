@@ -29,15 +29,9 @@ const MayBayPage = () => {
     };
 
     const handleBlock = async (idMayBay) => {
-        console.log('handleBlock');
         try {
-            const updatedPlane = await blockPlane(idMayBay);
-            // Cập nhật state mayBay để thay đổi trạng thái máy bay trong giao diện
-            setMayBay((prevMayBay) =>
-                prevMayBay.map((mb) =>
-                    mb.idMayBay === idMayBay ? { ...mb, trangThaiActive: updatedPlane.trangThaiActive } : mb
-                )
-            );
+            const updatedMayBay = await blockPlane(idMayBay);  // Gọi blockReview và lấy lại danh sách đánh giá
+            setMayBay(updatedMayBay);  // Cập nhật danh sách đánh giá mới
         } catch (error) {
             console.error('Failed to block the plane!', error);
         }
@@ -82,7 +76,7 @@ const MayBayPage = () => {
 
     return (
         <div className="may-bay-page">
-            <h1>Danh Sách Máy Bay</h1>
+            <h1 className='title'>Danh Sách Máy Bay</h1>
             <button onClick={() => navigate('/admin/maybay/add')} className="btn them-button">
                 Thêm Máy Bay
             </button>

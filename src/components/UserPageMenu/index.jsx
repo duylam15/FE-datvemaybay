@@ -3,6 +3,10 @@ import "./UserPageMenu.scss";
 import HumanIcon from "./icon/HumanIcon";
 import PlaneIcon from "./icon/PlaneIcon";
 import { Link, useLocation } from "react-router-dom";
+import {
+  FaCheckCircle
+} from 'react-icons/fa';
+
 
 const UserPageMenu = () => {
   const location = useLocation(); // Get the current location
@@ -35,16 +39,20 @@ const UserPageMenu = () => {
             <div className="user-menu__item-icon">
               <PlaneIcon />
             </div>
+            <span className="user-menu__item-title">Lịch sử chuyến bay</span>
+          </div>
+        </Link>
+        <Link to="checkbooking">
+          <div
+            className={`user-menu__item ${location.pathname.includes("/my_profile/checkbooking") ? "active" : ""
+              }`}
+          >
+            <div className="user-menu__item-icon">
+            <FaCheckCircle style={{ width: "20px", height: "20px" }} />
+            </div>
             <span className="user-menu__item-title">Hoạt động gần đây</span>
           </div>
         </Link>
-
-        <div className="user-menu__item">
-          <div className="user-menu__item-icon">
-            <PlaneIcon />
-          </div>
-          <span className="user-menu__item-title">Lịch sử chuyến bay</span>
-        </div>
       </div>
     </div>
   );

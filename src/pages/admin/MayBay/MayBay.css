@@ -1,200 +1,84 @@
-/* MayBay.css */
-
-.may-bay-page {
-    width: 100%;
-}
-.may-bay-page h1 {
-    font-size: 2em;
-    font-weight: bold;
+.title {
     text-align: center;
-    margin: 20px;
+    margin: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.them-button {
-    width: 150px;
+.menu-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
+}
+
+.input-search {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.form-search {
+    margin-left: 10px;
     height: 40px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 1.25em;
-    background-color: rgb(30, 209, 30);
-    margin-bottom: 10px;
-}
-/* Các phần tử khác trong trang nếu cần điều chỉnh */
-.search-sort-controls {
-    height: 30px;
-    width: 100%;
-    margin: auto;
-    border: 1px solid #0000;
-    display: flex;             /* Sử dụng Flexbox */
-    align-items: center;        /* Căn giữa theo chiều dọc */
-    gap: 10px; 
-    margin-bottom: 20px;         
-}
-.search-sort-controls input {
-    flex: 1;                      /* Input chiếm khoảng trống còn lại */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 30px;
-    border-radius: 5px;
-    padding: 5px;
-    color: rgb(114, 117, 117);
+    border-radius: 10px;
 }
 
-.search-sort-controls button {
-    margin-right: 50px;           /* Khoảng cách giữa button và select */
-    border-radius: 5px ;
-    background-color: rgb(229, 37, 37);
-    height: 30px;
-    padding: 5px;
-    text-align: center;
-    color: #ffff;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.search-sort-controls select {
-    width: 250px;                 /* Chiều rộng cố định cho select */
-    height: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    border-radius: 5px;
-}
-table {
-    width: 100%;              /* Chiếm toàn bộ chiều rộng của container */
-    border-collapse: collapse; /* Gộp các đường viền */
-    table-layout: fixed;       /* Cố định bố cục bảng, giúp các cột đều nhau */
-}
-
-th, td {
-    word-wrap: break-word; /* Bật chế độ xuống dòng */
-    white-space: normal; /* Cho phép xuống dòng nếu cần */
-    overflow-wrap: anywhere; /* Đảm bảo xuống dòng ngay khi quá dài */
-    padding: 8px 5px;        /* Thêm khoảng đệm cho nội dung ô */
-    text-align: left;         /* Căn trái nội dung */
-    border: 1px solid #ddd;   /* Đường viền cho từng ô */
-}
-
-
-thead th {
-    background-color: #17095f; /* Nền cho tiêu đề */
-    font-weight: bold;
-    width: auto;              /* Đảm bảo chiều rộng tự động mở rộng */
-    color: #ffff;
-    height: 30px;
-}
-
-thead th, tbody td {
-    border: 1px solid #ddd; /* Đường viền cho từng ô */
-    padding: 3px;
-    text-align: center;
-    overflow: hidden; /* Ẩn nội dung tràn */
-    text-overflow: ellipsis; /* Thêm dấu "..." nếu nội dung quá dài */
-}
-
-thead th:first-child {
-    width: 45px; /* Đặt chiều rộng cột đầu tiên */
-}
-
-tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Nền cho các hàng chẵn */
-}
-
-
-tbody tr:hover {
-    background-color: #e0e0e0; /* Đổi nền khi hover */
-}
-.table td button {
-    width: 100%;           /* Đảm bảo nút co giãn theo kích thước của ô */
-    max-width: 100px;      /* Giới hạn chiều rộng tối đa */
-    margin-bottom: 4px;    /* Khoảng cách giữa các nút nếu có */
-}
-.button-group {
-    display: flex;           /* Đặt các nút nằm theo hàng */
-    gap: 10px;               /* Khoảng cách giữa các nút */
-    justify-content: center; /* Canh giữa nội dung trong ô */
-    align-items: center;     /* Căn giữa theo chiều dọc */
-}
-
-.button-group button {
-    flex: 1;                 /* Đảm bảo các nút chia đều không gian nếu cần */
-    padding: 5px 10px;       /* Giảm kích thước padding */
-    font-size: 14px;         /* Điều chỉnh kích thước chữ */
-    max-width: 80px;         /* Giới hạn chiều rộng nút */
-}
-.btn {
-    border: 1px solid rgb(60, 60, 59);
-}
-.btn-primary {
-    background-color: #20ba3c;
-}
-.btn-block {
-    background-color: #d3290f;
-}
-.form-group {
-    display: flex;               /* Dùng Flexbox để căn ngang */
-    align-items: center;         /* Căn giữa theo trục dọc */
-    margin-bottom: 15px;         /* Khoảng cách giữa các nhóm */
-    width: 100%;
-    border: 1px solid #0000;
-}
-
-.form-group label {
-    width: 20%;                  /* Đặt độ rộng cho label */
-    margin-right: 10px;          /* Khoảng cách giữa label và input */
-    font-weight: bold;
-}
-
-.form-control {
-    width: 80%;                  /* Input/Select chiếm phần còn lại */
-    padding: 8px;
-    font-size: 16px;
-    box-sizing: border-box;      /* Đảm bảo padding không làm vỡ layout */
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-add-plane {
-    width: 100%;                 /* Form chiếm toàn bộ chiều ngang */
-    max-width: 1100px;            /* Đặt giới hạn chiều rộng */
-    margin: 0 auto;              /* Căn giữa form */
-    padding: 20px;
+.form-time {
     display: flex;
     flex-direction: column;
+    margin-left: 5px;
 }
 
-.form-add-plane .btn-primary {
-    width: 150px;
-    height: 50px;
-    text-align: center;
-    border-radius: 5px;
-    font-weight: bolder;
-    color: #ffff;
-    font-size: 1.15em;
+input[type="localdate"] {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
 }
 
-.form-add-plane h2 {
-    font-size: 1.5em;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-.btn-container {
+.search-by-create-time {
     display: flex;
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    margin-top: 20px; /* Khoảng cách giữa nút và các phần tử trên */
+    justify-content: space-between;
+    margin-left: 10px;
 }
-.container .btn-primary {
-    width: 150px;
+
+.search-by-create-time .form-time {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    flex: 1;
+}
+
+label {
+    margin-bottom: 5px;
+}
+.btn-create-time {
     height: 50px;
-    text-align: center;
-    border-radius: 5px;
-    font-weight: bolder;
-    color: #ffff;
-    font-size: 1.15em;
+    width: 100px;
+    margin-left: 10px;
 }
-.container h2 {
-    font-size: 1.5em;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 20px;
+.actions {
+    width: 150px;
+}
+.them-button {
+    margin-left: 10px;
 }

@@ -56,15 +56,16 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
     if (error) return <p>Error: {error}</p>;
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="menu-search">
                 <input
+                    className='input-search'
                     type="text"
                     placeholder="Tìm kiếm sân bay..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button onClick={handleSearch}>Tìm Kiếm</button>
-                <select onChange={(e) => getAirportByCity(e.target.value)} className='form-control'>
+                <select onChange={(e) => getAirportByCity(e.target.value)} className='form-search'>
                     <option value="Lọc theo thành phố">Lọc theo thành phố</option>
                     {thanhPho.map((tp) => (
                         <option value={tp.idThanhPho} key={tp.idThanhPho}>
@@ -72,7 +73,7 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                         </option>
                     ))}
                 </select>
-                <select onChange={(e) => getAirportByNation(e.target.value)} className='form-control'>
+                <select onChange={(e) => getAirportByNation(e.target.value)} className='form-search'>
                     <option value="Lọc theo quốc gia">Lọc theo quốc gia</option>
                     {quocgia.map((qg) => (
                         <option value={qg.idQuocGia} key={qg.idQuocGia}>

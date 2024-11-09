@@ -42,14 +42,14 @@ export const editAirport = (navigate, idSanBay) => {
 };
 
 export const blockAirport = async (idSanBay) => {
-    console.log('blockAirport');
     try {
-        const response = await axios.put(`${API_URL}/admin/sanbay/blockAirport/${idSanBay}`);
-        console.log(`Blocked Airport with ID: ${idSanBay}`, response.data);
-        return response.data; // Trả về dữ liệu sau khi block
+        const response1 = await axios.put(`${API_URL}/admin/sanbay/blockAirport/${idSanBay}`);
+        console.log('Block airport:', response1.data);
+        const response2 = await fetch(`${API_URL}/admin/sanbay/getAllAirport`);
+        const data = await response2.json();
+        return data.data;
     } catch (error) {
-        console.error('There was an error blocking the Airport!', error);
-        throw error; // Ném lỗi nếu có vấn đề
+        console.error('Error fetching block airport:', error);
     }
 };
 

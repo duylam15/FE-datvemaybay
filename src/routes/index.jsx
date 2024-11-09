@@ -63,6 +63,7 @@ import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 import AddVe from '../pages/Admin/Ve/AddVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
+import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -102,15 +103,11 @@ export const router = createBrowserRouter([
 
   {
     path: '/login',
-    element: <Login />, // Route login, hiển thị Login
+    element: <Login />, 
   },
   {
     path: '/register',
-    element: <Register />, // Route register, hiển thị Register
-  },
-  {
-    path: '/quanlidatve',
-    element: <CheckBookingPage />,
+    element: <Register />, 
   },
   {
     path: '/my_profile',
@@ -125,6 +122,7 @@ export const router = createBrowserRouter([
         element: <InfoAccount></InfoAccount>,
       },
       { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
+      { path: 'checkbooking', element: <CheckBookingPage />}
     ],
   },
   {
@@ -137,11 +135,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <LayoutAdmin />, // Route layout admin
-    errorElement: <Error />, // Trang lỗi khi không tìm thấy đường dẫn
+    element: <LayoutAdmin />,
+    errorElement: <Error />,
     children: [
-      { index: true, element: <Dashboard /> }, // Route mặc định khi vào "/admin"
-      { path: 'dashboard', element: <Dashboard /> }, // Route con của admin
+      { index: true, element: <Dashboard /> }, 
+      { path: 'dashboard', element: <Dashboard /> }, 
 
       // Thêm route cấp 2: "/admin/quanlinhanvien"
       {
@@ -200,19 +198,17 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'maybay',
-        element: <MayBayPage />,
-        // children: [
-        // 	{ path: "edit/:idMayBay", element: <MayBayEdit/> },
-        // 	{ path: "add", element: <AddMayBayForm/> },
-        // ]
-      },
+      // maybay
+      { path: 'maybay',element: <MayBayPage />,},
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
+      // sanbay
       { path: 'sanbay', element: <SanBayPage /> },
       { path: 'sanbay/add', element: <ThemSanBay /> },
       { path: 'sanbay/edit/:idSanBay', element: <SanBayEdit /> },
+      // danhgia
+      { path: 'danhgia', element: <DanhGiaPage/>},
+      // khachhang
       { path: 'customers', element: <KhachHangPage /> },
       { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
       { path: 'customer/add', element: <ThemKhachHang /> },

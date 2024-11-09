@@ -346,7 +346,7 @@ const Navbar = () => {
 											{quyen === "admin" && (
 												<div onClick={() => navigate('/admin')} className="navbar__dropdown-item">Quản lí Admin</div>
 											)}
-											<div onClick={() => navigate('/quanlidatve')} className='navbar__dropdown-item'>Kiểm tra vé</div>
+										
 											<div onClick={handleLogout} className="navbar__dropdown-item">Đăng xuất</div>
 										</div>
 									)}
