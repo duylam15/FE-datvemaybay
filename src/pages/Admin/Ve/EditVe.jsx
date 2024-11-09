@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './editVe.scss';
 import { Select } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Input, Tooltip} from 'antd';
+import { Input } from 'antd';
 import { GradientButton, GradientButtonBack, GradientButtonCancel } from '../../../components/Admin/GradientButton';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAllStatusVe, getChiTietVeTheoId } from '../../../services/veService';
+import { getAllStatusVe, getChiTietVeTheoId, editVe } from '../../../services/veService';
+import { message } from 'antd'; // Import Ant Design message component for notifications
+import InfoHanhKhach from './Components/InfoHanhKhach';
+import InfoHanhKhachInput from './Components/InfoHanhKhachInput';
+const { Option } = Select;
+
 
 const EditVe = () => {
     const { idVe } = useParams();
@@ -21,6 +26,7 @@ const EditVe = () => {
             email: "",
             hoChieu: ""
         },
+        idVe: '',
         nameDepartCity: '',
         departureCity: '',
         nameArriveCity: '',
@@ -40,14 +46,13 @@ const EditVe = () => {
         maVe: '',
         idChoNgoi: '',
         trangThai: '',
+        trangThaiActive: ''
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("1234abc")
                 const dataVeResponse = await getChiTietVeTheoId(idVe);
-                console.log("data Ve: ", dataVeResponse)
                 transformData(dataVeResponse.data)
             } catch (e) {
                 console.error("Error fetching data:", error);
@@ -60,7 +65,6 @@ const EditVe = () => {
         const fetchStatuses = async () => {
             try {
                 const dataResponse = await getAllStatusVe()
-                console.log("data status ve: ", dataResponse)
                 setStatuses(dataResponse.data)
             } catch (e) {
                 console.error("Error fetching data status ve", error);
@@ -73,14 +77,15 @@ const EditVe = () => {
     const transformData = (data) => {
         setDataVePrint({
             hanhKhach: {
-                hoTen: data.hanhKhach.hoTen,
-                CCCD: data.hanhKhach.cccd,
-                email: data.hanhKhach.email,
-                SDT: data.hanhKhach.soDienThoai,
-                ngaySinh: data.hanhKhach.ngaySinh,
-                hoChieu: data.hanhKhach.hoChieu,
-                gioiTinh: data.hanhKhach.gioiTinhEnum
+                hoTen: data?.hanhKhach?.hoTen,
+                CCCD: data?.hanhKhach?.cccd,
+                email: data?.hanhKhach?.email,
+                SDT: data?.hanhKhach?.soDienThoai,
+                ngaySinh: data?.hanhKhach?.ngaySinh,
+                hoChieu: data?.hanhKhach?.hoChieu,
+                gioiTinh: data?.hanhKhach?.gioiTinhEnum
             },
+            idVe: data.idVe,
             nameDepartCity: data.chuyenBay.tuyenBay.sanBayBatDau.thanhPho.tenThanhPho,
             departureCity: data.chuyenBay.tuyenBay.sanBayBatDau.iataSanBay,
             nameArriveCity: data.chuyenBay.tuyenBay.sanBayKetThuc.thanhPho.tenThanhPho,
@@ -99,7 +104,8 @@ const EditVe = () => {
             giaVe: data.giaVe,
             maVe: data.maVe,
             maChoNgoi: data.choNgoi.columnIndex + data.choNgoi.rowIndex,
-            trangThai: data.trangThai
+            trangThai: data.trangThai,
+            trangThaiActive: data.trangThaiActive
         });
     };
 
@@ -108,7 +114,12 @@ const EditVe = () => {
             ...prevData,
             trangThai: value
         }))
-        console.log(`Selected: ${value}`);
+    };
+    const handleChangeSelectBox_2 = (value) => { // trang thai active or in_active
+        setDataVePrint((prevData) => ({
+            ...prevData,
+            trangThaiActive: value
+        }))
     };
 
     const handlePriceChange = (e) => {
@@ -118,11 +129,19 @@ const EditVe = () => {
             giaVe: price ? parseInt(price, 10) : 0, // Convert to integer or set to 0 if empty
         }));
     };
-    
+
+
+    const handleUpdateData = (updatedData) => {
+        console.log("Updated Data received from child:", updatedData);
+        setDataVePrint((prevData) => ({
+            ...prevData,
+            hanhKhach: updatedData || {} 
+        }));
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target; // Get the name and value from the input element
-    
+
         setDataVePrint((prevData) => ({
             ...prevData,
             hanhKhach: {
@@ -131,7 +150,7 @@ const EditVe = () => {
             },
         }));
     };
-    
+
     const handleBack = () => {
         navigate('/admin/ve');
     };
@@ -151,37 +170,76 @@ const EditVe = () => {
         return `${hours}h${remainingMinutes}m`;
     }
 
-    console.log("het cai nay di ngu: ", dataVePrint.trangThai)
+
+
+    const handleEdit = async () => {
+        if (dataVePrint.hanhKhach.hoTen.length < 2 || dataVePrint.hanhKhach.hoTen.length > 100) {
+            message.error('Tên hành khách phải có độ dài từ 2 đến 100 kí tự')
+            return
+        }
+        if (!dataVePrint.hanhKhach.email || !/\S+@\S+\.\S+/.test(dataVePrint.hanhKhach.email)) {
+            message.error('Email không hợp lệ');
+            return;
+        }
+        if (!dataVePrint.hanhKhach.SDT || !/^\d{10,11}$/.test(dataVePrint.hanhKhach.SDT)) {
+            message.error('Số điện thoại không hợp lệ');
+            return;
+        }
+        try {
+            // Lấy dữ liệu từ dataVePrint để gửi lên server
+            const data = {
+                idVe: dataVePrint.idVe,
+                giaVe: dataVePrint.giaVe,
+                trangThai: dataVePrint.trangThai,
+                tenHanhKhach: dataVePrint.hanhKhach.hoTen,
+                trangThaiActive: dataVePrint.trangThaiActive
+            };
+            console.log("data to Edit: ", data)
+            // Gọi API EditVe để cập nhật thông tin
+            const response = await editVe(idVe, data);
+            console.log("KEteq qua edit: ", response);
+            // Kiểm tra kết quả trả về từ API
+            if (response.statusCode === 200) {
+                message.success('Cập nhật vé thành công'); // Hiển thị thông báo thành công
+                // navigate('/admin/ve'); // Điều hướng về trang quản lý vé
+            } else {
+                message.error('Cập nhật vé thất bại'); // Hiển thị thông báo lỗi nếu không thành công
+            }
+        } catch (error) {
+            console.error("Error updating ve:", error);
+            message.error('Có lỗi xảy ra khi cập nhật vé'); // Hiển thị thông báo lỗi
+        }
+    };
+    console.log("data ve thay doi: ", dataVePrint)
 
     return (
         <div className='page_edit_ve'>
             <p className='titleBIG'>Thông tin chi tiết vé</p>
             <div className='infoHanhKhach_XuatVe'>
-                <p className='title_'>Thông tin hành khách</p>
-                <div className="content">
-                    <div className='content_hanhKhach'>
-                        <div className="row_input">
-                            <div className='label'>Họ tên: </div>
-                            <div className='w-260px'>
-                                <Input
-                                    placeholder="Nhập tên hành khách"
-                                    name="hoTen"
-                                    prefix={<UserOutlined />}
-                                    value={dataVePrint.hanhKhach.hoTen} 
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-                        </div>
-                        <p><span className='label'>Ngày sinh: </span>{dataVePrint.hanhKhach.ngaySinh}</p>
-                        <p><span className='label'>Giới tính: </span>{dataVePrint.hanhKhach.gioiTinh}</p>
-                        <p><span className='label'>CCCD: </span>{dataVePrint.hanhKhach.CCCD}</p>
-                    </div>
-                    <div className='content_hanhKhach'>
-                        <p><span className='label'>SĐT: </span>{dataVePrint.hanhKhach.SDT}</p>
-                        <p><span className='label'>Email: </span>{dataVePrint.hanhKhach.email}</p>
-                        <p><span className='label'>Hộ chiếu: </span>{dataVePrint.hanhKhach.hoChieu}</p>
-                    </div>
-                </div>
+                {dataVePrint.trangThai === "EMPTY" ? (
+                    <InfoHanhKhachInput
+                        hoTen={dataVePrint.hanhKhach.hoTen}
+                        handleInputChange={handleInputChange}
+                        ngaySinh={dataVePrint.hanhKhach.ngaySinh}
+                        gioiTinh={dataVePrint.hanhKhach.gioiTinh}
+                        CCCD={dataVePrint.hanhKhach.CCCD}
+                        SDT={dataVePrint.hanhKhach.SDT}
+                        email={dataVePrint.hanhKhach.email}
+                        hoChieu={dataVePrint.hanhKhach.hoChieu}
+                    />
+                ) : (
+                    <InfoHanhKhach
+                        hoTen={dataVePrint.hanhKhach.hoTen}
+                        handleInputChange={handleInputChange}
+                        ngaySinh={dataVePrint.hanhKhach.ngaySinh}
+                        gioiTinh={dataVePrint.hanhKhach.gioiTinh}
+                        CCCD={dataVePrint.hanhKhach.CCCD}
+                        SDT={dataVePrint.hanhKhach.SDT}
+                        email={dataVePrint.hanhKhach.email}
+                        hoChieu={dataVePrint.hanhKhach.hoChieu}
+                    />
+                )}
+
             </div>
             <div className="seperate"></div>
             <div className="content">
@@ -195,25 +253,36 @@ const EditVe = () => {
                     </div>
                     <div>
                         <p className='pb_10'><span className='label'>Giá tiền: </span></p>
-                        <Input 
-                        prefix="đ" 
-                        suffix="VND" 
-                        value={dataVePrint.giaVe} 
-                        onChange={handlePriceChange} // Handle price changes
-                    />
+                        <Input
+                            prefix="đ"
+                            suffix="VND"
+                            value={dataVePrint.giaVe}
+                            onChange={handlePriceChange} // Handle price changes
+                        />
                     </div>
-                   <div>
-                    <p className='pb_10'><span className='label'>Trạng thái: </span></p>
-                    <Select
-                        value={dataVePrint.trangThai} // Set the value of the Select
-                        style={{ width: 200 }}
-                        onChange={handleChangeSelectBox}
-                    >
-                        {statuses.map((e) => (
-                            <Option key={e} value={e}>{e}</Option>
-                        ))}
-                    </Select>
-                   </div>
+                    <div>
+                        <p className='pb_10'><span className='label'>Trạng thái: </span></p>
+                        <Select
+                            value={dataVePrint.trangThai} // Set the value of the Select
+                            style={{ width: 200 }}
+                            onChange={handleChangeSelectBox}
+                        >
+                            {statuses.map((e, index) => (
+                                <Option key={index} value={e}>{e}</Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div>
+                        <p className='pb_10'><span className='label'>Trạng thái: </span></p>
+                        <Select
+                            value={dataVePrint.trangThaiActive} // Set the value of the Select
+                            style={{ width: 200 }}
+                            onChange={handleChangeSelectBox_2}
+                        >
+                            <Option value="ACTIVE">Hoạt động</Option>
+                            <Option value="IN_ACTIVE">Không hoạt động</Option>
+                        </Select>
+                    </div>
                 </div>
                 <table className="table">
                     <thead>
@@ -254,7 +323,7 @@ const EditVe = () => {
                 <div className='row_last '>
                     <div onClick={handleBack}> <GradientButtonBack /> </div>
                     <div className="btn_row_last">
-                        <div> <GradientButton /> </div> {/* Save Button */}
+                        <div onClick={handleEdit}> <GradientButton /> </div> {/* Save Button */}
                     </div>
                 </div>
             </div>
