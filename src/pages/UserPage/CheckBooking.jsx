@@ -36,7 +36,7 @@
 //           if (profile) {
 //               // Fetch hóa đơn
 //               const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
-      
+
 //               if (responseHD.status === 204 || !responseHD.data?.data) {  
 //                   setHD([]);
 //                   setCTHD([]);
@@ -44,17 +44,17 @@
 //                   const hoaDonList = responseHD.data.data;
 //                   setHD(hoaDonList);
 //                   console.log("List hoa don: ", hoaDonList);
-      
+
 //                   if (hoaDonList.length > 0) {
 //                       const promises = hoaDonList.map(async (hoaDon) => {
 //                           const responseCTHD = await axios.get(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
-                          
+
 //                           if (!responseCTHD.data || !responseCTHD.data.data) {  
 //                               return [];
 //                           }
 //                           return responseCTHD.data.data; // Lấy `data.data` nếu có
 //                       });
-      
+
 //                       const allCTHD = await Promise.all(promises);
 //                       console.log("Raw allCTHD data: ", allCTHD);
 //                       setCTHD(allCTHD.flat());
@@ -67,7 +67,7 @@
 //           } finally {
 //               setLoading(false);
 //           }
-      
+
 //     };
 
 //     fetchData();
@@ -134,14 +134,15 @@ const CheckBookingPage = () => {
   const [error, setError] = useState(null);
   const { profile, loading: loadingProfile, error: errorProfile } = useFetchProfile();
   const accountData = profile?.data;
-
+  console.log("accountData", accountData?.idTaiKhoan)
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         if (profile) {
           // Fetch hóa đơn
-          const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
+          console.log("idTaiKhoanidTaiKhoan",accountData)
+          const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.idTaiKhoan}`);
 
           if (responseHD.status === 204 || !responseHD.data?.data) {
             setHD([]);
@@ -154,7 +155,7 @@ const CheckBookingPage = () => {
             if (hoaDonList.length > 0) {
               const promises = hoaDonList.map(async (hoaDon) => {
                 const responseCTHD = await axios.get(`${API_URL}/getListChiTietHoaDon/${hoaDon.idHoaDon}`);
-                
+
                 if (!responseCTHD.data || !responseCTHD.data.data) {
                   return [];
                 }
