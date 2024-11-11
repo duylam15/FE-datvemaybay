@@ -240,6 +240,19 @@ const Sidebar = () => {
                 Chức vụ
               </div>
             </Link>
+            <Link
+              className={`nav-link ${location.pathname === '/admin/xemchuyenbay' ? 'active' : ''
+                }`}
+              to='/admin/xemchuyenbay'
+            >
+              <div
+                className={`nav-item row ${location.pathname === '/admin/xemchuyenbay' ? 'active' : ''
+                  }`}
+              >
+                <FaGavel />
+                Xem chuyến bay
+              </div>
+            </Link>
           </div>
         </div>
       </nav>

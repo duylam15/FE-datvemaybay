@@ -60,6 +60,7 @@ import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
 // import EditVe from '../pages/Admin/Ve/EditVe';
+import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 
@@ -243,6 +244,11 @@ export const router = createBrowserRouter([
             element: <AddChuyenBay />,
           },
         ],
+      },
+
+      {
+        path: 'xemchuyenbay',
+        element: <XemChuyenBay />,
       },
 
       //TuyenBay

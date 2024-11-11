@@ -162,6 +162,8 @@ export const AddChuyenBay = () => {
       trangThaiMoi = e.target.value;
     if (trangThaiMoi != "" && trangThaiCu != "IN_FLIGHT")
       setTrangThai(trangThaiMoi);
+    else if (trangThaiMoi == "COMPLETED" && trangThaiCu == "IN_FLIGHT")
+      setTrangThai(trangThaiMoi);
     else {
       setThongBao({ message: "Không thể đổi trạng thái", typeMessage: "inpage" });
       setTypeDisplay("block");
