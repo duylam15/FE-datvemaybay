@@ -1,17 +1,32 @@
 import React from 'react';
 import axios from 'axios';
-
+import EditBtn from "../../components/Admin/ColorButtons/EditBtn";
+import SearchBtn from "../../components/Admin/ColorButtons/SearchBtn";
 const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="search-sort-controlss" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '30px',
+                paddingBottom: '30px',
+                paddingTop: '30px'
+            }}>
                 <input
                     type="text"
                     placeholder="Tìm kiếm khách hàng..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{
+                        width: '500px',
+                        borderRadius: '4px',
+                        padding: '5px 10px',
+                        outline: 'none',
+                        height: '38px',
+                        border: '1px solid #858383'
+                    }}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <div onClick={handleSearch}><SearchBtn></SearchBtn></div>
             </div>
             <table className="table table-striped">
                 <thead className="thead-dark">
@@ -30,7 +45,7 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                             Số Điện Thoại {sortField === 'soDienThoai' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th onClick={() => handleSort('point')}>
-                            Điểm {sortField === 'point' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                            Số lần mua {sortField === 'point' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th>Giới Tính</th>
                         <th>Trạng Thái</th>
@@ -65,7 +80,7 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                             <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
                             <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                             <td>
-                                <button className="btn btn-primary mr-2" onClick={() => onEdit(kh.idKhachHang)}>Edit</button>
+                                <div onClick={() => onEdit(kh.idKhachHang)}><EditBtn></EditBtn></div>
                             </td>
                         </tr>
                     ))}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useFetchKhachHang } from '../../../utils/useFetchKhachHang.jsx';
 import KhachHangList from '../../../components/KhachHangList/KhachHangList.jsx';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import { handleSort, searchCustomers, editCustomer, blockCustomer } from '../../../services/customersServices.js';
 import axios from 'axios';
-
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
 const KhachHangPage = () => {
     const { khachHang: initialKhachHang, loading, error } = useFetchKhachHang();
     const [searchTerm, setSearchTerm] = useState('');
@@ -39,10 +39,9 @@ const KhachHangPage = () => {
 
     return (
         <div className="khach-hang-page">
-            <h1>Danh Sách Khách Hàng</h1>
-            <button onClick={() => navigate('/admin/customer/add')} className="btn btn-success mb-3">
-                Thêm Khách Hàng
-            </button>
+            <div onClick={() => navigate('/admin/customer/add')}>
+            <IconLabelButtons></IconLabelButtons>
+            </div>
             <KhachHangList 
                 khachHang={khachHang} 
                 onEdit={handleEdit} 
