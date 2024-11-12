@@ -55,8 +55,7 @@ const QuyenThem = () => {
             [tenChucNang]: {
                 view: true,
                 create: true,
-                edit: true,
-                delete: true
+                edit: true
             }
         }));
     };
@@ -67,8 +66,7 @@ const QuyenThem = () => {
             [tenChucNang]: {
                 view: false,
                 create: false,
-                edit: false,
-                delete: false
+                edit: false
             }
         }));
     };
@@ -80,7 +78,7 @@ const QuyenThem = () => {
 
     const handleCancel = () => {
         const resetPermissions = Object.keys(permissions).reduce((acc, key) => {
-            acc[key] = { view: false, create: false, edit: false, delete: false };
+            acc[key] = { view: false, create: false, edit: false };
             return acc;
         }, {});
         setPermissions(resetPermissions);
@@ -100,7 +98,6 @@ const QuyenThem = () => {
                 if (value.create) actions.push({ idChucNang: chucNang.find(c => c.tenChucNang === key)?.idChucNang, hanhDong: 'CREATE' });
                 if (value.edit) actions.push({ idChucNang: chucNang.find(c => c.tenChucNang === key)?.idChucNang, hanhDong: 'EDIT' });
                 if (value.view) actions.push({ idChucNang: chucNang.find(c => c.tenChucNang === key)?.idChucNang, hanhDong: 'VIEW' });
-                if (value.delete) actions.push({ idChucNang: chucNang.find(c => c.tenChucNang === key)?.idChucNang, hanhDong: 'DELETE' });
                 return actions; // Return the actions for the current permission
             });
     
@@ -143,7 +140,6 @@ const QuyenThem = () => {
                         <td>Xem</td>
                         <td>Tạo mới</td>
                         <td>Sửa</td>
-                        <td>Xoá</td>
                         <td>Hành động</td>
                     </tr>
                 </thead>
@@ -170,13 +166,6 @@ const QuyenThem = () => {
                                     type='checkbox'
                                     checked={permissions[item.tenChucNang]?.edit || false}
                                     onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.delete || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'delete')}
                                 />
                             </td>
                             <td>

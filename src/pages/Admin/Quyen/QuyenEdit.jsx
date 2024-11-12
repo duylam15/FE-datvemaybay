@@ -75,8 +75,7 @@ const QuyenEdit = () => {
             [tenChucNang]: {
                 view: true,
                 create: true,
-                edit: true,
-                delete: true
+                edit: true
             }
         }));
     };
@@ -87,8 +86,7 @@ const QuyenEdit = () => {
             [tenChucNang]: {
                 view: false,
                 create: false,
-                edit: false,
-                delete: false
+                edit: false
             }
         }));
     };
@@ -158,7 +156,6 @@ const QuyenEdit = () => {
                         <td>Xem</td>
                         <td>Tạo mới</td>
                         <td>Sửa</td>
-                        <td>Xoá</td>
                         <td>Hành động</td>
                     </tr>
                 </thead>
@@ -187,13 +184,7 @@ const QuyenEdit = () => {
                                     onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
                                 />
                             </td>
-                            <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.delete || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'delete')}
-                                />
-                            </td>
+                            
                             <td>
                                 <div className="btn_row">
                                     <div onClick={() => selectAllRow(item.tenChucNang)}>
