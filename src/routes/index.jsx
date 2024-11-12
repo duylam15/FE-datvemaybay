@@ -64,6 +64,7 @@ import LichSuBay from '../pages/UserPage/LichSuBay';
 import AddVe from '../pages/Admin/Ve/AddVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
 import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
+import DanhGia from '../components/DanhGia.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -104,6 +105,10 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />, 
+  },
+  {
+    path: '/cmt',
+    element: <DanhGia />, 
   },
   {
     path: '/register',
