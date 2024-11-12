@@ -61,7 +61,7 @@ const GradientButtonCancel = () => {
       }}
     >
       <Space>
-        <Button size='large'>Hủy</Button>
+        <Button size='large'>Reset</Button>
       </Space>
     </ConfigProvider>
   );

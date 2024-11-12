@@ -29,7 +29,7 @@ const VeList = ({
                         <th>Loại vé</th>
                         <th>Ngày bay</th>
                         <th>Trạng thái</th>
-                        <th colSpan={2}>Actions</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,9 +54,9 @@ const VeList = ({
                                 <td>
                                     <div className="btn_block" onClick={() => onEdit(v.idVe)}><EditBtn></EditBtn></div>
                                 </td>
-                                <td>
+                                {/* <td>
                                     <div className="btn_block"><DeleteBtn></DeleteBtn></div>
-                                </td>
+                                </td> */}
                             </tr>
                         ))
                     )}
