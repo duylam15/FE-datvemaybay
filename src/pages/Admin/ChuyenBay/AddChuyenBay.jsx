@@ -29,6 +29,7 @@ export const AddChuyenBay = () => {
   const [trangThai, setTrangThai] = useState(idChuyenBay ? "0" : "SCHEDULED");
   const [trangThaiActive, setTrangThaiActive] = useState("ACTIVE");
   const [soGhe, setSoGhe] = useState(0);
+  const [nvhk, setNvhk] = useState("");
 
   const [chuyenBays, setChuyenBays] = useState([]);
   let [tuyenBays, setTuyenBays] = useState([]);
@@ -270,6 +271,7 @@ export const AddChuyenBay = () => {
       setTrangThaiCu(data.trangThai);
       setTrangThai(data.trangThai);
       setTrangThaiActive(data.trangThaiActive);
+      setNvhk(data.nvhk);
       setfour(!four);
     }
     fetchData();
@@ -543,10 +545,12 @@ export const AddChuyenBay = () => {
     setCountTiepVien(countTiepVien - 1);
 
     danhSachTiepVien.splice(index, 1);
+
     setDanhSachTiepVien([...danhSachTiepVien]);
   }
 
   useEffect(() => {
+    console.log("danh sach tiep vien : " + danhSachTiepVien.join('-'));
     setDataTiepVienMoi(danhSachTiepVien?.map((item) => tiepViens?.find((item1) => item == item1?.idNhanVien)));
   }, [danhSachTiepVien])
 
@@ -612,7 +616,9 @@ export const AddChuyenBay = () => {
 
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+
+    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-');
+    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk };
 
     addChuyenbay(dataChuyenBay)
       .then((response) => {
@@ -655,7 +661,7 @@ export const AddChuyenBay = () => {
       .catch(error => {
         const errorData = error.response.data.data;
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
+        setThongBao({ message: error.response.data?.message, typeMessage: "inpage" });
         // console.log(error.response.data.message)
       })
   }
@@ -704,7 +710,8 @@ export const AddChuyenBay = () => {
 
       delete tuyenBay.sanBayBatDau;
       delete tuyenBay.sanBayKetThuc;
-      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+      const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
+      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk };
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
           if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
@@ -739,7 +746,8 @@ export const AddChuyenBay = () => {
 
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
+    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
         if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
