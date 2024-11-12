@@ -160,7 +160,7 @@ const RouteTable = () => {
     <div>
       <div className='button-container'>
         <Link to='add' className='add-btn'>
-          <FaPlus />
+          <FaPlus /> Thêm
         </Link>
       </div>
       <Table

@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 
 const Actions = ({ onDelete, editLink }) => {
   return (
-    <div>
+    <div className='container-action'>
       <Link to={editLink} className='edit-btn'>
         <FaEdit />
       </Link>
-      <button className='delete-btn' onClick={onDelete}>
+      <span className='delete-btn' onClick={onDelete}>
         <FaTrashAlt />
-      </button>
+      </span>
     </div>
   );
 };

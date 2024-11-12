@@ -175,13 +175,13 @@ const MerchandiseTable = () => {
         <div className='search-sort-controls'>
           <input
             type='text'
-            placeholder='Search...'
+            placeholder='Nhập tên hàng hoá'
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
         <Link to='add' className='add-btn'>
-          <FaPlus />
+          <FaPlus /> Thêm
         </Link>
       </div>
       {loading ? (
