@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getHoaDon } from '../../../services/hoaDonService';
+
+import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterIcon from '@mui/icons-material/Search';
+import DetailBtn from '../../../components/Admin/ColorButtons/DetailBtn';
+
 const HoaDonList = ({
     hoaDon,          // Danh sách các phương thức thanh toán
     onEdit,   
@@ -40,14 +48,26 @@ const HoaDonList = ({
 
     return (
         <div className='hoa-don-controls'>
-            <div className="search-sort-controls">
+            <div className="search-sort-controlss">
                 <input
-                    type="text"
-                    placeholder="Tìm kiếm hóa đơn..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                className="input_search"
+                type="text"
+                placeholder="Tìm kiếm hóa đơn..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearch}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
             </div>
             <div className="filter-controls">
                 <label htmlFor="hoadon-filter-field">Lọc theo:</label>
@@ -56,7 +76,7 @@ const HoaDonList = ({
                     console.log("Filter type selected: ", e.target.value);
                     handleComboBoxValues(e.target.value);}} 
                 >
-                    <option value="0">Chọn trường</option>
+                    <option value="0">Tất cả</option>
                     <option value="nhanVien">Nhân viên</option>
                     <option value="khachHang">Khách hàng</option>
                     <option value="phuongThucThanhToan">Phương thức thanh toán</option>
@@ -64,20 +84,28 @@ const HoaDonList = ({
                 </select>
 
                 <label htmlFor="hoadon-filter-value">Giá trị:</label>
-                <select onChange={(e) => setSelectedValue(e.target.value)} className='filter-value' id='hoadon-filter-value'>
-                <option value="">Chọn giá trị</option>
+                <select onChange={(e) => {setSelectedValue(e.target.value)}} className='filter-value' id='hoadon-filter-value'> 
+                <option value={0}>Tất cả</option>
                     {comboBoxValues.length>0 ? comboBoxValues.map(item => (
                         <option key={item.id} value={item.id}>{item.ten}</option>
-                    )) : <option value="0">0</option>}
+                    )) : ""}
                 </select>
-                <button className='btn-primary' onClick={() => {
-                    handleFilter(filterType, selectedValue)
-                    }}
-                    >Lọc</button>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<FilterIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={() => {handleFilter(filterType, selectedValue)}}
+                    >
+                        Lọc
+                    </Button>
+                </Stack>
             </div>
              
-            <table className="table table-hover table-bordered pad-x">
-                <thead>
+            <table className="table">
+                <thead className="thead-dark">
                     <tr className='align-bottom'>
                         <th scope="col" className='align-bottom col-1' onClick={() => handleSort('idHoaDon')}>
                             ID {sortField === 'idHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
@@ -129,8 +157,8 @@ const HoaDonList = ({
                                     ))}
                                 </select>
                             </td>
-                            <td className='align-middle'>
-                                <button className="btn btn-primary mr-2 detail-btn" onClick={() => viewDetail(hd.idHoaDon)}>Detail</button>
+                            <td className=' align-middle btn_row'>
+                                <div className="btn_block align-middle" onClick={() => viewDetail(hd.idHoaDon)}><DetailBtn></DetailBtn></div>
                             </td>
                         </tr>
                     )))
