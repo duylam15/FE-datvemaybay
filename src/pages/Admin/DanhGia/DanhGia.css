@@ -33,10 +33,6 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-
 .form-search {
     margin-left: 10px;
 }
