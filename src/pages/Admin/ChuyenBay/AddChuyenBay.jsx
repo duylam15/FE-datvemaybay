@@ -8,6 +8,7 @@ import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
 import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
+import { getAllGiaVeTheoIdChuyenBay} from '../../../services/veService';
 export const AddChuyenBay = () => {
 
   const location = useLocation();
@@ -42,6 +43,47 @@ export const AddChuyenBay = () => {
   const [mayBays, setMayBays] = useState([]);
   const [selectMayBay, setSelectMayBay] = useState("0");
   const [mayBay, setMayBay] = useState();
+
+  const [giaVeThuong, setGiaVeThuong] = useState(0)
+  const [giaVeThuongGia, setGiaVeThuongGia] = useState(0)
+  const [errorThuong, setErrorThuong] = useState(false);
+  const [errorThuongGia, setErrorThuongGia] = useState(false);
+  const [errorGiaVe, setErrorGiaVe] = useState("");
+
+
+  const handleGiaVeThuongChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) { // chỉ cho phép số
+      setGiaVeThuong(value);
+      setErrorThuong(false);
+    } else {
+      setErrorThuong(true);
+    }
+  };
+
+  const handleGiaVeThuongGiaChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) { // chỉ cho phép số
+      setGiaVeThuongGia(value);
+      setErrorThuongGia(false);
+    } else {
+      setErrorThuongGia(true);
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
+      console.log("gia ve la: !", resGiaVe)
+        setGiaVeThuong(resGiaVe.data?.giaVeThuong)
+        setGiaVeThuongGia(resGiaVe.data?.giaVeThuongGia)
+    }
+    fetchData();
+  }, [idChuyenBay])
+
 
   let [dataSanBayBatDau, setDataSanBayBatDau] = useState({
     idSanBay: 0,
@@ -565,6 +607,11 @@ export const AddChuyenBay = () => {
       hasError = true;
     }
 
+    if(giaVeThuong > giaVeThuongGia) {
+        setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
+        hasError = true;
+    }
+
 
     if (Math.ceil(soGhe / 50) > dataTiepVienMoi.length) {
       setErrorNhanVien("Tiep vien toi thieu la : " + Math.ceil(soGhe / 50))
@@ -599,18 +646,22 @@ export const AddChuyenBay = () => {
       setThongBao({ message: message.errorField, typeMessage: "inpage" });
     }
 
+
     return hasError;
   }
 
   // CREATE CHUYEN BAY 
   const createChuyenBay = () => {
+    console.log("Gia ve th: ", giaVeThuong)
+    console.log("Gia ve thuong gia: ", giaVeThuongGia);
     noError();
     const hasError = HasError();
     if (hasError) return;
 
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+   
+    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, giaVeThuong, giaVeThuongGia};
 
     addChuyenbay(dataChuyenBay)
       .then((response) => {
@@ -702,7 +753,7 @@ export const AddChuyenBay = () => {
 
       delete tuyenBay.sanBayBatDau;
       delete tuyenBay.sanBayKetThuc;
-      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, giaVeThuong, giaVeThuongGia };
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
           if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
@@ -737,7 +788,7 @@ export const AddChuyenBay = () => {
 
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, giaVeThuong, giaVeThuongGia  };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
         if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
@@ -1108,7 +1159,7 @@ export const AddChuyenBay = () => {
           </div>
           <div className="container-infor container-nhanvienchuyenbay">
             <h3>Nhân viên</h3>
-            <div className=" container-selectnhanvien ">
+            <div className="container-selectnhanvien ">
               <div className='container-phicong container-infor'>
                 <div className="container__input">
                   <div className="form-input">
@@ -1172,6 +1223,34 @@ export const AddChuyenBay = () => {
                   <span>{errorNhanVien}</span>
                 </div>
               </div>
+            </div>
+            <div className='container_giaVe'>
+              <h3>Giá vé</h3>
+              <div className='block_input'>
+                <label htmlFor="thuong">Hạng thường</label>
+                <input
+                  type="text"
+                  id="thuong"
+                  value={giaVeThuong}
+                  onChange={handleGiaVeThuongChange}
+                />
+                <span className={`error ${errorThuong ? 'has_error' : ''}`} id="loiGiaVeThuong">
+                  {errorThuong ? "Vui lòng chỉ nhập số cho hạng thường." : ""}
+                </span>
+              </div>
+              <div className='block_input'>
+                <label htmlFor="thuongGia">Hạng thương gia</label>
+                <input
+                  type="text"
+                  id="thuongGia"
+                  value={giaVeThuongGia}
+                  onChange={handleGiaVeThuongGiaChange}
+                />
+                <span className={`error ${errorThuongGia ? 'has_error' : ''}`} id="loiGiaVeThuongGia">
+                  {errorThuongGia ? "Vui lòng chỉ nhập số cho hạng thương gia." : ""}
+                </span>
+              </div>
+              <span>{errorGiaVe}</span>
             </div>
           </div>
         </div>
