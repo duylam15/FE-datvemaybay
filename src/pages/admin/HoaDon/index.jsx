@@ -11,14 +11,17 @@ import { detail } from '../../../services/hoaDonService.js';
 import { filHoaDon } from '../../../services/hoaDonService.js';
 import { updateHoaDonStatus } from '../../../services/hoaDonService.js';
 
+import { Link, Outlet } from "react-router-dom";
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
+
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [hoaDon, setHoaDon] = useState(initialHoaDon);
     const [sortField, setSortField] = React.useState('');
-    const [filterType, setFilterType] = useState('');
-    const [selectedValue, setSelectedValue] = useState('');
+    const [filterType, setFilterType] = useState('0');
+    const [selectedValue, setSelectedValue] = useState('0');
     const [comboBoxValues, setComboBoxValues] = useState([]);
 
     const navigate = useNavigate();
@@ -65,8 +68,14 @@ const HoaDonPage = () => {
 
     const handleComboBoxValues = (field) => {
         console.log('Type: ', field);
-        getComboboxValue(field, setComboBoxValues);
-        console.log("cbb value trong handle: ", comboBoxValues);
+        
+        if (field == "0") {
+            setComboBoxValues([]);
+        }
+        else {
+            getComboboxValue(field, setComboBoxValues);
+            console.log("cbb value trong handle: ", comboBoxValues);
+        }
     }
 
     if (loading) return <p>Loading...</p>;
@@ -74,14 +83,11 @@ const HoaDonPage = () => {
 
     return (
         <div className="hoa-don-page page">
-            <div className="top-bar">
-                <div className="text">
-                    <h1>Danh Sách Hóa Đơn</h1>
-                </div>
-                <div className="button-group">
-                    <button className="btn btn-primary" onClick={() => navigate('/admin/hoadon/add')}>Thêm hóa đơn</button>
-                </div>
-            </div>
+            <h1>Danh Sách Hóa Đơn</h1>
+            <Link to="add">
+                <IconLabelButtons></IconLabelButtons>
+            </Link>
+            <div className="separate_block"></div>
             
             <HoaDonList
                 hoaDon={hoaDon} 

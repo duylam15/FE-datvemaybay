@@ -55,3 +55,17 @@ export const handleSort = async (
     console.error('Error fetching sorted results:', error);
   }
 };
+
+export const block = async (idHangHoa) => {
+  try {
+    const response1 = await axios.put(
+      `${API_URL}/blockMerchandise/${idHangHoa}`
+    );
+    console.log('Block Merchandise:', response1.data);
+    const response2 = await fetch(`${API_URL}/getAllMerchandises`);
+    const data = await response2.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching block airport:', error);
+  }
+};

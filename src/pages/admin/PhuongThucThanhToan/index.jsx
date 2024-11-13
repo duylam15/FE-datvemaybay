@@ -8,6 +8,10 @@ import { searchPhuongThucTT } from '../../../services/phuongThucThanhToanService
 import { handleSort } from '../../../services/phuongThucThanhToanService.js';
 import { useNavigate } from 'react-router-dom';
 
+import { Link, Outlet } from "react-router-dom";
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
+
+
 const PhuongThucTTPage = () => {
     const { phuongThucTT: initialPhuongThucTT, loading, error } = useFetchPTTT();
     const [searchTerm, setSearchTerm] = useState('');
@@ -42,12 +46,11 @@ const PhuongThucTTPage = () => {
 
     return (
         <div className="phuong-thuc-tt-page page">
-            <div className='top-bar'>
-                <h1 className='text'>Danh Sách Phương Thức Thanh Toán</h1>
-                <button onClick={() => navigate('/admin/pttt/add')} className="btn btn-success mb-3 add-btn">
-                    Thêm PTTT
-                </button>
-            </div>
+            <h1 className='text'>Danh Sách Phương Thức Thanh Toán</h1>
+            <Link to="add">
+                <IconLabelButtons></IconLabelButtons>
+            </Link>
+            <div className="separate_block"></div>
             
             
             <PhuongThucTTList

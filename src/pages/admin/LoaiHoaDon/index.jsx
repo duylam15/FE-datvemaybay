@@ -7,6 +7,9 @@ import { handleSort } from '../../../services/loaiHoaDonService.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { Link, Outlet } from "react-router-dom";
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
+
 const LoaiHoaDonPage = () => {
     const { loaiHoaDon: initialLoaiHoaDon, loading, error } = useFetchLoaiHoaDon();
     const [searchTerm, setSearchTerm] = useState('');
@@ -41,15 +44,12 @@ const LoaiHoaDonPage = () => {
 
     return (
         <div className="loai-hoa-don-page page">
-            <div className='top-bar'>
-                <div className="text">
-                    <h1>Danh Sách Loại Hóa Đơn</h1>
-                </div>
-                
-                <button onClick={() => navigate('/admin/loaihoadon/add')} className="btn btn-success mb-3 add-btn">
-                    Thêm Loại Hóa đơn
-                </button>
-            </div>
+            <h1>Danh Sách Loại Hóa Đơn</h1>
+            <Link to="add">
+                <IconLabelButtons></IconLabelButtons>
+            </Link>
+            <div className="separate_block"></div>
+            
             
             <LoaiHoaDonList
                 loaiHoaDon={loaiHoaDon} 

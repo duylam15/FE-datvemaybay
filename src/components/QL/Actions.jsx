@@ -1,16 +1,23 @@
 import React from 'react';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { FaEdit, FaUnlock, FaLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const Actions = ({ onDelete, editLink }) => {
+const Actions = ({ onBlock, isBlocked, editLink }) => {
   return (
-    <div>
+    <div className='container-action'>
       <Link to={editLink} className='edit-btn'>
         <FaEdit />
       </Link>
-      <button className='delete-btn' onClick={onDelete}>
-        <FaTrashAlt />
-      </button>
+
+      {isBlocked === 'ACTIVE' ? (
+        <span className='block-btn' onClick={onBlock}>
+          <FaUnlock />
+        </span>
+      ) : (
+        <span className='block-btn' onClick={onBlock}>
+          <FaLock />
+        </span>
+      )}
     </div>
   );
 };

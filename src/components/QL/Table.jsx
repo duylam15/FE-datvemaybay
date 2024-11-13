@@ -23,8 +23,8 @@ const Table = ({
   };
 
   return (
-    <table>
-      <thead>
+    <table className='table'>
+      <thead className='thead-dark'>
         <tr>
           {columns.map((column) => (
             <th

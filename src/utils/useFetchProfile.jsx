@@ -9,7 +9,7 @@ export const useFetchProfile = () => {
 	useEffect(() => {
 		// Lấy token từ localStorage
 		const token = localStorage.getItem("access_token");
-
+		console.log("token", token)
 		// Hàm lấy dữ liệu hồ sơ
 		const fetchData = async () => {
 			try {
@@ -20,7 +20,7 @@ export const useFetchProfile = () => {
 				console.log("token goi cua api /me: " + token);
 
 				// Gọi API để lấy thông tin hồ sơ
-				const data = await getMyProfile();
+				const data = await getMyProfile(token);
 				setProfile(data);
 			} catch (err) {
 				setError(err.message);

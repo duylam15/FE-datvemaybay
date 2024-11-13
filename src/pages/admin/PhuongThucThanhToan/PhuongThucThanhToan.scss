@@ -1,330 +1,336 @@
-.page {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    border-radius: 10px;
-    padding: 10px;
-    width: 100%;
-    // margin: 10px 20px;
-    // box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.416);
-    // border: 0.3px solid rgba(128, 128, 128, 0.416);
-}
-.page .top-bar {
-    display: flex;
-    height: 60px;
-    position: relative;
-    flex-wrap: nowrap;
-    align-content: center;
-    align-items: center;
-}
+// .page {
+//     display: flex;
+//     flex-direction: column;
+//     align-content: center;
+//     border-radius: 10px;
+//     padding: 10px;
+//     width: 100%;
+//     // margin: 10px 20px;
+//     // box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.416);
+//     // border: 0.3px solid rgba(128, 128, 128, 0.416);
+// }
+// .page .top-bar {
+//     display: flex;
+//     height: 60px;
+//     position: relative;
+//     flex-wrap: nowrap;
+//     align-content: center;
+//     align-items: center;
+// }
 
-.page h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-.page .text {
-    font-size: 1.6em;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    color: #002261;
-    height: 100%;
-}
+// .page h1 {
+//     position: absolute;
+//     left: 50%;
+//     transform: translateX(-50%);
+// }
+// .page .text {
+//     font-size: 1.6em;
+//     font-family: Arial, Helvetica, sans-serif;
+//     font-weight: 500;
+//     color: #002261;
+//     height: 100%;
+// }
 
-.page .add-btn {
-    position: absolute;
-    right: 10px;
-    bottom: -90%;
-    border-radius: 10px;
-    background-color: #1fa401;
-    color: white;
-    font-size: 15px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-weight: 500;
-}
-
-
-.page .search-sort-controls {
-    width: max-content;
-    // border: 1px solid gray;
-    border-radius: 2em;
-    padding: 5px 10px;
-    display: flex;
-    float: left;
-    justify-content: center;
-    margin: 10px 0px;
-    height: 40px;
-}
-.page .search-sort-controls input {
-    width: max-content;
-    // margin-right: 10px;
-    padding: 10px;
-}
-.page .search-sort-controls button {
-    color: black;
-    font-weight: 500;
-    padding: 10px;
-    margin: 0px !important;
-    text-align: center;
-    line-height: 10px;
-}
+// .page .add-btn {
+//     position: absolute;
+//     right: 10px;
+//     bottom: -90%;
+//     border-radius: 10px;
+//     background-color: #1fa401;
+//     color: white;
+//     font-size: 15px;
+//     padding: 5px 10px;
+//     cursor: pointer;
+//     font-weight: 500;
+// }
 
 
-.page .table {
-    // border-top: 2px solid black;
-    margin: 10px 0px;
-    border-radius: 10px;
-}
+// .page .search-sort-controls {
+//     width: max-content;
+//     // border: 1px solid gray;
+//     border-radius: 2em;
+//     padding: 5px 10px;
+//     display: flex;
+//     float: left;
+//     justify-content: center;
+//     margin: 10px 0px;
+//     height: 40px;
+// }
+// .page .search-sort-controls input {
+//     width: max-content;
+//     // margin-right: 10px;
+//     padding: 10px;
+// }
+// .page .search-sort-controls button {
+//     color: black;
+//     font-weight: 500;
+//     padding: 10px;
+//     margin: 0px !important;
+//     text-align: center;
+//     line-height: 10px;
+// }
 
-.page .table tr {
-    height: 50px;
-    border-top: 0.5px solid rgb(125, 125, 125);
-    border-radius: 10px;
-}
 
-.page .table thead tr:first-child{
-    border: none;
+// .page .table {
+//     // border-top: 2px solid black;
+//     margin: 10px 0px;
+//     border-radius: 10px;
+// }
+
+// .page .table tr {
+//     height: 50px;
+//     border-top: 0.5px solid rgb(125, 125, 125);
+//     border-radius: 10px;
+// }
+
+// .page .table thead tr:first-child{
+//     border: none;
     
-}
+// }
 
-.page .table thead {
-    cursor:default;
-}
+// .page .table thead {
+//     cursor:default;
+// }
 
-.page .pagination {
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
-    height: 60px;
-}
-.page .add-form, .edit-form {
-    width: 80%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.416);
-    border: 0.3px solid rgba(128, 128, 128, 0.416);
-    border-radius: 10px;
-    padding: 10px;
-}
+// .page .pagination {
+//     display: flex;
+//     padding-left: 0;
+//     list-style: none;
+//     align-items: center;
+//     flex-wrap: nowrap;
+//     justify-content: center;
+//     height: 60px;
+// }
+// .page .add-form, .edit-form {
+//     width: 80%;
+//     margin: 0 auto;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.416);
+//     border: 0.3px solid rgba(128, 128, 128, 0.416);
+//     border-radius: 10px;
+//     padding: 10px;
+// }
 
-.page .add-form h2, .edit-form h2 {
-    font-size: 1.6em;
-    padding: 10px;
-    font-weight: 500;
-}
-.page form {
-    display: flex;
-    width: 80%;
-    margin: 20px 10px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px; 
-}
+// .page .add-form h2, .edit-form h2 {
+//     font-size: 1.6em;
+//     padding: 10px;
+//     font-weight: 500;
+// }
+// .page form {
+//     display: flex;
+//     width: 80%;
+//     margin: 20px 10px;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 10px; 
+// }
 
-.page form div {
-    width: 60%;
-    font-size: 20px;
-    margin: 5px 0px;
-}
+// .page form div {
+//     width: 60%;
+//     font-size: 20px;
+//     margin: 5px 0px;
+// }
 
-.page form button {
-    width: 10%;
-}
+// .page form button {
+//     width: 10%;
+// }
 
-.page .hoa-don-controls {
-    display: flex;
-    flex-direction: column;
-}
+// .page .hoa-don-controls {
+//     display: flex;
+//     flex-direction: column;
+// }
 
-.page .filter-controls {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: left;
-    // border: 1px solid black;
-    width: max-content;
-    padding: 10px;
-}
+// .page .filter-controls {
+//     display: flex;
+//     flex-wrap: wrap;
+//     flex-direction: row;
+//     justify-content: left;
+//     // border: 1px solid black;
+//     width: max-content;
+//     padding: 10px;
+// }
 
-.page .filter-controls select {
-    border: 1px gray solid;
-    border-radius: 5px;
-    padding: 5px;
-}
-.page .filter-controls label {
-    padding: 5px;
-    font-weight: 500;
-}
-.page .filter-field {
-    margin: 0px 10px;
+// .page .filter-controls select {
+//     border: 1px gray solid;
+//     border-radius: 5px;
+//     padding: 5px;
+// }
+// .page .filter-controls label {
+//     padding: 5px;
+//     font-weight: 500;
+// }
+// .page .filter-field {
+//     margin: 0px 10px;
 
-}
+// }
 
-.page .filter-value {
-    margin: 0px 10px;
-}
+// .page .filter-value {
+//     margin: 0px 10px;
+// }
 
-.page .filter-controls button {
-    margin: 0px 10px;
-    width: 50px;
-    padding: 5px;
-    border-radius: 5px;
-    text-align: center;
-}
+// .page .filter-controls button {
+//     margin: 0px 10px;
+//     width: 50px;
+//     padding: 5px;
+//     border-radius: 5px;
+//     text-align: center;
+// }
 
-.page .detail-btn {
-    width: 95%;
-    height: max-content;
-    font-size: 1em;
-    padding: 0px 10px;
-}
+// .page .detail-btn {
+//     width: 95%;
+//     height: max-content;
+//     font-size: 1em;
+//     padding: 0px 10px;
+// }
 
-.page .status-select {
+.hoa-don-page .status-select {
     width: 95%;
     height: max-content;
     font-size: 0.9em;
 }
-
-//cthd
-
-.chi-tiet-hoa-don-page .tongTien {
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #414141;
-    letter-spacing: 0.5px;
-}
-
-.page .bill-detail-item {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-    margin: 20px auto;
-    width: 90%;
-}
-
-
-.bill-detail-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
-}
-  
-.bill-detail-item::before {
-content: "";
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 5px;
-background-color: #898989;
-transition: background-color 0.3s;
-}
-
-.bill-detail-item:hover::before {
-background-color: #25b62c;
-}
-
-.bill-detail-item h3 {
-color: #333333;
-margin-top: 0;
-font-size: 1.3em;
-}
-
-.bill-detail-item p {
-color: #666666;
-margin: 5px 0;
-font-size: 1.1em;
-}
-
-.bill-detail-item .status {
-position: absolute;
-top: 20px;
-right: 20px;
-font-weight: bold;
-padding: 8px 16px;
-border-radius: 20px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.bill-detail-item .status.PAID {
-background-color: #4CAF50;
-color: #ffffff;
-}
-.bill-detail-item .status.CANCELLED {
-background-color: #F44336;
-color: #ffffff;
-}
-.bill-detail-item .status.PENDING {
-background-color: #0099ff;
-color: #ffffff;
-
-}
-.bill-detail-item .status.REFUNDED {
-background-color: #414141;
-color: #ffffff;
-}
-.bill-detail-item .status.EXPIRED {
-background-color: #7a0000;
-color: #ffffff;
-}
-
-.page .bill-detail-item-info {
-    display: flex;
-    float: left;
-    flex-wrap: nowrap;
-    justify-content: left;
-    width: 100%;
-    padding: 10px 0px;
-}
-.bill-detail-item-info .item {
-    width: 45%;
-    margin: 0px 10px;
-    padding: 0px 10px;
-}
-.bill-detail-item-info .hang-hoa {
-    border-left: 1px solid black;
-}
-.bill-detail-item .foot {
-    position: absolute;
-    bottom: 0;
-    // height: max-content;
-    width: 100%;
-    font-size: 1.2em;
-}
-.bill-detail-item .foot .so-tien {
-    margin: 10px ;
-    text-align: left;
-}
-
-//taikhoan
-
-.taikhoan-add h1 {
+.page h1 {
     font-size: 2em;
-    padding: 10px;
-}
-.taikhoan-add .radio-group {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    font-size: 1.2em;
-    
-}
-.taikhoan-add .radio-group label {
-    margin: 0px 10px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
 }
 
-.add-form label {
-    margin: 5px 0px;
-}
+// //cthd
+
+// .chi-tiet-hoa-don-page .tongTien {
+//     text-align: center;
+//     font-size: 1.5em;
+//     font-weight: bold;
+//     color: #414141;
+//     letter-spacing: 0.5px;
+// }
+
+// .page .bill-detail-item {
+//     background-color: #ffffff;
+//     padding: 30px;
+//     border-radius: 15px;
+//     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+//     transition: transform 0.3s, box-shadow 0.3s;
+//     position: relative;
+//     overflow: hidden;
+//     margin: 20px auto;
+//     width: 90%;
+// }
+
+
+// .bill-detail-item:hover {
+//     transform: translateY(-10px);
+//     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+// }
+  
+// .bill-detail-item::before {
+// content: "";
+// position: absolute;
+// top: 0;
+// left: 0;
+// width: 100%;
+// height: 5px;
+// background-color: #898989;
+// transition: background-color 0.3s;
+// }
+
+// .bill-detail-item:hover::before {
+// background-color: #25b62c;
+// }
+
+// .bill-detail-item h3 {
+// color: #333333;
+// margin-top: 0;
+// font-size: 1.3em;
+// }
+
+// .bill-detail-item p {
+// color: #666666;
+// margin: 5px 0;
+// font-size: 1.1em;
+// }
+
+// .bill-detail-item .status {
+// position: absolute;
+// top: 20px;
+// right: 20px;
+// font-weight: bold;
+// padding: 8px 16px;
+// border-radius: 20px;
+// box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+// }
+
+// .bill-detail-item .status.PAID {
+// background-color: #4CAF50;
+// color: #ffffff;
+// }
+// .bill-detail-item .status.CANCELLED {
+// background-color: #F44336;
+// color: #ffffff;
+// }
+// .bill-detail-item .status.PENDING {
+// background-color: #0099ff;
+// color: #ffffff;
+
+// }
+// .bill-detail-item .status.REFUNDED {
+// background-color: #414141;
+// color: #ffffff;
+// }
+// .bill-detail-item .status.EXPIRED {
+// background-color: #7a0000;
+// color: #ffffff;
+// }
+
+// .page .bill-detail-item-info {
+//     display: flex;
+//     float: left;
+//     flex-wrap: nowrap;
+//     justify-content: left;
+//     width: 100%;
+//     padding: 10px 0px;
+// }
+// .bill-detail-item-info .item {
+//     width: 45%;
+//     margin: 0px 10px;
+//     padding: 0px 10px;
+// }
+// .bill-detail-item-info .hang-hoa {
+//     border-left: 1px solid black;
+// }
+// .bill-detail-item .foot {
+//     position: absolute;
+//     bottom: 0;
+//     // height: max-content;
+//     width: 100%;
+//     font-size: 1.2em;
+// }
+// .bill-detail-item .foot .so-tien {
+//     margin: 10px ;
+//     text-align: left;
+// }
+
+// //taikhoan
+
+// .taikhoan-add h1 {
+//     font-size: 2em;
+//     padding: 10px;
+// }
+// .taikhoan-add .radio-group {
+//     display: flex;
+//     flex-direction: row;
+//     padding: 10px;
+//     font-size: 1.2em;
+    
+// }
+// .taikhoan-add .radio-group label {
+//     margin: 0px 10px;
+// }
+
+// .add-form label {
+//     margin: 5px 0px;
+// }

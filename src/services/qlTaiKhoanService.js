@@ -2,13 +2,19 @@ import axios from "axios";
 
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
-export const getTaiKhoan = async () => {
-    const response = await fetch(`${API_URL}/taikhoan?page=0&size=100`); // Thay đổi endpoint theo API của bạn
-    if (!response.ok) {
+export const getTaiKhoan = async (page, size) => {
+    try {
+        const response = await axios.get(`${API_URL}/taikhoan`, {
+            params: { // Sử dụng thuộc tính `params` của axios
+                page: page,
+                size: size
+            }
+        });
+        return response.data; // Trả về dữ liệu JSON từ server
+    } catch (error) {
+        console.error('Failed to fetch accounts:', error);
         throw new Error('Failed to fetch accounts');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    return data.data.content; // Trả về phần content bên trong JSON
 };
 export const editTaiKhoan= (navigate, idTaiKhoan) => {
     navigate(`/admin/taikhoan/edit/${idTaiKhoan}`);

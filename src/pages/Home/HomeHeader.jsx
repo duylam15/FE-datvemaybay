@@ -256,7 +256,6 @@ export default function HomeHeader() {
                       }
                     />
                   </div>
-
                   {isRoundTrip && (
                     <div className='input-field'>
                       <label>NGÀY VỀ:</label>

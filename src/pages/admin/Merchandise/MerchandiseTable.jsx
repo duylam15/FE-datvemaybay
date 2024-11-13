@@ -3,11 +3,9 @@ import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './StyleHangHoa.scss';
 import { FaPlus } from 'react-icons/fa';
-import DeleteConfirmation from '../../../components/QL/DeleteConfirmation';
-import FailToast from '../../../components/FailToast';
-import { searchMerchans } from '../../../services/MerchandiseService';
+import './StyleHangHoa.scss';
+import { block, searchMerchans } from '../../../services/MerchandiseService';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -18,9 +16,6 @@ const MerchandiseTable = () => {
   const [sortField, setSortField] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [originalMerchans, setOriginalMerchans] = useState([]);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [showFailToast, setShowFailToast] = useState(false);
-  const [selectedMerchandiseId, setSelectedMerchandiseId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const loadMerchans = useCallback(async () => {
@@ -67,36 +62,19 @@ const MerchandiseTable = () => {
           setMerchans(response.data.data || []);
         } catch (error) {
           console.error('Error in search:', error);
-          setShowFailToast(true); // Optional: display a toast on search failure
         }
       }
     },
     [originalMerchans]
   );
 
-  const handleDelete = async (idHangHoa) => {
+  const handleBlock = async (idHangHoa) => {
     try {
-      await axios.delete(`${BASE_URL}/deleteMerchandise/${idHangHoa}`);
-      setShowDeleteConfirm(false);
-      loadMerchans();
+      const updatedMerchans = await block(idHangHoa); // Assume `block` method blocks the merchandise
+      setMerchans(updatedMerchans);
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setShowDeleteConfirm(false);
-        setShowFailToast(true); // Show FailToast on 409 error
-      } else {
-        console.error('Error deleting merchandise:', error);
-      }
+      console.error('Error blocking merchandise:', error);
     }
-  };
-
-  const showDeleteModal = (idHangHoa) => {
-    setSelectedMerchandiseId(idHangHoa);
-    setShowDeleteConfirm(true);
-  };
-
-  const cancelDelete = () => {
-    setShowDeleteConfirm(false);
-    setSelectedMerchandiseId(null);
   };
 
   const sortData = useCallback((data, field, order) => {
@@ -158,7 +136,10 @@ const MerchandiseTable = () => {
       render: (item) => (
         <Actions
           editLink={`editMerchandise/${item.idHangHoa}`}
-          onDelete={() => showDeleteModal(item.idHangHoa)}
+          onBlock={() => handleBlock(item.idHangHoa)}
+          isBlocked={
+            item.trangThaiActive === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'
+          }
         />
       ),
     },
@@ -167,21 +148,21 @@ const MerchandiseTable = () => {
   useEffect(() => {
     loadMerchans();
     loadTypeMerchandises();
-  }, [loadMerchans, loadTypeMerchandises]);
+  }, []);
 
   return (
     <div>
-      <div className='button-container'>
+      <div className='topup-table'>
         <div className='search-sort-controls'>
           <input
             type='text'
-            placeholder='Search...'
+            placeholder='Nhập tên hàng hoá'
             value={searchTerm}
             onChange={handleSearch}
           />
         </div>
         <Link to='add' className='add-btn'>
-          <FaPlus />
+          <FaPlus /> Thêm
         </Link>
       </div>
       {loading ? (
@@ -195,16 +176,6 @@ const MerchandiseTable = () => {
           currentSortOrder={sortOrder}
         />
       )}
-      <DeleteConfirmation
-        show={showDeleteConfirm}
-        onDeleteConfirm={() => handleDelete(selectedMerchandiseId)}
-        onCancel={cancelDelete}
-      />
-      <FailToast
-        message='Không thể xoá dữ liệu đã liên kết với dữ liệu khác'
-        show={showFailToast}
-        onClose={() => setShowFailToast(false)}
-      />
     </div>
   );
 };

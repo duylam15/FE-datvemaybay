@@ -1,5 +1,9 @@
 import {React, useState} from "react";
 
+import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
 
 const LoaiHoaDonList =({
     loaiHoaDon,
@@ -26,28 +30,40 @@ const LoaiHoaDonList =({
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="search-sort-controlss">
                 <input
-                    type="text"
-                    placeholder="Tìm kiếm loại hóa đơn..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                className="input_search"
+                type="text"
+                placeholder="Tìm kiếm loại hóa đơn..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearch}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
             </div>
-            <table className="table table-hover table-bordered pad-x">
-                <thead>
+            <table className="table">
+                <thead className="thead-dark">
                     <tr className="align-bottom ">
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('idLoaiHoaDon')}>
+                        <th scope="col" className='col-2 align-bottom' onClick={() => handleSort('idLoaiHoaDon')}>
                             ID {sortField === 'idLoaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('tenLoaiHoaDon')}>
+                        <th scope="col" className='col-4 align-bottom' onClick={() => handleSort('tenLoaiHoaDon')}>
                             Tên loại hóa đơn {sortField === 'tenLoaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-						<th scope="col" className='align-bottom'>
+						<th scope="col" className='col-4 align-bottom'>
                             Mô tả
                         </th>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
+                        <th scope="col" className='col-3 align-bottom' onClick={() => handleSort('trangThaiActive')}>
                             Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='col-1 align-bottom'>
@@ -62,14 +78,14 @@ const LoaiHoaDonList =({
                             <td className=' align-middle '>{lhd.tenLoaiHD}</td>
                             <td className=' align-middle '>{lhd.moTa}</td>
                             <td className=' align-middle '>{lhd.status === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
-                            <td className=' align-middle '>
-                                <button className="btn btn-primary mr-2" onClick={() => onEdit(lhd.idLoaiHD)}>Edit</button>
+                            <td className=' align-middle btn_row'>
+                                <div className="btn_block align-middle" onClick={() => onEdit(lhd.idLoaiHD)}><EditBtn></EditBtn></div>
                             </td>
                         </tr>
                     )))
                     : (
                         <tr>
-                            <td colSpan="9" className="text-center">Không có loại hóa đơn!</td>
+                            <td colSpan="12" className="text-center">Không có loại hóa đơn!</td>
                         </tr>
                     )
                     }

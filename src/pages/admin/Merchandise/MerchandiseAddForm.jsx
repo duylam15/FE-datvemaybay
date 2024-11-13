@@ -46,12 +46,10 @@ const AddMerchandise = () => {
   const validateField = (name, value) => {
     let errorMessage = '';
 
-    if (!value.trim()) {
-      errorMessage = 'Trường này không thể để trống';
-    } else if (
-      (name === 'taiTrong' || name === 'giaPhatSinh') &&
-      (isNaN(value) || value < 0)
-    ) {
+    // if (!value.trim()) {
+    //   errorMessage = 'Trường này không thể để trống';
+    // } else
+    if (name === 'taiTrong' && (isNaN(value) || value < 0 || value == 0)) {
       errorMessage = 'Vui lòng nhập số dương hợp lệ';
     }
 
@@ -61,12 +59,33 @@ const AddMerchandise = () => {
     }));
   };
 
+  // Hàm kiểm tra tất cả các trường trước khi lưu
+  const validateForm = () => {
+    let formIsValid = true;
+    const newErrors = {};
+
+    Object.keys(merchan).forEach((field) => {
+      if (!merchan[field].trim()) {
+        newErrors[field] = 'Trường này không thể để trống';
+        formIsValid = false;
+      } else if (
+        field === 'taiTrong' &&
+        (isNaN(merchan[field]) || merchan[field] < 0)
+      ) {
+        newErrors[field] = 'Vui lòng nhập số dương hợp lệ';
+        formIsValid = false;
+      }
+    });
+
+    setErrors(newErrors);
+    return formIsValid;
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
 
-    const hasErrors = Object.values(errors).some((error) => error);
-    if (hasErrors) {
-      return;
+    if (!validateForm()) {
+      return; // Nếu có lỗi, ngừng việc gửi dữ liệu
     }
 
     try {
@@ -82,7 +101,6 @@ const AddMerchandise = () => {
       console.log('Merchandise saved successfully:', result);
       navigate('/admin/merchandise');
     } catch (error) {
-      // Log detailed error information
       console.error(
         'Error saving merchandise:',
         error.response ? error.response.data : error
@@ -96,7 +114,7 @@ const AddMerchandise = () => {
         <div className='form-container'>
           <form onSubmit={handleSave}>
             <div>
-              <label htmlFor='idSanBayBatDau'>Loại hàng hóa</label>
+              <label htmlFor='idLoaiHangHoa'>Loại hàng hóa</label>
               <select
                 name='idLoaiHangHoa'
                 id='idLoaiHangHoa'
@@ -105,7 +123,7 @@ const AddMerchandise = () => {
                 error={errors.idLoaiHangHoa}
                 required
               >
-                <option value='0' hidden>
+                <option value='' hidden>
                   Chọn loại hàng hoá
                 </option>
                 {typeMerchans.map((item) => (
@@ -114,6 +132,9 @@ const AddMerchandise = () => {
                   </option>
                 ))}
               </select>
+              {errors.idLoaiHangHoa && (
+                <span className='error'>{errors.idLoaiHangHoa}</span>
+              )}
             </div>
 
             <FormInput
@@ -122,7 +143,7 @@ const AddMerchandise = () => {
               value={merchan.tenHangHoa}
               onChange={handleChange}
               error={errors.tenHangHoa}
-              required // Make this required if necessary
+              required
             />
             <FormInput
               label='Tải trọng (kg)'
@@ -130,7 +151,7 @@ const AddMerchandise = () => {
               value={merchan.taiTrong}
               onChange={handleChange}
               error={errors.taiTrong}
-              required // Make this required if necessary
+              required
             />
 
             <div className='button-container'>

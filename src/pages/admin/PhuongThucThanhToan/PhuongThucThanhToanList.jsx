@@ -1,6 +1,13 @@
-import React from 'react';
+import * as React from 'react';
+
+import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
+
 import './PhuongThucThanhToan.scss';
 import { useState } from 'react';
+
     const PhuongThucTTList = ({
         phuongThucTT,          // Danh sách các phương thức thanh toán
         onEdit,              // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
@@ -26,17 +33,29 @@ import { useState } from 'react';
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="search-sort-controlss">
                 <input
-                    type="text"
-                    placeholder="Tìm kiếm PTTT..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                className="input_search"
+                type="text"
+                placeholder="Tìm kiếm phương thức thanh toán..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearch}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
             </div>
-            <table className="table table-hover table-bordered ">
-                <thead>
+            <table className="table">
+                <thead className="thead-dark">
                     <tr className=''>
                         <th scope="col" className='align-bottom col-2' onClick={() => handleSort('idPhuongThucTT')}>
                             ID {sortField === 'idPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
@@ -62,8 +81,8 @@ import { useState } from 'react';
                             <td className=' align-middle '>{pttt.tenPTTT}</td>
                             <td className=' align-middle '>{pttt.moTa}</td>
                             <td className=' align-middle '>{pttt.status === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
-                            <td className=' align-middle '>
-                                <button className="btn btn-primary mr-2" onClick={() => onEdit(pttt.idPTTT)}>Edit</button>
+                            <td className=' align-middle btn_row'>
+                                <div className="btn_block align-middle" onClick={() => onEdit(pttt.idPTTT)}><EditBtn></EditBtn></div>
                             </td>
                         </tr>
                     )))

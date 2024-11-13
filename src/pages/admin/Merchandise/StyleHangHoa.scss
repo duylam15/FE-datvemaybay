@@ -1,104 +1,78 @@
+// Biến cho màu sắc và font
+$primary-color: #007bff;
+$border-color: #858383;
+$bg-color-light: #f4f4f4;
+$bg-color-even: #f9f9f9;
+$font-size-base: 16px;
+$font-size-small: 14px;
+
+// Cấu trúc của body
 body {
   font-family: Arial, sans-serif;
 }
 
-.button-container {
+.topup-table {
   display: flex;
-  justify-content: flex-end;
-  margin: 20px 0;
-}
+  justify-content: flex-start;
+  gap: 30px;
+  margin: 0;
 
-.search-sort-controls {
-  margin-right: 93px;
-  width: 40% !important;
+  // Cấu trúc cho phần tìm kiếm
+  .search-sort-controls {
+    margin: 0;
+    justify-content: flex-start !important;
 
-  input {
-    width: 100%;
+    input {
+      width: 500px;
+      border-radius: 4px;
+      padding: 5px 10px;
+      outline: none;
+      height: 38px;
+      border: 1px solid $border-color;
+      margin: 0;
+    }
+  }
+
+  // Cấu trúc cho nút thêm
+  .add-btn {
+    padding: 7px 21px;
+    background-color: white;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: $font-size-base;
+    margin-right: 25px;
+    transition: background-color 0.3s;
     height: 100%;
-    border: 1px solid grey;
-    border-radius: 5px;
+
+    &:hover {
+      color: white;
+      background-color: $primary-color;
+      // transform: scale(1.05); // Có thể mở lại nếu cần hiệu ứng phóng to
+    }
+
+    &:active {
+      transform: scale(0.98); // Hiệu ứng khi nhấn
+    }
   }
 }
 
-.add-btn {
-  padding: 10px 15px;
-  background-color: #007bff;
+.container-action {
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.block-btn {
+  background-color: #dc3545;
   color: white;
+
+  padding: 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
-  margin-right: 25px;
-  transition: background-color 0.3s;
-  height: 100%;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-}
-
-.table-container {
-  margin: 20px;
-  padding: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-
-  th,
-  td {
-    padding: 12px 15px;
-  }
-
-  thead {
-    background-color: #f4f4f4;
-  }
-
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  th {
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    cursor: pointer;
-
-    th span {
-      margin-left: 5px; /* Space between header text and arrow */
-    }
-  }
-
-  td {
-    vertical-align: middle;
-    text-align: center;
-  }
-
-  .edit-btn,
-  .delete-btn {
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 5px;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  .edit-btn {
-    background-color: #ffc107;
-    color: white;
-  }
-
-  .delete-btn {
-    background-color: #dc3545;
-    color: white;
-  }
+  margin-right: 5px;
 }

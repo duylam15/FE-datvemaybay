@@ -29,7 +29,7 @@ const AddKhachHangForm = () => {
         };
 
         try {
-            const response = await axios.post(`${API_URL}/addCustomer`, khachHang);
+            const response = await axios.post(`${API_URL}/khachhang/addCustomer`, khachHang);
             console.log('Customer added successfully!', response.data);
             navigate('/admin/customers'); // Điều hướng về trang danh sách khách hàng
         } catch (error) {
