@@ -172,3 +172,10 @@
     height: 30px;
     align-items: center;
 }
+
+.notificateTable{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 18px;
+}

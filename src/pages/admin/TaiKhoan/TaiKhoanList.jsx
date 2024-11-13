@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
+import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 
-    const TaiKhoanList = ({
+    const currentDataList = ({
         taiKhoan,          // Danh sách các phương thức thanh toán
         onEdit,            // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
         searchTerm,          // Giá trị tìm kiếm
@@ -15,8 +16,16 @@ import { useState } from 'react';
         setSize
     }) => {
 
-    console.log(taiKhoan);
-
+    console.log(taiKhoan.length);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+  
+    // Tính tổng số trang
+    const totalPages = Math.ceil(taiKhoan.length / itemsPerPage);
+  
+    // Lấy dữ liệu cho trang hiện tại
+    const currentData = taiKhoan.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  
     return (
         <div>
             <div className="search-sort-controls">
@@ -31,8 +40,8 @@ import { useState } from 'react';
             <table className="table table-hover table-bordered ">
                 <thead>
                     <tr className=''>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('idTaiKhoan')}>
-                            ID {sortField === 'idTaiKhoan' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
+                        <th scope="col" className='align-bottom' onClick={() => handleSort('idcurrentData')}>
+                            ID {sortField === 'idcurrentData' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
                         </th>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('tenDangNhap')}>
                             Tên đăng nhập {sortField === 'tenDangNhap' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -57,7 +66,7 @@ import { useState } from 'react';
                     </tr>
                 </thead>
                 <tbody className=''>
-                    {taiKhoan.length > 0 ? (taiKhoan.map(tk => (
+                    {currentData.length > 0 ? (currentData.map(tk => (
                         <tr key={tk.idTaiKhoan}>
                             <td className=' align-middle '>{tk.idTaiKhoan}</td>
                             <td className=' align-middle '>{tk.tenDangNhap}</td>
@@ -86,6 +95,11 @@ import { useState } from 'react';
                 </tbody>
                 </table>
                 {/* Pagination */}
+                <PaginationComponent
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
                 {/* {totalPages > 1 && (
                     <ul className="pagination pagination-lg">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
@@ -107,4 +121,4 @@ import { useState } from 'react';
     );
 };
 
-export default TaiKhoanList;
+export default currentDataList;

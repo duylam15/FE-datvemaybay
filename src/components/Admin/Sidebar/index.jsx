@@ -3,6 +3,7 @@ import {
   FaBox,
   FaCriticalRole,
   FaGavel,
+  FaGrinStars,
   FaMapMarkerAlt,
   FaPlane,
   FaPlaneDeparture,
@@ -240,17 +241,16 @@ const Sidebar = () => {
                 Chức vụ
               </div>
             </Link>
-            <Link
-              className={`nav-link ${location.pathname === '/admin/xemchuyenbay' ? 'active' : ''
-                }`}
-              to='/admin/xemchuyenbay'
+            <Link className={`nav-link ${location.pathname === '/admin/danhgia' ? 'active' : ''
+              }`}
+              to='/admin/danhgia'
             >
               <div
-                className={`nav-item row ${location.pathname === '/admin/xemchuyenbay' ? 'active' : ''
+                cldivName={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
                   }`}
               >
-                <FaGavel />
-                Xem chuyến bay
+                <FaGrinStars />
+                Đánh giá
               </div>
             </Link>
           </div>

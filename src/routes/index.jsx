@@ -47,7 +47,6 @@ import ThemSanBay from '../pages/admin/SanBay/ThemSanBay';
 import TaiKhoanPage from '../pages/admin/TaiKhoan/index';
 import TaiKhoanAdd from '../pages/admin/TaiKhoan/TaiKhoanAdd';
 import TaiKhoanEdit from '../pages/admin/TaiKhoan/TaiKhoanEdit';
-import { default as EditVe, default as Ve } from '../pages/Admin/Ve';
 import VeListOverall from '../pages/Admin/Ve/VeListOverall';
 import FlightPopup from '../pages/Flight/FlightPopup';
 import FlightResults from '../pages/Flight/FlightResult';
@@ -61,8 +60,13 @@ import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
 // import EditVe from '../pages/Admin/Ve/EditVe';
 import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
+import EditVe from '../pages/Admin/Ve/EditVe';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
+import AddVe from '../pages/Admin/Ve/AddVe';
+import Ve from '../pages/Admin/Ve/index.jsx';
+import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
+import DanhGia from '../components/DanhGia.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -102,15 +106,15 @@ export const router = createBrowserRouter([
 
   {
     path: '/login',
-    element: <Login />, // Route login, hiển thị Login
+    element: <Login />,
+  },
+  {
+    path: '/cmt',
+    element: <DanhGia />,
   },
   {
     path: '/register',
-    element: <Register />, // Route register, hiển thị Register
-  },
-  {
-    path: '/quanlidatve',
-    element: <CheckBookingPage />,
+    element: <Register />,
   },
   {
     path: '/my_profile',
@@ -125,6 +129,7 @@ export const router = createBrowserRouter([
         element: <InfoAccount></InfoAccount>,
       },
       { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
+      { path: 'checkbooking', element: <CheckBookingPage /> }
     ],
   },
   {
@@ -137,11 +142,11 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <LayoutAdmin />, // Route layout admin
-    errorElement: <Error />, // Trang lỗi khi không tìm thấy đường dẫn
+    element: <LayoutAdmin />,
+    errorElement: <Error />,
     children: [
-      { index: true, element: <Dashboard /> }, // Route mặc định khi vào "/admin"
-      { path: 'dashboard', element: <Dashboard /> }, // Route con của admin
+      { index: true, element: <Dashboard /> },
+      { path: 'dashboard', element: <Dashboard /> },
 
       // Thêm route cấp 2: "/admin/quanlinhanvien"
       {
@@ -200,19 +205,17 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: 'maybay',
-        element: <MayBayPage />,
-        // children: [
-        // 	{ path: "edit/:idMayBay", element: <MayBayEdit/> },
-        // 	{ path: "add", element: <AddMayBayForm/> },
-        // ]
-      },
+      // maybay
+      { path: 'maybay', element: <MayBayPage />, },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
+      // sanbay
       { path: 'sanbay', element: <SanBayPage /> },
       { path: 'sanbay/add', element: <ThemSanBay /> },
       { path: 'sanbay/edit/:idSanBay', element: <SanBayEdit /> },
+      // danhgia
+      { path: 'danhgia', element: <DanhGiaPage /> },
+      // khachhang
       { path: 'customers', element: <KhachHangPage /> },
       { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },
       { path: 'customer/add', element: <ThemKhachHang /> },
@@ -333,6 +336,10 @@ export const router = createBrowserRouter([
             path: 'edit/:idVe',
             element: <EditVe></EditVe>,
           },
+          {
+            path: 'add',
+            element: <AddVe></AddVe>,
+          }
         ],
       },
     ],

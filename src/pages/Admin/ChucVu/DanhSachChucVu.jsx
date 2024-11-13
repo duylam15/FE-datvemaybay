@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 import TableComponent from '../../../components/Table/TableComponent';
-import "./chucvu.css"
+import "./chucvu.css";
 export default function DanhSachChucVu(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
   const primaryData = props.data;
-
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [primaryData])
   // Tính tổng số trang
   const totalPages = Math.ceil(primaryData.length / itemsPerPage);
 

@@ -3,7 +3,7 @@ import axios from "axios";
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 export const getTaiKhoan = async () => {
-    const response = await fetch(`${API_URL}/taikhoan?page=0&size=10`); // Thay đổi endpoint theo API của bạn
+    const response = await fetch(`${API_URL}/taikhoan?page=0&size=100`); // Thay đổi endpoint theo API của bạn
     if (!response.ok) {
         throw new Error('Failed to fetch accounts');
     }

@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
+const API_URL = 'http://localhost:8080'; 
 
 export const getMayBay = async () => {
-    const response = await fetch(`${API_URL}/admin/maybay/getAllPlane`); // Thay đổi endpoint theo API của bạn
+    const response = await fetch(`${API_URL}/admin/maybay/getAllPlane`);
     if (!response.ok) {
         throw new Error('Failed to fetch plane');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    return data.data; // Trả về phần data bên trong JSON
+    const data = await response.json(); 
+    return data.data;
 };
 
 export const handleSort = async(field, sortOrder, setMayBay, setSortOrder, setSortField) => {
@@ -42,30 +42,27 @@ export const editPlane = (navigate, idMayBay) => {
 };
 
 export const blockPlane = async (idMayBay) => {
-    console.log('blockPlane');
     try {
-        const response = await axios.put(`${API_URL}/admin/maybay/blockPlane/${idMayBay}`);
-        console.log(`Blocked plane with ID: ${idMayBay}`, response.data);
-        return response.data; // Trả về dữ liệu sau khi block
+        const response1 = await axios.put(`${API_URL}/admin/maybay/blockPlane/${idMayBay}`);
+        console.log('Block plane:', response1.data);
+        const response2 = await fetch(`${API_URL}/admin/maybay/getAllPlane`);
+        const data = await response2.json();
+        return data.data;
     } catch (error) {
-        console.error('There was an error blocking the plane!', error);
-        throw error; // Ném lỗi nếu có vấn đề
+        console.error('Error fetching block plane:', error);
     }
 };
 export const getSoLuong = async (idMayBay) => {
-    // console.log('Get so luong ghe');
     try {
         const response = await axios.get(`${API_URL}/admin/maybay/getPlane/${idMayBay}`);
         const data = response.data.data;
 
-        // Kiểm tra dữ liệu trả về
         if (!data) throw new Error('Không tìm thấy thông tin máy bay!');
 
         const soCotThuong = data.soCotGheThuong ? data.soCotGheThuong.length : 0;
         const soHangThuong = data.soHangGheThuong || 0;
         const soCotVIP = data.soCotGheVip ? data.soCotGheVip.length : 0;
         const soHangVip = data.soHangGheVip || 0;
-        // Tính tổng số ghế
         const soLuongGhe = (soCotThuong * soHangThuong) + (soCotVIP * soHangVip);
         return soLuongGhe;
     } catch (error) {

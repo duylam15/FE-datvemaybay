@@ -39,14 +39,12 @@ button:hover {
 
 .form-search {
     margin-left: 10px;
-    height: 40px;
-    border-radius: 10px;
 }
 
 .form-time {
     display: flex;
     flex-direction: column;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 input[type="localdate"] {
@@ -74,8 +72,5 @@ label {
 .btn-create-time {
     height: 50px;
     width: 100px;
-    margin-left: 10px;
-}
-.add-button {
     margin-left: 10px;
 }

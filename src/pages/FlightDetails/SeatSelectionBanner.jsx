@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, notification } from 'antd';
 import { useLocation } from 'react-router-dom';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 import axios from "axios";
+
 
 const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contactData, selectedTicket, setAdultData,
 	setContactData }) => {
@@ -15,15 +18,66 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
+	const holdData = {
+		seatId: 1,
+		idVe: 1,
+		flightId: 1,
+		userId: 1
+	};
+
 
 	const handleOk = () => {
+		axios.post(
+			'http://localhost:8080/holdSeat',
+			holdData,
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		).then((response) => {
+			console.log('Data submitted successfully:', response.data);
+		}).catch((error) => {
+			console.error('Error submitting data:', error);
+			notification.error({
+				message: 'Lỗi',
+				description: 'Vui lòng thử lại.',
+			});
+		});
 		setIsModalVisible(false);
 	};
+
 
 	const handleCancel = () => {
 		setIsModalVisible(false);
 		setSelectedSeats([]); // Xóa ghế đã chọn khi đóng modal
 	};
+
+	// socket from kiet code
+	const [stompClient, setStompClient] = useState(null);
+	const [messages, setMessages] = useState([]);
+
+	useEffect(() => {
+		const socket = new SockJS('http://localhost:8080/ws');
+		const stompClientInstance = Stomp.over(socket);
+		stompClientInstance.connect({}, (frame) => {
+			console.log('Connected: ' + frame);
+			stompClientInstance.subscribe('/topic/seatHeld', (message) => {
+				alert('Seat held:' + message.body);
+			});
+			stompClientInstance.subscribe('/topic/seatCancelHold', (message) => {
+				alert('Canceled seat after 20 seconds:' + message.body);
+				console.log("alert('Canceled seat after 20 seconds:' + message.body);")
+				// setMessages(prevMessages => [...prevMessages, message.body]);
+			});
+		});
+		setStompClient(stompClientInstance);
+
+		// Ngắt kết nối khi component bị hủy
+		return () => {
+			if (stompClientInstance) stompClientInstance.disconnect();
+		};
+	}, []);
 
 
 	const handleSubmit = () => {
@@ -95,7 +149,26 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 			trangThaiActive: "ACTIVE"
 		}));
 
+		const holdDataaa = selectedSeats.map((seat, index) => ({
+			seatId: seat.idChoNgoi,
+			idVe: seat.idVe,
+			flightId: selectedTicket.flightId.idChuyenBay,
+			userId: ""
+		}));
+
+		console.log("selectedSeats", selectedSeats)
+		console.log("holdDataaa", holdDataaa)
+
 		console.log('Booking Data:', bookingData);
+
+
+		const holdData = {
+			seatId: 1,
+			idVe: 1,
+			flightId: 1,
+			userId: 1
+		};
+
 
 		if (1) {
 			axios.post(
@@ -106,21 +179,19 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 						'Content-Type': 'application/json'
 					}
 				}
-			)
-				.then((response) => {
-					console.log("Response from server:", response);
-					console.log("Response from server:", response?.data?.data?.paymentUrl);
-					const paymentUrl = response?.data?.data?.paymentUrl;
-					// Reset form state after successful submission
-					window.location.href = paymentUrl
-				})
-				.catch((error) => {
-					console.error('Error submitting booking data:', error);
-					notification.error({
-						message: 'Lỗi',
-						description: 'Gửi dữ liệu đặt chỗ thất bại. Vui lòng thử lại.',
-					});
+			).then((response) => {
+				console.log("Response from server:", response);
+				console.log("Response from server:", response?.data?.data?.paymentUrl);
+				const paymentUrl = response?.data?.data?.paymentUrl;
+				// Reset form state after successful submission
+				// window.location.href = paymentUrl
+			}).catch((error) => {
+				console.error('Error submitting booking data:', error);
+				notification.error({
+					message: 'Lỗi',
+					description: 'Gửi dữ liệu đặt chỗ thất bại. Vui lòng thử lại.',
 				});
+			});
 		}
 	};
 
@@ -163,7 +234,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	}, [seatData]);
 
 	const handleSeatClick = (seat) => {
-		if (seat.trangThai === 'BOOKED') return;
+		if (seat.trangThai === 'BOOKED' || seat.trangThai === 'HOLD') return;
 
 		const isSelected = selectedSeats.find(s => s.idChoNgoi === seat.idChoNgoi);
 
@@ -259,6 +330,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 																			<img src="public/icons/selected-seat.svg" alt="Selected Seat" className="seat--icon" />
 																		) : seat.trangThai === 'EMPTY' ? (
 																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
+																		) : seat.trangThai === 'HOLD' ? (
+																			<img src="public/icons/booked-seat.svg" alt="Available Seat" className="seat--icon" />
 																		) : (
 																			''
 																		)}

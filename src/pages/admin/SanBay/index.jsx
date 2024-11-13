@@ -29,17 +29,11 @@ const SanBayPage = () => {
     };
 
     const handleBlock = async (idsanBay) => {
-        console.log('handleBlock');
         try {
-            const updatedAirport = await blockAirport(idsanBay);
-            // Cập nhật state sanBay để thay đổi trạng thái máy bay trong giao diện
-            setsanBay((prevsanBay) =>
-                prevsanBay.map((mb) =>
-                    mb.idsanBay === idsanBay ? { ...mb, trangThaiActive: updatedAirport.trangThaiActive } : mb
-                )
-            );
+            const updatedSanBay = await blockAirport(idsanBay);  // Gọi blockReview và lấy lại danh sách đánh giá
+            setsanBay(updatedSanBay);  // Cập nhật danh sách đánh giá mới
         } catch (error) {
-            console.error('Failed to block the aiport!', error);
+            console.error('Failed to block the airport!', error);
         }
     };
 
@@ -71,7 +65,7 @@ const SanBayPage = () => {
     return (
         <div className="may-bay-page">
             <h1>Danh Sách Sân Bay</h1>
-            <button onClick={() => navigate('/admin/sanbay/add')} className="btn them-button">
+            <button onClick={() => navigate('/admin/sanbay/add')} className="add-button">
                 Thêm Sân Bay
             </button>
             

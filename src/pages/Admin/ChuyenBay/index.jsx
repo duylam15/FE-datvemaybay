@@ -8,7 +8,9 @@ import DanhSachCHuyenBay from "./DanhSachChuyenBay";
 
 export const ChuyenBay = () => {
 
-  const [selectTrangThai, setSelectTrangThai] = useState("");
+  const idNhanVienDangNhap = -1;
+
+  const [selectTrangThai, setSelectTrangThai] = useState("SCHEDULED");
   const [selectThoiGianBatDau, setSelectThoiGianBatDau] = useState("");
   const [selectThoiGianKetThuc, setSelectThoiGianKetThuc] = useState("");
   const [typeInfo, setTypeInfo] = useState("0");
@@ -31,6 +33,8 @@ export const ChuyenBay = () => {
     fetchData();
   }, [])
 
+
+
   const [two, settwo] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +46,13 @@ export const ChuyenBay = () => {
         item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
         item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
       })
-      setData(udpateData);
+      let filterByIdNhanVienDangNhap = udpateData.filter((item) => {
+        let s = item.nvhk.toString().split("/");
+        let s1 = s[2].split("-").map(Number);
+        let arr = [s[0], s[1], ...s1].map(Number);
+        return arr.some(item1 => item1 == idNhanVienDangNhap)
+      })
+      setData(idNhanVienDangNhap == -1 ? udpateData : filterByIdNhanVienDangNhap);
       settwo(!two)
     }
     fetchData();
@@ -58,7 +68,13 @@ export const ChuyenBay = () => {
           item.tuyenBay.sanBayBatDau = sanBayBatDau[0];
           item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
         })
-        setData(udpateData);
+        let filterByIdNhanVienDangNhap = udpateData.filter((item) => {
+          let s = item.nvhk.toString().split("/");
+          let s1 = s[2].split("-").map(Number);
+          let arr = [s[0], s[1], ...s1].map(Number);
+          return arr.some(item1 => item1 == idNhanVienDangNhap)
+        })
+        setData(idNhanVienDangNhap == -1 ? udpateData : filterByIdNhanVienDangNhap);
       })
       .catch((error) => {
         setData([]);

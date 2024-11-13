@@ -5,6 +5,11 @@ import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
 
 const TableComponent = (props) => {
+
+  // const accessOnlySee = ["Cơ trưởng", "Cơ Phó", "Tiếp viên"]
+  // const access = "Cơ trưởng";
+  let allowEdit = true;
+
   const navigator = useNavigate();
 
   function getValue(obj, field) {
@@ -77,6 +82,12 @@ const TableComponent = (props) => {
         const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
         navigator(currentPath, { replace: true })
         break;
+      case "idChucVu":
+        const dataChucVu = props.primaryData;
+        const sortedChucVu = sortFlights(dataChucVu, sortField, sortOrder)
+        props.setData(sortedChucVu)
+        const currentPathChucVu = window.location.pathname; // Lấy đường dẫn hiện tại
+        navigator(currentPathChucVu, { replace: true })
       default:
         break;
     }
@@ -96,40 +107,55 @@ const TableComponent = (props) => {
     console.log(nameSortField + ":" + sortOrder);
   }
   const edit = (id) => {
+    // if (props.dataKeys[0] == "idChuyenBay") {
+    //   accessOnlySee.map((item) => {
+    //     if (item == access)
+    //       allowEdit = false;
+    //   })
+    // }
     const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-    const newPath = `${currentPath}/edit/?id=${id}`; // Thêm đoạn mới vào
+    const newPath = `${currentPath}/edit/?id=${id}&allowEdit=${allowEdit}`; // Thêm đoạn mới vào
     navigator(newPath, { replace: true })
   }
 
 
   return (
-    <table>
-      <thead>
-        <tr style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.2)' }}>
-          {props.columns.map((col, index) => (
-            <th key={index} onClick={() => handleSortField(props.dataKeys[index])}>{col}{sortField == props.dataKeys[index] && sortOrder == "asc" ? '\u2191' : '\u2193'}</th>
-          ))}
-          {props.editLink && (<th>Hành động</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {Array.isArray(props.data) && props.data.map((item, index) => (
-          //tạo boderBottom nếu vẫn còn dữ liệu
-          <tr key={item.id} style={{ borderBottom: index === props.data.length - 1 ? 'none' : '1px solid rgba(0, 0, 0, 0.2)' }}>
-            {props.dataKeys.map((key1, idx) => (
-              <td key={idx} style={key1 === 'trangThaiActive' ? { color: item[key1] === 'ACTIVE' ? 'green' : 'red' } : {}}>
-                {xuLiDuLieu(item, key1)}
-              </td>
+    <>
+      <table>
+        <thead className='thead-custom'>
+          <tr style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.2)' }}>
+            {props.columns.map((col, index) => (
+              <th key={index} onClick={() => handleSortField(props.dataKeys[index])}>{col}{sortField == props.dataKeys[index] && sortOrder == "asc" ? '\u2191' : '\u2193'}</th>
             ))}
-            {(
-              <td onClick={() => edit(item[props.dataKeys[0]])}>
-                <button className='btn'>Sửa</button>
-              </td>
-            )}
+            {props.editLink && (<th>Hành động</th>)}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className='tbody-custom'>
+          {props.data.length > 0 && Array.isArray(props.data) && props.data.map((item, index) => (
+            //tạo boderBottom nếu vẫn còn dữ liệu
+            <tr key={item.id} style={{ borderBottom: index === props.data.length - 1 ? 'none' : '1px solid rgba(0, 0, 0, 0.2)' }}>
+              {props.dataKeys.map((key1, idx) => (
+                <td key={idx} style={key1 === 'trangThaiActive' ? { color: item[key1] === 'ACTIVE' ? 'green' : 'red' } : {}}>
+                  {xuLiDuLieu(item, key1)}
+                </td>
+              ))}
+              {(
+                <td className='btn-action' onClick={() => edit(item[props.dataKeys[0]])}>
+                  <div className='btn-custom'>Sửa</div>
+                  {/* {
+                    props.dataKeys[0] == "idChuyenBay" && (<div className='btn-custom'>Xem</div>)
+                  } */}
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {
+        props.data.length == 0 && (<div className='notificateTable'>Không có dữ liệu</div>)
+      }
+    </>
+
   );
 };
 

@@ -37,3 +37,7 @@ export const getAllStatusVe = () => {
     return axios.get(`${REST_API_BASE_URL}/ve/statuses`)
 }
 
+export const editVe = (idVe, data) => {
+    return axios.put(`${REST_API_BASE_URL}/ve/${idVe}`, data)
+}
+

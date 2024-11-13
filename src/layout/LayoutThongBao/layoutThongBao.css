@@ -1,14 +1,25 @@
 .layoutThongBao{
   position: fixed !important;;
   width: 100%;
-  height: 100%;
+  height: 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(139, 132, 132, 0.5) !important;
+  background-color: rgba(139, 132, 132, 0.0) !important;
   top: 0px;
   left: 0px !important;
+  animation: slideDown 0.3s forwards; /* Thêm animation */
+}
+
+/* Animation trượt xuống */
+@keyframes slideDown {
+  0% {
+    top: -100%; /* Bắt đầu từ trên ngoài màn hình */
+  }
+  100% {
+    top: 0; /* Cuối cùng di chuyển đến vị trí ban đầu */
+  }
 }
 
 .hopThoai {
@@ -19,17 +30,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.tieuDeHopThoai {
-  height: 60px; /* Thay đổi chiều cao tiêu đề */
-  color: #FFFFFF; /* Màu chữ trắng */
-  background-color: #4A90E2 !important; /* Màu nền xanh nhẹ hơn */
-  
-  display: flex;
-  align-items: center; /* Căn giữa dọc */
-  padding: 10px 10px; /* Thêm padding cho tiêu đề */
-  font-weight: bold; /* Đậm chữ tiêu đề */
 }
 
 .displayMessage{

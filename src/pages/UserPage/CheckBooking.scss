@@ -103,3 +103,33 @@
   background-color: #7a0000;
   color: #ffffff;
 }
+.ticket-item .p-add {
+  color: #0099ff;
+}
+.ticket-item .form-add-review {
+  margin-top: 20px;
+}
+.ticket-item .text-content {
+  height: 100px;
+  width: 680px;
+  color: #767474;
+  border-radius: 5px;
+  border: 1px solid #ffff;
+  margin: auto auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+.ticket-item .star-rating {
+  display: flex;
+  cursor: pointer;
+  font-size: 24px; /* Kích thước ngôi sao */
+  padding: 10px;
+}
+
+.star {
+  color: lightgray; /* Màu ngôi sao chưa được chọn */
+  transition: color 0.2s ease; /* Hiệu ứng chuyển màu */
+}
+
+.star.filled {
+  color: gold; /* Màu ngôi sao đã được chọn */
+}

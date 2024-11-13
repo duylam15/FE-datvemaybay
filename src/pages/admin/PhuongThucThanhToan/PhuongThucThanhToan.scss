@@ -4,6 +4,7 @@
     align-content: center;
     border-radius: 10px;
     padding: 10px;
+    width: 100%;
     // margin: 10px 20px;
     // box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.416);
     // border: 0.3px solid rgba(128, 128, 128, 0.416);
@@ -101,7 +102,7 @@
     height: 60px;
 }
 .page .add-form, .edit-form {
-    width: 60%;
+    width: 80%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -283,16 +284,17 @@ color: #ffffff;
     display: flex;
     float: left;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: left;
     width: 100%;
     padding: 10px 0px;
 }
 .bill-detail-item-info .item {
     width: 45%;
     margin: 0px 10px;
+    padding: 0px 10px;
 }
-.bill-detail-item-info .ve {
-    border-right: 1px solid black;
+.bill-detail-item-info .hang-hoa {
+    border-left: 1px solid black;
 }
 .bill-detail-item .foot {
     position: absolute;
