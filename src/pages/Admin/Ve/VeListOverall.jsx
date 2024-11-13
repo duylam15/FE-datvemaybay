@@ -87,9 +87,6 @@ const VeListOverall = ({ size = 10 }) => {
     <>
       <h1>Danh sách vé</h1>
 
-      <Link to="add">
-        <IconLabelButtons></IconLabelButtons>
-      </Link>
       <div className="separate_block"></div>
 
       <div className="search-sort-controlss">
