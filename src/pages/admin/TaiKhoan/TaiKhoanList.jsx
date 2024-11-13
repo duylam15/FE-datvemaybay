@@ -2,6 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
+import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
+
     const currentDataList = ({
         taiKhoan,          // Danh sách các phương thức thanh toán
         onEdit,            // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
@@ -11,34 +16,33 @@ import PaginationComponent from '../../../components/PhanTrang/PaginationCompone
         handleSort,          // Hàm xử lý sắp xếp danh sách
         sortOrder,           // Thứ tự sắp xếp (tăng dần hoặc giảm dần)
         sortField,
-        handlePagination,
-        setPage,
-        setSize
     }) => {
 
-    console.log(taiKhoan.length);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
-  
-    // Tính tổng số trang
-    const totalPages = Math.ceil(taiKhoan.length / itemsPerPage);
-  
-    // Lấy dữ liệu cho trang hiện tại
-    const currentData = taiKhoan.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  
     return (
         <div>
-            <div className="search-sort-controls">
+            <div className="search-sort-controlss">
                 <input
-                    type="text"
-                    placeholder="Tìm kiếm tài khoản..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                className="input_search"
+                type="text"
+                placeholder="Tìm kiếm tài khoản..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearch}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
             </div>
-            <table className="table table-hover table-bordered ">
-                <thead>
+            <table className="table">
+                <thead className="thead-dark">
                     <tr className=''>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('idcurrentData')}>
                             ID {sortField === 'idcurrentData' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
@@ -66,7 +70,7 @@ import PaginationComponent from '../../../components/PhanTrang/PaginationCompone
                     </tr>
                 </thead>
                 <tbody className=''>
-                    {currentData.length > 0 ? (currentData.map(tk => (
+                    {taiKhoan.length > 0 ? (taiKhoan.map(tk => (
                         <tr key={tk.idTaiKhoan}>
                             <td className=' align-middle '>{tk.idTaiKhoan}</td>
                             <td className=' align-middle '>{tk.tenDangNhap}</td>
@@ -81,8 +85,8 @@ import PaginationComponent from '../../../components/PhanTrang/PaginationCompone
                                 {tk.nhanVien ? tk.nhanVien.cccd : tk.khachHang?.cccd || ''}
                             </td>
                             <td className=' align-middle '>{tk.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
-                            <td className=' align-middle '>
-                                <button className="btn btn-primary mr-2" onClick={() => onEdit(tk.idTaiKhoan)}>Edit</button>
+                            <td className=' align-middle btn_row'>
+                                <div className="btn_block align-middle" onClick={() => onEdit(tk.idTaiKhoan)}><EditBtn></EditBtn></div>
                             </td>
                         </tr>
                     )))
@@ -94,29 +98,6 @@ import PaginationComponent from '../../../components/PhanTrang/PaginationCompone
                     }
                 </tbody>
                 </table>
-                {/* Pagination */}
-                <PaginationComponent
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                />
-                {/* {totalPages > 1 && (
-                    <ul className="pagination pagination-lg">
-                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
-                        </li>
-                        {[...Array(totalPages).keys()].map(number => (
-                            <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
-                                <a className="page-link" href="#" onClick={() => paginate(number + 1)}>
-                                    {number + 1}
-                                </a>
-                            </li>
-                        ))}
-                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
-                        </li>
-                    </ul>
-                )} */}
         </div>
     );
 };

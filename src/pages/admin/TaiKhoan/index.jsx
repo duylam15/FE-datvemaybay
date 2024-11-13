@@ -1,24 +1,49 @@
 // pơges/PhuongThucThanhToan
 
 import React, { useState, useEffect } from 'react';
-import { useFetchTaiKhoan } from '../../../utils/useFetchTaiKhoan.jsx';
 import TaiKhoanList from './TaiKhoanList.jsx';
 import { useNavigate } from 'react-router-dom';
-import { editTaiKhoan, handlePaginatonServ, handleSort, searchTaiKhoan } from '../../../services/qlTaiKhoanService.js';
+import { editTaiKhoan, getTaiKhoan, handlePaginatonServ, handleSort, searchTaiKhoan } from '../../../services/qlTaiKhoanService.js';
 
-const TaiKhoanPage = () => {
-    const { taiKhoan: initialTaiKhoan, loading, error } = useFetchTaiKhoan();
+import { Link, Outlet } from "react-router-dom";
+import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import Pagination from "@mui/material/Pagination"; // Import Pagination
+import Stack from "@mui/material/Stack"; // Import Stack
+
+const TaiKhoanPage = ({ size = 10 }) => {
+    const {loading, error } = ([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
-    const [taiKhoan, setTaiKhoan] = useState(initialTaiKhoan);
+    const [taiKhoan, setTaiKhoan] = useState([]);
     const [sortField, setSortField] = React.useState('');
-    const [page, setPage] = useState(0);
-    const [size, setSize] = useState(10);
+
+    const [currentPage, setCurrentPage] = useState(1); // State for current page
+    const [totalPages, setTotalPages] = useState(0); // State for total pages
+
     const navigate = useNavigate();
 
+    const fetchTaiKhoan = async (page) => {
+        try {
+          const result = await getTaiKhoan(page - 1, size); // API usually uses 0-based indexing
+          if (result && result.data) {
+            setTaiKhoan(result.data.content);
+            setTotalPages(result.data.totalPages); // Update total pages based on API response
+          } else {
+            setTaiKhoan([]);
+            setTotalPages(0);
+          }
+        } catch (error) {
+          console.error("Error fetching permissions:", error);
+        }
+      };
+
+    // useEffect(() => {
+    //     setTaiKhoan(initialTaiKhoan);
+    // }, [initialTaiKhoan]);
+
     useEffect(() => {
-        setTaiKhoan(initialTaiKhoan);
-    }, [initialTaiKhoan]);
+        fetchTaiKhoan(currentPage); // Fetch with the current page
+      }, [currentPage]); // Fetch data when currentPage or searchName changes
 
     const handleSearch = () => {
         searchTaiKhoan(searchTerm, setTaiKhoan);
@@ -46,12 +71,11 @@ const TaiKhoanPage = () => {
 
     return (
         <div className="tai-khoan-tt-page page">
-            <div className='top-bar'>
-                <h1 className='text'>Danh Sách Tài Khoản</h1>
-                <button onClick={() => navigate('/admin/taikhoan/add')} className="btn btn-success mb-3 add-btn">
-                    Thêm Tài Khoản
-                </button>
-            </div>
+            <h1 className='text'>Danh Sách Tài Khoản</h1>
+            <Link to="add">
+                <IconLabelButtons></IconLabelButtons>
+            </Link>
+            <div className="separate_block"></div>
             
             
             <TaiKhoanList
@@ -65,9 +89,20 @@ const TaiKhoanPage = () => {
                 sortOrder={sortOrder}
                 sortField={sortField}
                 handlePagination={handlePagination}
-                setPage={setPage}
-                setSize={setSize}
             />
+            {totalPages > 1 && (
+                <div className="center">
+                    <Stack spacing={2}>
+                        <Pagination
+                            count={totalPages} // Tổng số trang
+                            page={currentPage} // Trang hiện tại
+                            variant="outlined"
+                            shape="rounded"
+                            onChange={(event, value) => setCurrentPage(value)} // Cập nhật trang hiện tại
+                        />
+                    </Stack>
+                </div>
+            )}
         </div>
     );
 }

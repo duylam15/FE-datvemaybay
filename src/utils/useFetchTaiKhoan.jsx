@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { getTaiKhoan } from '../services/qlTaiKhoanService';
 
-export const useFetchTaiKhoan = () => {
+export const useFetchTaiKhoan = (page, size) => {
     const [taiKhoan, setTaiKhoan] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ export const useFetchTaiKhoan = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getTaiKhoan();
+                const data = await getTaiKhoan(page, size);
                 setTaiKhoan(data);
             } catch (error) {
                 if (error.response && error.response.status === 204) {
