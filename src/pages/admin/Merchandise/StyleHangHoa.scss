@@ -11,10 +11,9 @@ body {
   font-family: Arial, sans-serif;
 }
 
-// Cấu trúc cho button container
-.button-container {
+.topup-table {
   display: flex;
-  align-items: center;
+  justify-content: flex-start;
   gap: 30px;
   margin: 0;
 
@@ -65,4 +64,15 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.block-btn {
+  background-color: #dc3545;
+  color: white;
+
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
 }
