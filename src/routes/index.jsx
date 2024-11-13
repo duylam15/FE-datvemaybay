@@ -65,6 +65,8 @@ import AddVe from '../pages/Admin/Ve/AddVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
 import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
 import DanhGia from '../components/DanhGia.jsx';
+import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
+
 
 export const router = createBrowserRouter([
   {
@@ -104,15 +106,15 @@ export const router = createBrowserRouter([
 
   {
     path: '/login',
-    element: <Login />, 
+    element: <Login />,
   },
   {
     path: '/cmt',
-    element: <DanhGia />, 
+    element: <DanhGia />,
   },
   {
     path: '/register',
-    element: <Register />, 
+    element: <Register />,
   },
   {
     path: '/my_profile',
@@ -127,7 +129,7 @@ export const router = createBrowserRouter([
         element: <InfoAccount></InfoAccount>,
       },
       { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
-      { path: 'checkbooking', element: <CheckBookingPage />}
+      { path: 'checkbooking', element: <CheckBookingPage /> }
     ],
   },
   {
@@ -143,8 +145,8 @@ export const router = createBrowserRouter([
     element: <LayoutAdmin />,
     errorElement: <Error />,
     children: [
-      { index: true, element: <Dashboard /> }, 
-      { path: 'dashboard', element: <Dashboard /> }, 
+      { index: true, element: <Dashboard /> },
+      { path: 'dashboard', element: <Dashboard /> },
 
       // Thêm route cấp 2: "/admin/quanlinhanvien"
       {
@@ -204,7 +206,7 @@ export const router = createBrowserRouter([
         ],
       },
       // maybay
-      { path: 'maybay',element: <MayBayPage />,},
+      { path: 'maybay', element: <MayBayPage />, },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
       // sanbay
@@ -212,7 +214,7 @@ export const router = createBrowserRouter([
       { path: 'sanbay/add', element: <ThemSanBay /> },
       { path: 'sanbay/edit/:idSanBay', element: <SanBayEdit /> },
       // danhgia
-      { path: 'danhgia', element: <DanhGiaPage/>},
+      { path: 'danhgia', element: <DanhGiaPage /> },
       // khachhang
       { path: 'customers', element: <KhachHangPage /> },
       { path: 'customer/edit/:idKhachHang', element: <KhachHangEdit /> },

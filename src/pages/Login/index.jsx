@@ -29,7 +29,7 @@ const Login = () => {
     setIsSubmit(false); // Kết thúc quá trình gửi dữ liệu
     if (res?.data) { // Kiểm tra nếu API trả về dữ liệu
       localStorage.setItem("access_token", res.data)
-      dispatch(doLoginAction(infoUser))
+      dispatch(doLoginAction(infoUser.data))
       message.success('Đăng nhập tài khoản thành công!'); // Hiển thị thông báo thành công
       setTimeout(() => {
         navigate('/');

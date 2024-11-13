@@ -15,6 +15,7 @@ const Navbar = () => {
 	const [loading, setLoading] = useState(true);
 	const [hoTen, setHoTen] = useState("");
 	const [quyen, setQuyen] = useState("");
+	const [isLogin, setIsLogin] = useState(false);
 
 	const menuPosttt = [
 		{
@@ -282,7 +283,7 @@ const Navbar = () => {
 			message.error('Đăng xuất thất bại'); // Hiển thị thông báo đăng xuất thành công
 		}
 	}
-
+	if (loading) return null;
 	return (
 		<nav className="navbar">
 			<div className="container">
@@ -346,7 +347,7 @@ const Navbar = () => {
 											{quyen === "admin" && (
 												<div onClick={() => navigate('/admin')} className="navbar__dropdown-item">Quản lí Admin</div>
 											)}
-										
+
 											<div onClick={handleLogout} className="navbar__dropdown-item">Đăng xuất</div>
 										</div>
 									)}
