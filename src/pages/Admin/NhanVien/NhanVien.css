@@ -29,15 +29,29 @@
 }
 
 .btn {
-  background-color: #007bff;
-  color: aliceblue;
+  color: #1976d2;
+  border: 1px solid #1976d2 !important;
+  border-radius: 6px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 12px;
-  border-radius: 8px;
+  align-items: center;
   cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.4s ease !important;
 }
+.btn:hover{
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+.btn:disabled {
+  opacity: 0.5; /* Làm mờ nút */
+  cursor: not-allowed; /* Đổi con trỏ thành biểu tượng không cho phép */
+  background-color: #cccccc; /* Đổi màu nền */
+  color: #666666; /* Đổi màu chữ */
+  border: 1px solid #999999; /* Đổi màu viền */
+}
+
 
 .btnHuy{
   margin-left: 10px;
@@ -45,6 +59,13 @@
   align-items: center;
   padding: 12px;
   border-radius: 8px;
+  background-color: #1976d2 !important;
+  transition: background-color 0.4s ease;
+  border: 1px solid #1976d2;
+}
+
+.btnHuy:hover{
+  background-color: #639cd4 !important;
 }
 
 .container__add-edit{

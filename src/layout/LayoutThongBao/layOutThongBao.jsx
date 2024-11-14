@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './layoutThongBao.css';
 export default function LayOutThongBao(props) {
@@ -20,14 +19,11 @@ export default function LayOutThongBao(props) {
   return (
     <div className='layoutThongBao'>
       <div className="hopThoai">
-        <div className="tieuDeHopThoai itemHopThoai">
-          Thông báo
-        </div>
         <div className="displayMessage itemHopThoai">
           <div>{props.thongBao.message ? props.thongBao.message : "Thông báo"}</div>
         </div>
         <div className="buttonHopThoai itemHopThoai">
-          <button onClick={OK}>OK</button>
+          <button data-keep-enabled onClick={OK}>OK</button>
           {props.thongBao.typeMessage == "outpage" && (<button onClick={Cancle}>CANCLE</button>)}
         </div>
       </div>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = 'http://localhost:8080';
 
@@ -34,9 +34,9 @@ const TaiKhoanAdd = () => {
                     fetch(`${API_URL}/quyen`),
                     fetch(`${API_URL}/khachhang/getKhachHangChuaCoTaiKhoan`)
                 ]);
-    
+
                 const [nhanVienResponse, quyenResponse, khachHangResponse] = responses;
-    
+
                 // Kiểm tra trạng thái từng phản hồi và lấy dữ liệu nếu thành công
                 if (nhanVienResponse.status === 'fulfilled' && nhanVienResponse.value.ok) {
                     const nhanVienData = await nhanVienResponse.value.json();
@@ -44,28 +44,28 @@ const TaiKhoanAdd = () => {
                 } else {
                     console.error('Error fetching nhanvien:', nhanVienResponse.reason || nhanVienResponse.value.statusText);
                 }
-    
+
                 if (quyenResponse.status === 'fulfilled' && quyenResponse.value.ok) {
                     const quyenData = await quyenResponse.value.json();
                     setListQuyen(quyenData.data.content);
                 } else {
                     console.error('Error fetching roles:', quyenResponse.reason || quyenResponse.value.statusText);
                 }
-    
+
                 if (khachHangResponse.status === 'fulfilled' && khachHangResponse.value.ok) {
                     const khachHangData = await khachHangResponse.value.json();
                     setListKhachHang(khachHangData.data);
                 } else {
                     console.error('Error fetching customers:', khachHangResponse.reason || khachHangResponse.value.statusText);
                 }
-    
+
             } catch (err) {
                 setError(`An error occurred: ${err.message}`);
             }
         };
         fetchData();
     }, []);
-    
+
     const [accountType, setAccountType] = useState('employee'); // Thêm state cho loại tài khoản
 
     const handleAccountTypeChange = (event) => {
@@ -137,7 +137,7 @@ const TaiKhoanAdd = () => {
                         name="accountType"
                         value="employee"
                         onChange={handleAccountTypeChange}
-                        defaultChecked 
+                        defaultChecked
                     />{' '}
                     Nhân viên
                 </label>
@@ -158,12 +158,12 @@ const TaiKhoanAdd = () => {
                     <input
                         type="text"
                         name="tenDangNhap"
-                        className={`form-control form-control-lg ${fieldErrors.tenDangNhap ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors?.tenDangNhap ? 'is-invalid' : ''}`}
                         value={tenDangNhap || ''}
                         onChange={(e) => setTenDangNhap(e.target.value)}
                         id="tenDangNhap"
                     />
-                    {fieldErrors.tenDangNhap && <div className="invalid-feedback">{fieldErrors.tenDangNhap}</div>} {/* Hiển thị thông báo lỗi */}
+                    {fieldErrors?.tenDangNhap && <div className="invalid-feedback">{fieldErrors?.tenDangNhap}</div>} {/* Hiển thị thông báo lỗi */}
                 </div>
 
                 <div className="mb-3">
@@ -171,13 +171,13 @@ const TaiKhoanAdd = () => {
                     <input
                         name="matKhau"
                         type="password"
-                        className={`form-control form-control-lg ${fieldErrors.matKhau ? 'is-invalid' : ''}`}
+                        className={`form-control form-control-lg ${fieldErrors?.matKhau ? 'is-invalid' : ''}`}
                         value={matKhau}
                         onChange={(e) => setMatKhau(e.target.value)}
                         id="matKhau"
                     />
-                    {fieldErrors.matKhau && (
-                        <div className="invalid-feedback">{fieldErrors.matKhau}</div>
+                    {fieldErrors?.matKhau && (
+                        <div className="invalid-feedback">{fieldErrors?.matKhau}</div>
                     )}
                 </div>
 
@@ -185,7 +185,7 @@ const TaiKhoanAdd = () => {
                     <div className="mb-3">
                         <label className="form-label">Khách hàng</label>
                         <select
-                            className={`form-control form-control-lg ${fieldErrors.khachHang ? 'is-invalid' : ''}`}
+                            className={`form-control form-control-lg ${fieldErrors?.khachHang ? 'is-invalid' : ''}`}
                             onChange={handleChange}
                             value={khachHang?.idKhachHang || ''}
                             id="khachHang"
@@ -198,51 +198,51 @@ const TaiKhoanAdd = () => {
                                 </option>
                             ))}
                         </select>
-                        {fieldErrors.matKhau && (
-                            <div className="invalid-feedback">{fieldErrors.khachHang}</div>
+                        {fieldErrors?.matKhau && (
+                            <div className="invalid-feedback">{fieldErrors?.khachHang}</div>
                         )}
                     </div>
                 )}
 
                 {accountType === 'employee' && (
                     <>
-                    <div className="mb-3">
-                        <label className="form-label">Nhân viên</label>
-                        <select
-                            className={`form-control form-control-lg ${fieldErrors.nhanVien ? 'is-invalid' : ''}`}
-                            onChange={handleChange}
-                            value={nhanVien?.idNhanVien || ''}
-                            id="nhanVien"
-                            name="nhanVien"
-                        >
-                            <option value="">Chọn nhân viên</option>
-                            {listNhanVien.map((nv) => (
-                                <option value={nv.idNhanVien} key={nv.idNhanVien}>
-                                    {nv.idNhanVien} - {nv.hoTen}
-                                </option>
-                            ))}
-                        </select>
-                        {fieldErrors.nhanVien && (
-                            <div className="invalid-feedback">{fieldErrors.nhanVien}</div>
-                        )}
-                    </div>
-                    <div className="mb-3">
-                    <label className="form-label">Quyền</label>
-                    <select
-                        className={`form-control form-control-lg ${fieldErrors.quyen ? 'is-invalid' : ''}`}
-                        onChange={handleChange}
-                        value={quyen?.idQuyen || ''}
-                        name="quyen"
-                    >
-                        <option value="">Chọn quyền</option>
-                        {listQuyen.map((quyen) => (
-                            <option value={quyen.idQuyen} key={quyen.idQuyen}>
-                                {quyen.idQuyen} - {quyen.tenQuyen}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                </>
+                        <div className="mb-3">
+                            <label className="form-label">Nhân viên</label>
+                            <select
+                                className={`form-control form-control-lg ${fieldErrors?.nhanVien ? 'is-invalid' : ''}`}
+                                onChange={handleChange}
+                                value={nhanVien?.idNhanVien || ''}
+                                id="nhanVien"
+                                name="nhanVien"
+                            >
+                                <option value="">Chọn nhân viên</option>
+                                {listNhanVien.map((nv) => (
+                                    <option value={nv.idNhanVien} key={nv.idNhanVien}>
+                                        {nv.idNhanVien} - {nv.hoTen}
+                                    </option>
+                                ))}
+                            </select>
+                            {fieldErrors?.nhanVien && (
+                                <div className="invalid-feedback">{fieldErrors?.nhanVien}</div>
+                            )}
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Quyền</label>
+                            <select
+                                className={`form-control form-control-lg ${fieldErrors?.quyen ? 'is-invalid' : ''}`}
+                                onChange={handleChange}
+                                value={quyen?.idQuyen || ''}
+                                name="quyen"
+                            >
+                                <option value="">Chọn quyền</option>
+                                {listQuyen.map((quyen) => (
+                                    <option value={quyen.idQuyen} key={quyen.idQuyen}>
+                                        {quyen.idQuyen} - {quyen.tenQuyen}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </>
                 )}
 
                 {/* Các phần khác của form, bao gồm quyền và trạng thái */}
