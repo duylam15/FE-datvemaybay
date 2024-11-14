@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 import TableComponent from '../../../components/Table/TableComponent';
 
@@ -7,7 +7,9 @@ export default function DanhSachComponent(props) {
   const itemsPerPage = 3;
 
   const nhanviens = props.data;
-
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [nhanviens])
   // Tính tổng số trang
   const totalPages = Math.ceil(nhanviens.length / itemsPerPage);
 

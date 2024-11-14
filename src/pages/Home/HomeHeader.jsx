@@ -122,8 +122,8 @@ export default function HomeHeader() {
         const response = await getListLocationsForHeader();
         setLocations(
           response.data?.map((location) => ({
-            label: `${location.diaChi} `,
-            value: `(${location.diaChi})`,
+            label: `${location.tenThanhPho} `,
+            value: `(${location.tenThanhPho})`,
           }))
         );
       } catch (error) {

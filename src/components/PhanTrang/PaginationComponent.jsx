@@ -20,7 +20,7 @@ const PaginationComponent = (props) => {
     } else {
       pages.push(<button key={1} onClick={() => onPageChange(1)} className={`pagination-button ${currentPage === 1 ? 'active' : ''}`}>1</button>);
       if (currentPage > 3) {
-        pages.push(<span key="ellipsis1">..</span>);
+        pages.push(<div className='boxBaCham' key="ellipsis1">...</div>);
       }
 
       const start = Math.max(2, currentPage - 1);
@@ -35,7 +35,7 @@ const PaginationComponent = (props) => {
       }
 
       if (currentPage < totalPages - 2) {
-        pages.push(<span key="ellipsis2">..</span>);
+        pages.push(<div className='boxBaCham' key="ellipsis2">...</div>);
       }
 
       pages.push(<button key={totalPages} onClick={() => onPageChange(totalPages)} className={`pagination-button ${currentPage === totalPages ? 'active' : ''}`}>{totalPages}</button>);
@@ -45,15 +45,20 @@ const PaginationComponent = (props) => {
   };
 
   return (
-    <div className='pagination'>
-      <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className={currentPage === 1 ? 'btn-default' : 'btn-move'}>
-        &#8249; {/* Mũi tên trái */}
-      </button>
-      {renderPagination()}
-      <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className={currentPage === totalPages ? 'btn-default' : 'btn-move'}>
-        &#8250; {/* Mũi tên phải */}
-      </button>
-    </div>
+    <>
+      {
+        totalPages != 0 && (<div className='pagination'>
+          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className={currentPage === 1 ? 'btn-default' : 'btn-move'}>
+            &#8249; {/* Mũi tên trái */}
+          </button>
+          {renderPagination()}
+          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className={currentPage === totalPages ? 'btn-default' : 'btn-move'}>
+            &#8250; {/* Mũi tên phải */}
+          </button>
+        </div>)
+      }
+    </>
+
   );
 };
 

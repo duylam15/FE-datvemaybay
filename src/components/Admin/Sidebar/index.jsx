@@ -241,13 +241,12 @@ const Sidebar = () => {
                 Chức vụ
               </div>
             </Link>
-            <Link
-              className={`nav-link ${location.pathname === '/admin/danhgia' ? 'active' : ''
-                }`}
+            <Link className={`nav-link ${location.pathname === '/admin/danhgia' ? 'active' : ''
+              }`}
               to='/admin/danhgia'
             >
               <div
-                className={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
+                cldivName={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
                   }`}
               >
                 <FaGrinStars />

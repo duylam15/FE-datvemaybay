@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PaginationComponent from '../../../components/PhanTrang/PaginationComponent';
 import TableComponent from '../../../components/Table/TableComponent';
 
@@ -7,6 +7,9 @@ export default function DanhSachCHuyenBay(props) {
   const itemsPerPage = 3;
 
   const primaryData = props.data;
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [primaryData])
 
   // Tính tổng số trang
   const totalPages = Math.ceil(primaryData.length / itemsPerPage);
@@ -19,21 +22,18 @@ export default function DanhSachCHuyenBay(props) {
   const columns = [
     'Stt',
     'Iata chuyến bay',
-    'Sân bay đi',
-    'Nơi đi',
-    'Sân bay đến',
-    'Nơi đến',
+    'Địa chỉ sân bay đi',
+    'Địa chỉ sân bay đến',
     'Thời gian đi',
     'Thời gian đến',
     'Trạng thái',
   ];
-
+  // 'tuyenBay.sanBayBatDau.tenSanBay',
+  // 'tuyenBay.sanBayKetThuc.tenSanBay',
   const dataKeys = [
     'idChuyenBay',
     'iataChuyenBay',
-    'tuyenBay.sanBayBatDau.tenSanBay',
     'tuyenBay.sanBayBatDau.diaChi',
-    'tuyenBay.sanBayKetThuc.tenSanBay',
     'tuyenBay.sanBayKetThuc.diaChi',
     'thoiGianBatDauDuTinh',
     'thoiGianKetThucDuTinh',

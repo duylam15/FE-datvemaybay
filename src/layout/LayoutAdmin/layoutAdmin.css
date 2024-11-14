@@ -4,6 +4,7 @@
     padding: 20px; /* Thêm khoảng cách bên trong */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng nhẹ */
     border-radius: 8px; /* Bo tròn các góc */
+    margin-left: 240px;
 }
 .container-fluidd {
     background-color: #e7e7e7;
@@ -14,4 +15,17 @@
 }
 .row_admin {
     display: flex;
+}
+.header_admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 777;
+    background-color: red;
+    margin-left: 240px;
+}
+.pt_35px {
+    padding-top: 35px;
 }

@@ -58,10 +58,11 @@ import Register from '../pages/Register';
 import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
+// import EditVe from '../pages/Admin/Ve/EditVe';
+import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
 import EditVe from '../pages/Admin/Ve/EditVe';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
-import AddVe from '../pages/Admin/Ve/AddVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
 import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
 import DanhGia from '../components/DanhGia.jsx';
@@ -249,6 +250,11 @@ export const router = createBrowserRouter([
         ],
       },
 
+      {
+        path: 'xemchuyenbay',
+        element: <XemChuyenBay />,
+      },
+
       //TuyenBay
       {
         path: 'route',
@@ -330,10 +336,6 @@ export const router = createBrowserRouter([
           {
             path: 'edit/:idVe',
             element: <EditVe></EditVe>,
-          },
-          {
-            path: 'add',
-            element: <AddVe></AddVe>,
           }
         ],
       },

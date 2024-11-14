@@ -8,14 +8,27 @@ import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
 import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
+import { getAllGiaVeTheoIdChuyenBay } from '../../../services/veService';
 export const AddChuyenBay = () => {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const idChuyenBay = queryParams.get('id');
-  const action = idChuyenBay ? "edit" : "add";
+  const idChuyenBay = queryParams.get('id') ? queryParams.get('id') : -1;
+  const action = idChuyenBay != -1 ? "edit" : "add";
+
+  const checkAllowEdit = () => {
+    const allowEdit = queryParams.get('allowEdit');
+    if (allowEdit == "false") {
+      document.querySelectorAll('select, input ,button').forEach(element => {
+        if (!element.hasAttribute('data-keep-enabled')) {
+          element.disabled = true; // Disable tất cả trừ các phần tử có `data-keep-enabled`
+        }
+      });
+    }
+    return false;
+  }
+
   const [dataSelectChuyenBay, setDataSelectChuyenBay] = useState([]);
-  const [loadData, setLoadData] = useState(0);
   const [delay, setDelay] = useState(0);
   const [errorDelay, setErrorDelay] = useState("");
   const [iataChuyenBay, setIataChuyenBay] = useState("");
@@ -26,9 +39,10 @@ export const AddChuyenBay = () => {
   const [thoiGianBatDauThucTe, setthoiGianBatDauThucTe] = useState("");
   const [thoiGianKetThucThucTe, setThoiGianKetThucThucTe] = useState("");
   const [trangThaiCu, setTrangThaiCu] = useState("0");
-  const [trangThai, setTrangThai] = useState(idChuyenBay ? "0" : "SCHEDULED");
+  const [trangThai, setTrangThai] = useState(idChuyenBay != -1 ? "0" : "SCHEDULED");
   const [trangThaiActive, setTrangThaiActive] = useState("ACTIVE");
   const [soGhe, setSoGhe] = useState(0);
+  const [nvhk, setNvhk] = useState("");
 
   const [chuyenBays, setChuyenBays] = useState([]);
   let [tuyenBays, setTuyenBays] = useState([]);
@@ -42,6 +56,47 @@ export const AddChuyenBay = () => {
   const [mayBays, setMayBays] = useState([]);
   const [selectMayBay, setSelectMayBay] = useState("0");
   const [mayBay, setMayBay] = useState();
+
+  const [giaVeThuong, setGiaVeThuong] = useState(0)
+  const [giaVeThuongGia, setGiaVeThuongGia] = useState(0)
+  const [errorThuong, setErrorThuong] = useState(false);
+  const [errorThuongGia, setErrorThuongGia] = useState(false);
+  const [errorGiaVe, setErrorGiaVe] = useState("");
+
+
+  const handleGiaVeThuongChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) { // chỉ cho phép số
+      setGiaVeThuong(value);
+      setErrorThuong(false);
+    } else {
+      setErrorThuong(true);
+    }
+  };
+
+  const handleGiaVeThuongGiaChange = (e) => {
+    const value = e.target.value;
+
+    if (/^\d*$/.test(value)) { // chỉ cho phép số
+      setGiaVeThuongGia(value);
+      setErrorThuongGia(false);
+    } else {
+      setErrorThuongGia(true);
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
+      console.log("gia ve la: !", resGiaVe)
+      setGiaVeThuong(resGiaVe.data?.giaVeThuong)
+      setGiaVeThuongGia(resGiaVe.data?.giaVeThuongGia)
+    }
+    fetchData();
+  }, [idChuyenBay])
+
 
   let [dataSanBayBatDau, setDataSanBayBatDau] = useState({
     idSanBay: 0,
@@ -162,6 +217,8 @@ export const AddChuyenBay = () => {
       trangThaiMoi = e.target.value;
     if (trangThaiMoi != "" && trangThaiCu != "IN_FLIGHT")
       setTrangThai(trangThaiMoi);
+    else if (trangThaiMoi == "COMPLETED" && trangThaiCu == "IN_FLIGHT")
+      setTrangThai(trangThaiMoi);
     else {
       setThongBao({ message: "Không thể đổi trạng thái", typeMessage: "inpage" });
       setTypeDisplay("block");
@@ -247,9 +304,13 @@ export const AddChuyenBay = () => {
 
   const [four, setfour] = useState(false);
   useEffect(() => {
+    console.log("id chuyen bay : " + idChuyenBay);
+    if (idChuyenBay == -1) return;
     const fetchData = async () => {
       const reponseDataChuyenBayID = await getChuyenBayById(Number(idChuyenBay));
       const data = reponseDataChuyenBayID.data.data;
+      console.log("data chuyen bay voi id :  " + idChuyenBay)
+      console.log(data);
       setDataSelectChuyenBay(data);
       setDelay(data.delay);
       setMayBay(data.mayBay);
@@ -268,6 +329,12 @@ export const AddChuyenBay = () => {
       setTrangThaiCu(data.trangThai);
       setTrangThai(data.trangThai);
       setTrangThaiActive(data.trangThaiActive);
+      setNvhk(data.nvhk);
+      const idnvhk = data.nvhk?.toString().split("/");
+      setIndexCoTruong(idnvhk[0])
+      setIndexCoPho(idnvhk[1])
+      const idnvh_tv = idnvhk[2].split("-").map(Number);
+      setDanhSachTiepVien([...idnvh_tv])
       setfour(!four);
     }
     fetchData();
@@ -303,11 +370,11 @@ export const AddChuyenBay = () => {
     fetchData();
   }, [selectTuyenBay, tuyenBays, four, sanBayBatDau, thoiGianBatDauDuTinh])
 
-  const differentBetween2Time = (start, end) => {
+  const differentBetween2Time = (start, end, time) => {
     const startTIme = new Date(start);
     const endTIme = new Date(end);
     const result = endTIme.getTime() - startTIme.getTime();
-    return result > 2 * 60 * 60 * 1000;
+    return result > time * 60 * 60 * 1000;
   }
   const [six, setsix] = useState(false);
   useEffect(() => {
@@ -322,20 +389,17 @@ export const AddChuyenBay = () => {
       const mayBayDuocChon = mayBayTheoSanBayBatDau.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay))
       const mayBayDaHoanThanhChuyenBay = mayBayDuocChon.filter((item) => chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "CANCELED" || item1.trangThai == "COMPLETED") && item1.idChuyenBay != idChuyenBay))
       const mayBayCoSan0 = mayBayDaHoanThanhChuyenBay.filter((item) => !chuyenBays.find((item1) => item.idMayBay == item1.mayBay.idMayBay && (item1.trangThai == "SCHEDULED" || item1.trangThai == "DELAYED" || item1.trangThai == "IN_FLIGHT") && item1.idChuyenBay != idChuyenBay))
-      const mayBayCoTheCo = mayBayDaHoanThanhChuyenBay.filter(
-        (item) => chuyenBays.find((item1) =>
-          item.idMayBay == item1.mayBay.idMayBay
-          && (item1.trangThai == "SCHEDULED"
-            || item1.trangThai == "DELAYED"
-            || item1.trangThai == "IN_FLIGHT")
-          && item1.idChuyenBay != idChuyenBay
-          && differentBetween2Time(item1.thoiGianKetThucThucTe, thoiGianBatDauDuTinh)
-        )
-      )
-
-      console.log("may bay cos the co")
-      console.log([...mayBayCoTheCo])
-      const danhSachMayBay = mayBay != undefined && sanBayBatDauCu == sanBayBatDau ? [mayBay, ...mayBayChuaChon, ...mayBayCoSan0, ...mayBayCoTheCo] : [...mayBayChuaChon, ...mayBayCoSan0, ...mayBayCoTheCo];
+      // const mayBayCoTheCo = mayBayDaHoanThanhChuyenBay.filter(
+      //   (item) => chuyenBays.find((item1) =>
+      //     item.idMayBay == item1.mayBay.idMayBay
+      //     && (item1.trangThai == "SCHEDULED"
+      //       || item1.trangThai == "DELAYED"
+      //       || item1.trangThai == "IN_FLIGHT")
+      //     && item1.idChuyenBay != idChuyenBay
+      //     && differentBetween2Time(item1.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 2)
+      //   )
+      // )
+      const danhSachMayBay = mayBay != undefined && sanBayBatDauCu == sanBayBatDau ? [mayBay, ...mayBayChuaChon, ...mayBayCoSan0] : [...mayBayChuaChon, ...mayBayCoSan0];
       const uniqueArray = danhSachMayBay.filter((item, index, self) =>
         index == self.findIndex((t) => t.idMayBay == item.idMayBay)
       );
@@ -452,7 +516,7 @@ export const AddChuyenBay = () => {
   const [selectedCoTruongCu, setSelectedCoTruongCu] = useState({ idNhanVien: 0 });
   // load data co truong
   useEffect(() => {
-    const coTruongChuyenBay = idChuyenBay ? nhanviens?.find((item) => item?.chucVu?.ten == "Cơ trưởng" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : null;
+    const coTruongChuyenBay = idChuyenBay != -1 ? nhanviens?.find((item) => item?.chucVu?.ten == "Cơ trưởng" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : null;
     const coTruongNull = nhanviens?.filter((item) => item?.chucVu?.ten == "Cơ trưởng" && item?.chuyenBay == null);
     setCoTruong(coTruongChuyenBay ? [coTruongChuyenBay, ...coTruongNull] : coTruongNull);
     setSelectedCoTruongCu(coTruongChuyenBay ? coTruongChuyenBay : { idNhanVien: 0 });
@@ -460,7 +524,7 @@ export const AddChuyenBay = () => {
 
 
   useEffect(() => {
-    const index = idChuyenBay ? coTruongs?.find((item) => item?.chuyenBay?.idChuyenBay == idChuyenBay && item?.chucVu?.ten == "Cơ trưởng")?.idNhanVien : "0";
+    const index = idChuyenBay != -1 ? coTruongs?.find((item) => item?.chuyenBay?.idChuyenBay == idChuyenBay && item?.chucVu?.ten == "Cơ trưởng")?.idNhanVien : "0";
     setIndexCoTruong(index);
   }, [coTruongs])
 
@@ -480,14 +544,14 @@ export const AddChuyenBay = () => {
 
 
   useEffect(() => {
-    const coPhoChuyenBay = idChuyenBay ? nhanviens?.find((item) => item?.chucVu?.ten == "Cơ phó" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : null;
+    const coPhoChuyenBay = idChuyenBay != -1 ? nhanviens?.find((item) => item?.chucVu?.ten == "Cơ phó" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : null;
     const coPhoNull = nhanviens?.filter((item) => item?.chucVu?.ten == "Cơ phó" && item?.chuyenBay == null);
     setCoPho(coPhoChuyenBay ? [coPhoChuyenBay, ...coPhoNull] : coPhoNull);
     setSelectedCoPhoCu(coPhoChuyenBay ? coPhoChuyenBay : { idNhanVien: 0 });
   }, [nhanviens]);
 
   useEffect(() => {
-    const index = idChuyenBay ? coPhos?.find((item) => item?.chuyenBay?.idChuyenBay == idChuyenBay && item?.chucVu?.ten == "Cơ phó")?.idNhanVien : "0";
+    const index = idChuyenBay != -1 ? coPhos?.find((item) => item?.chuyenBay?.idChuyenBay == idChuyenBay && item?.chucVu?.ten == "Cơ phó")?.idNhanVien : "0";
     setIndexCoPho(index);
   }, [coPhos])
 
@@ -507,7 +571,7 @@ export const AddChuyenBay = () => {
   const [countTiepVien, setCountTiepVien] = useState(danhSachTiepVien?.length);
 
   useEffect(() => {
-    const tiepVienChuyenbay = idChuyenBay ? nhanviens?.filter((item) => item?.chucVu?.ten == "Tiếp viên" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : [];
+    const tiepVienChuyenbay = idChuyenBay != -1 ? nhanviens?.filter((item) => item?.chucVu?.ten == "Tiếp viên" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : [];
     const tiepVienNull = nhanviens?.filter((item) => item?.chucVu?.ten == "Tiếp viên" && item?.chuyenBay == null)
     setTiepVien(tiepVienChuyenbay?.length > 0 ? [...tiepVienChuyenbay, ...tiepVienNull] : tiepVienNull);
     setDataTiepVienCu(tiepVienChuyenbay ? tiepVienChuyenbay : [])
@@ -515,7 +579,7 @@ export const AddChuyenBay = () => {
 
 
   useEffect(() => {
-    const tiepVienChuyenbay = idChuyenBay ? nhanviens?.filter((item) => item?.chucVu?.ten == "Tiếp viên" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : [];
+    const tiepVienChuyenbay = idChuyenBay != -1 ? nhanviens?.filter((item) => item?.chucVu?.ten == "Tiếp viên" && item?.chuyenBay?.idChuyenBay == idChuyenBay) : [];
     setDanhSachTiepVien(tiepVienChuyenbay?.map(item => item?.idNhanVien));
   }, [nhanviens])
 
@@ -541,6 +605,7 @@ export const AddChuyenBay = () => {
     setCountTiepVien(countTiepVien - 1);
 
     danhSachTiepVien.splice(index, 1);
+
     setDanhSachTiepVien([...danhSachTiepVien]);
   }
 
@@ -562,6 +627,11 @@ export const AddChuyenBay = () => {
     }
     if (!selectedCoPho) {
       setErrorCoPho("Vui long chon co pho");
+      hasError = true;
+    }
+
+    if (giaVeThuong > giaVeThuongGia) {
+      setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
       hasError = true;
     }
 
@@ -599,18 +669,139 @@ export const AddChuyenBay = () => {
       setThongBao({ message: message.errorField, typeMessage: "inpage" });
     }
 
+
     return hasError;
+  }
+
+  const checkNhanVienHangKhong = () => {
+    if (idChuyenBay != -1) {
+      let result = false;
+      result = chuyenBays.some((item) => {
+        if (item.nvhk.split("/")[0] == indexCoTruong
+          && item.idChuyenBay != idChuyenBay
+          && item.trangThai == "COMPLETED"
+          && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+          setTypeDisplay("block");
+          const timeEnd = new Date(item.thoiGianKetThucThucTe);
+          timeEnd.setHours(timeEnd.getHours() + 12);
+          setThongBao({ message: "Cơ trưởng " + selectedCoTruong?.hoTen + " có thể tham gia chuyến bay mới vào lúc " + formatDateTime(timeEnd), typeMessage: "inpage" })
+          return true;
+        }
+      })
+      if (result) {
+        return true;
+      }
+      result = chuyenBays.some((item) => {
+        if (item.nvhk.split("/")[1] == indexCoPho
+          && item.idChuyenBay != idChuyenBay
+          && item.trangThai == "COMPLETED"
+          && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+          setTypeDisplay("block");
+          const timeEnd = new Date(item.thoiGianKetThucThucTe);
+          timeEnd.setHours(timeEnd.getHours() + 12);
+          setThongBao({ message: "Cơ phó " + selectedCoPho?.hoTen + " có thể tham gia chuyến bay mới vào lúc " + formatDateTime(timeEnd), typeMessage: "inpage" })
+          return true;
+        }
+      })
+      if (result) {
+        return true;
+      }
+      const nhanviencantbay = [];
+      const ketqua = danhSachTiepVien.some((item1, index) => {
+        chuyenBays.some((item) => {
+          const nvhk_tv = item.nvhk.split("/")[2].split("-").map(Number);
+          return nvhk_tv.some((item2) => {
+            if (item2 == item1
+              && item.idChuyenBay != idChuyenBay
+              && item.trangThai == "COMPLETED"
+              && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+              const timeEnd = new Date(item.thoiGianKetThucThucTe);
+              timeEnd.setHours(timeEnd.getHours() + 12);
+              nhanviencantbay.push({ index: index, thoiGian: formatDateTime(timeEnd) });
+              return true;
+            }
+            return false;
+          })
+        })
+      })
+      if (nhanviencantbay.length > 0) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Tiếp viên " + (nhanviencantbay[0].index + 1) + " có thể bắt đầu chuyến bay mới vào lúc : " + nhanviencantbay[0].thoiGian, typeMessage: "inpage" })
+        return true;
+      }
+      return false;
+    }
+    else {
+      let result = false;
+      result = chuyenBays.some((item) => {
+        if (item.nvhk.split("/")[0] == indexCoTruong
+          && item.trangThai == "COMPLETED"
+          && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+          setTypeDisplay("block");
+          const timeEnd = new Date(item.thoiGianKetThucThucTe);
+          timeEnd.setHours(timeEnd.getHours() + 12);
+          setThongBao({ message: "Cơ trưởng " + selectedCoTruong?.hoTen + " có thể tham gia chuyến bay mới vào lúc " + formatDateTime(timeEnd), typeMessage: "inpage" })
+          return true;
+        }
+      })
+      if (result) {
+        return true;
+      }
+      result = chuyenBays.some((item) => {
+        if (item.nvhk.split("/")[1] == indexCoPho
+          && item.trangThai == "COMPLETED"
+          && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+          setTypeDisplay("block");
+          const timeEnd = new Date(item.thoiGianKetThucThucTe);
+          timeEnd.setHours(timeEnd.getHours() + 12);
+          setThongBao({ message: "Cơ phó " + selectedCoPho?.hoTen + " có thể tham gia chuyến bay mới vào lúc " + formatDateTime(timeEnd), typeMessage: "inpage" })
+          return true;
+        }
+      })
+      if (result) {
+        return true;
+      }
+      const nhanviencantbay = [];
+      const ketqua = danhSachTiepVien.some((item1, index) => {
+        chuyenBays.some((item) => {
+          const nvhk_tv = item.nvhk.split("/")[2].split("-").map(Number);
+          return nvhk_tv.some((item2) => {
+            if (item2 == item1
+              && item.trangThai == "COMPLETED"
+              && !differentBetween2Time(item.thoiGianKetThucThucTe, thoiGianBatDauDuTinh, 12)) {
+              const timeEnd = new Date(item.thoiGianKetThucThucTe);
+              timeEnd.setHours(timeEnd.getHours() + 12);
+              nhanviencantbay.push({ index: index, thoiGian: formatDateTime(timeEnd) });
+              return true;
+            }
+            return false;
+          })
+        })
+      })
+      if (nhanviencantbay.length > 0) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Tiếp viên " + (nhanviencantbay[0].index + 1) + " có thể bắt đầu chuyến bay mới vào lúc : " + nhanviencantbay[0].thoiGian, typeMessage: "inpage" })
+        return true;
+      }
+    }
+
   }
 
   // CREATE CHUYEN BAY 
   const createChuyenBay = () => {
+    console.log("Gia ve th: ", giaVeThuong)
+    console.log("Gia ve thuong gia: ", giaVeThuongGia);
     noError();
     const hasError = HasError();
     if (hasError) return;
 
+    if (checkNhanVienHangKhong()) return;
+
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+
+    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-');
+    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
 
     addChuyenbay(dataChuyenBay)
       .then((response) => {
@@ -653,8 +844,7 @@ export const AddChuyenBay = () => {
       .catch(error => {
         const errorData = error.response.data.data;
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
-        // console.log(error.response.data.message)
+        setThongBao({ message: error.response.data?.message, typeMessage: "inpage" });
       })
   }
 
@@ -663,8 +853,6 @@ export const AddChuyenBay = () => {
     /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
     const currentTime = new Date();
     const endreal = new Date(thoiGianKetThucThucTe);
-    console.log(currentTime)
-    console.log(endreal)
     if (trangThaiCu == "IN_FLIGHT" && currentTime.getTime() < endreal.getTime()) {
       setTypeDisplay("block");
       setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
@@ -702,7 +890,8 @@ export const AddChuyenBay = () => {
 
       delete tuyenBay.sanBayBatDau;
       delete tuyenBay.sanBayKetThuc;
-      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+      const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
+      const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
       updateChuyenBay(idChuyenBay, dataChuyenBay)
         .then((response) => {
           if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
@@ -735,9 +924,12 @@ export const AddChuyenBay = () => {
     let hasError = HasError();
     if (hasError) return;
 
+    if (checkNhanVienHangKhong()) return;
+
     delete tuyenBay.sanBayBatDau;
     delete tuyenBay.sanBayKetThuc;
-    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay };
+    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
+    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
     updateChuyenBay(idChuyenBay, dataChuyenBay)
       .then((response) => {
         if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
@@ -750,9 +942,6 @@ export const AddChuyenBay = () => {
             .catch((error) => {
 
             })
-        }
-        else {
-          console.log("chuyen bay chua hoan tat , khong the thay doi");
         }
         setTypeDisplay("block");
         setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
@@ -856,11 +1045,19 @@ export const AddChuyenBay = () => {
     typeMessage: "" // "error" ,"answer" ,  "question"
   });
   const message = {
-    cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idChuyenBay ? "sửa chuyến bay" : "thêm chuyến bay"),
+    cancle: "Bạn có muốn quay trở lại trang chính ",
     sucessAdd: "Thêm thành công",
     errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
     sucessEdit: "Sửa thành công"
   }
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const check = await checkAllowEdit();
+    }
+    fetchData();
+  }, [danhSachTiepVien])
 
   return (
     <>
@@ -1076,7 +1273,7 @@ export const AddChuyenBay = () => {
                   <label htmlFor="">delay{"(Phút)"}:</label>
                   <input type="number" name="" id="" onChange={handleDelay} value={delay} min={0} disabled={true} />
                   <div style={{ fontSize: "24px" }}>+</div>
-                  <input type="number" value={newDelay} onChange={AddTimeDelay} onKeyDown={handleKeyDown} disabled={idChuyenBay ? false : true} />
+                  <input type="number" value={newDelay} onChange={AddTimeDelay} onKeyDown={handleKeyDown} disabled={idChuyenBay != -1 ? false : true} />
                 </div>
                 <span>{errorDelay}</span>
               </div>
@@ -1097,7 +1294,7 @@ export const AddChuyenBay = () => {
               <div className='container__input'>
                 <div className="form-input">
                   <label htmlFor="">Trạng thái xử lí</label>
-                  <select name="" id="" onChange={handleTrangThaiActive} value={trangThaiActive} disabled={idChuyenBay ? false : true}> STATUS
+                  <select name="" id="" onChange={handleTrangThaiActive} value={trangThaiActive} disabled={idChuyenBay != -1 ? false : true}> STATUS
                     <option value="">chọn trạng thái xử lí</option>
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="IN_ACTIVE">IN_ACTIVE</option>
@@ -1108,18 +1305,22 @@ export const AddChuyenBay = () => {
           </div>
           <div className="container-infor container-nhanvienchuyenbay">
             <h3>Nhân viên</h3>
-            <div className=" container-selectnhanvien ">
+            <div className="container-selectnhanvien ">
               <div className='container-phicong container-infor'>
                 <div className="container__input">
                   <div className="form-input">
-                    <label htmlFor="">Chọn cơ trưởng :</label>
+                    <label htmlFor="">Cơ trưởng :</label>
                     <select name="" id="" value={indexCoTruong} onChange={handleIndexCoTruong}>
                       {coTruongs.length != 0 && (<option value="0">Chọn cơ trưởng</option>)}
                       {coTruongs.length == 0 && (<option value="0">Cơ trưởng không có sẵn</option>)}
                       {
-                        coTruongs?.map((item) => (
+                        (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coTruongs?.map((item) => (
                           <option value={item?.idNhanVien}>{item?.hoTen}</option>
                         ))
+                      }
+                      {
+                        (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                        && nhanviens.map((item) => indexCoTruong == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
                       }
                     </select>
                   </div>
@@ -1127,14 +1328,18 @@ export const AddChuyenBay = () => {
                 </div>
                 <div className='container__input'>
                   <div className='form-input'>
-                    <label htmlFor="">Chọn cơ phó :</label>
+                    <label htmlFor="">Cơ phó :</label>
                     <select name="" id="" value={indexCoPho} onChange={handleIndexCoPho}>
                       {coPhos.length != 0 && (<option value="0">Chọn cơ phó</option>)}
                       {coPhos.length == 0 && (<option value="0">Cơ phó không có sẵn</option>)}
                       {
-                        coPhos?.map((item) => (
+                        (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coPhos?.map((item) => (
                           <option value={item?.idNhanVien}>{item?.hoTen}</option>
                         ))
+                      }
+                      {
+                        (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                        && nhanviens.map((item) => indexCoPho == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
                       }
                     </select>
                   </div>
@@ -1147,22 +1352,28 @@ export const AddChuyenBay = () => {
                     [...Array(danhSachTiepVien?.length)].map((_, index) => (
                       <div className="select-tiepvien form-input">
                         <label htmlFor="" key={index + 1}>Tiếp viên {index + 1}</label>
-                        <select name="" id="" value={danhSachTiepVien?.length > 0 ? danhSachTiepVien[index] : '0'} onChange={(event) => handleIndexTiepVien(index, event.target.value)}>
-                          {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length == 0 && (<option value="0">Tiếp viên không có sẵn</option>)}
+                        <select name="" id="selectTiepVien" value={danhSachTiepVien?.length > 0 ? danhSachTiepVien[index] : '0'} onChange={(event) => handleIndexTiepVien(index, event.target.value)}>
+                          {(trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length == 0 && (<option value="0">Tiếp viên không có sẵn</option>)}
                           {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length != 0 && (<option value="0">Chọn tiếp viên</option>)}
                           {
-                            tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index]) && (
+                            (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index]) && (
                               <option value={danhSachTiepVien[index]}>{tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index])?.hoTen}</option>
                             )
                           }
                           {
-                            tiepViens?.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item?.idNhanVien))
+                            (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item?.idNhanVien))
                               .map((item2) => (
                                 <option value={item2?.idNhanVien}>{item2?.hoTen}</option>
                               ))
                           }
+                          {
+                            (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                            && nhanviens?.map((item) => item.idNhanVien == danhSachTiepVien[index] && (
+                              <option value={item.idNhanVien}>{item.hoTen}</option>
+                            ))
+                          }
                         </select>
-                        <button onClick={() => handleSubCountTiepVien(index)} style={{ marginLeft: '10px', cursor: 'pointer' }}>X</button>
+                        <button className='btn' onClick={() => handleSubCountTiepVien(index)} style={{ marginLeft: '10px', height: '30px', display: 'flex', alignItems: 'center' }}>X</button>
                       </div>
                     ))
                   }
@@ -1173,11 +1384,39 @@ export const AddChuyenBay = () => {
                 </div>
               </div>
             </div>
+            <div className='container_giaVe'>
+              <h3>Giá vé</h3>
+              <div className='block_input'>
+                <label htmlFor="thuong">Hạng thường</label>
+                <input
+                  type="text"
+                  id="thuong"
+                  value={giaVeThuong}
+                  onChange={handleGiaVeThuongChange}
+                />
+                <span className={`error ${errorThuong ? 'has_error' : ''}`} id="loiGiaVeThuong">
+                  {errorThuong ? "Vui lòng chỉ nhập số cho hạng thường." : ""}
+                </span>
+              </div>
+              <div className='block_input'>
+                <label htmlFor="thuongGia">Hạng thương gia</label>
+                <input
+                  type="text"
+                  id="thuongGia"
+                  value={giaVeThuongGia}
+                  onChange={handleGiaVeThuongGiaChange}
+                />
+                <span className={`error ${errorThuongGia ? 'has_error' : ''}`} id="loiGiaVeThuongGia">
+                  {errorThuongGia ? "Vui lòng chỉ nhập số cho hạng thương gia." : ""}
+                </span>
+              </div>
+              <span>{errorGiaVe}</span>
+            </div>
           </div>
         </div>
         <div className="container-btn">
-          <button className="btn" onClick={idChuyenBay ? suaChuyenBay : createChuyenBay}>{idChuyenBay ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
-          <button className="btnHuy" onClick={cancle}>huy bo</button>
+          <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
+          <button data-keep-enabled className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
         </div>
         <div className="container-ghichu">
           {"*{TGBDDT : Thời gian bắt đầu dự tính ; TGBDTT : Thời gian bắt đầu thực tế ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}

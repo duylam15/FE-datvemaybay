@@ -71,10 +71,15 @@
   display: flex;
   row-gap: 20px;
   flex-direction: column;
+  max-height: 500px;
+  overflow: scroll;
 }
 
 .container-nhanvienchuyenbay{
-
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .container-phicong{
@@ -171,4 +176,14 @@
     justify-content: space-between;
     height: 30px;
     align-items: center;
+}
+
+.container_giaVe {
+  width: 100%;
+}
+.container_giaVe .block_input {
+  padding-top: 20px;
+}
+.container_giaVe .block_input label {
+  width: 135px;
 }

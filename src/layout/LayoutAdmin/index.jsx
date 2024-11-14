@@ -16,7 +16,10 @@ const LayoutAdmin = () => {
           {/* {isAdminRoute && userRole === 'admin' ?  : <></>} */}
           <Sidebar />
           <main className="content-admin">
-            <Outlet></Outlet>
+            <div className="header_admin">header admin -- ai rảnh thì làm nhé</div>
+            <div className="pt_35px">
+              <Outlet></Outlet>
+            </div>
           </main>
         </div>
       </div>
