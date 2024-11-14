@@ -77,8 +77,15 @@ const MayBayPage = () => {
     return (
         <div className="may-bay-page">
             <h1 className='title'>Danh Sách Máy Bay</h1>
-            <button onClick={() => navigate('/admin/maybay/add')} className="add-button">
-                Thêm Máy Bay
+            <button onClick={() => navigate('/admin/maybay/add')} className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root">
+                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
+                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root' focusable='false' aria-hidden='true'
+                                        viewBox='0 0 24 24'
+                    >
+                        <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z'></path>
+                    </svg>
+                </span>
+                Thêm
             </button>
             
             <MayBayList 

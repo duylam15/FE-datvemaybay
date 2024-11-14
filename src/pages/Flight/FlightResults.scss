@@ -75,17 +75,17 @@
         border-radius: 4px 4px 0 0;
         color: var(--white);
         border: none;
-        top: 33px;
-        padding: 3px 6px;
+        top: 23px;
+        padding: 10px 6px;
       }
 
       .seat-green {
-        right: 276px;
+        right: 183px;
         background: var(--primary-color);
       }
 
       .seat-blue {
-        right: 146px;
+        right: 28px;
         background: var(--secondary-color);
       }
       .seat-red {
@@ -95,7 +95,7 @@
     }
 
     .flight-results {
-      padding: 40px 0 20px;
+      padding: 45px 0 25px;
       background-color: var(--white);
       text-align: center;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -109,7 +109,7 @@
         .card-flight-right {
           display: flex;
           margin-left: 15px;
-          margin-right: 400px;
+          margin-right: 350px;
 
           .flight-detail {
             display: flex;
@@ -155,6 +155,8 @@
               color: var(--text-color);
               font-size: 15px;
               width: max-content;
+              margin-left: 3px;
+              margin-right: 10px;
             }
 
             .details-link {
@@ -165,6 +167,7 @@
               background-color: var(--white);
               text-decoration: underline;
               outline: none;
+              margin-top: 10px;
             }
           }
         }
@@ -186,8 +189,8 @@
           border: none;
           margin-left: 1px;
           position: relative;
-          height: 150px;
-          padding: 20px;
+          height: 163px;
+          padding: 25px;
           width: -webkit-fill-available;
           align-items: center;
 
@@ -196,7 +199,7 @@
           outline: none;
 
           .title {
-            line-height: 36px;
+            line-height: 30px;
             font-weight: 600;
             color: #fff;
             font-size: 20px;
@@ -218,12 +221,13 @@
               .money26 {
                 font-size: 26px;
                 font-weight: 600;
+                line-height: 35px;
               }
 
               .imgbottom {
                 position: absolute;
                 bottom: 7px;
-                right: 56px;
+                right: 68px;
                 height: 18px;
                 width: 15px;
               }

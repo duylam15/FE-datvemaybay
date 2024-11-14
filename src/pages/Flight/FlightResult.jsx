@@ -518,18 +518,18 @@ const FlightResult = () => {
                       </div>
                       {/* Conditionally render ticket selection */}
 
-                      {selectedTicketType === 'Economy' && (
+                      {selectedTicketType === 'phổ thông' && (
                         <div className='ticket-selection ticket-green'>
-                          <h2>Chọn hạng vé Economy</h2>
-                          <p>Tiện ích với mỗi hành khách.</p>
-                          <div className='ticket-options'>
-                            {classTickets
-                              .filter(
-                                (classTicket) =>
-                                  classTicket.tenHangVe === 'Economy'
-                              )
-                              .map((classTicket, ticketIndex) => (
-                                <div key={ticketIndex}>
+                          {classTickets
+                            .filter(
+                              (classTicket) =>
+                                classTicket.tenHangVe === 'phổ thông'
+                            )
+                            .map((classTicket, ticketIndex) => (
+                              <div key={ticketIndex}>
+                                <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
+                                <p>Tiện ích với mỗi hành khách.</p>
+                                <div className='ticket-options'>
                                   <div
                                     className={`ticket economy-smart ${
                                       selectedTicket?.classTicketId ===
@@ -599,8 +599,9 @@ const FlightResult = () => {
                                     </div>
                                   </div>
                                 </div>
-                              ))}
-                          </div>
+                              </div>
+                            ))}
+
                           <div className='action-buttons'>
                             <button
                               className='next-step'
@@ -612,18 +613,18 @@ const FlightResult = () => {
                         </div>
                       )}
 
-                      {selectedTicketType === 'Business' && (
+                      {selectedTicketType === 'thương gia' && (
                         <div className='ticket-selection ticket-blue'>
-                          <h2>Chọn hạng vé Business</h2>
-                          <p>Tiện ích với mỗi hành khách.</p>
-                          <div className='ticket-options'>
-                            {classTickets
-                              .filter(
-                                (classTicket) =>
-                                  classTicket.tenHangVe === 'Business'
-                              )
-                              .map((classTicket, ticketIndex) => (
-                                <div key={ticketIndex}>
+                          {classTickets
+                            .filter(
+                              (classTicket) =>
+                                classTicket.tenHangVe === 'thương gia'
+                            )
+                            .map((classTicket, ticketIndex) => (
+                              <div key={ticketIndex}>
+                                <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
+                                <p>Tiện ích với mỗi hành khách.</p>
+                                <div className='ticket-options'>
                                   <div
                                     className={`ticket economy-smart ${
                                       selectedTicket?.classTicketId ===
@@ -692,8 +693,9 @@ const FlightResult = () => {
                                     </div>
                                   </div>
                                 </div>
-                              ))}
-                          </div>
+                              </div>
+                            ))}
+
                           <div className='action-buttons'>
                             <button
                               className='next-step'

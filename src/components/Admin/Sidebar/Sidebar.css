@@ -5,7 +5,9 @@
   padding: 20px;
   border-right: 1px solid #ddd; /* Đường viền ngăn cách */
   overflow-y: auto;
-  position: sticky;
+  position: fixed;
+  top: 0;
+  z-index: 888;
 }
 
 .sidebar .nav-item {

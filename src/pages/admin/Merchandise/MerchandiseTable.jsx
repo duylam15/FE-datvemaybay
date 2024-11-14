@@ -121,6 +121,7 @@ const MerchandiseTable = () => {
       header: 'Trọng tải (kg)',
       render: (item) => item.taiTrong,
       sortField: 'taiTrong',
+      style: { width: '84px' }, // Đặt độ rộng cho cột này
     },
     {
       header: 'Giá phát sinh (VND)',

@@ -8,7 +8,7 @@ import DanhSachCHuyenBay from "./DanhSachChuyenBay";
 
 export const ChuyenBay = () => {
 
-  const idNhanVienDangNhap = -1;
+  const idNhanVienDangNhap = 13;
 
   const [selectTrangThai, setSelectTrangThai] = useState("SCHEDULED");
   const [selectThoiGianBatDau, setSelectThoiGianBatDau] = useState("");
@@ -47,7 +47,7 @@ export const ChuyenBay = () => {
         item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
       })
       let filterByIdNhanVienDangNhap = udpateData.filter((item) => {
-        let s = item.nvhk.toString().split("/");
+        let s = item?.nvhk?.toString().split("/");
         let s1 = s[2].split("-").map(Number);
         let arr = [s[0], s[1], ...s1].map(Number);
         return arr.some(item1 => item1 == idNhanVienDangNhap)
@@ -69,7 +69,7 @@ export const ChuyenBay = () => {
           item.tuyenBay.sanBayKetThuc = sanBayKetThuc[0];
         })
         let filterByIdNhanVienDangNhap = udpateData.filter((item) => {
-          let s = item.nvhk.toString().split("/");
+          let s = item?.nvhk?.toString().split("/");
           let s1 = s[2].split("-").map(Number);
           let arr = [s[0], s[1], ...s1].map(Number);
           return arr.some(item1 => item1 == idNhanVienDangNhap)

@@ -35,7 +35,7 @@ const VeList = ({
                 <tbody>
                     {ve && ve == "" ? (
                         <tr>
-                            <td colSpan="4" className="text-center">
+                            <td colSpan="9" className="text-center">
                                 Không tìm thấy kết quả tìm kiếm!
                             </td>
                         </tr>

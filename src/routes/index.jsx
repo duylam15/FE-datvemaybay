@@ -9,7 +9,7 @@ import Home from '../pages/Home';
 
 import React from 'react';
 import ChiTietHoaDonPage from '../pages/admin/ChiTietHoaDon';
-import ChucVu from '../pages/admin/ChucVu';
+import ChucVu from '../pages/Admin/ChucVu';
 import AddChucVu from '../pages/Admin/ChucVu/AddChucVu';
 import Dashboard from '../pages/admin/dashboard';
 import HoaDonPage from '../pages/admin/HoaDon';
@@ -62,12 +62,10 @@ import CheckBookingPage from '../pages/UserPage/CheckBooking';
 import DanhGia from '../components/DanhGia.jsx';
 import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
 import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
-import AddVe from '../pages/Admin/Ve/AddVe';
 import EditVe from '../pages/Admin/Ve/EditVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
-
 
 export const router = createBrowserRouter([
   {
@@ -130,7 +128,7 @@ export const router = createBrowserRouter([
         element: <InfoAccount></InfoAccount>,
       },
       { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
-      { path: 'checkbooking', element: <CheckBookingPage /> }
+      { path: 'checkbooking', element: <CheckBookingPage /> },
     ],
   },
   {
@@ -207,7 +205,7 @@ export const router = createBrowserRouter([
         ],
       },
       // maybay
-      { path: 'maybay', element: <MayBayPage />, },
+      { path: 'maybay', element: <MayBayPage /> },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
       // sanbay
@@ -336,10 +334,6 @@ export const router = createBrowserRouter([
           {
             path: 'edit/:idVe',
             element: <EditVe></EditVe>,
-          },
-          {
-            path: 'add',
-            element: <AddVe></AddVe>,
           }
         ],
       },
