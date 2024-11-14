@@ -35,4 +35,12 @@
   color: white; /* Màu icon khi hover */
 }
 
+.notificateTable{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
 

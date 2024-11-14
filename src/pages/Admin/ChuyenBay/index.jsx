@@ -8,7 +8,7 @@ import DanhSachCHuyenBay from "./DanhSachChuyenBay";
 
 export const ChuyenBay = () => {
 
-  const idNhanVienDangNhap = 13;
+  const idNhanVienDangNhap = -1;
 
   const [selectTrangThai, setSelectTrangThai] = useState("SCHEDULED");
   const [selectThoiGianBatDau, setSelectThoiGianBatDau] = useState("");

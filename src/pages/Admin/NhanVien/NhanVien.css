@@ -78,6 +78,7 @@
   display: inline-block;
   width: 150px;
   font-weight: bold !important;
+  margin: 0px;
 }
 
 .containerMain input{

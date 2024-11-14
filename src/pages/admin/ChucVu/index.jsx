@@ -65,7 +65,7 @@ const ChucVu = () => {
                             </select>
                         </div>
                     </div>
-                    <button className='btn btnThem' onClick={addChucVu}>Add</button>
+                    <button className='btn btnThem' onClick={addChucVu}>Thêm</button>
                 </div>
                 {<DanhSachChucVu data={data ? data : []} setData={setData} page={page} />}
             </div>

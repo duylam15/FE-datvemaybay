@@ -18,6 +18,8 @@
 .container__mainChucVu{
   display: flex !important;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .container__mainChucVu .filter{
@@ -27,6 +29,6 @@
 }
 
 .container__mainChucVu .filter .filterTrangThai select{
-  height: 30px !important;
+  height: 40px !important;
   width: 150px !important;
 }
