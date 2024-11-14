@@ -30,6 +30,7 @@ const Table = ({
             <th
               key={column.sortField}
               onClick={() => onSortClick(column.sortField)}
+              style={column.style}
             >
               {renderHeader(column.header, column.sortField)}
             </th>
@@ -40,7 +41,7 @@ const Table = ({
         {data.map((item, index) => (
           <tr key={index}>
             {columns.map((column) => (
-              <td key={column.sortField}>{column.render(item, index)}</td>
+              <td key={column.sortField}>{column.render(item, index)} </td>
             ))}
           </tr>
         ))}

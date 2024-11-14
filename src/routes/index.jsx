@@ -67,7 +67,6 @@ import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
 import DanhGia from '../components/DanhGia.jsx';
 import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
 
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -129,7 +128,7 @@ export const router = createBrowserRouter([
         element: <InfoAccount></InfoAccount>,
       },
       { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
-      { path: 'checkbooking', element: <CheckBookingPage /> }
+      { path: 'checkbooking', element: <CheckBookingPage /> },
     ],
   },
   {
@@ -206,7 +205,7 @@ export const router = createBrowserRouter([
         ],
       },
       // maybay
-      { path: 'maybay', element: <MayBayPage />, },
+      { path: 'maybay', element: <MayBayPage /> },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
       // sanbay
@@ -334,7 +333,7 @@ export const router = createBrowserRouter([
           {
             path: 'add',
             element: <AddVe></AddVe>,
-          }
+          },
         ],
       },
     ],
