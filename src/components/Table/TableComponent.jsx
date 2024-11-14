@@ -1,9 +1,10 @@
 // TableComponent.js
+import EditIcon from "@mui/icons-material/Edit";
+import Button from "@mui/material/Button";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
-
 const TableComponent = (props) => {
 
   // const accessOnlySee = ["Cơ trưởng", "Cơ Phó", "Tiếp viên"]
@@ -141,10 +142,14 @@ const TableComponent = (props) => {
               ))}
               {(
                 <td className='btn-action' onClick={() => edit(item[props.dataKeys[0]])}>
-                  <div className='btn-custom'>Sửa</div>
-                  {/* {
-                    props.dataKeys[0] == "idChuyenBay" && (<div className='btn-custom'>Xem</div>)
-                  } */}
+                  <Button
+                    className='btn-custom'
+                    variant="outlined"
+                    color="#1976D2"
+                    startIcon={<EditIcon />}
+                  >
+                    Sửa
+                  </Button>
                 </td>
               )}
             </tr>

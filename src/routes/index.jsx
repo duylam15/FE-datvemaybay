@@ -59,15 +59,14 @@ import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
 // import EditVe from '../pages/Admin/Ve/EditVe';
+import DanhGia from '../components/DanhGia.jsx';
 import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
+import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
+import AddVe from '../pages/Admin/Ve/AddVe';
 import EditVe from '../pages/Admin/Ve/EditVe';
+import Ve from '../pages/Admin/Ve/index.jsx';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
-import AddVe from '../pages/Admin/Ve/AddVe';
-import Ve from '../pages/Admin/Ve/index.jsx';
-import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
-import DanhGia from '../components/DanhGia.jsx';
-import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
 
 
 export const router = createBrowserRouter([
@@ -135,7 +134,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/fogot_password',
+    path: '/forgot_password',
     element: <ForgotPassword></ForgotPassword>,
   },
   {

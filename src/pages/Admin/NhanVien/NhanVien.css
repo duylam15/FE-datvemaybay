@@ -123,7 +123,7 @@
 }
 
 
-.containerMain span {
+.containerMain .container__input span {
   color: red; /* Màu sắc của thông báo lỗi */
   font-size: 14px; /* Kích thước chữ */
   align-self: flex-end; /* Căn thẳng bên phải */

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataChucVu } from '../../../services/chucVuServices';
 import { filterNhanVien } from '../../../services/nhanVienServices';
-import AddComponent from './AddComponent';
 import DanhSachComponent from './DanhSachComponent';
 import './NhanVien.css';
 
@@ -61,8 +60,9 @@ export default function NhanVien() {
 
       <div className='main'>
         <div className='containerMain'>
+          <h1>DANH SÁCH NHÂN VIÊN</h1>
           {
-            action == "main" && (
+            (
               <>
                 <ul>
                   <li>
@@ -87,13 +87,6 @@ export default function NhanVien() {
                 <DanhSachComponent data={data ? data : []} setData={setData} page={page} />
               </>
             )
-          }
-          {
-            action == "addEmployee" && <AddComponent setAction={setAction} action={action} />
-          }
-
-          {
-            action == "editEmployee" && <AddComponent setAction={setAction} action={action} />
           }
         </div>
       </div>

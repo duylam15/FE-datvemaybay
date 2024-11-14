@@ -48,24 +48,27 @@ const ChucVu = () => {
 
     return (
         <>
-            <div className='container__mainChucVu'>
-                <div className="filter">
-                    <div className="filterTen">
-                        <label htmlFor="">Tìm kiếm theo tên</label>
-                        <input type="text" placeholder='Nhập tên chức vụ ' onChange={handleSearchInfor} value={searchInfor} />
+            <div className="containerMain">
+                <h1>DANH SÁCH CHỨC VỤ</h1>
+                <div className='container__mainChucVu'>
+                    <div className="filter">
+                        <div className="filterTen">
+                            <label htmlFor="">Tìm kiếm theo tên</label>
+                            <input type="text" placeholder='Nhập tên chức vụ ' onChange={handleSearchInfor} value={searchInfor} />
+                        </div>
+                        <div className="filterTrangThai">
+                            <label htmlFor="">Trạng thái</label>
+                            <select name="" id="" onChange={handleSearchTrangThai} value={searchTrangthai}>
+                                <option value="">Toàn bộ trạng thái</option>
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="IN_ACTIVE">IN_ACTIVE</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="filterTrangThai">
-                        <label htmlFor="">Trạng thái</label>
-                        <select name="" id="" onChange={handleSearchTrangThai} value={searchTrangthai}>
-                            <option value="">Toàn bộ trạng thái</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="IN_ACTIVE">IN_ACTIVE</option>
-                        </select>
-                    </div>
+                    <button className='btn btnThem' onClick={addChucVu}>Add</button>
                 </div>
-                <button className='btn btnThem' onClick={addChucVu}>Add</button>
+                {<DanhSachChucVu data={data ? data : []} setData={setData} page={page} />}
             </div>
-            {<DanhSachChucVu data={data ? data : []} setData={setData} page={page} />}
         </>
     );
 };
