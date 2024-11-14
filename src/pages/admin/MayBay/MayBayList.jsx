@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MayBay.css';
+import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
 
 const API_URL = 'http://localhost:8080';
 const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlaneByAirport, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -133,7 +134,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                         <th>Số Lượng Ghế</th>
                         <th>Năm Sản Xuất</th>
                         <th>Trạng Thái</th>
-                        <th className='actions'>Actions</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -149,21 +150,8 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                                 <td>{getSoLuongGhe(mb.idMayBay)}</td>
                                 <td>{mb.namSanXuat}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                                <td className='actions'>
-                                    <div className="button-group">
-                                        <button 
-                                            className="btn btn-primary"
-                                            onClick={() => onEdit(mb.idMayBay)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button 
-                                            className={`btn btn-block`}
-                                            onClick={() => onBlock(mb.idMayBay)}
-                                        >
-                                            {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
-                                        </button>
-                                    </div>
+                                <td>
+                                    <div onClick={() => onEdit(mb.idMayBay)}><EditBtn></EditBtn></div>
                                 </td>
                             </tr>
                         ))
@@ -193,43 +181,6 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                     </ul>
                 </div>
             )}
-
-
-            {/* {totalPages > 1 && (
-                <div className='center'>
-                <div className='MuiStack-root css-1sazv7p-MuiStack-root'>
-                    <nav className='MuiPagination-root MuiPagination-outlined css-1xra8g6-MuiPagination-root' aria-label='pagination navigation'>
-                        <ul className='MuiPagination-ul css-1c5o7vy-MuiPagination-ul'>
-                            <li>
-                                <button className={`btn-phan-trang ${currentPage === 1 ? 'disabled' : ''}`} tabIndex='-1' type='button' disabled aria-label='Go to previous page'>
-                                    <svg className='Go to previous page' focusable='false' aria-hidden='true' viewBox='0 0 24 24' href="#" onClick={() => paginate(currentPage - 1)}>
-                                        <path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'></path>
-                                    </svg>
-                                </button>
-                            </li>
-                            {[...Array(totalPages).keys()].map(number => (
-                                <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
-                                    <button className={`MuiButtonBase-root Mui-disabled MuiPaginationItem-root MuiPaginationItem-sizeMedium MuiPaginationItem-outlined MuiPaginationItem-rounded Mui-disabled MuiPaginationItem-previousNext css-ptck8z-MuiButtonBase-root-MuiPaginationItem-root ${currentPage === number + 1 ? 'active' : ''}`} tabIndex='-1' type='button' disabled aria-label='Go to previous page' href="#" onClick={() => paginate(number + 1)}>
-                                        <a className="page-link" href="#" onClick={() => paginate(number + 1)}>
-                                            {number + 1}
-                                        </a>
-                                    </button>
-                                </li>
-                                
-                            ))}
-                            <li>
-                                <button className={`MuiButtonBase-root Mui-disabled MuiPaginationItem-root MuiPaginationItem-sizeMedium MuiPaginationItem-outlined MuiPaginationItem-rounded Mui-disabled MuiPaginationItem-previousNext css-ptck8z-MuiButtonBase-root-MuiPaginationItem-root ${currentPage === totalPages ? 'disabled' : ''}`} tabIndex='-1' type='button' disabled aria-label='Go to previous page'>
-                                    <svg className='Go to previous page' focusable='false' aria-hidden='true' viewBox='0 0 24 24' href="#" onClick={() => paginate(currentPage + 1)}>
-                                        <path d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'></path>
-                                    </svg>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            )} */}
-
         </div>
     );
 };

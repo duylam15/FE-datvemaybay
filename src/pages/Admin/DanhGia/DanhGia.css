@@ -43,16 +43,23 @@ button {
     margin-left: 10px;
 }
 
-input[type="localdate"] {
+input[type="date"] {
     padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
+    width: 170px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 200px;
 }
 
 .search-by-create-time {
     display: flex;
     justify-content: space-between;
-    margin-left: 10px;
 }
 
 .search-by-create-time .form-time {

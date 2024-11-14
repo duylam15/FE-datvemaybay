@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
 
 const API_URL = 'http://localhost:8080';
 
@@ -64,9 +65,10 @@ const AddSanBayForm = () => {
         try {
             const response = await axios.post(`${API_URL}/admin/sanbay/addAirport`, SanBay);
             console.log('Airport added successfully!', response.data);
-            navigate('/admin/sanbay'); 
+            message.success('Thêm mới sân bay thành công')
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
+            message.error('Thêm mới sân bay không thành công')
             if (error.response && error.response.data) {
                 const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors); // Cập nhật lỗi cho từng trường
@@ -157,8 +159,14 @@ const AddSanBayForm = () => {
                 {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
             </div>
             {error && <div className="alert alert-danger">{error}</div>} 
-            <div className="btn-container">
-                <button type="submit" className="btn btn-primary">Thêm Sân Bay</button>
+            <div style={{display: "flex", alignItems: "center", margin: "10px"}}>
+                <div className="btn-container" style={{margin: "10px"}}>
+                    <button onClick={() => navigate('/admin/sanbay')}>Quay lại</button>
+                </div>
+                <div className="btn-container" style={{margin: "10px"}}>
+                    <button type="submit">Thêm sân bay</button>
+                </div>
+                
             </div>
         </form>
     );

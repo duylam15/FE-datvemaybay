@@ -246,7 +246,7 @@ const Sidebar = () => {
               to='/admin/danhgia'
             >
               <div
-                cldivName={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
+                className={`nav-item row ${location.pathname === '/admin/danhgia' ? 'active' : ''
                   }`}
               >
                 <FaGrinStars />

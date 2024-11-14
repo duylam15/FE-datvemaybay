@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
 
 const API_URL = 'http://localhost:8080';
 
@@ -38,7 +39,7 @@ const AddMayBayForm = () => {
                 const data = await getHangBay();
                 setListHangBay(data);
             } catch (err) {
-                setError(err.message);
+                setError(err);
             } finally {
                 setLoading(false);
             }
@@ -60,7 +61,7 @@ const AddMayBayForm = () => {
                 const data = await getSanBay();
                 setListSanBay(data);
             } catch (err) {
-                setError(err.message);
+                setError(err);
             } finally {
                 setLoading(false);
             }
@@ -104,8 +105,11 @@ const AddMayBayForm = () => {
         try {
             const response = await axios.post(`${API_URL}/admin/maybay/addPlane`, mayBay);
             console.log('Plane added successfully!', response.data);
+            message.success('Thêm mới máy bay thành công')
             navigate('/admin/maybay'); 
+            
         } catch (error) {
+            message.error('Thêm mới máy bay không thành công')
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
                 const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
@@ -257,8 +261,15 @@ const AddMayBayForm = () => {
                 {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
             </div>
             {error && <div className="alert alert-danger">{error}</div>} 
-            <div className="btn-container">
-                <button type="submit" className="btn btn-primary">Thêm Máy Bay</button>
+            
+            <div style={{display: "flex", alignItems: "center", margin: "10px"}}>
+                    <div className="btn-container" style={{margin: "10px"}}>
+                        <button onClick={() => navigate('/admin/maybay')}>Quay lại</button>
+                    </div>
+                    <div className="btn-container" style={{margin: "10px"}}>
+                        <button type="submit">Thêm Máy Bay</button>
+                    </div>
+                    
             </div>
         </form>
     );

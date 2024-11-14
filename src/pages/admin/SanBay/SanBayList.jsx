@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SanBay.css'
+import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
 
 const API_URL = 'http://localhost:8080';
 const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -8,6 +9,22 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
     const [quocgia, setQuocGia] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
+    const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
+
+    // Tính toán chỉ số bắt đầu và kết thúc của các hóa đơn hiển thị trên trang hiện tại
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentSanBay = sanBay.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Số lượng trang
+    const totalPages = Math.ceil(sanBay.length / itemsPerPage);
+
+    // Hàm chuyển trang
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
     const getThanhPho = async () => {
         const response = await fetch(`${API_URL}/admin/thanhpho/getAllCity`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
@@ -56,7 +73,8 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
     if (error) return <p>Error: {error}</p>;
     return (
         <div>
-            <div className="menu-search">
+            <div className='separate_block'></div>
+            <div className="search-sort-controlss">
                 <input
                     className='input-search'
                     type="text"
@@ -64,7 +82,16 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button onClick={handleSearch}>Tìm Kiếm</button>
+                <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearch}>
+                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
+                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
+                        focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
+                    >
+                        <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
+                    </svg>
+                </span>
+                    Tìm Kiếm
+                </button>
                 <select onChange={(e) => getAirportByCity(e.target.value)} className='form-search'>
                     <option value="Lọc theo thành phố">Lọc theo thành phố</option>
                     {thanhPho.map((tp) => (
@@ -115,20 +142,7 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                                 <td>{mb.diaChi}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
-                                    <div className="button-group">
-                                        <button 
-                                            className="btn btn-primary"
-                                            onClick={() => onEdit(mb.idSanBay)}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button 
-                                            className={`btn btn-block`}
-                                            onClick={() => onBlock(mb.idSanBay)}
-                                        >
-                                            {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
-                                        </button>
-                                    </div>
+                                    <div onClick={() => onEdit(mb.idSanBay)}><EditBtn></EditBtn></div>
                                 </td>
                             </tr>
                         ))
@@ -139,6 +153,25 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                     )}
                 </tbody>
             </table>
+            {totalPages > 1 && (
+                <div className='pagination-container'>
+                    <ul className="pagination pagination-lg">
+                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                        </li>
+                        {[...Array(totalPages).keys()].map(number => (
+                            <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
+                                <a className="page-link" href="#" onClick={() => paginate(number + 1)}>
+                                    {number + 1}
+                                </a>
+                            </li>
+                        ))}
+                        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                        </li>
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };

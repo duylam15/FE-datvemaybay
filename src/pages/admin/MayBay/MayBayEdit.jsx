@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
 
 
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
@@ -20,6 +21,7 @@ const MayBayEdit = () => {
         namSanXuat: '',
         trangThaiActive: ''
     });
+    const navigate = useNavigate();
     const [listHangBay, setListHangBay] = useState([]);
     const [listSanBay, setListSanBay] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ const MayBayEdit = () => {
                 setListHangBay(data);
                 console.log('Get list airline success!!', listHangBay)
             } catch (err) {
-                setError(err.message);
+                setError(err );
             } finally {
                 setLoading(false);
             }
@@ -76,7 +78,7 @@ const MayBayEdit = () => {
                 const data = await getSanBay();
                 setListSanBay(data);
             } catch (err) {
-                setError(err.message);
+                setError(err );
             } finally {
                 setLoading(false);
             }
@@ -99,9 +101,11 @@ const MayBayEdit = () => {
 
             const response = await axios.put(`${API_URL}/admin/maybay/updatePlane/${idMayBay}`, updatedMayBay);
             console.log('Plane updated successfully!', response.data);
-            window.location.href = '/admin/maybay'; 
+            message.success('Cập nhật máy bay thành công')
+            
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
+            message.error('Cập nhật máy bay không thành công')
             if (error.response && error.response.data) {
                 const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
@@ -272,8 +276,14 @@ const MayBayEdit = () => {
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>
-                <div className="btn-container">
-                    <button type="submit" className="btn-primary">Cập nhật</button>
+                <div style={{display: "flex", alignItems: "center", margin: "10px"}}>
+                    <div className="btn-container" style={{margin: "10px"}}>
+                        <button onClick={() => navigate('/admin/maybay')}>Quay lại</button>
+                    </div>
+                    <div className="btn-container" style={{margin: "10px"}}>
+                        <button type="submit">Cập nhật</button>
+                    </div>
+                    
                 </div>
             </form>
         </div>
