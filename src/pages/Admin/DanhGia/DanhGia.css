@@ -1,79 +1,81 @@
-.title {
-    text-align: center;
-    margin: 20px 0;
-    font-size: 24px;
-    font-weight: bold;
-}
+.danh-gia-page {
+    .title {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-.menu-search {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-    margin-bottom: 20px;
-}
+    .menu-search {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        margin-bottom: 20px;
+    }
 
-.input-search {
-    flex: 1;
-    margin-right: 10px;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-}
+    .input-search {
+        flex: 1;
+        margin-right: 10px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+    }
 
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-.form-search {
-    margin-left: 10px;
-}
+    .form-search {
+        margin-left: 10px;
+    }
 
-.form-time {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-}
+    .form-time {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
 
-input[type="date"] {
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    width: 170px;
-}
+    input[type="date"] {
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        width: 170px;
+    }
 
-input[type="text"] {
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    width: 200px;
-}
+    input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        width: 200px;
+    }
 
-.search-by-create-time {
-    display: flex;
-    justify-content: space-between;
-}
+    .search-by-create-time {
+        display: flex;
+        justify-content: space-between;
+    }
 
-.search-by-create-time .form-time {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    flex: 1;
-}
+    .search-by-create-time .form-time {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        flex: 1;
+    }
 
-label {
-    margin-bottom: 5px;
-}
-.btn-create-time {
-    height: 50px;
-    width: 100px;
-    margin-left: 10px;
+    label {
+        margin-bottom: 5px;
+    }
+    .btn-create-time {
+        height: 50px;
+        width: 100px;
+        margin-left: 10px;
+    }
 }

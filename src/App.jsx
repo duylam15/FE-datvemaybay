@@ -45,6 +45,7 @@ function App() {
           || window.location.pathname === '/'
           || window.location.pathname === '/forgot_password'
           || window.location.pathname === '/reset_password'
+          || window.location.pathname === '/cmt'
           ?
           <RouterProvider router={router} />
           :
