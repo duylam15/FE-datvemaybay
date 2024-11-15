@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchHoaDon } from '../../../utils/useFetchHoaDon.jsx';
-import HoaDonList from './HoaDonList.jsx'; 
+import HoaDonList from './HoaDonList.jsx';
 import { editHoaDon, getComboboxValue } from '../../../services/hoaDonService.js';
 import { searchHoaDon } from '../../../services/hoaDonService.js';
 import { handleSort } from '../../../services/hoaDonService.js';
@@ -13,6 +13,7 @@ import { updateHoaDonStatus } from '../../../services/hoaDonService.js';
 
 import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
@@ -50,8 +51,8 @@ const HoaDonPage = () => {
         console.log('Sorted hướng:', field, 'Order:', sortOrder);
         handleSort(field, sortOrder, setHoaDon, setSortOrder, setSortField);
     };
-    
-    const handleFilter = (filterType, selectedValue) => { 
+
+    const handleFilter = (filterType, selectedValue) => {
         try {
             filHoaDon(filterType, selectedValue, setHoaDon);
             console.log(hoaDon);
@@ -68,7 +69,7 @@ const HoaDonPage = () => {
 
     const handleComboBoxValues = (field) => {
         console.log('Type: ', field);
-        
+
         if (field == "0") {
             setComboBoxValues([]);
         }
@@ -84,20 +85,23 @@ const HoaDonPage = () => {
     return (
         <div className="hoa-don-page page">
             <h1>Danh Sách Hóa Đơn</h1>
-            <Link to="add">
-                <IconLabelButtons></IconLabelButtons>
-            </Link>
+            <PermissionAddButton feature="Quản lí loại hoá đơn">
+                <Link to="add">
+                    <IconLabelButtons></IconLabelButtons>
+                </Link>
+            </PermissionAddButton>
+
             <div className="separate_block"></div>
-            
+
             <HoaDonList
-                hoaDon={hoaDon} 
+                hoaDon={hoaDon}
                 onEdit={handleEdit}
                 viewDetail={viewDetail}
-                onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
+                onBlock={handleBlock}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
                 sortOrder={sortOrder}
                 sortField={sortField}
                 filterType={filterType}

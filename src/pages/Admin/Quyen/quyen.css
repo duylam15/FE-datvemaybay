@@ -105,7 +105,6 @@ tbody tr:hover {
 }
 .table td button {
     width: 100%;           /* Đảm bảo nút co giãn theo kích thước của ô */
-    max-width: 100px;      /* Giới hạn chiều rộng tối đa */
     margin-bottom: 4px;    /* Khoảng cách giữa các nút nếu có */
 }
 .button-group {

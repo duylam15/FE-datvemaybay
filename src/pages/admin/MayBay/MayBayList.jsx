@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MayBay.css';
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
+import { PermissionButton } from '../../../components/Admin/Sidebar';
 import { FaAlignLeft, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:8080';
@@ -152,7 +153,8 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                                 <td>{mb.namSanXuat}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
-                                    <div onClick={() => onEdit(mb.idMayBay)}><EditBtn></EditBtn></div>
+                                    <PermissionButton feature="Quản lí máy bay" idButton={mb.idMayBay} onEdit={onEdit}>
+                                    </PermissionButton>
                                 </td>
                             </tr>
                         ))

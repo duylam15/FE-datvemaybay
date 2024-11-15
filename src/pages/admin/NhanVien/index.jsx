@@ -4,6 +4,8 @@ import { dataChucVu } from '../../../services/chucVuServices';
 import { filterNhanVien } from '../../../services/nhanVienServices';
 import DanhSachComponent from './DanhSachComponent';
 import './NhanVien.css';
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 
 export default function NhanVien() {
   const [searchInfo, setSearchInfo] = useState("");
@@ -82,7 +84,9 @@ export default function NhanVien() {
                       {dataCV.map((item) => (<option value={item.idChucVu}>{item.ten}</option>))}
                     </select>
                   </li>
-                  <li className='btn btnThem' onClick={addEmployee}>Thêm</li>
+                  <PermissionAddButton feature="Quản lí nhân viên">
+                    <div onClick={addEmployee}><IconLabelButtons></IconLabelButtons></div>
+                  </PermissionAddButton>
                 </ul>
                 <DanhSachComponent data={data ? data : []} setData={setData} page={page} />
               </>

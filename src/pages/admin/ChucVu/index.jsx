@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { dataChucVu, filterChucVuService } from "../../../services/chucVuServices";
 import DanhSachChucVu from "./DanhSachChucVu";
 import "./chucvu.css";
+import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 const ChucVu = () => {
 
     const [searchInfor, setSearchInfor] = useState("");
@@ -65,7 +66,9 @@ const ChucVu = () => {
                             </select>
                         </div>
                     </div>
-                    <button className='btn btnThem' onClick={addChucVu}>Thêm</button>
+                    <PermissionAddButton feature="Quản lí chức vụ">
+                        <li className='btn btnThem' onClick={addChucVu}>Thêm</li>
+                    </PermissionAddButton>
                 </div>
                 {<DanhSachChucVu data={data ? data : []} setData={setData} page={page} />}
             </div>

@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
 const LoaiHoaDonPage = () => {
     const { loaiHoaDon: initialLoaiHoaDon, loading, error } = useFetchLoaiHoaDon();
@@ -45,20 +46,23 @@ const LoaiHoaDonPage = () => {
     return (
         <div className="loai-hoa-don-page page">
             <h1>Danh Sách Loại Hóa Đơn</h1>
-            <Link to="add">
-                <IconLabelButtons></IconLabelButtons>
-            </Link>
+            <PermissionAddButton feature="Quản lí loại hoá đơn">
+                <Link to="add">
+                    <IconLabelButtons></IconLabelButtons>
+                </Link>
+            </PermissionAddButton>
+
             <div className="separate_block"></div>
-            
-            
+
+
             <LoaiHoaDonList
-                loaiHoaDon={loaiHoaDon} 
-                onEdit={handleEdit} 
-                onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
+                loaiHoaDon={loaiHoaDon}
+                onEdit={handleEdit}
+                onBlock={handleBlock}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
                 sortOrder={sortOrder}
                 sortField={sortField}
             />

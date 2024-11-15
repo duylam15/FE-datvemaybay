@@ -3,9 +3,11 @@ import { useFetchMayBay } from '../../../utils/useFetchMayBay.jsx';
 import MayBayList from '../../../pages/admin/MayBay/MayBayList.jsx';
 import AddMayBayForm from './ThemMayBay.jsx';
 import { useNavigate } from 'react-router-dom';
-import { handleSort, searchPlanes, editPlane, blockPlane, getSoLuong, getByAirline, getByAirport} from '../../../services/planesServices.js';
+import { handleSort, searchPlanes, editPlane, blockPlane, getSoLuong, getByAirline, getByAirport } from '../../../services/planesServices.js';
 import './MayBay.css';
 import axios from 'axios';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
+import IconLabelButtons from '../../../components/Admin/ColorButtons/index.jsx';
 const API_URL = 'http://localhost:8080';
 const MayBayPage = () => {
     const { mayBay: initialMayBay, loadingMayBay, errorMayBay } = useFetchMayBay();
@@ -19,7 +21,7 @@ const MayBayPage = () => {
     useEffect(() => {
         setMayBay(initialMayBay);
     }, [initialMayBay]);
- 
+
     const handleSearch = () => {
         searchPlanes(searchTerm, setMayBay);
     };
@@ -53,7 +55,7 @@ const MayBayPage = () => {
         };
         fetchSoLuongGhe();
     }, [initialMayBay]);
-    
+
     const getPlaneByAirline = async (idHangBay) => {
         try {
             await getByAirline(idHangBay, setMayBay); // Gọi hàm với setMayBay
@@ -69,7 +71,7 @@ const MayBayPage = () => {
             console.error;
         }
     };
-    
+
 
     if (loadingMayBay) return <p>Loading...</p>;
     if (errorMayBay) return <p>Error: {errorMayBay}</p>;
@@ -77,29 +79,23 @@ const MayBayPage = () => {
     return (
         <div className="may-bay-page">
             <h1 className='title'>Danh Sách Máy Bay</h1>
-            <button onClick={() => navigate('/admin/maybay/add')} className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root">
-                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root' focusable='false' aria-hidden='true'
-                                        viewBox='0 0 24 24'
-                    >
-                        <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z'></path>
-                    </svg>
-                </span>
-                Thêm
-            </button>
-            
-            <MayBayList 
+            <PermissionAddButton feature="Quản lí máy bay">
+                <div onClick={() => navigate('/admin/maybay/add')} ><IconLabelButtons></IconLabelButtons></div>
+            </PermissionAddButton>
+
+
+            <MayBayList
                 mayBay={mayBay}
-                onEdit={handleEdit} 
+                onEdit={handleEdit}
                 getSoLuongGhe={(id) => soGhe[id] || 'Đang tải...'}
                 getPlaneByAirline={getPlaneByAirline}
                 getPlaneByAirport={getPlaneByAirport}
-                onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
-                sortOrder={sortOrder} 
+                onBlock={handleBlock}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
+                sortOrder={sortOrder}
                 sortField={sortField}
             />
         </div>

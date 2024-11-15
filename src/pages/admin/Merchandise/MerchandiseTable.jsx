@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import './StyleHangHoa.scss';
 import { block, searchMerchans } from '../../../services/MerchandiseService';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar';
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -162,9 +164,12 @@ const MerchandiseTable = () => {
             onChange={handleSearch}
           />
         </div>
-        <Link to='add' className='add-btn'>
-          <FaPlus /> Thêm
-        </Link>
+        <PermissionAddButton feature="Quản lí hàng hoá">
+          <Link to='add' className='add-btn'>
+            <IconLabelButtons />
+          </Link>
+        </PermissionAddButton>
+
       </div>
       {loading ? (
         <p>Loading...</p>

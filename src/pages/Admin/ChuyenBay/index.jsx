@@ -4,6 +4,7 @@ import { dataChuyenBay, filterChuyenBay } from "../../../services/chuyenBayServi
 import { dataSanBay } from "../../../services/sanBayService";
 import { dataTuyenBay } from "../../../services/tuyenBayService";
 import DanhSachCHuyenBay from "./DanhSachChuyenBay";
+import { PermissionAddButton } from "../../../components/Admin/Sidebar";
 
 
 export const ChuyenBay = () => {
@@ -127,7 +128,9 @@ export const ChuyenBay = () => {
                   </div>
                 </div>
               </li>
-              <li className='btn btnThem' onClick={addChuyenBay}>Thêm</li>
+              <PermissionAddButton feature="Quản lí chuyến bay">
+                <li className='btn btnThem' onClick={addChuyenBay}>Thêm</li>
+              </PermissionAddButton>
             </ul>
             {<DanhSachCHuyenBay data={data ? data : []} setData={setData} page={page} />}
           </>

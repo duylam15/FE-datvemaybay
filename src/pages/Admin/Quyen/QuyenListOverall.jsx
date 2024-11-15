@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack"; // Import Stack
 import "./quyen.css";
 import { searchQuyen } from "../../../services/quyenService";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import { PermissionAddButton } from "../../../components/Admin/Sidebar";
 
 const QuyenListOverall = ({ size = 8 }) => {
   const [currentPage, setCurrentPage] = useState(1); // State for current page
@@ -62,9 +63,12 @@ const QuyenListOverall = ({ size = 8 }) => {
     <>
       <h1>Danh sách nhóm quyền</h1>
 
-      <Link to="add">
-        <IconLabelButtons></IconLabelButtons>
-      </Link>
+      <PermissionAddButton feature="Quản lí nhóm quyền">
+        <Link to="add">
+          <IconLabelButtons></IconLabelButtons>
+        </Link>
+      </PermissionAddButton>
+      
       <div className="separate_block"></div>
       <QuyenList
         nhomQuyen={nhomQuyen}

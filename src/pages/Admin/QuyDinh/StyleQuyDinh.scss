@@ -20,23 +20,6 @@ body {
   }
 }
 
-.add-btn {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-right: 25px;
-  transition: background-color 0.3s;
-  height: 100%;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-}
-
 .table-container {
   margin: 20px;
   padding: 10px;

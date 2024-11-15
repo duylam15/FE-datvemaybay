@@ -4,6 +4,8 @@ import PaginationRounded from "../../../components/Admin/Pagination";
 import SearchBtn from "../../../components/Admin/ColorButtons/SearchBtn";
 import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
 import DeleteBtn from "../../../components/Admin/ColorButtons/deleteBtn";
+import { PermissionButton } from "../../../components/Admin/Sidebar";
+import XemChiTietBtn from "../../../components/Admin/ColorButtons/XemChiTietBtn";
 
 const VeList = ({
     ve,
@@ -52,11 +54,9 @@ const VeList = ({
                                 <td>{v.chuyenBay.ngayBay}</td>
                                 <td>{v.trangThai}</td>
                                 <td>
-                                    <div className="btn_block" onClick={() => onEdit(v.idVe)}><EditBtn></EditBtn></div>
+                                    <PermissionButton feature="Quản lí vé" idButton={v.idVe} onEdit={onEdit}>
+                                    </PermissionButton>
                                 </td>
-                                {/* <td>
-                                    <div className="btn_block"><DeleteBtn></DeleteBtn></div>
-                                </td> */}
                             </tr>
                         ))
                     )}

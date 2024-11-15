@@ -18,6 +18,7 @@ const QuyenEdit = () => {
     const { Option } = Select;
     const [selectedValue, setSelectedValue] = useState(null);
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -129,8 +130,8 @@ const QuyenEdit = () => {
         setSelectedValue(value);
         console.log(`Selected: ${value}`);
     };
-    
 
+    console.log("PERMISSION: ", permissions)
     return (
         <div className='them_quyen_container'>
             <h1 className="title">Chỉnh sửa nhóm quyền</h1>
@@ -171,20 +172,24 @@ const QuyenEdit = () => {
                                 />
                             </td>
                             <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.create || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
-                                />
+                                {item.tenChucNang !== "Quản lí đánh giá" && item.tenChucNang !== "Quản lí thống kê" && (
+                                    <input
+                                        type="checkbox"
+                                        checked={permissions[item.tenChucNang]?.create || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
+                                    />
+                                )}
                             </td>
                             <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.edit || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
-                                />
+                                {item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí hoá đơn" && (
+                                    <input
+                                        type='checkbox'
+                                        checked={permissions[item.tenChucNang]?.edit || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
+                                    />
+                                )}
                             </td>
-                            
+
                             <td>
                                 <div className="btn_row">
                                     <div onClick={() => selectAllRow(item.tenChucNang)}>
