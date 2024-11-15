@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { blockAirport, editAirport, getByCity, getByNation, handleSortAirport, searchAirports } from '../../../services/airportsService.js';
 import './SanBay.css';
 import axios from 'axios';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
+import IconLabelButtons from '../../../components/Admin/ColorButtons/index.jsx';
 const API_URL = 'http://localhost:8080';
 const SanBayPage = () => {
     const { sanBay: initialsanBay, loadingsanBay, errorsanBay } = useFetchSanBay();
@@ -65,16 +67,10 @@ const SanBayPage = () => {
     return (
         <div className="may-bay-page">
             <h1>Danh Sách Sân Bay</h1>
-            <button onClick={() => navigate('/admin/sanbay/add')} className="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root">
-                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root' focusable='false' aria-hidden='true'
-                                        viewBox='0 0 24 24'
-                    >
-                        <path d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z'></path>
-                    </svg>
-                </span>
-                Thêm
-            </button>
+            <PermissionAddButton feature="Quản lí sân bay">
+                <div onClick={() => navigate('/admin/sanbay/add')} ><IconLabelButtons></IconLabelButtons></div>
+            </PermissionAddButton>
+            
             
             <SanBayList 
                 sanBay={sanBay}

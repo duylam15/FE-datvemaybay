@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import EditBtn from "../../components/Admin/ColorButtons/EditBtn";
 import SearchBtn from "../../components/Admin/ColorButtons/SearchBtn";
+import { PermissionButton } from '../Admin/Sidebar';
 const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
     return (
         <div>
@@ -80,7 +81,8 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                             <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
                             <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                             <td>
-                                <div onClick={() => onEdit(kh.idKhachHang)}><EditBtn></EditBtn></div>
+                            <PermissionButton feature="Quản lí khách hàng" idButton={kh.idKhachHang} onEdit={onEdit}>
+                            </PermissionButton>
                             </td>
                         </tr>
                     ))}

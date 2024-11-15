@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import './StyleTuyenBay.scss';
 import { FaPlus } from 'react-icons/fa';
 import { block } from '../../../services/tuyenBayService';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -156,9 +157,12 @@ const RouteTable = () => {
             placeholder='Nhập sân bay bắt đầu'
           />
         </div>
-        <Link to='add' className='add-btn'>
-          <FaPlus /> Thêm
-        </Link>
+        <PermissionAddButton feature="Quản lí tuyến bay">
+          <Link to='add' className='add-btn'>
+            <FaPlus /> Thêm
+          </Link>
+        </PermissionAddButton>
+
       </div>
       <Table
         columns={columns}

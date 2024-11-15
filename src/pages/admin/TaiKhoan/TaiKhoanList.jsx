@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
+import { PermissionButton } from '../../../components/Admin/Sidebar';
 
     const currentDataList = ({
         taiKhoan,          // Danh sách các phương thức thanh toán
@@ -86,7 +87,8 @@ import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
                             </td>
                             <td className=' align-middle '>{tk.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                             <td className=' align-middle btn_row'>
-                                <div className="btn_block align-middle" onClick={() => onEdit(tk.idTaiKhoan)}><EditBtn></EditBtn></div>
+                                <PermissionButton feature="Quản lí tài khoản" idButton={tk.idTaiKhoan} onEdit={onEdit}>
+                                </PermissionButton>
                             </td>
                         </tr>
                     )))

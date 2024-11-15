@@ -5,6 +5,7 @@ import BlockBtn from '../Admin/ColorButtons/BlockBtn';
 import UnBlockBtn from '../Admin/ColorButtons/UnBlockBtn';
 
 import { Link } from 'react-router-dom';
+import { PermissionButton } from '../Admin/Sidebar';
 
 const Actions = ({ onBlock, isBlocked, editLink }) => {
   return (

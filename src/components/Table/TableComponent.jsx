@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
+import { PermissionButton } from "../Admin/Sidebar";
 const TableComponent = (props) => {
 
   // const accessOnlySee = ["Cơ trưởng", "Cơ Phó", "Tiếp viên"]
@@ -141,15 +142,20 @@ const TableComponent = (props) => {
                 </td>
               ))}
               {(
-                <td className='btn-action' onClick={() => edit(item[props.dataKeys[0]])}>
-                  <Button
-                    className='btn-custom'
-                    variant="outlined"
-                    color="#1976D2"
-                    startIcon={<EditIcon />}
-                  >
-                    Sửa
-                  </Button>
+                <td className='btn-action'>
+                  <div>
+                    <PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}>
+                    </PermissionButton>
+                    {/* <Button
+                      onClick={() => edit(item[props.dataKeys[0]])}
+                      className='btn-custom'
+                      variant="outlined"
+                      color="#1976D2"
+                      startIcon={<EditIcon />}
+                    >
+                      Sửa
+                    </Button> */}
+                  </div>
                 </td>
               )}
             </tr>

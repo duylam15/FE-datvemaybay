@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useFetchKhachHang } from '../../../utils/useFetchKhachHang.jsx';
 import KhachHangList from '../../../components/KhachHangList/KhachHangList.jsx';
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { handleSort, searchCustomers, editCustomer, blockCustomer } from '../../../services/customersServices.js';
 import axios from 'axios';
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 const KhachHangPage = () => {
     const { khachHang: initialKhachHang, loading, error } = useFetchKhachHang();
     const [searchTerm, setSearchTerm] = useState('');
@@ -39,18 +40,20 @@ const KhachHangPage = () => {
 
     return (
         <div className="khach-hang-page">
-            <div onClick={() => navigate('/admin/customer/add')}>
-            <IconLabelButtons></IconLabelButtons>
-            </div>
-            <KhachHangList 
-                khachHang={khachHang} 
-                onEdit={handleEdit} 
-                onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
-                sortOrder={sortOrder} 
+            <PermissionAddButton feature="Quản lí khách hàng">
+                <div onClick={() => navigate('/admin/customer/add')}>
+                    <IconLabelButtons></IconLabelButtons>
+                </div>
+            </PermissionAddButton>
+            <KhachHangList
+                khachHang={khachHang}
+                onEdit={handleEdit}
+                onBlock={handleBlock}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
+                sortOrder={sortOrder}
                 sortField={sortField}
             />
         </div>

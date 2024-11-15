@@ -9,9 +9,10 @@ import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
 import Pagination from "@mui/material/Pagination"; // Import Pagination
 import Stack from "@mui/material/Stack"; // Import Stack
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
 const TaiKhoanPage = ({ size = 10 }) => {
-    const {loading, error } = ([]);
+    const { loading, error } = ([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
     const [taiKhoan, setTaiKhoan] = useState([]);
@@ -24,18 +25,18 @@ const TaiKhoanPage = ({ size = 10 }) => {
 
     const fetchTaiKhoan = async (page) => {
         try {
-          const result = await getTaiKhoan(page - 1, size); // API usually uses 0-based indexing
-          if (result && result.data) {
-            setTaiKhoan(result.data.content);
-            setTotalPages(result.data.totalPages); // Update total pages based on API response
-          } else {
-            setTaiKhoan([]);
-            setTotalPages(0);
-          }
+            const result = await getTaiKhoan(page - 1, size); // API usually uses 0-based indexing
+            if (result && result.data) {
+                setTaiKhoan(result.data.content);
+                setTotalPages(result.data.totalPages); // Update total pages based on API response
+            } else {
+                setTaiKhoan([]);
+                setTotalPages(0);
+            }
         } catch (error) {
-          console.error("Error fetching permissions:", error);
+            console.error("Error fetching permissions:", error);
         }
-      };
+    };
 
     // useEffect(() => {
     //     setTaiKhoan(initialTaiKhoan);
@@ -43,7 +44,7 @@ const TaiKhoanPage = ({ size = 10 }) => {
 
     useEffect(() => {
         fetchTaiKhoan(currentPage); // Fetch with the current page
-      }, [currentPage]); // Fetch data when currentPage or searchName changes
+    }, [currentPage]); // Fetch data when currentPage or searchName changes
 
     const handleSearch = () => {
         searchTaiKhoan(searchTerm, setTaiKhoan);
@@ -72,20 +73,22 @@ const TaiKhoanPage = ({ size = 10 }) => {
     return (
         <div className="tai-khoan-tt-page page">
             <h1 className='text'>Danh Sách Tài Khoản</h1>
-            <Link to="add">
-                <IconLabelButtons></IconLabelButtons>
-            </Link>
+            <PermissionAddButton feature="Quản lí tài khoản">
+                <Link to="add">
+                    <IconLabelButtons></IconLabelButtons>
+                </Link>
+            </PermissionAddButton>
             <div className="separate_block"></div>
-            
-            
+
+
             <TaiKhoanList
-                taiKhoan={taiKhoan} 
-                onEdit={handleEdit} 
+                taiKhoan={taiKhoan}
+                onEdit={handleEdit}
                 // onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
                 sortOrder={sortOrder}
                 sortField={sortField}
                 handlePagination={handlePagination}

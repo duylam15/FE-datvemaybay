@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SanBay.css'
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
+import { PermissionButton } from '../../../components/Admin/Sidebar';
+import XemChiTietBtn from '../../../components/Admin/ColorButtons/XemChiTietBtn';
 
 const API_URL = 'http://localhost:8080';
 const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -83,13 +85,13 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearch}>
-                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
-                        focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
-                    >
-                        <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
-                    </svg>
-                </span>
+                    <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
+                        <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
+                            focusable='false' aria-hidden='true' viewBox='0 0 24 24'
+                        >
+                            <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
+                        </svg>
+                    </span>
                     Tìm Kiếm
                 </button>
                 <select onChange={(e) => getAirportByCity(e.target.value)} className='form-search'>
@@ -131,7 +133,7 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                     </tr>
                 </thead>
                 <tbody>
-                {sanBay.length > 0 ? (
+                    {sanBay.length > 0 ? (
                         sanBay.map(mb => (
                             <tr key={mb.idSanBay}>
                                 <td>{mb.idSanBay}</td>
@@ -142,7 +144,8 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                                 <td>{mb.diaChi}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
-                                    <div onClick={() => onEdit(mb.idSanBay)}><EditBtn></EditBtn></div>
+                                    <PermissionButton feature="Quản lí sân bay" idButton={mb.idSanBay} onEdit={onEdit}>
+                                    </PermissionButton>
                                 </td>
                             </tr>
                         ))
