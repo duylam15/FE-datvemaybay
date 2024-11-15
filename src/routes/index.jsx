@@ -66,6 +66,7 @@ import EditVe from '../pages/Admin/Ve/EditVe';
 import Ve from '../pages/Admin/Ve/index.jsx';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
+import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -141,7 +142,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <LayoutAdmin />,
+    element: <ProtectedRoute><LayoutAdmin /></ProtectedRoute>,
     errorElement: <Error />,
     children: [
       { index: true, element: <Dashboard /> },
