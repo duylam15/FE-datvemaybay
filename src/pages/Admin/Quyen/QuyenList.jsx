@@ -4,6 +4,7 @@ import PaginationRounded from "../../../components/Admin/Pagination";
 import SearchBtn from "../../../components/Admin/ColorButtons/SearchBtn";
 import EditBtn from "../../../components/Admin/ColorButtons/EditBtn";
 import DeleteBtn from "../../../components/Admin/ColorButtons/deleteBtn";
+import { PermissionButton } from "../../../components/Admin/Sidebar";
 
 const QuyenList = ({
   nhomQuyen,
@@ -68,7 +69,8 @@ const QuyenList = ({
                     : "Không hoạt động"}
                 </td>
                 <td className="btn_row">
-                <div className="btn_block" onClick={() => onEdit(nq.idQuyen)}><EditBtn></EditBtn></div>
+                  <PermissionButton feature="Quản lí nhóm quyền" idButton={nq.idQuyen} onEdit={onEdit}>
+                  </PermissionButton>
                 </td>
               </tr>
             ))

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
+import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
 
 const PhuongThucTTPage = () => {
@@ -47,20 +48,22 @@ const PhuongThucTTPage = () => {
     return (
         <div className="phuong-thuc-tt-page page">
             <h1 className='text'>Danh Sách Phương Thức Thanh Toán</h1>
-            <Link to="add">
-                <IconLabelButtons></IconLabelButtons>
-            </Link>
+            <PermissionAddButton feature="Quản lí PTTT">
+                <Link to="add">
+                    <IconLabelButtons></IconLabelButtons>
+                </Link>
+            </PermissionAddButton>
             <div className="separate_block"></div>
-            
-            
+
+
             <PhuongThucTTList
-                phuongThucTT={phuongThucTT} 
-                onEdit={handleEdit} 
-                onBlock={handleBlock} 
-                searchTerm={searchTerm} 
-                setSearchTerm={setSearchTerm} 
-                handleSearch={handleSearch} 
-                handleSort={handleSortClick} 
+                phuongThucTT={phuongThucTT}
+                onEdit={handleEdit}
+                onBlock={handleBlock}
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSearch={handleSearch}
+                handleSort={handleSortClick}
                 sortOrder={sortOrder}
                 sortField={sortField}
             />

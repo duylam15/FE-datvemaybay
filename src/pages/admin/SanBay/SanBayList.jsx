@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './SanBay.css'
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
-import { PermissionButton } from '../../../components/Admin/Sidebar';
+import { PermissionButton, PermissionEditButton } from '../../../components/Admin/Sidebar';
 import XemChiTietBtn from '../../../components/Admin/ColorButtons/XemChiTietBtn';
 
 const API_URL = 'http://localhost:8080';
@@ -129,7 +129,9 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                         <th>Địa chỉ</th>
                         <th>Thành Phố</th>
                         <th>Trạng thái</th>
-                        <th>Actions</th>
+                        <PermissionEditButton feature="Quản lí sân bay">
+                            <th>Actions</th>
+                        </PermissionEditButton>
                     </tr>
                 </thead>
                 <tbody>
@@ -143,10 +145,11 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                                 <td>{mb.thanhPho.tenThanhPho}</td>
                                 <td>{mb.diaChi}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                                <td>
-                                    <PermissionButton feature="Quản lí sân bay" idButton={mb.idSanBay} onEdit={onEdit}>
-                                    </PermissionButton>
-                                </td>
+                                <PermissionEditButton feature="Quản lí sân bay">
+                                    <td>
+                                        <div onClick={() => onEdit(mb.idSanBay)}><EditBtn></EditBtn></div>
+                                    </td>
+                                </PermissionEditButton>
                             </tr>
                         ))
                     ) : (

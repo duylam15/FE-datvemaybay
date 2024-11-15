@@ -144,9 +144,10 @@ const TableComponent = (props) => {
               {(
                 <td className='btn-action'>
                   <div>
-                    <PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}>
-                    </PermissionButton>
-                    {/* <Button
+                    {/* Chuc vu - chuyen bay - nhan vien */}
+                    {/* <PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}>
+                    </PermissionButton> */}
+                    <Button
                       onClick={() => edit(item[props.dataKeys[0]])}
                       className='btn-custom'
                       variant="outlined"
@@ -154,7 +155,7 @@ const TableComponent = (props) => {
                       startIcon={<EditIcon />}
                     >
                       Sửa
-                    </Button> */}
+                    </Button>
                   </div>
                 </td>
               )}

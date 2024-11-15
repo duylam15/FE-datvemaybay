@@ -3,11 +3,12 @@ import axios from 'axios';
 import './DanhGia.css'
 import { FaGrinStars, FaStar, FaStarAndCrescent, FaStarOfDavid, FaStarOfLife } from 'react-icons/fa';
 import { DatePicker, Space } from 'antd';
+import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 const { RangePicker } = DatePicker;
 
 const API_URL = 'http://localhost:8080';
 const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBay, handleSearchByStartTimeAndEndTime,
-     handleBlock, searchTerm, setSearchTerm , startTime, setStartTime, endTime, setEndTime}) => {
+    handleBlock, searchTerm, setSearchTerm, startTime, setStartTime, endTime, setEndTime }) => {
     const [hangBay, setHangBay] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -51,17 +52,17 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
     }, []);
 
     const getSao = (sao) => {
-        switch(sao) {
+        switch (sao) {
             case 'ONE':
-                return <><FaStar/></>;
+                return <><FaStar /></>;
             case 'TWO':
-                return <><FaStar/><FaStar/></>;
+                return <><FaStar /><FaStar /></>;
             case 'THREE':
-                return <><FaStar/><FaStar/><FaStar/></>;
+                return <><FaStar /><FaStar /><FaStar /></>;
             case 'FOUR':
-                return <><FaStar/><FaStar/><FaStar/><FaStar/></>;
+                return <><FaStar /><FaStar /><FaStar /><FaStar /></>;
             case 'FIVE':
-                return <><FaStar/><FaStar/><FaStar/><FaStar/><FaStar/></>;
+                return <><FaStar /><FaStar /><FaStar /><FaStar /><FaStar /></>;
             default:
                 return null;
         }
@@ -81,13 +82,13 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearchByTenKhachHang}>
-                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
-                        focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
-                    >
-                        <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
-                    </svg>
-                </span>
+                    <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
+                        <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
+                            focusable='false' aria-hidden='true' viewBox='0 0 24 24'
+                        >
+                            <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
+                        </svg>
+                    </span>
                     Tìm Kiếm
                 </button>
                 <select onChange={(e) => handleSearchByHangBay(e.target.value)} className='form-search'>
@@ -118,10 +119,10 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                             onChange={(e) => setEndTime(e.target.value)}
                         />
                     </div>
-                    <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={() => handleSearchByStartTimeAndEndTime(startTime, endTime)} style={{margin: "20px"}}>
+                    <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={() => handleSearchByStartTimeAndEndTime(startTime, endTime)} style={{ margin: "20px" }}>
                         <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
                             <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
-                                focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
+                                focusable='false' aria-hidden='true' viewBox='0 0 24 24'
                             >
                                 <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
                             </svg>
@@ -134,29 +135,32 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                 <thead className="thead-dark">
                     <tr>
                         <th >
-                            ID 
+                            ID
                         </th>
                         <th >
-                            Sao 
+                            Sao
                         </th>
                         <th >
-                            Nội Dung 
+                            Nội Dung
                         </th>
                         <th >
-                            Hãng Bay 
+                            Hãng Bay
                         </th>
                         <th >
-                            Khách Hàng 
+                            Khách Hàng
                         </th>
                         <th >
-                            Thời gian tạo 
+                            Thời gian tạo
                         </th>
                         <th>Trạng Thái</th>
-                        <th>Actions</th>
+                        <PermissionEditButton feature="Quản lí đánh giá">
+                            <th>Actions</th>
+                        </PermissionEditButton>
+                                 
                     </tr>
                 </thead>
                 <tbody>
-                {danhGia.length > 0 ? (
+                    {danhGia.length > 0 ? (
                         danhGia.map(mb => (
                             <tr key={mb.idDanhGia}>
                                 <td>{mb.idDanhGia}</td>
@@ -166,15 +170,20 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                                 <td>{mb.khachHang.hoTen}</td>
                                 <td>{mb.thoiGianTao}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                                <td>
-                                    <div>
-                                        <button 
-                                            onClick={() => handleBlock(mb.idDanhGia)}
-                                        >
-                                            {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
-                                        </button>
-                                    </div>
-                                </td>
+                                <PermissionEditButton feature="Quản lí đánh giá">
+                                    <td>
+
+                                        <div>
+                                            <button
+                                                onClick={() => handleBlock(mb.idDanhGia)}
+                                            >
+                                                {mb.trangThaiActive === 'ACTIVE' ? 'Block' : 'Unblock'}
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </PermissionEditButton>
+
                             </tr>
                         ))
                     ) : (

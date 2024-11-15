@@ -6,28 +6,28 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
-import { PermissionButton } from '../../../components/Admin/Sidebar';
+import { PermissionButton, PermissionEditButton } from '../../../components/Admin/Sidebar';
 
-    const currentDataList = ({
-        taiKhoan,          // Danh sách các phương thức thanh toán
-        onEdit,            // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
-        searchTerm,          // Giá trị tìm kiếm
-        setSearchTerm,       // Hàm cập nhật giá trị tìm kiếm
-        handleSearch,        // Hàm xử lý sự kiện tìm kiếm
-        handleSort,          // Hàm xử lý sắp xếp danh sách
-        sortOrder,           // Thứ tự sắp xếp (tăng dần hoặc giảm dần)
-        sortField,
-    }) => {
+const currentDataList = ({
+    taiKhoan,          // Danh sách các phương thức thanh toán
+    onEdit,            // Hàm gọi khi muốn chỉnh sửa phương thức thanh toán
+    searchTerm,          // Giá trị tìm kiếm
+    setSearchTerm,       // Hàm cập nhật giá trị tìm kiếm
+    handleSearch,        // Hàm xử lý sự kiện tìm kiếm
+    handleSort,          // Hàm xử lý sắp xếp danh sách
+    sortOrder,           // Thứ tự sắp xếp (tăng dần hoặc giảm dần)
+    sortField,
+}) => {
 
     return (
         <div>
             <div className="search-sort-controlss">
                 <input
-                className="input_search"
-                type="text"
-                placeholder="Tìm kiếm tài khoản..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                    className="input_search"
+                    type="text"
+                    placeholder="Tìm kiếm tài khoản..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <Stack direction="row" spacing={2}>
                     <Button
@@ -35,7 +35,7 @@ import { PermissionButton } from '../../../components/Admin/Sidebar';
                         color="primary"
                         startIcon={<SearchIcon />}
                         size="large"
-                        sx={{ fontSize: '1.25rem' }}  
+                        sx={{ fontSize: '1.25rem' }}
                         onClick={handleSearch}
                     >
                         Tìm kiếm
@@ -46,7 +46,7 @@ import { PermissionButton } from '../../../components/Admin/Sidebar';
                 <thead className="thead-dark">
                     <tr className=''>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('idcurrentData')}>
-                            ID {sortField === 'idcurrentData' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}   
+                            ID {sortField === 'idcurrentData' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('tenDangNhap')}>
                             Tên đăng nhập {sortField === 'tenDangNhap' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -65,9 +65,12 @@ import { PermissionButton } from '../../../components/Admin/Sidebar';
                         <th scope="col" className='align-bottom' onClick={() => handleSort('trangThaiActive')}>
                             Trạng thái {sortField === 'trangThaiActive' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom'>
-                            Actions
-                        </th>
+                        <PermissionEditButton feature="Quản lí tài khoản">
+                            <th scope="col" className='align-bottom'>
+                                Actions
+                            </th>
+                        </PermissionEditButton>
+
                     </tr>
                 </thead>
                 <tbody className=''>
@@ -86,20 +89,21 @@ import { PermissionButton } from '../../../components/Admin/Sidebar';
                                 {tk.nhanVien ? tk.nhanVien.cccd : tk.khachHang?.cccd || ''}
                             </td>
                             <td className=' align-middle '>{tk.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
-                            <td className=' align-middle btn_row'>
-                                <PermissionButton feature="Quản lí tài khoản" idButton={tk.idTaiKhoan} onEdit={onEdit}>
-                                </PermissionButton>
-                            </td>
+                            <PermissionEditButton feature="Quản lí tài khoản">
+                                <td className=' align-middle btn_row'>
+                                    <div onClick={() => { onEdit(tk.idTaiKhoan) }}><EditBtn></EditBtn></div>
+                                </td>
+                            </PermissionEditButton>
                         </tr>
                     )))
-                    : (
-                        <tr>
-                            <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
-                        </tr>
-                    )
+                        : (
+                            <tr>
+                                <td colSpan="9" className="text-center">Không tìm thấy kết quả tìm kiếm!</td>
+                            </tr>
+                        )
                     }
                 </tbody>
-                </table>
+            </table>
         </div>
     );
 };
