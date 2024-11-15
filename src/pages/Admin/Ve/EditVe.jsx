@@ -9,6 +9,7 @@ import { getAllStatusVe, getChiTietVeTheoId, editVe } from '../../../services/ve
 import { message } from 'antd'; // Import Ant Design message component for notifications
 import InfoHanhKhach from './Components/InfoHanhKhach';
 import InfoHanhKhachInput from './Components/InfoHanhKhachInput';
+import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 const { Option } = Select;
 
 
@@ -323,7 +324,9 @@ const EditVe = () => {
                 <div className='row_last '>
                     <div onClick={handleBack}> <GradientButtonBack /> </div>
                     <div className="btn_row_last">
-                        <div onClick={handleEdit}> <GradientButton /> </div> {/* Save Button */}
+                        <PermissionEditButton feature="Quản lí vé">
+                            <div onClick={handleEdit}> <GradientButton /> </div> {/* Save Button */}
+                        </PermissionEditButton>
                     </div>
                 </div>
             </div>

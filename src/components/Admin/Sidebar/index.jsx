@@ -48,6 +48,15 @@ const PermissionEditButton = ({ feature, children }) => {
 
 export { PermissionEditButton }
 
+const PermissionEditOrAddButton = ({ feature, children }) => {
+  const edit = hasPermission(feature, "EDIT");
+  const add = hasPermission(feature, "CREATE")
+  let isAllowed = (edit || add) ? true : false
+  return isAllowed ? children : null;
+};
+
+export { PermissionEditOrAddButton }
+
 // Component to display the correct button based on permissions
 const PermissionButton = ({ feature, idButton, onEdit}) => {
   const hasEditPermission = hasPermission(feature, "EDIT");

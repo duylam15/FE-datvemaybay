@@ -1,5 +1,5 @@
 import React from 'react';
-import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
+// import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
 
 export default function ThongKe() {
 	// Dữ liệu mẫu cho các biểu đồ

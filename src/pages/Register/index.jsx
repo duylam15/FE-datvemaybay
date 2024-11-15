@@ -159,7 +159,7 @@ const Register = () => {
                         className='registerForm__select'>
                         <Select.Option value="NAM">Nam</Select.Option>
                         <Select.Option value="NU">Nữ</Select.Option>
-                        <Select.Option value="KHAC">Khác</Select.Option>
+                        {/* <Select.Option value="KHAC">Khác</Select.Option> */}
                       </Select>
                     </Form.Item>
                   </div>

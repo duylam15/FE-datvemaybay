@@ -9,6 +9,7 @@ import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
 import { getAllGiaVeTheoIdChuyenBay } from '../../../services/veService';
+import { PermissionEditButton, PermissionEditOrAddButton } from '../../../components/Admin/Sidebar';
 export const AddChuyenBay = () => {
 
   const location = useLocation();
@@ -1415,8 +1416,10 @@ export const AddChuyenBay = () => {
           </div>
         </div>
         <div className="container-btn">
-          <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
           <button data-keep-enabled className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+          <PermissionEditOrAddButton feature="Quản lí chuyến bay">
+            <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
+          </PermissionEditOrAddButton>
         </div>
         <div className="container-ghichu">
           {"*{TGBDDT : Thời gian bắt đầu dự tính ; TGBDTT : Thời gian bắt đầu thực tế ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}

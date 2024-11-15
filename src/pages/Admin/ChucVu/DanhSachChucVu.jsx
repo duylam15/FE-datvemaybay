@@ -44,6 +44,7 @@ export default function DanhSachChucVu(props) {
         editLink={editLink}
         setData={props.setData}
         page={props.page}
+        type="Quản lí chức vụ"
       />
       <PaginationComponent
         currentPage={currentPage}
