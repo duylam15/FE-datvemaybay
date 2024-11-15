@@ -25,7 +25,7 @@ const HoaDonAdd = () => {
     const [giaPhatSinh, setGiaPhatSinh] = useState('');
 
     // State cho vé
-    const [soLuongVe, setSoLuongVe] = useState(0);
+    const [soLuongVe, setSoLuongVe] = useState(1);
     const [isPopupChuyenBayOpen, setIsPopupChuyenBayOpen] = useState(false);
     const [isPopupVeOpen, setIsPopupVeOpen] = useState(false);
     const [selectedChuyenBay, setSelectedChuyenBay] = useState(null);
@@ -165,10 +165,9 @@ const HoaDonAdd = () => {
             // Chờ tất cả các yêu cầu lưu vé hoàn thành
             await Promise.all(ticketPromises);
     
-            alert("Đã lưu tất cả khách hàng và cập nhật vé thành công.");
+            console.log("Đã lưu tất cả khách hàng và cập nhật vé thành công.");
         } catch (error) {
             console.error("Lỗi khi lưu khách hàng hoặc cập nhật vé:", error);
-            alert("Có lỗi xảy ra khi lưu khách hàng hoặc cập nhật vé.");
         }
     };
     
@@ -217,9 +216,11 @@ const HoaDonAdd = () => {
             console.log(hoaDonCreate);
             const response = await axios.post(`${API_URL}/createHoaDon`, hoaDonCreate);
             console.log('Thêm hóa đơn thành công:', response.data);
+            alert("Thêm hóa đơn thành công!");
             navigate('/admin/hoadon');
         } catch (error) {
             console.error('Có lỗi xảy ra khi thêm hóa đơn:', error);
+            alert("Xảy ra lỗi!");
         }
     };
 
@@ -257,7 +258,7 @@ const HoaDonAdd = () => {
                 {loaiHoaDon === 've' && (
                     <>
                         {/* Nút chọn chuyến bay */}
-                        <button onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
+                        <button type='button' onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
                         {/* Input hiển thị thông tin chuyến bay */}
                         <div>
                             <label>Thông tin chuyến bay:</label>

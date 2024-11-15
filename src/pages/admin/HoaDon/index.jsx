@@ -87,7 +87,7 @@ const HoaDonPage = () => {
     return (
         <div className="hoa-don-page page">
             <h1>Danh Sách Hóa Đơn</h1>
-            <PermissionAddButton feature="Quản lí loại hoá đơn">
+            <PermissionAddButton feature="Quản lí hoá đơn">
                 <Link to="add">
                     <IconLabelButtons></IconLabelButtons>
                 </Link>
