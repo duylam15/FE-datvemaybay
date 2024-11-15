@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DanhGia.css'
-import { FaGrinStars, FaStar, FaStarAndCrescent, FaStarOfDavid, FaStarOfLife } from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight, FaGrinStars, FaStar, FaStarAndCrescent, FaStarOfDavid, FaStarOfLife } from 'react-icons/fa';
 import { DatePicker, Space } from 'antd';
 const { RangePicker } = DatePicker;
 
@@ -188,7 +188,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                 <div className='pagination-container'>
                     <ul className="pagination pagination-lg">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}><FaAngleLeft/></a>
                         </li>
                         {[...Array(totalPages).keys()].map(number => (
                             <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
@@ -198,7 +198,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                             </li>
                         ))}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}><FaAngleRight/></a>
                         </li>
                     </ul>
                 </div>

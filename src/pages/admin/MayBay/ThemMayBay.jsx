@@ -124,7 +124,7 @@ const AddMayBayForm = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
-        <form onSubmit={handleSubmit} className='form-add-plane'>
+        <form onSubmit={handleSubmit} className='container'>
             <h2>Thêm thông tin máy bay</h2>
             <div className="form-group">
                 <label>Tên Máy Bay</label>
