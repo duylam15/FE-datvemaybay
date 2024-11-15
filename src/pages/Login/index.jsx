@@ -30,6 +30,7 @@ const Login = () => {
     if (res?.data) { // Kiểm tra nếu API trả về dữ liệu
       localStorage.setItem("access_token", res.data)
       dispatch(doLoginAction(infoUser.data))
+      localStorage.setItem("dataNguoiDung", JSON.stringify(infoUser.data))
       message.success('Đăng nhập tài khoản thành công!'); // Hiển thị thông báo thành công
       setTimeout(() => {
         navigate('/');
