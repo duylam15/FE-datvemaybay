@@ -15,6 +15,8 @@ import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
 import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
+import "../HoaDon/HoaDon.scss";
+
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
     const [searchTerm, setSearchTerm] = useState('');
