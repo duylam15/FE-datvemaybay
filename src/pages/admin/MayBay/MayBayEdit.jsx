@@ -199,47 +199,48 @@ const MayBayEdit = () => {
                 </div>
                 <div className="form-group">
                     <label>Số Hàng Ghế Thường:</label>
-                    <input
-                        type="text"
-                        name="soHangGheThuong"
-                        className={`form-control ${fieldErrors.soHangGheThuong ? 'is-invalid' : ''}`}
+                    <span
+                        name='soHangGheThuong'
+                        className='form-control'
                         value={mayBay.soHangGheThuong}
                         onChange={handleChange}
-                    />
-                    {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>} 
+                    >
+                        {mayBay.soHangGheThuong}
+                    </span>
                 </div>
                 <div className='form-group'>
                     <label>Số Hàng Ghế VIP:</label>
-                    <input
-                        type="text"
-                        name="soHangGheVip"
-                        className={`form-control ${fieldErrors.soHangGheVip ? 'is-invalid' : ''}`}
+                    <span
+                        name='soHangGheVip'
+                        className='form-control'
                         value={mayBay.soHangGheVip}
                         onChange={handleChange}
-                    />
+                    >
+                        {mayBay.soHangGheVip}
+                    </span>
                     {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
                 </div>
                 <div className='form-group'>
                     <label>Số Cột Ghế Thường:</label>
-                    <input
-                        type="text"
-                        name="soCotGheThuong"
-                        className={`form-control ${fieldErrors.soCotGheThuong ? 'is-invalid' : ''}`}
+                    <span
+                        name='soCotGheThuong'
+                        className='form-control'
                         value={mayBay.soCotGheThuong}
                         onChange={handleChange}
-                    />
-                    {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
+                    >
+                        {mayBay.soCotGheThuong}
+                    </span>
                 </div>
                 <div className='form-group'>
                     <label>Số Cột Ghế VIP:</label>
-                    <input
-                        type="text"
-                        name="soCotGheVip"
-                        className={`form-control ${fieldErrors.soCotGheVip ? 'is-invalid' : ''}`}
+                    <span
+                        name='soCotGheVip'
+                        className='form-control'
                         value={mayBay.soCotGheVip}
                         onChange={handleChange}
-                    />
-                    {fieldErrors.soCotGheVip && <div className="invalid-feedback">{fieldErrors.soCotGheVip}</div>}
+                    >
+                        {mayBay.soCotGheVip}
+                    </span>
                 </div>
                 <div className="form-group">
                     <label>Số Hiệu:</label>
