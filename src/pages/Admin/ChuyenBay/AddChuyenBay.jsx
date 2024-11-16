@@ -92,8 +92,8 @@ export const AddChuyenBay = () => {
     const fetchData = async () => {
       const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
       console.log("gia ve la: !", resGiaVe)
-      setGiaVeThuong(resGiaVe.data?.giaVeThuong)
-      setGiaVeThuongGia(resGiaVe.data?.giaVeThuongGia)
+      setGiaVeThuong(resGiaVe?.data?.giaVeThuong)
+      setGiaVeThuongGia(resGiaVe?.data?.giaVeThuongGia)
     }
     fetchData();
   }, [idChuyenBay])
@@ -630,8 +630,12 @@ export const AddChuyenBay = () => {
       setErrorCoPho("Vui long chon co pho");
       hasError = true;
     }
-
-    if (giaVeThuong > giaVeThuongGia) {
+    console.log("Num ber thuogn: ", giaVeThuong)
+    console.log("Num ber thuong gia: ", giaVeThuongGia)
+    // Chuyển giá vé từ chuỗi sang số
+    const giaVeThuongNum = Number(giaVeThuong);
+    const giaVeThuongGiaNum = Number(giaVeThuongGia);
+    if (giaVeThuongNum > giaVeThuongGiaNum) {
       setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
       hasError = true;
     }
