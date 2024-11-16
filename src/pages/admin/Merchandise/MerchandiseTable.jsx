@@ -143,6 +143,7 @@ const MerchandiseTable = () => {
           isBlocked={
             item.trangThaiActive === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'
           }
+          type="Quản lí hàng hoá"
         />
       ),
     },
@@ -180,6 +181,7 @@ const MerchandiseTable = () => {
           onSortClick={handleSortClick}
           currentSortField={sortField}
           currentSortOrder={sortOrder}
+          type="Quản lí hàng hoá"
         />
       )}
     </div>

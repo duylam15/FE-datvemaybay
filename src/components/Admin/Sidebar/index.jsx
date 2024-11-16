@@ -22,11 +22,9 @@ import IconLabelButtons from '../ColorButtons';
 const hasPermission = (featureName, action) => {
   const dataNguoiDung = JSON.parse(localStorage.getItem("dataNguoiDung"));
   const chiTietQuyenDTOList = dataNguoiDung?.quyen?.chiTietQuyenDTOList || [];
-  console.log("chiTietQuyenDTOList: ", chiTietQuyenDTOList)
   const permissionsArray = chiTietQuyenDTOList.map(
     (permission) => `${permission.tenChucNang}:${permission.hanhDong}`
   );
-  console.log("ARAAY: ", permissionsArray);
   const permissionSet = new Set(permissionsArray);
 
   return permissionSet.has(`${featureName}:${action}`);
@@ -42,7 +40,9 @@ export { PermissionAddButton }
 
 
 const PermissionEditButton = ({ feature, children }) => {
+  console.log("GEfkdsjkfjskd", feature)
   const isAllowed = hasPermission(feature, "EDIT");
+  console.log(isAllowed)
   return isAllowed ? children : null;
 };
 
