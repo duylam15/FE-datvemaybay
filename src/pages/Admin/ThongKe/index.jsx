@@ -1,13 +1,26 @@
-import React from 'react';
-// import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
+import React, { useState } from 'react';
+import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
+import { Select } from 'antd';
+
+const { Option } = Select;
 
 export default function ThongKe() {
-	// Dữ liệu mẫu cho các biểu đồ
-	const customerData = [
-		{ time: 'Jan', customers: 120, type: '2023' },
-		{ time: 'Feb', customers: 140, type: '2023' },
-		// ...
-	];
+	const [timeFrame, setTimeFrame] = useState('Tháng');
+	const [revenueView, setRevenueView] = useState('Tháng'); // Trạng thái hiển thị doanh thu
+
+	// Dữ liệu mẫu
+	const customerDataSets = {
+		Tháng: [
+			{ time: 'Jan', customers: 120, type: '2023' },
+			{ time: 'Feb', customers: 140, type: '2023' },
+			{ time: 'Mar', customers: 150, type: '2023' },
+		],
+		Quý: [
+			{ time: 'Q1', customers: 400, type: '2023' },
+			{ time: 'Q2', customers: 450, type: '2023' },
+		],
+		Năm: [{ time: '2023', customers: 1000, type: '2023' }],
+	};
 
 	const ratingData = [
 		{ category: '5 sao', value: 45 },
@@ -20,7 +33,7 @@ export default function ThongKe() {
 	const flightHoursData = [
 		{ employee: 'John Doe', hours: 120, type: '2023' },
 		{ employee: 'Jane Smith', hours: 150, type: '2023' },
-		// ...
+		{ employee: 'Alice Brown', hours: 90, type: '2023' },
 	];
 
 	const flightStatusData = [
@@ -32,21 +45,32 @@ export default function ThongKe() {
 	const flightRouteData = [
 		{ route: 'Hà Nội - TP HCM', frequency: 100, type: 'Tháng 1' },
 		{ route: 'Hà Nội - Đà Nẵng', frequency: 50, type: 'Tháng 1' },
-		// ...
+		{ route: 'TP HCM - Đà Nẵng', frequency: 80, type: 'Tháng 1' },
 	];
 
-	const revenueData = [
-		{ time: 'Tháng 1', revenue: 1000, type: '2023' },
-		{ time: 'Tháng 2', revenue: 1200, type: '2023' },
-		{ time: 'Tháng 2', revenue: 1200, type: '2023' },
-		{ time: 'Tháng 2', revenue: 1200, type: '2023' },
-		// ...
-	];
+	const revenueDataSets = {
+		Tháng: [
+			{ time: 'Tháng 1', revenue: 1000, type: '2023' },
+			{ time: 'Tháng 2', revenue: 1200, type: '2023' },
+			{ time: 'Tháng 3', revenue: 1100, type: '2023' },
+		],
+		Quý: [
+			{ time: 'Q1', revenue: 3500, type: '2023' },
+			{ time: 'Q2', revenue: 4000, type: '2023' },
+		],
+		Năm: [
+			{ time: '2023', revenue: 15000, type: '2023' },
+			{ time: '2022', revenue: 14000, type: '2022' },
+		],
+	};
+	// Lựa chọn dữ liệu theo thời gian
+	const customerData = customerDataSets[timeFrame] || [];
+	const revenueData = revenueDataSets[revenueView];
 
 	// Cấu hình biểu đồ
 	const commonConfig = {
-		width: 500,
-		height: 500,
+		height: 300,
+		autoFit: true,
 	};
 
 	const customerConfig = {
@@ -87,7 +111,6 @@ export default function ThongKe() {
 	};
 
 	const seatUtilizationConfig = {
-		...commonConfig,
 		percent: 0.75,
 		range: { color: 'l(0) 0:#B8E1FF 1:#3D76DD' },
 		indicator: {
@@ -118,8 +141,20 @@ export default function ThongKe() {
 
 	return (
 		<div className="thongke">
-			<div className="container">
-				<div className="thongke__inner">
+			<div className='container'>
+				<div style={{ marginBottom: 20 }}>
+					<Select
+						defaultValue="Tháng"
+						style={{ width: 200 }}
+						onChange={(value) => setTimeFrame(value)}
+					>
+						<Option value="Tháng">Tháng</Option>
+						<Option value="Quý">Quý</Option>
+						<Option value="Năm">Năm</Option>
+					</Select>
+				</div>
+
+				<div className="chart-container">
 					<div className="chart-item">
 						<h2>Số khách hàng</h2>
 						<Line {...customerConfig} />
@@ -151,7 +186,16 @@ export default function ThongKe() {
 					</div>
 
 					<div className="chart-item">
-						<h2>Doanh thu theo tháng/quý/năm</h2>
+						<h2>Doanh thu theo {revenueView.toLowerCase()}</h2>
+						<Select
+							defaultValue="Tháng"
+							style={{ width: 200, marginBottom: 20 }}
+							onChange={(value) => setRevenueView(value)}
+						>
+							<Option value="Tháng">Tháng</Option>
+							<Option value="Quý">Quý</Option>
+							<Option value="Năm">Năm</Option>
+						</Select>
 						<Area {...revenueConfig} />
 					</div>
 				</div>

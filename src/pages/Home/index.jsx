@@ -13,7 +13,6 @@ import Promotion from './Promotion';
 import HotFlight from './HotFlight';
 import { notification } from 'antd';
 import axios from 'axios';
-import Chat from './Chat';
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -104,8 +103,6 @@ const Home = () => {
 			<HomeHeader navigate={navigate} />
 
 			<Service navigate={navigate} />
-
-			<Chat />
 
 			<BannerExplore navigate={navigate} />
 

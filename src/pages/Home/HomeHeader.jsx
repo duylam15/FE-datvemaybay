@@ -151,7 +151,10 @@ export default function HomeHeader() {
       <div className='container'>
         <div className='home-header__inner'>
           <form className='booking-form' onSubmit={handleSubmit} noValidate>
-            <h2>Đặt vé máy bay</h2>
+            <div className='booking-form__header'>
+              <h2 className='booking-form__header--heading'>ĐIỀN THÔNG TIN ĐẶT VÉ MÁY BAY</h2>
+              <img className='booking-form__header--img' src="public/images/Be_mang.png" alt="" class="booking-form__heading--img shake" />
+            </div>
 
             {/* Hiển thị thông báo lỗi ngay dưới "Đặt vé máy bay" */}
             {errorMessage && (
@@ -165,29 +168,6 @@ export default function HomeHeader() {
                 <span className='error-message--text'>{errorMessage}</span>
               </div>
             )}
-
-            <div className='trip-type'>
-              <label>
-                <input
-                  type='radio'
-                  name='tripType'
-                  value='one-way'
-                  onChange={handleTripChange}
-                  checked={!isRoundTrip}
-                />
-                Một chiều
-              </label>
-              <label>
-                <input
-                  type='radio'
-                  name='tripType'
-                  value='round-trip'
-                  onChange={handleTripChange}
-                  checked={isRoundTrip}
-                />
-                Khứ hồi
-              </label>
-            </div>
 
             {/* Hiển thị loading trong quá trình fetch dữ liệu */}
             {loading ? (
