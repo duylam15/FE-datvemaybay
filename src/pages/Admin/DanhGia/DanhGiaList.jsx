@@ -167,7 +167,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                                 <td>{mb.sao === null ? 'NULL' : getSao(mb.sao)}</td>
                                 <td>{mb.noiDung}</td>
                                 <td>{mb.hangBay.tenHangBay}</td>
-                                <td>{mb.khachHang.hoTen}</td>
+                                <td>{mb.tenKhachHang}</td>
                                 <td>{mb.thoiGianTao}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <PermissionEditButton feature="Quản lí đánh giá">
