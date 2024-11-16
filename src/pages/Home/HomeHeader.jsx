@@ -26,12 +26,19 @@ export default function HomeHeader() {
   };
 
   const handleSelectLocation = (value, option) => {
-    setDepartureLocation(`${option.label} `);
+    setDepartureLocation(option.label);
   };
 
   const handleSelectArrivalLocation = (value, option) => {
-    setArrivalLocation(`${option.label}`);
+    setArrivalLocation(option.label);
   };
+
+  const getFilteredLocations = (selectedLocation) => {
+    return locations.filter(
+      (location) => location.label.trim() !== selectedLocation.trim()
+    );
+  };
+
 
   const handleChange = (state, setState) => {
     setState(state);
@@ -179,16 +186,12 @@ export default function HomeHeader() {
                     <label>TỪ:</label>
                     <AutoComplete
                       className='input__form'
-                      options={locations}
+                      options={getFilteredLocations(arrivalLocation)} // Loại bỏ điểm đến đã chọn
                       onSelect={handleSelectLocation}
                       filterOption={(inputValue, option) =>
-                        option.label
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                        option.label.toLowerCase().includes(inputValue.toLowerCase())
                       }
-                      onChange={(value) =>
-                        handleChange(value, setDepartureLocation)
-                      }
+                      onChange={(value) => handleChange(value, setDepartureLocation)}
                       value={departureLocation}
                     >
                       <Input />
@@ -207,16 +210,12 @@ export default function HomeHeader() {
                     <label>ĐẾN:</label>
                     <AutoComplete
                       className='input__form'
-                      options={locations}
+                      options={getFilteredLocations(departureLocation)} // Loại bỏ điểm đi đã chọn
                       filterOption={(inputValue, option) =>
-                        option.label
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                        option.label.toLowerCase().includes(inputValue.toLowerCase())
                       }
                       onSelect={handleSelectArrivalLocation}
-                      onChange={(value) =>
-                        handleChange(value, setArrivalLocation)
-                      }
+                      onChange={(value) => handleChange(value, setArrivalLocation)}
                       value={arrivalLocation}
                     >
                       <Input />
