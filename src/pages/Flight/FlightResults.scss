@@ -221,7 +221,7 @@
                 .imgbottom {
                   position: absolute;
                   bottom: 7px;
-                  right: 68px;
+                  right: 74px;
                   height: 18px;
                   width: 15px;
                 }
@@ -254,7 +254,7 @@
 
           .btn-blue {
             background-color: #004777;
-
+            border-radius: 0 10px 10px 0;
             &:hover {
               background-color: #004472;
             }
