@@ -18,17 +18,17 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
-	const holdData = {
-		seatId: 1,
-		idVe: 1,
-		flightId: 1,
-		userId: 1
-	};
-
 
 	const handleOk = () => {
+		const holdData = selectedSeats.map((seat, index) => ({
+			seatId: seat.idChoNgoi,
+			idVe: seat.idVe,
+			flightId: selectedTicket.flightId.idChuyenBay,
+			userId: 1
+		}));
+		console.log(holdData)
 		axios.post(
-			'http://localhost:8080/holdSeat',
+			'http://localhost:8080/holdSeats',
 			holdData,
 			{
 				headers: {
@@ -137,7 +137,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 
 		// Nếu tất cả đều hợp lệ, gửi dữ liệu
 		const bookingData = selectedSeats.map((seat, index) => ({
-			idHanhKhach: index + 1,
+			idHanhKhach: null,
 			idVe: seat.idVe,
 			hoTen: adultData[index]?.fullName,
 			ngaySinh: adultData[index]?.birthDate,
@@ -161,15 +161,6 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 
 		console.log('Booking Data:', bookingData);
 
-
-		const holdData = {
-			seatId: 1,
-			idVe: 1,
-			flightId: 1,
-			userId: 1
-		};
-
-
 		if (1) {
 			axios.post(
 				'http://localhost:8080/confirmBooking',
@@ -184,7 +175,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				console.log("Response from server:", response?.data?.data?.paymentUrl);
 				const paymentUrl = response?.data?.data?.paymentUrl;
 				// Reset form state after successful submission
-				// window.location.href = paymentUrl
+				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);
 				notification.error({

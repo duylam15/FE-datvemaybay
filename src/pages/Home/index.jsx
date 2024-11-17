@@ -24,9 +24,10 @@ const Home = () => {
 	useEffect(() => {
 		const params = new URLSearchParams(search);
 		const newStatusCode = params.get('statusCode');
+		const vnp_ResponseCode = params.get('vnp_ResponseCode');
 		const newMessage = decodeURIComponent(params.get('message') || "");
 		const newTicketIds = params.get('ticketIds') ? params.get('ticketIds').split(',') : [];
-
+		console.log("vnp_ResponseCodevnp_ResponseCodevnp_ResponseCode", vnp_ResponseCode)
 		const currentDate = new Date();
 		const thoiGianLap = currentDate.toISOString().split('.')[0];
 
@@ -36,12 +37,15 @@ const Home = () => {
 			localStorage.setItem('statusCode', newStatusCode);
 			localStorage.setItem('message', newMessage);
 			localStorage.setItem('ticketIds', JSON.stringify(newTicketIds));
+			localStorage.setItem('vnp_ResponseCode', vnp_ResponseCode);
+			console.log("newStatusCodenewStatusCodenewStatusCode", newStatusCode)
 			if (newStatusCode === "200") {
 				notification.success({
 					message: 'Đăt vé thành công',
 					description: `Đặt vé thành công vui lòng kiểm tra email`,
 					duration: 3,
 				});
+				
 
 				const hoaDonDTO = {
 					khachHang: {
@@ -79,6 +83,13 @@ const Home = () => {
 						console.error("Error:", error.response ? error.response.data : error.message);
 					});
 
+			}
+			if (newStatusCode === "400") {
+				notification.error({
+					message: 'Đăt vé thất bại',
+					description: `Đặt vé thất bại vui lòng kiểm tra email`,
+					duration: 3,
+				});
 			}
 		}
 		// Xóa URL Params (ẩn chúng)
