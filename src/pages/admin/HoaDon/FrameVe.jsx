@@ -46,8 +46,8 @@ const FrameVe = ({
     };
 
     return (
-        <div className="frame-ve">
-            <h3>Vé {index + 1}</h3>
+        <fieldset className="frame-ve">
+            <legend>Vé {index + 1}</legend>
 
             {/* Nút chọn vé */}
             <button type="button" onClick={handleOpenPopupVe}>
@@ -57,16 +57,18 @@ const FrameVe = ({
             {/* Hiển thị thông tin vé đã chọn */}
             {selectedVe && (
                 <>
-                <div>
+                <div className="ticket-info">
+                    
                     <label>Vé đã chọn:</label>
-                        <input
-                            type="text"
-                            value={selectedVe.choNgoi.rowIndex + selectedVe.choNgoi.columnIndex}
-                            disabled={true}
-                        />
+                    <input
+                        type="text"
+                        value={selectedVe.choNgoi.rowIndex + selectedVe.choNgoi.columnIndex}
+                        disabled={true}
+                    />
                 </div>
                 {/* Thông tin khách hàng */}
-                <div>
+                <label htmlFor="" style={{fontSize: '1.1em', fontWeight: 'bold'}}>Thông tinh hành khách</label>
+                <div className="guest-info">
                     <label>Họ và tên:</label>
                     <input
                         type="text"
@@ -78,7 +80,7 @@ const FrameVe = ({
                     <label>CMND/CCCD:</label>
                     <input
                         type="text"
-                        placeholder="Nhập CMND/CCCD"
+                        placeholder="012345678901"
                         value={guestInfo.cccd}
                         onChange={(e) => handleGuestInfoChange("cccd", e.target.value)}
                     />
@@ -86,7 +88,7 @@ const FrameVe = ({
                     <label>Số điện thoại:</label>
                     <input
                         type="text"
-                        placeholder="Nhập số điện thoại"
+                        placeholder="0123123123"
                         value={guestInfo.soDienThoai}
                         onChange={(e) => handleGuestInfoChange("soDienThoai", e.target.value)}
                     />
@@ -99,7 +101,7 @@ const FrameVe = ({
                     />
 
                     <label>Giới tính:</label>
-                    <div>
+                    <div className="gioi-tinh">
                         <input
                             type="radio"
                             id={`nam-${index}`}
@@ -139,7 +141,7 @@ const FrameVe = ({
                     chuyenBayId={selectedChuyenBay?.idChuyenBay} // Truyền id chuyến bay
                 />
             )}
-        </div>
+        </fieldset>
     );
 };
 

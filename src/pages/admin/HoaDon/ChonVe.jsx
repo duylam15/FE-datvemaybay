@@ -75,7 +75,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
           <div className="loading">Đang tải danh sách vé...</div>
         ) : error ? (
           <div className="error-message">{error}</div>
-        ) : veList.length > 0 ? (
+        ) : veList.filter(ve => ve.trangThai === 'EMPTY').length > 0 ? (
           <table className="table">
             <thead>
               <tr>
@@ -88,8 +88,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
               </tr>
             </thead>
             <tbody>
-              {veList
-                .filter(ve => ve.trangThai === 'EMPTY') // Lọc vé có trạng thái 'EMPTY'
+              {veList.filter(ve => ve.trangThai === 'EMPTY') // Lọc vé có trạng thái 'EMPTY'
                 .map((ve) => (
                   <tr key={ve.idVe}>
                     <td>{ve.idVe}</td>

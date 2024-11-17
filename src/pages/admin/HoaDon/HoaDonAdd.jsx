@@ -190,6 +190,10 @@ const HoaDonAdd = () => {
                 const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
                 idHangHoa = hangHoaResponse.data.data.idHangHoa;
             }  else {
+                if (veList.length === 0) {
+                    alert("Bạn chưa chọn vé. Vui lòng chọn ít nhất một vé để tạo hóa đơn.");
+                    return; // Dừng việc xử lý nếu không có vé nào trong danh sách
+                }
                 await saveGuestsAndUpdateTickets();            
             }
             
@@ -227,12 +231,10 @@ const HoaDonAdd = () => {
     
 
     return (
-        <div>
+        <div className='hoa-don-add add-form'>
             <h1>Thêm hóa đơn</h1>
-            <form onSubmit={handleSubmit} className="row">
-                <div className="mb-3 col-4">
-                    <label className="form-label">Loại hóa đơn</label>
-                    <div>
+                <div className="mb-3 radio-group">
+                    <label>
                         <input
                             type="radio"
                             id="ve"
@@ -241,8 +243,9 @@ const HoaDonAdd = () => {
                             checked={loaiHoaDon === 've'}
                             onChange={handleLoaiHoaDonChange}
                         />
-                        <label htmlFor="ve">Hóa đơn vé</label>
-
+                        Hóa đơn vé
+                    </label>
+                    <label>
                         <input
                             type="radio"
                             id="hangHoa"
@@ -251,16 +254,16 @@ const HoaDonAdd = () => {
                             checked={loaiHoaDon === 'hangHoa'}
                             onChange={handleLoaiHoaDonChange}
                         />
-                        <label htmlFor="hangHoa">Hóa đơn hàng hóa</label>
-                    </div>
+                        Hóa đơn hàng hóa
+                    </label>
                 </div>
+                <form onSubmit={handleSubmit} className="row">
 
                 {loaiHoaDon === 've' && (
                     <>
-                        {/* Nút chọn chuyến bay */}
-                        <button type='button' onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
-                        {/* Input hiển thị thông tin chuyến bay */}
-                        <div>
+                        <div className='chon-cb'>
+                            <button type='button' onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
+
                             <label>Thông tin chuyến bay:</label>
                             <input 
                                 type="text" 
@@ -268,45 +271,59 @@ const HoaDonAdd = () => {
                                 disabled={true}
                             />
                         </div>
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Số lượng vé</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={soLuongVe}
-                                onChange={(e) => setSoLuongVe(Number(e.target.value))}
-                                min="1"
-                            />
-                        </div>
-
-                        
-
-                        {/* Tạo các frame cho từng vé */}
-                        {[...Array(soLuongVe)].map((_, index) => (
-                            <FrameVe 
-                                key={index} 
-                                index={index} 
-                                selectedChuyenBay={selectedChuyenBay} 
-                                onSelectVe={handleSelectVe} 
-                                onGuestInfoChange={handleGuestInfoChange} 
-                            />
-                        ))}
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Phương thức thanh toán</label>
-                            <select
-                                className="form-control"
-                                value={phuongThucThanhToan? phuongThucThanhToan : ''}
-                                onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
-                            >
-                                <option value="">Chọn phương thức thanh toán</option>
-                                {phuongThucThanhToanList.map((pttt) => (
-                                    <option key={pttt.idPTTT} value={pttt.idPTTT}>
-                                        {pttt.tenPTTT}
-                                    </option>
+                        {
+                            selectedChuyenBay && (
+                                <>
+                                <div className="mb-3 col-4">
+                                    <label className="form-label">Số lượng vé</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        value={soLuongVe}
+                                        onChange={(e) => setSoLuongVe(Number(e.target.value))}
+                                        min="1"
+                                    />
+                                </div>
+                                {/* Tạo các frame cho từng vé */}
+                                {[...Array(soLuongVe)].map((_, index) => (
+                                    <FrameVe 
+                                        key={index} 
+                                        index={index} 
+                                        selectedChuyenBay={selectedChuyenBay} 
+                                        onSelectVe={handleSelectVe} 
+                                        onGuestInfoChange={handleGuestInfoChange} 
+                                    />
                                 ))}
-                            </select>
-                        </div>
+                                <div className="mb-3 col-4">
+                                    <label className="form-label">Phương thức thanh toán</label>
+                                    <select
+                                        className="form-control"
+                                        value={phuongThucThanhToan? phuongThucThanhToan : ''}
+                                        onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
+                                    >
+                                        <option value="">Chọn phương thức thanh toán</option>
+                                        {phuongThucThanhToanList.map((pttt) => (
+                                            <option key={pttt.idPTTT} value={pttt.idPTTT}>
+                                                {pttt.tenPTTT}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
+                                
+
+                                {/* Popup chọn vé */}
+                                {isPopupVeOpen && selectedChuyenBay && (
+                                    <ChonVe
+                                        onClose={handleClosePopupVe}
+                                        onSelect={handleSelectVe}
+                                        chuyenBayId={selectedChuyenBay.idChuyenBay}
+                                    />
+                                )}
+                                </>
+                                
+                            )
+                        }
                         {/* Popup chọn chuyến bay */}
                         {isPopupChuyenBayOpen && (
                             <PopupChonChuyenBay
@@ -314,16 +331,6 @@ const HoaDonAdd = () => {
                                 onSelect={handleSelectChuyenBay}
                             />
                         )}
-
-                        {/* Popup chọn vé */}
-                        {isPopupVeOpen && selectedChuyenBay && (
-                            <ChonVe
-                                onClose={handleClosePopupVe}
-                                onSelect={handleSelectVe}
-                                chuyenBayId={selectedChuyenBay.idChuyenBay}
-                            />
-                        )}
-                        
                     </>
                 )}
 

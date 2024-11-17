@@ -19,7 +19,7 @@
     max-width: 1000px;
     width: 100%;
     height: 90%;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .table {
@@ -53,3 +53,302 @@
 .btn-select:hover, .btn-close:hover {
     background-color: #0056b3;
 }
+
+.content-admin {
+    width: 100%;
+    height: 100%;
+}
+
+.taikhoan-add {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.taikhoan-add h1, .hoa-don-add h1 {
+    text-align: center;
+    font-size: 1.8em;
+    padding: 5px;
+}
+
+.add-form .radio-group {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0px;
+    padding: 10px;
+    font-size: 1.2em;
+}
+
+.add-form .radio-group label {
+    margin: 0 10px;
+}
+
+.add-form form {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+}
+
+.taikhoan-add form .mb-3 {
+    width: 60%;
+}
+
+.taikhoan-add form input, .taikhoan-add form select{
+    width: 100%;
+}
+
+.filter-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 30px;
+    font-size: 1.1em;
+}
+.filter-controls * {
+    margin: 0 10px;
+}
+
+.filter-controls select {
+    height: 100%;
+    border-radius: 5px;
+}
+.hoa-don-add {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hoa-don-add h1 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8em;
+    padding: 10px;
+}
+
+.hoa-don-add form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1em;
+}
+
+.hoa-don-add .mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.hoa-don-add .col-4 {
+    padding: 10px 5px 5px 0px;
+    
+}
+
+.hoa-don-add button[type=submit]{
+    margin: 10px auto;
+    color: white;
+}
+
+
+.radio-group {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.radio-group label {
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.radio-group input[type="radio"]:checked + label {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.chon-cb {
+    display: flex;
+    // margin-bottom: 20px;
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+}
+.chon-cb * {
+    margin-right: 5px;
+    height: 100%;
+    align-content: center;
+}
+
+.chon-cb input {
+    margin: 0;
+    background-color: #ffffff00;
+    border-radius: 4px;
+    border: 0.5px solid gray;
+}
+
+.chon-cb button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 20px;
+}
+
+.chon-cb button:hover {
+    background-color: #218838;
+}
+
+.frame-ve {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.frame-ve * {
+    padding: 5px 0px;
+    margin-bottom: 5px 0px !important;
+}
+
+.frame-ve h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.frame-ve button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.frame-ve button:hover {
+    background-color: #0056b3;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+}
+
+.hoa-don-add legend {
+    font-size: 1.3em;
+    // text-transform: uppercase;
+    
+}
+
+.hoa-don-add .ticket-info {
+    display: flex;
+    flex-direction: row;
+    padding: 5px 0px;
+    margin: 5px 0px;
+}
+
+.hoa-don-add .ticket-info input {
+    border-radius: 5px;
+    padding: 2px;
+    margin: 0px 5px;
+}
+
+.hoa-don-add .guest-info {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.hoa-don-add .guest-info * {
+    margin-bottom: 10px;
+}
+.hoa-don-add .guest-info label {
+    width: 15%;
+}
+.hoa-don-add .guest-info input[type=text] {
+    width: 30%;
+    margin-right: 10px;
+    border-radius: 4px;
+    border: solid black 1px;
+}
+.hoa-don-add .guest-info .gioi-tinh {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.hoa-don-add .guest-info input[type=date] {
+    width: 30%;
+    margin-right: 10px;
+    height: 100%;
+}
+
