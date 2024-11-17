@@ -269,18 +269,18 @@ const FlightResult = () => {
                                   className={`remaining-seats ${classTicket.idHangVe === 1
                                     ? 'seat-green'
                                     : classTicket.idHangVe === 2
-                                      ? 'seat-blue'
-                                      : ''
-                                    }`}
-                                >
-                                  Còn lại{' '}
-                                  {totalEmptyTickets(
-                                    classTicket.idHangVe,
-                                    flight.idChuyenBay
-                                  )}{' '}
-                                  chỗ
-                                </button>
-                              )}
+                                    ? 'seat-blue'
+                                    : ''
+                                }`}
+                              >
+                                Còn lại{' '}
+                                {totalEmptyTickets(
+                                  classTicket.idHangVe,
+                                  flight.idChuyenBay
+                                )}{' '}
+                                chỗ
+                              </button>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -554,13 +554,14 @@ const FlightResult = () => {
                                   <p>Tiện ích với mỗi hành khách.</p>
                                   <div className='ticket-options'>
                                     <div
-                                      className={`ticket economy-smart ${selectedTicket?.classTicketId ===
-                                        classTicket.idHangVe &&
+                                      className={`ticket economy-smart ${
+                                        selectedTicket?.classTicketId ===
+                                          classTicket.idHangVe &&
                                         selectedTicket?.flightId
                                           ?.idChuyenBay === flight.idChuyenBay
-                                        ? 'selected'
-                                        : ''
-                                        }`}
+                                          ? 'selected'
+                                          : ''
+                                      }`}
                                     >
                                       <div className='top-ticket'>
                                         <input
@@ -574,7 +575,7 @@ const FlightResult = () => {
                                             classTicket.idHangVe &&
                                             selectedTicket?.flightId
                                               ?.idChuyenBay ===
-                                            flight.idChuyenBay
+                                              flight.idChuyenBay
                                           }
                                           onChange={() =>
                                             handleRadioChange(
@@ -651,13 +652,14 @@ const FlightResult = () => {
                                   <p>Tiện ích với mỗi hành khách.</p>
                                   <div className='ticket-options'>
                                     <div
-                                      className={`ticket economy-smart ${selectedTicket?.classTicketId ===
-                                        classTicket.idHangVe &&
+                                      className={`ticket economy-smart ${
+                                        selectedTicket?.classTicketId ===
+                                          classTicket.idHangVe &&
                                         selectedTicket?.flightId
                                           ?.idChuyenBay === flight.idChuyenBay
-                                        ? 'selected'
-                                        : ''
-                                        }`}
+                                          ? 'selected'
+                                          : ''
+                                      }`}
                                     >
                                       <div className='top-ticket'>
                                         <input
@@ -671,7 +673,7 @@ const FlightResult = () => {
                                             classTicket.idHangVe &&
                                             selectedTicket?.flightId
                                               ?.idChuyenBay ===
-                                            flight.idChuyenBay
+                                              flight.idChuyenBay
                                           }
                                           onChange={() =>
                                             handleRadioChange(

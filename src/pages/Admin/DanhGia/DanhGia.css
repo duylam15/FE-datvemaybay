@@ -16,6 +16,7 @@
         margin-bottom: 20px;
     }
 
+
     .input-search {
         flex: 1;
         margin-right: 10px;
@@ -51,17 +52,11 @@
         width: 170px;
     }
 
-    input[type="text"] {
-        padding: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        width: 200px;
-    }
+.search-by-create-time {
+    display: flex;
+    justify-content: space-between;
+}
 
-    .search-by-create-time {
-        display: flex;
-        justify-content: space-between;
-    }
 
     .search-by-create-time .form-time {
         display: flex;

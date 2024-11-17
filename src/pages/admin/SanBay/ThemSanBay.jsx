@@ -82,7 +82,7 @@ const AddSanBayForm = () => {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
-        <form onSubmit={handleSubmit} className='form-add-Airport'>
+        <form onSubmit={handleSubmit} className='container'>
             <h2>Thêm thông tin sân bay</h2>
             <div className="form-group">
                 <label>Tên Sân Bay</label>

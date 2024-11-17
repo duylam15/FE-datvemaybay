@@ -3,6 +3,7 @@ import axios from 'axios';
 import './MayBay.css';
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
 import { PermissionButton } from '../../../components/Admin/Sidebar';
+import { FaAlignLeft, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:8080';
 const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlaneByAirport, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -168,7 +169,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                 <div className='pagination-container'>
                     <ul className="pagination pagination-lg">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}> <FaAngleLeft/> </a>
                         </li>
                         {[...Array(totalPages).keys()].map(number => (
                             <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
@@ -178,7 +179,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                             </li>
                         ))}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}><FaAngleRight/></a>
                         </li>
                     </ul>
                 </div>
