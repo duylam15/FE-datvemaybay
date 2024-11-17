@@ -13,6 +13,7 @@ import Promotion from './Promotion';
 import HotFlight from './HotFlight';
 import { notification } from 'antd';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -20,7 +21,8 @@ const Home = () => {
 	const [message, setMessage] = useState('');
 	const [ticketIds, setTicketIds] = useState([]);
 	const { search } = useLocation();
-
+	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
+	const user = useSelector(state => state.account.user.khachHang.idKhachHang);
 	useEffect(() => {
 		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
 		const fetchAndStoreLastCustomerId = async () => {
@@ -56,36 +58,35 @@ const Home = () => {
 	}, []); // useEffect chỉ chạy một lần khi component được mount
 
 	useEffect(() => {
-		const bookingData = JSON.parse(localStorage.getItem("bookingData"))
-		console.log(bookingData[0].ngaySinh)
-		const dataKhachHang = {
-			ngaySinh: bookingData[0].ngaySinh,
-			hoTen: bookingData[0].hoTen,
-			email: bookingData[0].email,
-			cccd: bookingData[0].cccd,
-			soDienThoai: bookingData[0].soDienThoai
-		}
-		let idkh
-		async function postAndLogCustomer() {
-			try {
-				// Đợi axios.post hoàn thành
-				const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
+		const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+		console.log('Booking Data:', bookingData); // Check if the data exists and is correctly fetched
 
-				// Lấy idKhachHang từ phản hồi
-				idkh = response.data?.data?.idKhachHang;
-				localStorage.setItem("idKh", idkh + 1)
-
-				// Log kết quả sau khi axios hoàn tất
-				console.log("Response data khachhang:", idkh);
-				console.log("idKhachHangidKhachHangidKhachHang", idkh);
-			} catch (error) {
-				// Bắt lỗi nếu xảy ra
-				console.error("Error:", error.response ? error.response.data : error.message);
+		if (bookingData) {
+			console.log(bookingData[0].ngaySinh);  // Accessing the first item's 'ngaySinh' value
+			const dataKhachHang = {
+				ngaySinh: bookingData[0].ngaySinh,
+				hoTen: bookingData[0].hoTen,
+				email: bookingData[0].email,
+				cccd: bookingData[0].cccd,
+				soDienThoai: bookingData[0].soDienThoai
+			};
+			let idkh;
+			async function postAndLogCustomer() {
+				try {
+					const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
+					idkh = response.data?.data?.idKhachHang;
+					localStorage.setItem("idKh", idkh + 1);
+					console.log("Customer ID:", idkh);
+				} catch (error) {
+					console.error("Error:", error.response ? error.response.data : error.message);
+				}
 			}
+			postAndLogCustomer();
+		} else {
+			console.log('No booking data found in localStorage.');
 		}
-		// Gọi hàm để thực hiện
-		postAndLogCustomer()
-	}, [])
+	}, []);
+
 
 	useEffect(() => {
 		const params = new URLSearchParams(search);
@@ -113,9 +114,22 @@ const Home = () => {
 				});
 				console.log("bookingDatabookingData", localStorage.getItem("bookingData"))
 				const savedTicketIds = JSON.parse(localStorage.getItem('ticketIds')) || [];
-
 				console.log("localStorage.getIt", localStorage.getItem("lastCustomerId"))
-				const idkhang = localStorage.getItem("idKh")
+
+
+
+				let idkhang
+				console.log("isAuthenticatedisAuthenticatedisAuthenticated", isAuthenticated)
+				console.log("useruseruseruser", user)
+				if (isAuthenticated) {
+					const idKhAuth = user; // Lấy vai trò của người dùng
+					console.log("idKhAuthidKhAuthidKhAuthidKhAuth", idKhAuth)
+
+					idkhang = idKhAuth
+				} else {
+					idkhang = localStorage.getItem("idKh")
+				}
+				console.log("idkhangidkhangidkhangidkhang", idkhang)
 				const hoaDonDTO = {
 					khachHang: {
 						idKhachHang: idkhang

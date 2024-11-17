@@ -14,7 +14,6 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const [columns, setColumns] = useState([]);
 	const [firstHalf, setFirstHalf] = useState([]);
 	const [secondHalf, setSecondHalf] = useState([]);
-
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
@@ -167,7 +166,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				const paymentUrl = response?.data?.data?.paymentUrl;
 				// Reset form state after successful submission
 				localStorage.setItem("bookingData", JSON.stringify(bookingData, null, 2))
-				// window.location.href = paymentUrl
+				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);
 				notification.error({
