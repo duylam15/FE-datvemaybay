@@ -63,11 +63,11 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		stompClientInstance.connect({}, (frame) => {
 			console.log('Connected: ' + frame);
 			stompClientInstance.subscribe('/topic/seatHeld', (message) => {
-				alert('Seat held:' + message.body);
+				// alert('Seat held:' + message.body);
 			});
 			stompClientInstance.subscribe('/topic/seatCancelHold', (message) => {
-				alert('Canceled seat after 20 seconds:' + message.body);
-				console.log("alert('Canceled seat after 20 seconds:' + message.body);")
+				// alert('Canceled seat after 20 seconds:' + message.body);
+				// console.log("alert('Canceled seat after 20 seconds:' + message.body);")
 				// setMessages(prevMessages => [...prevMessages, message.body]);
 			});
 		});
@@ -144,20 +144,11 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 			soDienThoai: contactData.phone,
 			email: contactData.email,
 			cccd: adultData[index]?.cccd,
-			hoChieu: adultData[index]?.passPort,
 			gioiTinhEnum: adultData[index]?.gender === 'male' ? 'NAM' : adultData[index]?.gender === 'female' ? 'NU' : 'KHAC',
 			trangThaiActive: "ACTIVE"
 		}));
 
-		const holdDataaa = selectedSeats.map((seat, index) => ({
-			seatId: seat.idChoNgoi,
-			idVe: seat.idVe,
-			flightId: selectedTicket.flightId.idChuyenBay,
-			userId: ""
-		}));
-
 		console.log("selectedSeats", selectedSeats)
-		console.log("holdDataaa", holdDataaa)
 
 		console.log('Booking Data:', bookingData);
 
@@ -175,7 +166,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				console.log("Response from server:", response?.data?.data?.paymentUrl);
 				const paymentUrl = response?.data?.data?.paymentUrl;
 				// Reset form state after successful submission
-				window.location.href = paymentUrl
+				localStorage.setItem("bookingData", JSON.stringify(bookingData, null, 2))
+				// window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);
 				notification.error({

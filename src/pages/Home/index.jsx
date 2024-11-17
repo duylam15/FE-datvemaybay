@@ -22,6 +22,72 @@ const Home = () => {
 	const { search } = useLocation();
 
 	useEffect(() => {
+		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
+		const fetchAndStoreLastCustomerId = async () => {
+			try {
+				// Gửi yêu cầu đến API
+				const response = await axios.get('http://localhost:8080/khachhang/getAllCustomer');
+
+				// Kiểm tra nếu phản hồi thành công
+				if (response.data.statusCode === 200) {
+					const customers = response.data.data;
+
+					// Lấy khách hàng cuối cùng nếu danh sách không rỗng
+					if (customers.length > 0) {
+						const lastCustomer = customers[customers.length - 1];
+						const lastCustomerId = lastCustomer.idKhachHang;
+
+						// Lưu ID vào localStorage
+						localStorage.setItem('lastCustomerId', lastCustomerId);
+						console.log(`Last Customer ID (${lastCustomerId}) saved to localStorage.`);
+					} else {
+						console.warn('No customers found in the response.');
+					}
+				} else {
+					console.error('Failed to fetch customers:', response.data.message);
+				}
+			} catch (error) {
+				console.error('Error fetching customers:', error.response ? error.response.data : error.message);
+			}
+		};
+
+		// Gọi hàm fetch khi component mount
+		fetchAndStoreLastCustomerId();
+	}, []); // useEffect chỉ chạy một lần khi component được mount
+
+	useEffect(() => {
+		const bookingData = JSON.parse(localStorage.getItem("bookingData"))
+		console.log(bookingData[0].ngaySinh)
+		const dataKhachHang = {
+			ngaySinh: bookingData[0].ngaySinh,
+			hoTen: bookingData[0].hoTen,
+			email: bookingData[0].email,
+			cccd: bookingData[0].cccd,
+			soDienThoai: bookingData[0].soDienThoai
+		}
+		let idkh
+		async function postAndLogCustomer() {
+			try {
+				// Đợi axios.post hoàn thành
+				const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
+
+				// Lấy idKhachHang từ phản hồi
+				idkh = response.data?.data?.idKhachHang;
+				localStorage.setItem("idKh", idkh + 1)
+
+				// Log kết quả sau khi axios hoàn tất
+				console.log("Response data khachhang:", idkh);
+				console.log("idKhachHangidKhachHangidKhachHang", idkh);
+			} catch (error) {
+				// Bắt lỗi nếu xảy ra
+				console.error("Error:", error.response ? error.response.data : error.message);
+			}
+		}
+		// Gọi hàm để thực hiện
+		postAndLogCustomer()
+	}, [])
+
+	useEffect(() => {
 		const params = new URLSearchParams(search);
 		const newStatusCode = params.get('statusCode');
 		const vnp_ResponseCode = params.get('vnp_ResponseCode');
@@ -45,16 +111,19 @@ const Home = () => {
 					description: `Đặt vé thành công vui lòng kiểm tra email`,
 					duration: 3,
 				});
-				
+				console.log("bookingDatabookingData", localStorage.getItem("bookingData"))
+				const savedTicketIds = JSON.parse(localStorage.getItem('ticketIds')) || [];
 
+				console.log("localStorage.getIt", localStorage.getItem("lastCustomerId"))
+				const idkhang = localStorage.getItem("idKh")
 				const hoaDonDTO = {
 					khachHang: {
-						idKhachHang: 3
+						idKhachHang: idkhang
 					},
 					nhanVien: {
 						idNhanVien: 1
 					},
-					soLuongVe: 2,
+					soLuongVe: savedTicketIds.length,
 					loaiHoaDon: {
 						idLoaiHoaDon: 1
 					},

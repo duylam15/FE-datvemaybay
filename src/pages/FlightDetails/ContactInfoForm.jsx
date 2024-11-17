@@ -30,11 +30,6 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 		return phonePattern.test(phone);
 	};
 
-	const validateCountryCode = (code) => {
-		const countryCodePattern = /^\d{1,3}$/; // Chỉ cho phép mã quốc gia có từ 1 đến 3 chữ số
-		return countryCodePattern.test(code);
-	};
-
 	const validateField = (fieldName) => {
 		const newErrors = {};
 		const value = contactData[fieldName];
@@ -52,13 +47,6 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 					newErrors.phone = 'Số điện thoại không được để trống.';
 				} else if (!validatePhone(value)) {
 					newErrors.phone = 'Số điện thoại không hợp lệ (10 chữ số).';
-				}
-				break;
-			case 'countryCode':
-				if (!value) {
-					newErrors.countryCode = 'Vui lòng nhập mã quốc gia.';
-				} else if (!validateCountryCode(value)) {
-					newErrors.countryCode = 'Mã quốc gia không hợp lệ (1-3 chữ số).';
 				}
 				break;
 			default:
@@ -101,18 +89,6 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 								<option value="personal">Cá nhân</option>
 								<option value="business">Doanh nghiệp</option>
 							</select>
-						</div>
-						<div className="form-group-adultform">
-							<label className={touched.countryCode && error.countryCode ? 'error-adult-label' : ''}>Mã quốc gia</label>
-							<input
-								type="text"
-								name="countryCode"
-								placeholder="249"
-								className={error.countryCode && touched.countryCode ? 'error-adult-input' : ''}
-								onChange={handleChange}
-								onBlur={handleBlur}
-							/>
-							{error.countryCode && touched.countryCode && <span className="error-adult-form">{error.countryCode}</span>}
 						</div>
 						<div className="form-group-adultform">
 							<label className={touched.phone && error.phone ? 'error-adult-label' : ''}>Số điện thoại</label>
