@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
+import CustomPagination from '../../../components/QL/Pagination';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './StyleTuyenBay.scss';
-import { FaPlus } from 'react-icons/fa';
 import { block } from '../../../services/tuyenBayService';
 import { PermissionAddButton } from '../../../components/Admin/Sidebar';
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
 
 const BASE_URL = 'http://localhost:8080';
 
@@ -17,6 +18,39 @@ const RouteTable = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const itemsPerPage = 10; // Số mục trên mỗi trang
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const getAirportNameById = (id) => {
+    const airport = airports.find((a) => a.idSanBay === id);
+    return airport ? airport.tenSanBay : 'Không tìm thấy';
+  };
+
+  const filteredRoutes = routes.filter((route) =>
+    getAirportNameById(route.idSanBayBatDau)
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
+  // Các mục hiển thị trên trang hiện tại
+  const currentRoutes = filteredRoutes.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Tổng số trang
+  const totalPages = Math.ceil(filteredRoutes.length / itemsPerPage);
+
+  // Reset về trang đầu tiên khi tìm kiếm
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
+
+  // Chuyển sang trang mới
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const loadRoutes = useCallback(async () => {
     setLoading(true);
@@ -82,22 +116,11 @@ const RouteTable = () => {
     setSortField(field);
   };
 
-  const getAirportNameById = (id) => {
-    const airport = airports.find((a) => a.idSanBay === id);
-    return airport ? airport.tenSanBay : 'Không tìm thấy';
-  };
-
   const formatFlightTime = (minutes) => {
     const hours = Math.floor(minutes / 60);
     const mins = Math.floor(minutes % 60);
     return `${hours}h ${mins}'`;
   };
-
-  const filteredRoutes = routes.filter((route) =>
-    getAirportNameById(route.idSanBayBatDau)
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
 
   const columns = [
     {
@@ -160,17 +183,26 @@ const RouteTable = () => {
         </div>
         <PermissionAddButton feature='Quản lí tuyến bay'>
           <Link to='add' className='add-btn'>
-            <FaPlus /> Thêm
+            <IconLabelButtons />
           </Link>
         </PermissionAddButton>
       </div>
+
+      {/* Bảng dữ liệu */}
       <Table
         columns={columns}
-        data={filteredRoutes}
+        data={currentRoutes}
         onSortClick={handleSortClick}
         currentSortField={sortField}
         currentSortOrder={sortOrder}
         type='Quản lí tuyến bay'
+      />
+
+      {/* Phân trang */}
+      <CustomPagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );
