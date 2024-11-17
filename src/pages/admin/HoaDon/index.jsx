@@ -15,6 +15,8 @@ import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
 import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 
+import "../HoaDon/HoaDon.scss";
+
 const HoaDonPage = () => {
     const { hoaDon: initialHoaDon, loading, error } = useFetchHoaDon();
     const [searchTerm, setSearchTerm] = useState('');
@@ -85,7 +87,7 @@ const HoaDonPage = () => {
     return (
         <div className="hoa-don-page page">
             <h1>Danh Sách Hóa Đơn</h1>
-            <PermissionAddButton feature="Quản lí loại hoá đơn">
+            <PermissionAddButton feature="Quản lí hoá đơn">
                 <Link to="add">
                     <IconLabelButtons></IconLabelButtons>
                 </Link>

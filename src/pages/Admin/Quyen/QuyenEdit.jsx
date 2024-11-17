@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ChonTatCa from '../../../components/Admin/ButtonForTableQuyen/ChonTatCa';
 import HuyChonTatCa from '../../../components/Admin/ButtonForTableQuyen/HuyChonTatCa';
 import { Select } from 'antd';
+import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 
 const QuyenEdit = () => {
     const { idQuyen } = useParams();
@@ -207,8 +208,10 @@ const QuyenEdit = () => {
             <div className='row_last'>
                 <div onClick={handleBack}> <GradientButtonBack /> </div>
                 <div className="btn_row_last">
-                    <div onClick={handleCancel}> <GradientButtonCancel /> </div>
-                    <div onClick={handleUpdatePermissions}> <GradientButton /> </div> {/* Save Button */}
+                    <PermissionEditButton feature="Quản lí nhóm quyền">
+                        <div onClick={handleCancel}> <GradientButtonCancel /> </div>
+                        <div onClick={handleUpdatePermissions}> <GradientButton /> </div> {/* Save Button */}
+                    </PermissionEditButton>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 const API_URL = 'http://localhost:8080/khachhang'; // Thay đổi theo URL API của bạn
 
 const KhachHangEdit = () => {
@@ -151,7 +152,9 @@ const KhachHangEdit = () => {
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>
-                <button type="submit" className="btn btn-primary">Cập nhật</button>
+                <PermissionEditButton feature="Quản lí khách hàng">
+                    <button type="submit" className="btn btn-primary">Cập nhật</button>
+                </PermissionEditButton>
             </form>
         </div>
     );

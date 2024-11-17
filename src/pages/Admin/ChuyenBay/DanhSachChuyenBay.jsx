@@ -52,6 +52,7 @@ export default function DanhSachCHuyenBay(props) {
         editLink={editLink}
         setData={props.setData}
         page={props.page}
+        type="Quản lí chuyến bay"
       />
       <PaginationComponent
         currentPage={currentPage}

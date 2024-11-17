@@ -5,8 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataNhanVienSorted } from '../../services/nhanVienServices';
 import './table.css';
-import { PermissionButton } from "../Admin/Sidebar";
+import { PermissionButton, PermissionEditButton } from "../Admin/Sidebar";
+import EditBtn from "../Admin/ColorButtons/EditBtn";
 const TableComponent = (props) => {
+  console.log("props nhan vien", props.type);
 
   // const accessOnlySee = ["Cơ trưởng", "Cơ Phó", "Tiếp viên"]
   // const access = "Cơ trưởng";
@@ -129,7 +131,9 @@ const TableComponent = (props) => {
             {props.columns.map((col, index) => (
               <th key={index} onClick={() => handleSortField(props.dataKeys[index])}>{col}{sortField == props.dataKeys[index] && sortOrder == "asc" ? '\u2191' : '\u2193'}</th>
             ))}
-            {props.editLink && (<th>Hành động</th>)}
+            {props.editLink && props.type == "Quản lí chức vụ" && (<PermissionEditButton feature="Quản lí chức vụ"><th>Hành động</th></PermissionEditButton>)}
+            {props.editLink && props.type == "Quản lí nhân viên" && (<PermissionEditButton feature="Quản lí nhân viên"><th>Hành động</th></PermissionEditButton>)}
+            {props.editLink && props.type == "Quản lí chuyến bay" && (<th>Hành động</th>)}
           </tr>
         </thead>
         <tbody className='tbody-custom'>
@@ -141,24 +145,30 @@ const TableComponent = (props) => {
                   {xuLiDuLieu(item, key1)}
                 </td>
               ))}
-              {(
-                <td className='btn-action'>
-                  <div>
-                    {/* Chuc vu - chuyen bay - nhan vien */}
-                    {/* <PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}>
-                    </PermissionButton> */}
-                    <Button
-                      onClick={() => edit(item[props.dataKeys[0]])}
-                      className='btn-custom'
-                      variant="outlined"
-                      color="#1976D2"
-                      startIcon={<EditIcon />}
-                    >
-                      Sửa
-                    </Button>
+
+
+              {props.type == "Quản lí chức vụ" && (<PermissionEditButton feature="Quản lí chức vụ">
+                <td>
+                  <div onClick={() => edit(item[props.dataKeys[0]])}>
+                    <EditBtn></EditBtn>
                   </div>
                 </td>
-              )}
+              </PermissionEditButton>)}
+
+
+
+              {props.type == "Quản lí chuyến bay" && (<td><div><PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}></PermissionButton></div></td>)}
+
+
+
+
+              {props.type == "Quản lí nhân viên" && (<PermissionEditButton feature="Quản lí nhân viên">
+                <td>
+                  <div onClick={() => edit(item[props.dataKeys[0]])}>
+                    <EditBtn></EditBtn>
+                  </div>
+                </td></PermissionEditButton>)}
+
             </tr>
           ))}
         </tbody>

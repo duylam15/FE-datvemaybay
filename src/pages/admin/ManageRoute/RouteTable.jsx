@@ -136,6 +136,7 @@ const RouteTable = () => {
           editLink={`editRoute/${item.idTuyenBay}`}
           onBlock={() => handleBlock(item.idTuyenBay)}
           isBlocked={item.status === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'}
+          type="Quản lí tuyến bay"
         />
       ),
     },
@@ -170,6 +171,7 @@ const RouteTable = () => {
         onSortClick={handleSortClick}
         currentSortField={sortField}
         currentSortOrder={sortOrder}
+        type="Quản lí tuyến bay"
       />
     </div>
   );

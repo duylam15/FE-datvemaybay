@@ -9,6 +9,7 @@ import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
 import './chuyenbay.css';
 import { getAllGiaVeTheoIdChuyenBay } from '../../../services/veService';
+import { PermissionEditButton, PermissionEditOrAddButton } from '../../../components/Admin/Sidebar';
 export const AddChuyenBay = () => {
 
   const location = useLocation();
@@ -91,8 +92,8 @@ export const AddChuyenBay = () => {
     const fetchData = async () => {
       const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
       console.log("gia ve la: !", resGiaVe)
-      setGiaVeThuong(resGiaVe.data?.giaVeThuong)
-      setGiaVeThuongGia(resGiaVe.data?.giaVeThuongGia)
+      setGiaVeThuong(resGiaVe?.data?.giaVeThuong)
+      setGiaVeThuongGia(resGiaVe?.data?.giaVeThuongGia)
     }
     fetchData();
   }, [idChuyenBay])
@@ -629,8 +630,12 @@ export const AddChuyenBay = () => {
       setErrorCoPho("Vui long chon co pho");
       hasError = true;
     }
-
-    if (giaVeThuong > giaVeThuongGia) {
+    console.log("Num ber thuogn: ", giaVeThuong)
+    console.log("Num ber thuong gia: ", giaVeThuongGia)
+    // Chuyển giá vé từ chuỗi sang số
+    const giaVeThuongNum = Number(giaVeThuong);
+    const giaVeThuongGiaNum = Number(giaVeThuongGia);
+    if (giaVeThuongNum > giaVeThuongGiaNum) {
       setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
       hasError = true;
     }
@@ -1415,8 +1420,10 @@ export const AddChuyenBay = () => {
           </div>
         </div>
         <div className="container-btn">
-          <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
           <button data-keep-enabled className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+          <PermissionEditOrAddButton feature="Quản lí chuyến bay">
+            <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
+          </PermissionEditOrAddButton>
         </div>
         <div className="container-ghichu">
           {"*{TGBDDT : Thời gian bắt đầu dự tính ; TGBDTT : Thời gian bắt đầu thực tế ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}

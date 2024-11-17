@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { message } from 'antd';
+import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 
 
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
@@ -40,7 +41,7 @@ const MayBayEdit = () => {
                 setLoading(false);
             });
     }, [idMayBay]);
-    
+
     const getHangBay = async () => {
         const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
         if (!response.ok) {
@@ -56,7 +57,7 @@ const MayBayEdit = () => {
                 setListHangBay(data);
                 console.log('Get list airline success!!', listHangBay)
             } catch (err) {
-                setError(err );
+                setError(err);
             } finally {
                 setLoading(false);
             }
@@ -78,7 +79,7 @@ const MayBayEdit = () => {
                 const data = await getSanBay();
                 setListSanBay(data);
             } catch (err) {
-                setError(err );
+                setError(err);
             } finally {
                 setLoading(false);
             }
@@ -95,14 +96,14 @@ const MayBayEdit = () => {
             const updatedMayBay = {
                 ...mayBay,
                 soHangGheThuong: parseInt(mayBay.soHangGheThuong, 10),
-                soHangGheVip : parseInt(mayBay.soHangGheVip, 10),
+                soHangGheVip: parseInt(mayBay.soHangGheVip, 10),
                 namSanXuat: parseInt(mayBay.namSanXuat, 10),
             };
 
             const response = await axios.put(`${API_URL}/admin/maybay/updatePlane/${idMayBay}`, updatedMayBay);
             console.log('Plane updated successfully!', response.data);
             message.success('Cập nhật máy bay thành công')
-            
+
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             message.error('Cập nhật máy bay không thành công')
@@ -125,7 +126,7 @@ const MayBayEdit = () => {
             setMayBay({ ...mayBay, hangBay: selectedHangBay });
         } else if (name == 'sanBay') {
             const selectedSanBay = listSanBay.find(sb => sb.idSanBay === parseInt(value, 10));
-            setMayBay({...mayBay, sanBay: selectedSanBay });
+            setMayBay({ ...mayBay, sanBay: selectedSanBay });
         }
         else {
             setMayBay({ ...mayBay, [name]: value });
@@ -277,14 +278,15 @@ const MayBayEdit = () => {
                     </select>
                     {fieldErrors.trangThaiActive && <div className="invalid-feedback">{fieldErrors.trangThaiActive}</div>}
                 </div>
-                <div style={{display: "flex", alignItems: "center", margin: "10px"}}>
-                    <div className="btn-container" style={{margin: "10px"}}>
+                <div style={{ display: "flex", alignItems: "center", margin: "10px" }}>
+                    <div className="btn-container" style={{ margin: "10px" }}>
                         <button onClick={() => navigate('/admin/maybay')}>Quay lại</button>
                     </div>
-                    <div className="btn-container" style={{margin: "10px"}}>
-                        <button type="submit">Cập nhật</button>
-                    </div>
-                    
+                    <PermissionEditButton feature="Quản lí máy bay">
+                        <div className="btn-container" style={{ margin: "10px" }}>
+                            <button type="submit">Cập nhật</button>
+                        </div>
+                    </PermissionEditButton>
                 </div>
             </form>
         </div>
