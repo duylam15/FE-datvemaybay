@@ -155,7 +155,7 @@ const QuyenThem = () => {
                                 />
                             </td>
                             <td>
-                                {item.tenChucNang !== "Quản lí đánh giá" && item.tenChucNang !== "Quản lí thống kê" && (
+                                {item.tenChucNang !== "Quản lí đánh giá" && item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí vé" && (
                                     <input
                                         type="checkbox"
                                         checked={permissions[item.tenChucNang]?.create || false}
