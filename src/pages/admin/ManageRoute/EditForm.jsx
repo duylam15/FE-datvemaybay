@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
 
 import './StyleAddRoute.scss';
 
@@ -101,7 +102,7 @@ const AddRoute = () => {
         `http://localhost:8080/updateRoute/${idTuyenBay}`,
         route
       );
-      console.error('Route updated successfully:', result);
+      message.success('Cập nhật tuyến bay thành công');
       navigate('/admin/route');
     } catch (error) {
       console.error('Error updating route:', error);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { message } from 'antd';
 
 import './StyleAddRoute.scss';
 
@@ -89,6 +90,7 @@ const AddRoute = () => {
           withCredentials: true,
         }
       );
+      message.success('Thêm tuyến bay mới thành công');
       navigate('/admin/route');
     } catch (error) {
       console.error('Lỗi khi gửi dữ liệu đến API:', error);

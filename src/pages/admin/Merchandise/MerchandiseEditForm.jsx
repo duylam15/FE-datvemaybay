@@ -3,6 +3,7 @@ import FormInput from '../../../components/QL/FormInput';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import './StyleAddMerchandise.scss';
 import axios from 'axios';
+import { message } from 'antd';
 
 const AddMerchandise = () => {
   let navigate = useNavigate();
@@ -99,7 +100,7 @@ const AddMerchandise = () => {
         `http://localhost:8080/updateMerchandise/${idHangHoa}`,
         merchan
       );
-      console.log('Merchandise updated successfully:', result);
+      message.success('Cập nhật hàng hoá thành công');
       navigate('/admin/merchandise');
     } catch (error) {
       console.error('Error updating merchandise:', error);

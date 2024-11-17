@@ -3,7 +3,7 @@ import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa';
+import { useLocation } from 'react-router-dom';
 import './StyleHangHoa.scss';
 import { block, searchMerchans } from '../../../services/MerchandiseService';
 import { PermissionAddButton } from '../../../components/Admin/Sidebar';
@@ -19,6 +19,14 @@ const MerchandiseTable = () => {
   const [sortOrder, setSortOrder] = useState('asc');
   const [originalMerchans, setOriginalMerchans] = useState([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage);
+    }
+  }, [location]);
 
   const loadMerchans = useCallback(async () => {
     setLoading(true);
@@ -143,7 +151,7 @@ const MerchandiseTable = () => {
           isBlocked={
             item.trangThaiActive === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'
           }
-          type="Quản lí hàng hoá"
+          type='Quản lí hàng hoá'
         />
       ),
     },
@@ -165,12 +173,11 @@ const MerchandiseTable = () => {
             onChange={handleSearch}
           />
         </div>
-        <PermissionAddButton feature="Quản lí hàng hoá">
+        <PermissionAddButton feature='Quản lí hàng hoá'>
           <Link to='add' className='add-btn'>
             <IconLabelButtons />
           </Link>
         </PermissionAddButton>
-
       </div>
       {loading ? (
         <p>Loading...</p>
@@ -181,8 +188,11 @@ const MerchandiseTable = () => {
           onSortClick={handleSortClick}
           currentSortField={sortField}
           currentSortOrder={sortOrder}
-          type="Quản lí hàng hoá"
+          type='Quản lí hàng hoá'
         />
+      )}
+      {successMessage && (
+        <div className='success-message'>{successMessage}</div>
       )}
     </div>
   );

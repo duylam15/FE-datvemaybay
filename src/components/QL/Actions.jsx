@@ -9,15 +9,16 @@ import { PermissionButton, PermissionEditButton } from '../Admin/Sidebar';
 
 const Actions = ({ onBlock, isBlocked, editLink, type }) => {
   return (
-    <>{type == "Quản lí tuyến bay" && (
-      <PermissionEditButton feature="Quản lí tuyến bay">
-        <div>
-          <div className='btn_row'>
-            <Link to={editLink}>
-              <EditBtn></EditBtn>
-            </Link>
+    <>
+      {type == 'Quản lí tuyến bay' && (
+        <PermissionEditButton feature='Quản lí tuyến bay'>
+          <div>
+            <div className='btn_row'>
+              <Link to={editLink}>
+                <EditBtn></EditBtn>
+              </Link>
 
-            {isBlocked === 'ACTIVE' ? (
+              {/* {isBlocked === 'ACTIVE' ? (
               <span onClick={onBlock}>
                 <BlockBtn></BlockBtn>
               </span>
@@ -25,20 +26,20 @@ const Actions = ({ onBlock, isBlocked, editLink, type }) => {
               <span onClick={onBlock}>
                 <UnBlockBtn></UnBlockBtn>
               </span>
-            )}
+            )} */}
+            </div>
           </div>
-        </div>
-      </PermissionEditButton>
-    )}
-      {type == "Quản lí hàng hoá" && (
-        <PermissionEditButton feature="Quản lí hàng hoá">
+        </PermissionEditButton>
+      )}
+      {type == 'Quản lí hàng hoá' && (
+        <PermissionEditButton feature='Quản lí hàng hoá'>
           <div>
             <div className='btn_row'>
               <Link to={editLink}>
                 <EditBtn></EditBtn>
               </Link>
 
-              {isBlocked === 'ACTIVE' ? (
+              {/* {isBlocked === 'ACTIVE' ? (
                 <span onClick={onBlock}>
                   <BlockBtn></BlockBtn>
                 </span>
@@ -46,7 +47,7 @@ const Actions = ({ onBlock, isBlocked, editLink, type }) => {
                 <span onClick={onBlock}>
                   <UnBlockBtn></UnBlockBtn>
                 </span>
-              )}
+              )} */}
             </div>
           </div>
         </PermissionEditButton>

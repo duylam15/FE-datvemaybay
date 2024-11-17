@@ -136,7 +136,7 @@ const RouteTable = () => {
           editLink={`editRoute/${item.idTuyenBay}`}
           onBlock={() => handleBlock(item.idTuyenBay)}
           isBlocked={item.status === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'}
-          type="Quản lí tuyến bay"
+          type='Quản lí tuyến bay'
         />
       ),
     },
@@ -158,12 +158,11 @@ const RouteTable = () => {
             placeholder='Nhập sân bay bắt đầu'
           />
         </div>
-        <PermissionAddButton feature="Quản lí tuyến bay">
+        <PermissionAddButton feature='Quản lí tuyến bay'>
           <Link to='add' className='add-btn'>
             <FaPlus /> Thêm
           </Link>
         </PermissionAddButton>
-
       </div>
       <Table
         columns={columns}
@@ -171,7 +170,7 @@ const RouteTable = () => {
         onSortClick={handleSortClick}
         currentSortField={sortField}
         currentSortOrder={sortOrder}
-        type="Quản lí tuyến bay"
+        type='Quản lí tuyến bay'
       />
     </div>
   );
