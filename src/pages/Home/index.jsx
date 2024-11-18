@@ -21,8 +21,6 @@ const Home = () => {
 	const [message, setMessage] = useState('');
 	const [ticketIds, setTicketIds] = useState([]);
 	const { search } = useLocation();
-	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-	const user = useSelector(state => state.account.user.khachHang.idKhachHang);
 	useEffect(() => {
 		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
 		const fetchAndStoreLastCustomerId = async () => {
@@ -119,12 +117,11 @@ const Home = () => {
 
 
 				let idkhang
-				console.log("isAuthenticatedisAuthenticatedisAuthenticated", isAuthenticated)
-				console.log("useruseruseruser", user)
+				const isAuthenticated = localStorage.getItem("isAuthenticated")
+				const idKhachHangIslog = localStorage.getItem("idKhachHangIslog")
 				if (isAuthenticated) {
-					const idKhAuth = user; // Lấy vai trò của người dùng
+					const idKhAuth = idKhachHangIslog;
 					console.log("idKhAuthidKhAuthidKhAuthidKhAuth", idKhAuth)
-
 					idkhang = idKhAuth
 				} else {
 					idkhang = localStorage.getItem("idKh")
@@ -170,7 +167,7 @@ const Home = () => {
 			if (newStatusCode === "400") {
 				notification.error({
 					message: 'Đăt vé thất bại',
-					description: `Đặt vé thất bại vui lòng kiểm tra email`,
+					description: `Đặt vé thất bại`,
 					duration: 3,
 				});
 			}
