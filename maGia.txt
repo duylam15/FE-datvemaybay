@@ -1,23 +1,27 @@
-    input username
-    input password 
-
-    IF 'username' == "" or 'password' == "": THEN
-        print "Vui lòng nhập đủ tài khoản và mật khẩu".
-        return
-
-    Tạo đối tượng 'taiKhoanBUS'
-    Gọi hàm 'selectAccountUser' của 'taiKhoanBUS' với 'username' để lấy thông tin tài khoản 'taiKhoanSelected'.
-
-    IF taiKhoanSelected == null: THEN
-         print "Không có tài khoản trên hệ thống".
-    ELSE:
-        IF 'password' == taiKhoanSelected.getPassword(): THEN
-            IF taiKhoanSelected.getTrangThai() == 0: THEN
-                 print "Tài khoản của bạn đã bị khóa".
-            ELSE:
-                Tạo cửa sổ chính 'main' với thông tin tài khoản 'taiKhoanSelected'.
-                Hiển thị cửa sổ chính 'main'.
-                Thiết lập 'UT' cho 'main'.
-                Đóng cửa sổ hiện tại.
-        ELSE:
-           print "Sai tài khoản hoặc mật khẩu".
+1.  public void hienThiDuLieuTable(javax.swing.JTable tblThongKeSanPham, 
+                                   int currentMonth, int currentYear, 
+                                   ThongKeBUS thongKeBUS) {
+2       if(tblThongKeSanPham.getColumnCount() > 0){
+3.      DefaultTableModel model = (DefaultTableModel) tblThongKeSanPham.getModel(); 
+        model.setRowCount(0); 
+        int k = 1;
+        ArrayList<ThongKeSanPhamBanChayDTO> listSanPhamBanChay = 
+                    thongKeBUS.getThongKeSanPhamBanChay(currentMonth, currentYear);
+4.      for (ThongKeSanPhamBanChayDTO thongKe : listSanPhamBanChay) {
+5.          Object[] row = { 
+                k, 
+                thongKe.getTenSP(), 
+                thongKe.getSoLuongDaBan() 
+            };
+6.          model.addRow(row);
+7.          k++;
+8.      }
+9.      DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+10.     centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+11.     for (int i = 0; i < tblThongKeSanPham.getColumnCount(); i++) {
+12.         tblThongKeSanPham.getColumnModel()
+                           .getColumn(i)
+                           .setCellRenderer(centerRenderer);
+13.     }
+14.     }
+15.}

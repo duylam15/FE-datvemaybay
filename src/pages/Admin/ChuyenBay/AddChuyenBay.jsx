@@ -7,8 +7,8 @@ import { dataMayBay, editMayBay } from '../../../services/mayBayServices';
 import { dataNhanVien, editNhanVien } from '../../../services/nhanVienServices';
 import { dataSanBay } from '../../../services/sanBayService';
 import { dataTuyenBay } from '../../../services/tuyenBayService';
-import './chuyenbay.css';
 import { getAllGiaVeTheoIdChuyenBay } from '../../../services/veService';
+import './chuyenbay.css';
 export const AddChuyenBay = () => {
 
   const location = useLocation();
