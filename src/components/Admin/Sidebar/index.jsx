@@ -90,7 +90,7 @@ const Sidebar = () => {
 
   // Define menu items with associated paths, feature names, and icons
   const permissions = [
-    { name: 'Thống kê', path: '/admin/dashboard', feature: 'Quản lí thống kê', icon: <MdSpaceDashboard /> },
+    { name: 'Thống kê', path: '/admin/thongke', feature: 'Quản lí thống kê', icon: <MdSpaceDashboard /> },
     { name: 'Nhóm quyền', path: '/admin/quyen', feature: 'Quản lí nhóm quyền', icon: <FaCriticalRole /> },
     { name: 'Vé', path: '/admin/ve', feature: 'Quản lí vé', icon: <MdAirplaneTicket /> },
     { name: 'Máy bay', path: '/admin/maybay', feature: 'Quản lí máy bay', icon: <FaPlane /> },
