@@ -1,54 +1,49 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import NotPermitted from './NotPermitted';
-import { doGetAccountAction } from '../../redux/account/accountSlice'; // Đảm bảo đường dẫn chính xác
 
+// Thành phần kiểm tra quyền truy cập dựa trên vai trò người dùng
 const RoleBaseRoute = (props) => {
+	// Kiểm tra xem đường dẫn hiện tại có bắt đầu bằng '/admin' không
 	const isAdminRoute = window.location.pathname.startsWith('/admin');
+	// Lấy thông tin người dùng từ Redux store
 	const user = useSelector(state => state.account.user);
-	const userRole = user?.quyen?.tenQuyen;
-
-	console.log("user in RoleBaseRoute", user);
-	console.log("userRole", userRole);
-
-	if (isAdminRoute && userRole === 'admin' ||
-		!isAdminRoute && (userRole === 'USER' || userRole === 'ADMIN')
+	const userRole = user?.quyen?.tenQuyen; // Lấy vai trò của người dùng
+	// Kiểm tra quyền truy cập dựa trên vai trò người dùng và loại đường dẫn
+	if (isAdminRoute && userRole === 'admin'
 	) {
-		return (<>{props.children}</>);
+		// Nếu người dùng có quyền truy cập, hiển thị nội dung của props (children)
+		return (<>{props.children}</>)
+	} else if (isAdminRoute && userRole === 'user'
+	) {
+		// Nếu người dùng có quyền truy cập, hiển thị nội dung của props (children)
+		return (<>{props.children}</>)
 	} else {
-		return (<NotPermitted />);
+		// Nếu người dùng không có quyền truy cập, hiển thị thành phần NotPermitted
+		return (<NotPermitted />)
 	}
-};
+}
 
 const ProtectedRoute = (props) => {
-	const dispatch = useDispatch();
+	// Lấy thông tin xác thực người dùng từ Redux store
 	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-	const user = useSelector(state => state.account.user);
-
-	useEffect(() => {
-		// Khi xác thực thành công nhưng user chưa có dữ liệu, gọi doGetAccountAction để lấy thông tin chi tiết
-		if (isAuthenticated && !user?.quyen) {
-			dispatch(doGetAccountAction(/* truyền tham số nếu cần */));
-
-			console.log("isAuthenticated", isAuthenticated)
-			console.log("user", user)
-		}
-	}, [isAuthenticated, user, dispatch]);
-
-	console.log("isAuthenticated", isAuthenticated)
-	console.log("user", user)
+	console.log("isAuthenticated from ProtectedRoute", isAuthenticated)
 	return (
 		<>
-			{isAuthenticated ? (
-				<RoleBaseRoute>
-					{props.children}
-				</RoleBaseRoute>
-			) : (
+			{isAuthenticated === true ?
+				<>
+					{/* Nếu người dùng đã xác thực, kiểm tra quyền truy cập dựa trên vai trò */}
+					<RoleBaseRoute>
+						{props.children}
+					</RoleBaseRoute>
+				</>
+				:
+				// Nếu người dùng chưa xác thực, chuyển hướng đến trang đăng nhập
 				<Navigate to='/login' replace />
-			)}
+			}
 		</>
-	);
-};
+	)
+}
 
 export default ProtectedRoute;

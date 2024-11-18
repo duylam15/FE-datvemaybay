@@ -14,21 +14,20 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const [columns, setColumns] = useState([]);
 	const [firstHalf, setFirstHalf] = useState([]);
 	const [secondHalf, setSecondHalf] = useState([]);
-
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
-	const holdData = {
-		seatId: 1,
-		idVe: 1,
-		flightId: 1,
-		userId: 1
-	};
-
 
 	const handleOk = () => {
+		const holdData = selectedSeats.map((seat, index) => ({
+			seatId: seat.idChoNgoi,
+			idVe: seat.idVe,
+			flightId: selectedTicket.flightId.idChuyenBay,
+			userId: 1
+		}));
+		console.log(holdData)
 		axios.post(
-			'http://localhost:8080/holdSeat',
+			'http://localhost:8080/holdSeats',
 			holdData,
 			{
 				headers: {
@@ -63,11 +62,11 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		stompClientInstance.connect({}, (frame) => {
 			console.log('Connected: ' + frame);
 			stompClientInstance.subscribe('/topic/seatHeld', (message) => {
-				alert('Seat held:' + message.body);
+				// alert('Seat held:' + message.body);
 			});
 			stompClientInstance.subscribe('/topic/seatCancelHold', (message) => {
-				alert('Canceled seat after 20 seconds:' + message.body);
-				console.log("alert('Canceled seat after 20 seconds:' + message.body);")
+				// alert('Canceled seat after 20 seconds:' + message.body);
+				// console.log("alert('Canceled seat after 20 seconds:' + message.body);")
 				// setMessages(prevMessages => [...prevMessages, message.body]);
 			});
 		});
@@ -137,38 +136,20 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 
 		// Nếu tất cả đều hợp lệ, gửi dữ liệu
 		const bookingData = selectedSeats.map((seat, index) => ({
-			idHanhKhach: index + 1,
+			idHanhKhach: null,
 			idVe: seat.idVe,
 			hoTen: adultData[index]?.fullName,
 			ngaySinh: adultData[index]?.birthDate,
 			soDienThoai: contactData.phone,
 			email: contactData.email,
 			cccd: adultData[index]?.cccd,
-			hoChieu: adultData[index]?.passPort,
 			gioiTinhEnum: adultData[index]?.gender === 'male' ? 'NAM' : adultData[index]?.gender === 'female' ? 'NU' : 'KHAC',
 			trangThaiActive: "ACTIVE"
 		}));
 
-		const holdDataaa = selectedSeats.map((seat, index) => ({
-			seatId: seat.idChoNgoi,
-			idVe: seat.idVe,
-			flightId: selectedTicket.flightId.idChuyenBay,
-			userId: ""
-		}));
-
 		console.log("selectedSeats", selectedSeats)
-		console.log("holdDataaa", holdDataaa)
 
 		console.log('Booking Data:', bookingData);
-
-
-		const holdData = {
-			seatId: 1,
-			idVe: 1,
-			flightId: 1,
-			userId: 1
-		};
-
 
 		if (1) {
 			axios.post(
@@ -184,7 +165,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				console.log("Response from server:", response?.data?.data?.paymentUrl);
 				const paymentUrl = response?.data?.data?.paymentUrl;
 				// Reset form state after successful submission
-				// window.location.href = paymentUrl
+				localStorage.setItem("bookingData", JSON.stringify(bookingData, null, 2))
+				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);
 				notification.error({

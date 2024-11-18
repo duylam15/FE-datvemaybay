@@ -51,6 +51,7 @@ export default function DanhSachComponent(props) {
         editLink={editLink}
         setData={props.setData}
         page={props.page}
+        type="Quản lí nhân viên"
       />
       <PaginationComponent
         currentPage={currentPage}

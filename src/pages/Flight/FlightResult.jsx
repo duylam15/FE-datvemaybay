@@ -41,39 +41,53 @@ const FlightResult = () => {
     const fetchAllData = async () => {
       setLoading(true);
       try {
-        const [airportResponse, classTicketResponse] = await Promise.all([
-          axios.get('http://localhost:8080/admin/sanbay/getAllAirport'),
-          axios.get('http://localhost:8080/admin/hangve/getAllHangVe'),
-        ]);
+        const [airportResponse, classTicketResponse, ticketResponse] =
+          await Promise.all([
+            axios.get('http://localhost:8080/admin/sanbay/getAllAirport'),
+            axios.get('http://localhost:8080/admin/hangve/getAllHangVe'),
+            axios.get('http://localhost:8080/ve/getAll'),
+          ]);
 
-        // Cập nhật state với dữ liệu sân bay và loại vé
-        setAirports(airportResponse.data.data);
-        setClassTickets(classTicketResponse.data.data);
+        // Kiểm tra dữ liệu hợp lệ từ API trước khi gán vào state
+        if (airportResponse?.data?.data) {
+          setAirports(airportResponse.data.data);
+        } else {
+          console.error('Dữ liệu sân bay không hợp lệ.');
+        }
 
-        // Lấy vé cho tất cả các chuyến bay
-        const ticketsPromises = flights.map((flight) =>
-          axios.get(`http://localhost:8080/ve/chuyenbay/${flight.idChuyenBay}`)
-        );
+        if (classTicketResponse?.data?.data) {
+          setClassTickets(classTicketResponse.data.data);
+        } else {
+          console.error('Dữ liệu hạng vé không hợp lệ.');
+        }
 
-        const ticketResponses = await Promise.all(ticketsPromises);
+        if (ticketResponse?.data?.data) {
+          // Gộp vé theo từng chuyến bay
+          const groupedTickets = ticketResponse.data.data.reduce(
+            (acc, ticket) => {
+              const flightId = ticket.chuyenBay.idChuyenBay; // Lấy id của chuyến bay từ vé
+              if (!acc[flightId]) {
+                acc[flightId] = []; // Nếu chưa tồn tại, khởi tạo mảng
+              }
+              acc[flightId].push(ticket); // Thêm vé vào danh sách của chuyến bay
+              return acc;
+            },
+            {}
+          );
 
-        // Gộp vé theo từng chuyến bay
-        const allTickets = ticketResponses.reduce((acc, response, index) => {
-          const flightId = flights[index].idChuyenBay; // Lấy id chuyến bay tương ứng
-          acc[flightId] = response.data.data.content; // Lưu vé vào mảng theo id chuyến bay
-          return acc;
-        }, {});
-
-        setTickets(allTickets); // Cập nhật state tickets
+          setTickets(groupedTickets); // Cập nhật state tickets
+        } else {
+          console.error('Dữ liệu vé không hợp lệ.');
+        }
       } catch (error) {
-        console.error('Lỗi khi tải dữ liệu:', error);
+        console.error('Lỗi khi tải dữ liệu từ API:', error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchAllData();
-  }, [flights]);
+  }, []);
 
   const handleSelectFlight = (index, ticketType) => {
     // console.error('vị trí btn', index);
@@ -212,7 +226,7 @@ const FlightResult = () => {
   );
 
   // console.error(flights);
-  // console.error(tickets);
+  console.error(tickets);
   // console.error(classTickets);
   // console.error(selectedTicket);
   // console.error(airports);
@@ -222,602 +236,620 @@ const FlightResult = () => {
   console.log({ tickets });
   // Kết quả: Thứ Tư, 09 tháng 10, 2024
   return (
-    <div className='container'>
-      <div className='ticket-section flex-collum'>
-        <div className='section-visible'>
-          <div className='container-carousel'>
-            <Carousel
-              departureLocation={departureLocation}
-              arrivalLocation={arrivalLocation}
-              message={
-                filteredFlights.length === 0 || flights.length === 0
-                  ? 'Không tìm thấy chuyến bay'
-                  : 'Vui lòng chọn chuyến bay'
-              }
-            />
-          </div>
-          {flights.filter((flight) => hasEnoughSeats(flight.idChuyenBay))
-            .length > 0 ? (
-            flights
-              .filter((flight) => hasEnoughSeats(flight.idChuyenBay))
-              .map((flight) => (
-                <div key={flight.idChuyenBay}>
-                  <div className='card-ticket'>
-                    <div className='seat-empty'>
-                      {classTickets.map((classTicket, index) => (
-                        <div key={index}>
-                          {totalEmptyTickets(
-                            classTicket.idHangVe,
-                            flight.idChuyenBay
-                          ) >= numberOfTickets && (
-                            <button
-                              className={`remaining-seats ${
-                                classTicket.idHangVe === 1
-                                  ? 'seat-green'
-                                  : classTicket.idHangVe === 2
-                                  ? 'seat-blue'
-                                  : classTicket.idHangVe === 3
-                                  ? 'seat-red'
-                                  : ''
-                              }`}
-                            >
-                              Còn lại{' '}
-                              {totalEmptyTickets(
-                                classTicket.idHangVe,
-                                flight.idChuyenBay
-                              )}{' '}
-                              chỗ
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className='flight-results'>
-                      <div className='flight-info'>
-                        <div className='card-flight-right'>
-                          <div className='flight-detail'>
-                            <div className='flex-row'>
-                              <div className='flex-collum'>
-                                <span className='time '>
-                                  {getTimeFromDateTime(
-                                    flight.thoiGianBatDauDuTinh
-                                  )}
-                                </span>
-                                <span className='airport'>
-                                  {getAirportName(
-                                    flight.tuyenBay.idSanBayBatDau
-                                  )}
-                                </span>
-                              </div>
-                              <div className='flex-collum flex-center'>
-                                <span className='status'>Bay thẳng</span>
-                                <span>
-                                  ................................................
-                                </span>
-                              </div>
-                              <div className='flex-collum textR'>
-                                <span className='time '>
-                                  {getTimeFromDateTime(
-                                    flight.thoiGianKetThucDuTinh
-                                  )}
-                                </span>
-                                <span className='airport '>
-                                  {getAirportName(
-                                    flight.tuyenBay.idSanBayKetThuc
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                            <div className='flex-row justify-content-between'>
-                              <div className='gate-info'>
-                                Nhà ga {flight.cong.tenCong}
-                              </div>
-                              <div className='gate-info'>
-                                Nhà ga {flight.cong.tenCong}
-                              </div>
-                            </div>
-                          </div>
-                          <div className='flight-duration'>
-                            <div className='flex-row'>
-                              <img
-                                src={watch}
-                                width={12}
-                                height={12}
-                                alt='watch'
-                              />
-                              <p>
-                                Thời gian bay:{' '}
-                                {formatTime(flight.tuyenBay.thoiGianChuyenBay)}
-                              </p>
-                            </div>
-                            <div className='flex-row'>
-                              <img
-                                src={plane}
-                                width={12}
-                                height={12}
-                                alt='plane'
-                              />
-                              <p>
-                                {flight.mayBay.soHieu} được Bamboo Airways khai
-                                thác.
-                              </p>
-                              <img
-                                src={logo}
-                                width={12}
-                                height={12}
-                                alt='logo'
-                              />
-                            </div>
-
-                            <button
-                              className='details-link'
-                              onClick={() =>
-                                handleViewDetails(flight.idChuyenBay)
-                              }
-                            >
-                              Xem chi tiết hành trình
-                            </button>
-
-                            {/* Hiển thị FlightPopup nếu có selectedFlightId */}
-                            {selectedFlightId === flight.idChuyenBay && (
-                              <>
-                                <div
-                                  className='overlay'
-                                  onClick={handleClosePopup}
-                                />{' '}
-                                {/* Overlay để chặn tương tác */}
-                                <FlightPopup
-                                  departure={getAirportAddress(
-                                    flight.tuyenBay.idSanBayBatDau
-                                  )}
-                                  arrival={getAirportAddress(
-                                    flight.tuyenBay.idSanBayKetThuc
-                                  )}
-                                  begin={formatDate(
-                                    flight.thoiGianBatDauDuTinh
-                                  )}
-                                  duration={formatTime(
-                                    flight.tuyenBay.thoiGianChuyenBay
-                                  )}
-                                  timeDepart={getTimeFromDateTime(
-                                    flight.thoiGianBatDauDuTinh
-                                  )}
-                                  timeArrival={getAirportName(
-                                    flight.tuyenBay.idSanBayKetThuc
-                                  )}
-                                  airportDepart={getAirportName(
-                                    flight.tuyenBay.idSanBayBatDau
-                                  )}
-                                  airportArrival={getAirportName(
-                                    flight.tuyenBay.idSanBayKetThuc
-                                  )}
-                                  departIata={getAirportIATA(
-                                    flight.tuyenBay.idSanBayBatDau
-                                  )}
-                                  arrivalIata={getAirportIATA(
-                                    flight.tuyenBay.idSanBayKetThuc
-                                  )}
-                                  gate={flight.cong.tenCong}
-                                  flightNumber={flight.mayBay.soHieu}
-                                  aircraftType={flight.mayBay.tenMayBay}
-                                  closePopup={handleClosePopup}
-                                  className='flight-popup' // Thêm class cho popup
-                                />
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className='card-flight-left '>
+    <div className='flightresult'>
+      <div className='container'>
+        <div className='ticket-section flex-collum'>
+          <div className='section-visible'>
+            <div className='container-carousel'>
+              <Carousel
+                departureLocation={departureLocation}
+                arrivalLocation={arrivalLocation}
+                message={
+                  filteredFlights.length === 0 || flights.length === 0
+                    ? 'Không tìm thấy chuyến bay'
+                    : 'Vui lòng chọn chuyến bay'
+                }
+              />
+            </div>
+            {flights.filter((flight) => hasEnoughSeats(flight.idChuyenBay))
+              .length > 0 ? (
+              flights
+                .filter((flight) => hasEnoughSeats(flight.idChuyenBay))
+                .map((flight) => (
+                  <div key={flight.idChuyenBay}>
+                    <div className='card-ticket'>
+                      <div className='seat-empty'>
                         {classTickets.map((classTicket, index) => (
                           <div key={index}>
                             {totalEmptyTickets(
                               classTicket.idHangVe,
                               flight.idChuyenBay
-                            ) === 0 ? (
-                              <button
-                                className={`flex-collum ${
-                                  classTicket.idHangVe === 1
-                                    ? 'btnNohover-green'
+                            ) >= numberOfTickets && (
+                                <button
+                                  className={`remaining-seats ${classTicket.idHangVe === 1
+                                    ? 'seat-green'
                                     : classTicket.idHangVe === 2
-                                    ? 'btnNohover-blue'
-                                    : classTicket.idHangVe === 3
-                                    ? 'btnNohover-red'
+                                    ? 'seat-blue'
                                     : ''
                                 }`}
-                                style={{ cursor: 'default' }}
-                                disabled
                               >
-                                <span>
-                                  <div className='title'>
-                                    {classTicket.tenHangVe}
-                                  </div>
-                                  <img src={tag} className='imgtop' alt='tag' />
-                                  <div className='flight-price-section flex-collum'>
-                                    <button className='notifi-out-off'>
-                                      Vé đã hết
-                                    </button>
-                                  </div>
-                                </span>
-                              </button>
-                            ) : totalEmptyTickets(
-                                classTicket.idHangVe,
-                                flight.idChuyenBay
-                              ) < numberOfTickets ? (
-                              <button
-                                className={`flex-collum ${
-                                  classTicket.idHangVe === 1
-                                    ? 'btnNohover-green'
-                                    : classTicket.idHangVe === 2
-                                    ? 'btnNohover-blue'
-                                    : classTicket.idHangVe === 3
-                                    ? 'btnNohover-red'
-                                    : ''
-                                }`}
-                                style={{ cursor: 'default' }}
-                                disabled
-                              >
-                                <span>
-                                  <div className='title'>
-                                    {classTicket.tenHangVe}
-                                  </div>
-                                  <img src={tag} className='imgtop' alt='tag' />
-                                  <div className='flight-price-section flex-collum'>
-                                    <button className='notifi-out-off'>
-                                      Không đủ vé
-                                    </button>
-                                  </div>
-                                </span>
-                              </button>
-                            ) : (
-                              <button
-                                className={`flex-collum ${
-                                  classTicket.idHangVe === 1
-                                    ? 'btn-green'
-                                    : classTicket.idHangVe === 2
-                                    ? 'btn-blue'
-                                    : classTicket.idHangVe === 3
-                                    ? 'btn-red'
-                                    : ''
-                                }`}
-                                onClick={() =>
-                                  handleSelectFlight(
-                                    index,
-                                    classTicket.tenHangVe
-                                  )
-                                }
-                              >
-                                <span>
-                                  <div className='title'>
-                                    {classTicket.tenHangVe}
-                                  </div>
-                                  <img src={tag} className='imgtop' alt='tag' />
-                                  <div className='flight-price-section flex-collum'>
-                                    <span>từ</span>
-                                    <p className='money26'>
-                                      {formatCurrency(
-                                        leastPrice(
-                                          classTicket.idHangVe,
-                                          flight.idChuyenBay
-                                        )
-                                      )}
-                                    </p>
-                                    <span> VND</span>
-                                    <img
-                                      src={chevron}
-                                      className='imgbottom'
-                                      alt='chevron'
-                                    />
-                                  </div>
-                                </span>
+                                Còn lại{' '}
+                                {totalEmptyTickets(
+                                  classTicket.idHangVe,
+                                  flight.idChuyenBay
+                                )}{' '}
+                                chỗ
                               </button>
                             )}
                           </div>
                         ))}
                       </div>
-                      {/* Conditionally render ticket selection */}
 
-                      {selectedTicketType === 'phổ thông' && (
-                        <div className='ticket-selection ticket-green'>
-                          {classTickets
-                            .filter(
-                              (classTicket) =>
-                                classTicket.tenHangVe === 'phổ thông'
-                            )
-                            .map((classTicket, ticketIndex) => (
-                              <div key={ticketIndex}>
-                                <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
-                                <p>Tiện ích với mỗi hành khách.</p>
-                                <div className='ticket-options'>
-                                  <div
-                                    className={`ticket economy-smart ${
-                                      selectedTicket?.classTicketId ===
-                                        classTicket.idHangVe &&
-                                      selectedTicket?.flightId?.idChuyenBay ===
-                                        flight.idChuyenBay
-                                        ? 'selected'
-                                        : ''
-                                    }`}
-                                  >
-                                    <div className='top-ticket'>
-                                      <input
-                                        type='radio'
-                                        name={uniqueRadioName(
-                                          flight.idChuyenBay,
-                                          classTicket.tenHangVe
-                                        )}
-                                        checked={
-                                          selectedTicket?.classTicketId ===
-                                            classTicket.idHangVe &&
-                                          selectedTicket?.flightId
-                                            ?.idChuyenBay === flight.idChuyenBay
-                                        }
-                                        onChange={() =>
-                                          handleRadioChange(
-                                            classTicket.idHangVe,
-                                            flight
-                                          )
-                                        }
-                                      />
-                                      <h3>
-                                        <span>
-                                          {formatCurrency(
-                                            leastPrice(
-                                              classTicket.idHangVe,
-                                              flight.idChuyenBay
-                                            )
-                                          )}
-                                          <span> VND</span>
-                                        </span>
-                                      </h3>
-                                      <p>{classTicket.tenHangVe}</p>{' '}
-                                      {/* Changed this to Economy */}
-                                    </div>
-                                    <div className='bottom-ticket'>
-                                      <ul>
-                                        <li>Hành lý xách tay:</li>
-                                        <li>Hành lý ký gửi:</li>
-                                        <li>
-                                          Hoàn/huỷ trước giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>
-                                          Hoàn/huỷ sau giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>Thay đổi miễn phí</li>
-                                        <li>
-                                          Hệ số cộng điểm Bamboo Club: 1.0
-                                        </li>
-                                        <li>Chọn ghế miễn phí</li>
-                                        <li>Đổi chuyến tại sân bay miễn phí</li>
-                                      </ul>
-                                      <p className='details-link'>
-                                        (*) Xem chi tiết
-                                      </p>
-                                    </div>
-                                  </div>
+                      <div className='flight-results'>
+                        <div className='flight-info'>
+                          <div className='card-flight-right'>
+                            <div className='flight-detail'>
+                              <div className='flex-row'>
+                                <div className='flex-collum'>
+                                  <span className='time '>
+                                    {getTimeFromDateTime(
+                                      flight.thoiGianBatDauDuTinh
+                                    )}
+                                  </span>
+                                  <span className='airport'>
+                                    {getAirportIATA(
+                                      flight.tuyenBay.idSanBayBatDau
+                                    )}
+                                  </span>
+                                </div>
+                                <div className='flex-collum flex-center'>
+                                  <span className='status'>Bay thẳng</span>
+                                  <span>
+                                    ................................................
+                                  </span>
+                                </div>
+                                <div className='flex-collum textR'>
+                                  <span className='time '>
+                                    {getTimeFromDateTime(
+                                      flight.thoiGianKetThucDuTinh
+                                    )}
+                                  </span>
+                                  <span className='airport '>
+                                    {getAirportIATA(
+                                      flight.tuyenBay.idSanBayKetThuc
+                                    )}
+                                  </span>
                                 </div>
                               </div>
-                            ))}
-
-                          <div className='action-buttons'>
-                            <button
-                              className='next-step'
-                              onClick={handleContinue}
-                            >
-                              Xác nhận và tiếp tục.
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-                      {selectedTicketType === 'thương gia' && (
-                        <div className='ticket-selection ticket-blue'>
-                          {classTickets
-                            .filter(
-                              (classTicket) =>
-                                classTicket.tenHangVe === 'thương gia'
-                            )
-                            .map((classTicket, ticketIndex) => (
-                              <div key={ticketIndex}>
-                                <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
-                                <p>Tiện ích với mỗi hành khách.</p>
-                                <div className='ticket-options'>
-                                  <div
-                                    className={`ticket economy-smart ${
-                                      selectedTicket?.classTicketId ===
-                                        classTicket.idHangVe &&
-                                      selectedTicket?.flightId?.idChuyenBay ===
-                                        flight.idChuyenBay
-                                        ? 'selected'
-                                        : ''
-                                    }`}
-                                  >
-                                    <div className='top-ticket'>
-                                      <input
-                                        type='radio'
-                                        name={uniqueRadioName(
-                                          flight.idChuyenBay,
-                                          classTicket.tenHangVe
-                                        )}
-                                        checked={
-                                          selectedTicket?.classTicketId ===
-                                            classTicket.idHangVe &&
-                                          selectedTicket?.flightId
-                                            ?.idChuyenBay === flight.idChuyenBay
-                                        }
-                                        onChange={() =>
-                                          handleRadioChange(
-                                            classTicket.idHangVe,
-                                            flight
-                                          )
-                                        }
-                                      />
-                                      <h3>
-                                        <span>
-                                          {formatCurrency(
-                                            leastPrice(
-                                              classTicket.idHangVe,
-                                              flight.idChuyenBay
-                                            )
-                                          )}
-                                          <span> VND</span>
-                                        </span>
-                                      </h3>
-                                      <p>{classTicket.tenHangVe}</p>
-                                    </div>
-                                    <div className='bottom-ticket'>
-                                      <ul>
-                                        <li>Hành lý xách tay:</li>
-                                        <li>Hành lý ký gửi:</li>
-                                        <li>
-                                          Hoàn/huỷ trước giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>
-                                          Hoàn/huỷ sau giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>Thay đổi miễn phí</li>
-                                        <li>
-                                          Hệ số cộng điểm Bamboo Club: 1.0
-                                        </li>
-                                        <li>Chọn ghế miễn phí</li>
-                                        <li>Đổi chuyến tại sân bay miễn phí</li>
-                                      </ul>
-                                      <p className='details-link'>
-                                        (*) Xem chi tiết
-                                      </p>
-                                    </div>
-                                  </div>
+                              <div className='flex-row justify-content-between'>
+                                <div className='gate-info'>
+                                  Nhà ga {flight.cong.tenCong}
+                                </div>
+                                <div className='gate-info'>
+                                  Nhà ga {flight.cong.tenCong}
                                 </div>
                               </div>
-                            ))}
+                            </div>
+                            <div className='flight-duration'>
+                              <div className='flex-row'>
+                                <img
+                                  src={watch}
+                                  width={12}
+                                  height={12}
+                                  alt='watch'
+                                />
+                                <p>
+                                  Thời gian bay:{' '}
+                                  {formatTime(
+                                    flight.tuyenBay.thoiGianChuyenBay
+                                  )}
+                                </p>
+                              </div>
+                              <div className='flex-row'>
+                                <img
+                                  src={plane}
+                                  width={12}
+                                  height={12}
+                                  alt='plane'
+                                />
+                                <p>
+                                  {flight.mayBay.soHieu} được Bamboo Airways
+                                  khai thác.
+                                </p>
+                                <img
+                                  src={logo}
+                                  width={12}
+                                  height={12}
+                                  alt='logo'
+                                />
+                              </div>
 
-                          <div className='action-buttons'>
-                            <button
-                              className='next-step'
-                              onClick={handleContinue}
-                            >
-                              Xác nhận và tiếp tục.
-                            </button>
+                              <button
+                                className='details-link'
+                                onClick={() =>
+                                  handleViewDetails(flight.idChuyenBay)
+                                }
+                              >
+                                Xem chi tiết hành trình
+                              </button>
+
+                              {/* Hiển thị FlightPopup nếu có selectedFlightId */}
+                              {selectedFlightId === flight.idChuyenBay && (
+                                <>
+                                  <div
+                                    className='overlay'
+                                    onClick={handleClosePopup}
+                                  />{' '}
+                                  {/* Overlay để chặn tương tác */}
+                                  <FlightPopup
+                                    departure={getAirportAddress(
+                                      flight.tuyenBay.idSanBayBatDau
+                                    )}
+                                    arrival={getAirportAddress(
+                                      flight.tuyenBay.idSanBayKetThuc
+                                    )}
+                                    begin={formatDate(
+                                      flight.thoiGianBatDauDuTinh
+                                    )}
+                                    duration={formatTime(
+                                      flight.tuyenBay.thoiGianChuyenBay
+                                    )}
+                                    timeDepart={getTimeFromDateTime(
+                                      flight.thoiGianBatDauDuTinh
+                                    )}
+                                    timeArrival={getAirportName(
+                                      flight.tuyenBay.idSanBayKetThuc
+                                    )}
+                                    airportDepart={getAirportName(
+                                      flight.tuyenBay.idSanBayBatDau
+                                    )}
+                                    airportArrival={getAirportName(
+                                      flight.tuyenBay.idSanBayKetThuc
+                                    )}
+                                    departIata={getAirportIATA(
+                                      flight.tuyenBay.idSanBayBatDau
+                                    )}
+                                    arrivalIata={getAirportIATA(
+                                      flight.tuyenBay.idSanBayKetThuc
+                                    )}
+                                    gate={flight.cong.tenCong}
+                                    flightNumber={flight.mayBay.soHieu}
+                                    aircraftType={flight.mayBay.tenMayBay}
+                                    closePopup={handleClosePopup}
+                                    className='flight-popup' // Thêm class cho popup
+                                  />
+                                </>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      )}
+                        <div className='card-flight-left '>
+                          {classTickets.map((classTicket, index) => (
+                            <div key={index}>
+                              {totalEmptyTickets(
+                                classTicket.idHangVe,
+                                flight.idChuyenBay
+                              ) === 0 ? (
+                                <button
+                                  className={`flex-collum ${classTicket.idHangVe === 1
+                                    ? 'btnNohover-green'
+                                    : classTicket.idHangVe === 2
+                                      ? 'btnNohover-blue'
+                                      : classTicket.idHangVe === 3
+                                        ? 'btnNohover-red'
+                                        : ''
+                                    }`}
+                                  style={{ cursor: 'default' }}
+                                  disabled
+                                >
+                                  <span>
+                                    <div className='title'>
+                                      {classTicket.tenHangVe}
+                                    </div>
+                                    <img
+                                      src={tag}
+                                      className='imgtop'
+                                      alt='tag'
+                                    />
+                                    <div className='flight-price-section flex-collum'>
+                                      <button className='notifi-out-off'>
+                                        Vé đã hết
+                                      </button>
+                                    </div>
+                                  </span>
+                                </button>
+                              ) : totalEmptyTickets(
+                                classTicket.idHangVe,
+                                flight.idChuyenBay
+                              ) < numberOfTickets ? (
+                                <button
+                                  className={`flex-collum ${classTicket.idHangVe === 1
+                                    ? 'btnNohover-green'
+                                    : classTicket.idHangVe === 2
+                                      ? 'btnNohover-blue'
+                                      : classTicket.idHangVe === 3
+                                        ? 'btnNohover-red'
+                                        : ''
+                                    }`}
+                                  style={{ cursor: 'default' }}
+                                  disabled
+                                >
+                                  <span>
+                                    <div className='title'>
+                                      {classTicket.tenHangVe}
+                                    </div>
+                                    <img
+                                      src={tag}
+                                      className='imgtop'
+                                      alt='tag'
+                                    />
+                                    <div className='flight-price-section flex-collum'>
+                                      <button className='notifi-out-off'>
+                                        Không đủ vé
+                                      </button>
+                                    </div>
+                                  </span>
+                                </button>
+                              ) : (
+                                <button
+                                  className={`flex-collum ${classTicket.idHangVe === 1
+                                    ? 'btn-green'
+                                    : classTicket.idHangVe === 2
+                                      ? 'btn-blue'
+                                      : classTicket.idHangVe === 3
+                                        ? 'btn-red'
+                                        : ''
+                                    }`}
+                                  onClick={() =>
+                                    handleSelectFlight(
+                                      index,
+                                      classTicket.tenHangVe
+                                    )
+                                  }
+                                >
+                                  <span>
+                                    <div className='title'>
+                                      {classTicket.tenHangVe}
+                                    </div>
+                                    <img
+                                      src={tag}
+                                      className='imgtop'
+                                      alt='tag'
+                                    />
+                                    <div className='flight-price-section flex-collum'>
+                                      <span>từ</span>
+                                      <p className='money26'>
+                                        {formatCurrency(
+                                          leastPrice(
+                                            classTicket.idHangVe,
+                                            flight.idChuyenBay
+                                          )
+                                        )}
+                                      </p>
+                                      <span> VND</span>
+                                      <img
+                                        src={chevron}
+                                        className='imgbottom'
+                                        alt='chevron'
+                                      />
+                                    </div>
+                                  </span>
+                                </button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        {/* Conditionally render ticket selection */}
 
-                      {/* Conditionally render ticket selection */}
-                      {selectedTicketType === 'First' && (
-                        <div className='ticket-selection ticket-red'>
-                          <h2>Chọn hạng vé First</h2>
-                          <p>Tiện ích với mỗi hành khách.</p>
-                          <div className='ticket-options'>
+                        {selectedTicketType === 'Economy' && (
+                          <div className='ticket-selection ticket-green'>
                             {classTickets
                               .filter(
                                 (classTicket) =>
-                                  classTicket.tenHangVe === 'First'
+                                  classTicket.tenHangVe === 'Economy'
                               )
                               .map((classTicket, ticketIndex) => (
                                 <div key={ticketIndex}>
-                                  <div
-                                    className={`ticket economy-smart ${
-                                      selectedTicket?.classTicketId ===
-                                        classTicket.idHangVe &&
-                                      selectedTicket?.flightId?.idChuyenBay ===
-                                        flight.idChuyenBay
-                                        ? 'selected'
-                                        : ''
-                                    }`}
-                                  >
-                                    <div className='top-ticket'>
-                                      <input
-                                        type='radio'
-                                        name={uniqueRadioName(
-                                          flight.idChuyenBay,
-                                          classTicket.tenHangVe
-                                        )}
-                                        checked={
-                                          selectedTicket?.classTicketId ===
-                                            classTicket.idHangVe &&
-                                          selectedTicket?.flightId
-                                            ?.idChuyenBay === flight.idChuyenBay
-                                        }
-                                        onChange={() =>
-                                          handleRadioChange(
-                                            classTicket.idHangVe,
-                                            flight
-                                          )
-                                        }
-                                      />
-                                      <h3>
-                                        <span>
-                                          {formatCurrency(
-                                            leastPrice(
-                                              classTicket.idHangVe,
-                                              flight.idChuyenBay
-                                            )
+                                  <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
+                                  <p>Tiện ích với mỗi hành khách.</p>
+                                  <div className='ticket-options'>
+                                    <div
+                                      className={`ticket economy-smart ${
+                                        selectedTicket?.classTicketId ===
+                                          classTicket.idHangVe &&
+                                        selectedTicket?.flightId
+                                          ?.idChuyenBay === flight.idChuyenBay
+                                          ? 'selected'
+                                          : ''
+                                      }`}
+                                    >
+                                      <div className='top-ticket'>
+                                        <input
+                                          type='radio'
+                                          name={uniqueRadioName(
+                                            flight.idChuyenBay,
+                                            classTicket.tenHangVe
                                           )}
-                                          <span> VND</span>
-                                        </span>
-                                      </h3>
-                                      <p>{classTicket.tenHangVe}</p>
-                                    </div>
-                                    <div className='bottom-ticket'>
-                                      <ul>
-                                        <li>Hành lý xách tay:</li>
-                                        <li>Hành lý ký gửi:</li>
-                                        <li>
-                                          Hoàn/huỷ trước giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>
-                                          Hoàn/huỷ sau giờ khởi hành: 300.000
-                                          VND
-                                        </li>
-                                        <li>Thay đổi miễn phí</li>
-                                        <li>
-                                          Hệ số cộng điểm Bamboo Club: 1.0
-                                        </li>
-                                        <li>Chọn ghế miễn phí</li>
-                                        <li>Đổi chuyến tại sân bay miễn phí</li>
-                                      </ul>
-                                      <p className='details-link'>
-                                        (*) Xem chi tiết
-                                      </p>
+                                          checked={
+                                            selectedTicket?.classTicketId ===
+                                            classTicket.idHangVe &&
+                                            selectedTicket?.flightId
+                                              ?.idChuyenBay ===
+                                              flight.idChuyenBay
+                                          }
+                                          onChange={() =>
+                                            handleRadioChange(
+                                              classTicket.idHangVe,
+                                              flight
+                                            )
+                                          }
+                                        />
+                                        <h3>
+                                          <span>
+                                            {formatCurrency(
+                                              leastPrice(
+                                                classTicket.idHangVe,
+                                                flight.idChuyenBay
+                                              )
+                                            )}
+                                            <span> VND</span>
+                                          </span>
+                                        </h3>
+                                        <p>{classTicket.tenHangVe}</p>{' '}
+                                        {/* Changed this to Economy */}
+                                      </div>
+                                      <div className='bottom-ticket'>
+                                        <ul>
+                                          <li>Hành lý xách tay:</li>
+                                          <li>Hành lý ký gửi:</li>
+                                          <li>
+                                            Hoàn/huỷ trước giờ khởi hành:
+                                            300.000 VND
+                                          </li>
+                                          <li>
+                                            Hoàn/huỷ sau giờ khởi hành: 300.000
+                                            VND
+                                          </li>
+                                          <li>Thay đổi miễn phí</li>
+                                          <li>
+                                            Hệ số cộng điểm Bamboo Club: 1.0
+                                          </li>
+                                          <li>Chọn ghế miễn phí</li>
+                                          <li>
+                                            Đổi chuyến tại sân bay miễn phí
+                                          </li>
+                                        </ul>
+                                        <p className='details-link'>
+                                          (*) Xem chi tiết
+                                        </p>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               ))}
-                          </div>
 
-                          <div className='action-buttons'>
-                            <button
-                              className='next-step'
-                              onClick={handleContinue}
-                            >
-                              Xác nhận và tiếp tục.
-                            </button>
+                            <div className='action-buttons'>
+                              <button
+                                className='next-step'
+                                onClick={handleContinue}
+                              >
+                                Xác nhận và tiếp tục.
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+
+                        {selectedTicketType === 'Business' && (
+                          <div className='ticket-selection ticket-blue'>
+                            {classTickets
+                              .filter(
+                                (classTicket) =>
+                                  classTicket.tenHangVe === 'Business'
+                              )
+                              .map((classTicket, ticketIndex) => (
+                                <div key={ticketIndex}>
+                                  <h2>Chọn hạng vé {classTicket.tenHangVe}</h2>
+                                  <p>Tiện ích với mỗi hành khách.</p>
+                                  <div className='ticket-options'>
+                                    <div
+                                      className={`ticket economy-smart ${
+                                        selectedTicket?.classTicketId ===
+                                          classTicket.idHangVe &&
+                                        selectedTicket?.flightId
+                                          ?.idChuyenBay === flight.idChuyenBay
+                                          ? 'selected'
+                                          : ''
+                                      }`}
+                                    >
+                                      <div className='top-ticket'>
+                                        <input
+                                          type='radio'
+                                          name={uniqueRadioName(
+                                            flight.idChuyenBay,
+                                            classTicket.tenHangVe
+                                          )}
+                                          checked={
+                                            selectedTicket?.classTicketId ===
+                                            classTicket.idHangVe &&
+                                            selectedTicket?.flightId
+                                              ?.idChuyenBay ===
+                                              flight.idChuyenBay
+                                          }
+                                          onChange={() =>
+                                            handleRadioChange(
+                                              classTicket.idHangVe,
+                                              flight
+                                            )
+                                          }
+                                        />
+                                        <h3>
+                                          <span>
+                                            {formatCurrency(
+                                              leastPrice(
+                                                classTicket.idHangVe,
+                                                flight.idChuyenBay
+                                              )
+                                            )}
+                                            <span> VND</span>
+                                          </span>
+                                        </h3>
+                                        <p>{classTicket.tenHangVe}</p>
+                                      </div>
+                                      <div className='bottom-ticket'>
+                                        <ul>
+                                          <li>Hành lý xách tay:</li>
+                                          <li>Hành lý ký gửi:</li>
+                                          <li>
+                                            Hoàn/huỷ trước giờ khởi hành:
+                                            300.000 VND
+                                          </li>
+                                          <li>
+                                            Hoàn/huỷ sau giờ khởi hành: 300.000
+                                            VND
+                                          </li>
+                                          <li>Thay đổi miễn phí</li>
+                                          <li>
+                                            Hệ số cộng điểm Bamboo Club: 1.0
+                                          </li>
+                                          <li>Chọn ghế miễn phí</li>
+                                          <li>
+                                            Đổi chuyến tại sân bay miễn phí
+                                          </li>
+                                        </ul>
+                                        <p className='details-link'>
+                                          (*) Xem chi tiết
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+
+                            <div className='action-buttons'>
+                              <button
+                                className='next-step'
+                                onClick={handleContinue}
+                              >
+                                Xác nhận và tiếp tục.
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Conditionally render ticket selection */}
+                        {/* {selectedTicketType === 'First' && (
+                          <div className='ticket-selection ticket-red'>
+                            <h2>Chọn hạng vé First</h2>
+                            <p>Tiện ích với mỗi hành khách.</p>
+                            <div className='ticket-options'>
+                              {classTickets
+                                .filter(
+                                  (classTicket) =>
+                                    classTicket.tenHangVe === 'First'
+                                )
+                                .map((classTicket, ticketIndex) => (
+                                  <div key={ticketIndex}>
+                                    <div
+                                      className={`ticket economy-smart ${
+                                        selectedTicket?.classTicketId ===
+                                          classTicket.idHangVe &&
+                                        selectedTicket?.flightId?.idChuyenBay ===
+                                          flight.idChuyenBay
+                                          ? 'selected'
+                                          : ''
+                                      }`}
+                                    >
+                                      <div className='top-ticket'>
+                                        <input
+                                          type='radio'
+                                          name={uniqueRadioName(
+                                            flight.idChuyenBay,
+                                            classTicket.tenHangVe
+                                          )}
+                                          checked={
+                                            selectedTicket?.classTicketId ===
+                                              classTicket.idHangVe &&
+                                            selectedTicket?.flightId
+                                              ?.idChuyenBay === flight.idChuyenBay
+                                          }
+                                          onChange={() =>
+                                            handleRadioChange(
+                                              classTicket.idHangVe,
+                                              flight
+                                            )
+                                          }
+                                        />
+                                        <h3>
+                                          <span>
+                                            {formatCurrency(
+                                              leastPrice(
+                                                classTicket.idHangVe,
+                                                flight.idChuyenBay
+                                              )
+                                            )}
+                                            <span> VND</span>
+                                          </span>
+                                        </h3>
+                                        <p>{classTicket.tenHangVe}</p>
+                                      </div>
+                                      <div className='bottom-ticket'>
+                                        <ul>
+                                          <li>Hành lý xách tay:</li>
+                                          <li>Hành lý ký gửi:</li>
+                                          <li>
+                                            Hoàn/huỷ trước giờ khởi hành: 300.000
+                                            VND
+                                          </li>
+                                          <li>
+                                            Hoàn/huỷ sau giờ khởi hành: 300.000
+                                            VND
+                                          </li>
+                                          <li>Thay đổi miễn phí</li>
+                                          <li>
+                                            Hệ số cộng điểm Bamboo Club: 1.0
+                                          </li>
+                                          <li>Chọn ghế miễn phí</li>
+                                          <li>Đổi chuyến tại sân bay miễn phí</li>
+                                        </ul>
+                                        <p className='details-link'>
+                                          (*) Xem chi tiết
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+  
+                            <div className='action-buttons'>
+                              <button
+                                className='next-step'
+                                onClick={handleContinue}
+                              >
+                                Xác nhận và tiếp tục.
+                              </button>
+                            </div>
+                          </div>
+                        )} */}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-          ) : (
-            <div className='content-nofound'>
-              <img src={nofound} width={235} alt='no-flight-found' />
-              <span>Xin lỗi, không có chuyến bay nào vào những ngày này.</span>
-              <p>
-                Kiểm tra ngày và sân bay khởi hành và điểm đến, hoặc thử các sân
-                bay mới.
-              </p>
-              <Link to='/' className='btn-backHome'>
-                Bắt đầu tìm kiếm mới
-              </Link>
-            </div>
-          )}
+                ))
+            ) : (
+              <div className='content-nofound'>
+                <img src={nofound} width={235} alt='no-flight-found' />
+                <span>
+                  Xin lỗi, không có chuyến bay nào vào những ngày này.
+                </span>
+                <p>
+                  Kiểm tra ngày và sân bay khởi hành và điểm đến, hoặc thử các
+                  sân bay mới.
+                </p>
+                <Link to='/' className='btn-backHome'>
+                  Bắt đầu tìm kiếm mới
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

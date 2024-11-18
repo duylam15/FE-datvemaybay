@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { PermissionEditOrAddButton } from '../../../components/Admin/Sidebar';
 import LayOutThongBao from '../../../layout/LayoutThongBao/layOutThongBao';
 import { addChuyenbay, dataChuyenBay, getChuyenBayById, updateChuyenBay } from '../../../services/chuyenBayServices';
 import { dataCong } from '../../../services/congServices';
@@ -91,8 +92,8 @@ export const AddChuyenBay = () => {
     const fetchData = async () => {
       const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
       console.log("gia ve la: !", resGiaVe)
-      setGiaVeThuong(resGiaVe.data?.giaVeThuong)
-      setGiaVeThuongGia(resGiaVe.data?.giaVeThuongGia)
+      setGiaVeThuong(resGiaVe?.data?.giaVeThuong)
+      setGiaVeThuongGia(resGiaVe?.data?.giaVeThuongGia)
     }
     fetchData();
   }, [idChuyenBay])
@@ -629,8 +630,12 @@ export const AddChuyenBay = () => {
       setErrorCoPho("Vui long chon co pho");
       hasError = true;
     }
-
-    if (giaVeThuong > giaVeThuongGia) {
+    console.log("Num ber thuogn: ", giaVeThuong)
+    console.log("Num ber thuong gia: ", giaVeThuongGia)
+    // Chuyển giá vé từ chuỗi sang số
+    const giaVeThuongNum = Number(giaVeThuong);
+    const giaVeThuongGiaNum = Number(giaVeThuongGia);
+    if (giaVeThuongNum > giaVeThuongGiaNum) {
       setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
       hasError = true;
     }
@@ -1303,120 +1308,128 @@ export const AddChuyenBay = () => {
               </div>
             </div>
           </div>
-          <div className="container-infor container-nhanvienchuyenbay">
-            <h3>Nhân viên</h3>
-            <div className="container-selectnhanvien ">
-              <div className='container-phicong container-infor'>
-                <div className="container__input">
-                  <div className="form-input">
-                    <label htmlFor="">Cơ trưởng :</label>
-                    <select name="" id="" value={indexCoTruong} onChange={handleIndexCoTruong}>
-                      {coTruongs.length != 0 && (<option value="0">Chọn cơ trưởng</option>)}
-                      {coTruongs.length == 0 && (<option value="0">Cơ trưởng không có sẵn</option>)}
-                      {
-                        (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coTruongs?.map((item) => (
-                          <option value={item?.idNhanVien}>{item?.hoTen}</option>
-                        ))
-                      }
-                      {
-                        (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
-                        && nhanviens.map((item) => indexCoTruong == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
-                      }
-                    </select>
+          <div className="container-nhanvien-giave">
+            <div className="container-infor container-nhanvienchuyenbay">
+              <h3>Nhân viên</h3>
+              <div className="container-selectnhanvien ">
+                <div className='container-phicong container-infor'>
+                  <div className="container__input">
+                    <div className="form-input">
+                      <label htmlFor="">Cơ trưởng :</label>
+                      <select name="" id="" value={indexCoTruong} onChange={handleIndexCoTruong}>
+                        {coTruongs.length != 0 && (<option value="0">Chọn cơ trưởng</option>)}
+                        {coTruongs.length == 0 && (<option value="0">Cơ trưởng không có sẵn</option>)}
+                        {
+                          (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coTruongs?.map((item) => (
+                            <option value={item?.idNhanVien}>{item?.hoTen}</option>
+                          ))
+                        }
+                        {
+                          (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                          && nhanviens.map((item) => indexCoTruong == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
+                        }
+                      </select>
+                    </div>
+                    <span>{errorCoTruong}</span>
                   </div>
-                  <span>{errorCoTruong}</span>
-                </div>
-                <div className='container__input'>
-                  <div className='form-input'>
-                    <label htmlFor="">Cơ phó :</label>
-                    <select name="" id="" value={indexCoPho} onChange={handleIndexCoPho}>
-                      {coPhos.length != 0 && (<option value="0">Chọn cơ phó</option>)}
-                      {coPhos.length == 0 && (<option value="0">Cơ phó không có sẵn</option>)}
-                      {
-                        (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coPhos?.map((item) => (
-                          <option value={item?.idNhanVien}>{item?.hoTen}</option>
-                        ))
-                      }
-                      {
-                        (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
-                        && nhanviens.map((item) => indexCoPho == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
-                      }
-                    </select>
+                  <div className='container__input'>
+                    <div className='form-input'>
+                      <label htmlFor="">Cơ phó :</label>
+                      <select name="" id="" value={indexCoPho} onChange={handleIndexCoPho}>
+                        {coPhos.length != 0 && (<option value="0">Chọn cơ phó</option>)}
+                        {coPhos.length == 0 && (<option value="0">Cơ phó không có sẵn</option>)}
+                        {
+                          (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && coPhos?.map((item) => (
+                            <option value={item?.idNhanVien}>{item?.hoTen}</option>
+                          ))
+                        }
+                        {
+                          (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                          && nhanviens.map((item) => indexCoPho == item.idNhanVien && (<option value={item?.idNhanVien}>{item?.hoTen}</option>))
+                        }
+                      </select>
+                    </div>
+                    <span>{errorCoPho}</span>
                   </div>
-                  <span>{errorCoPho}</span>
                 </div>
-              </div>
-              <div className='container-infor container-tiepvien'>
-                <div className="container-listtiepvien">
-                  {
-                    [...Array(danhSachTiepVien?.length)].map((_, index) => (
-                      <div className="select-tiepvien form-input">
-                        <label htmlFor="" key={index + 1}>Tiếp viên {index + 1}</label>
-                        <select name="" id="selectTiepVien" value={danhSachTiepVien?.length > 0 ? danhSachTiepVien[index] : '0'} onChange={(event) => handleIndexTiepVien(index, event.target.value)}>
-                          {(trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length == 0 && (<option value="0">Tiếp viên không có sẵn</option>)}
-                          {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length != 0 && (<option value="0">Chọn tiếp viên</option>)}
-                          {
-                            (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index]) && (
-                              <option value={danhSachTiepVien[index]}>{tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index])?.hoTen}</option>
-                            )
-                          }
-                          {
-                            (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item?.idNhanVien))
-                              .map((item2) => (
-                                <option value={item2?.idNhanVien}>{item2?.hoTen}</option>
+                <div className='container-infor container-tiepvien'>
+                  <div className="container-listtiepvien">
+                    {
+                      [...Array(danhSachTiepVien?.length)].map((_, index) => (
+                        <div className="select-tiepvien form-input">
+                          <label htmlFor="" key={index + 1}>Tiếp viên {index + 1}</label>
+                          <select name="" id="selectTiepVien" value={danhSachTiepVien?.length > 0 ? danhSachTiepVien[index] : '0'} onChange={(event) => handleIndexTiepVien(index, event.target.value)}>
+                            {(trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length == 0 && (<option value="0">Tiếp viên không có sẵn</option>)}
+                            {tiepViens.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item.idNhanVien)).length != 0 && (<option value="0">Chọn tiếp viên</option>)}
+                            {
+                              (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index]) && (
+                                <option value={danhSachTiepVien[index]}>{tiepViens?.find((item) => item.idNhanVien == danhSachTiepVien[index])?.hoTen}</option>
+                              )
+                            }
+                            {
+                              (trangThaiCu != "COMPLETED" && trangThaiCu != "CANCELED") && tiepViens?.filter((item) => !danhSachTiepVien?.find((item1) => item1 == item?.idNhanVien))
+                                .map((item2) => (
+                                  <option value={item2?.idNhanVien}>{item2?.hoTen}</option>
+                                ))
+                            }
+                            {
+                              (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
+                              && nhanviens?.map((item) => item.idNhanVien == danhSachTiepVien[index] && (
+                                <option value={item.idNhanVien}>{item.hoTen}</option>
                               ))
-                          }
-                          {
-                            (trangThaiCu == "COMPLETED" || trangThaiCu == "CANCELED")
-                            && nhanviens?.map((item) => item.idNhanVien == danhSachTiepVien[index] && (
-                              <option value={item.idNhanVien}>{item.hoTen}</option>
-                            ))
-                          }
-                        </select>
-                        <button className='btn' onClick={() => handleSubCountTiepVien(index)} style={{ marginLeft: '10px', height: '30px', display: 'flex', alignItems: 'center' }}>X</button>
-                      </div>
-                    ))
-                  }
-                </div>
-                <div className='custom-button-span'>
-                  <button onClick={handleCountTiepVien} className='btn'>Thêm tiếp viên{`(Tối thiểu ${Math.ceil(soGhe / 50) ? Math.ceil(soGhe / 50) : ""}  nhân viên)`}</button>
-                  <span>{errorNhanVien}</span>
+                            }
+                          </select>
+                          <button className='btn' onClick={() => handleSubCountTiepVien(index)} style={{ marginLeft: '10px', height: '30px', display: 'flex', alignItems: 'center' }}>X</button>
+                        </div>
+                      ))
+                    }
+                  </div>
+                  <div className='custom-button-span'>
+                    <button onClick={handleCountTiepVien} className='btn'>Thêm tiếp viên{`(Tối thiểu ${Math.ceil(soGhe / 50) ? Math.ceil(soGhe / 50) : ""}  nhân viên)`}</button>
+                    <span>{errorNhanVien}</span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className='container_giaVe'>
+            <div className="container-infor">
               <h3>Giá vé</h3>
-              <div className='block_input'>
-                <label htmlFor="thuong">Hạng thường</label>
-                <input
-                  type="text"
-                  id="thuong"
-                  value={giaVeThuong}
-                  onChange={handleGiaVeThuongChange}
-                />
+              <div className='container__input'>
+                <div className='form-input'>
+                  <label htmlFor="thuong">Hạng thường</label>
+                  <input
+                    type="text"
+                    id="thuong"
+                    value={giaVeThuong}
+                    onChange={handleGiaVeThuongChange}
+                  />
+                </div>
                 <span className={`error ${errorThuong ? 'has_error' : ''}`} id="loiGiaVeThuong">
                   {errorThuong ? "Vui lòng chỉ nhập số cho hạng thường." : ""}
                 </span>
               </div>
-              <div className='block_input'>
-                <label htmlFor="thuongGia">Hạng thương gia</label>
-                <input
-                  type="text"
-                  id="thuongGia"
-                  value={giaVeThuongGia}
-                  onChange={handleGiaVeThuongGiaChange}
-                />
+              <div className="container__input">
+                <div className='form-input'>
+                  <label htmlFor="thuongGia">Hạng thương gia</label>
+                  <input
+                    type="text"
+                    id="thuongGia"
+                    value={giaVeThuongGia}
+                    onChange={handleGiaVeThuongGiaChange}
+                  />
+                </div>
                 <span className={`error ${errorThuongGia ? 'has_error' : ''}`} id="loiGiaVeThuongGia">
                   {errorThuongGia ? "Vui lòng chỉ nhập số cho hạng thương gia." : ""}
                 </span>
+                <span>{errorGiaVe}</span>
               </div>
-              <span>{errorGiaVe}</span>
             </div>
           </div>
         </div>
         <div className="container-btn">
-          <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
           <button data-keep-enabled className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+          <PermissionEditOrAddButton feature="Quản lí chuyến bay">
+            <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
+          </PermissionEditOrAddButton>
         </div>
         <div className="container-ghichu">
           {"*{TGBDDT : Thời gian bắt đầu dự tính ; TGBDTT : Thời gian bắt đầu thực tế ; THKTDT : Thời gian kết thúc dự tính , TTCB : Trạng thái chuyến bay , TGCB : Thời gian chuyến bay}"}

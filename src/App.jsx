@@ -38,19 +38,22 @@ function App() {
 
   return (
     <div>
-      {1
-        // isLoading === false
-        //   || window.location.pathname === '/login'
-        //   || window.location.pathname === '/register'
-        //   || window.location.pathname === '/'
-        //   || window.location.pathname === '/forgot_password'
-        //   || window.location.pathname === '/reset_password'
-        ?
-        <RouterProvider router={router} />
-        :
-        <>
-          <Loading />
-        </>
+      {
+        isLoading === false
+          || window.location.pathname === '/login'
+          || window.location.pathname === '/register'
+          || window.location.pathname === '/'
+          || window.location.pathname === '/forgot_password'
+          || window.location.pathname === '/reset_password'
+          || window.location.pathname === '/cmt'
+          || window.location.pathname === '/flightDetails'
+          || window.location.pathname === '/flightResult'
+          ?
+          <RouterProvider router={router} />
+          :
+          <>
+            <Loading />
+          </>
       }
     </div>
   );

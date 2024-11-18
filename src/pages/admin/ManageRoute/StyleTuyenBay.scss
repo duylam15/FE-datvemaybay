@@ -26,27 +26,6 @@ body {
   margin-right: 15px;
 }
 
-.add-btn {
-  padding: 7px 21px;
-  background-color: white;
-  color: #007bff;
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  margin-right: 25px;
-  transition: background-color 0.3s;
-  height: 100%;
-
-  &:hover {
-    color: white;
-  }
-
-  &:active {
-    transform: scale(0.98); /* Hiệu ứng khi nhấn */
-  }
-}
-
 .table-container {
   margin: 20px;
   padding: 10px;

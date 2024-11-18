@@ -3,6 +3,12 @@ import axios from 'axios';
 import './MayBay.css';
 import EditBtn from '../../../components/Admin/ColorButtons/EditBtn';
 import { PermissionButton } from '../../../components/Admin/Sidebar';
+import { FaAlignLeft, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterIcon from '@mui/icons-material/Search';
+import DetailBtn from '../../../components/Admin/ColorButtons/DetailBtn';
 
 const API_URL = 'http://localhost:8080';
 const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlaneByAirport, onBlock, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
@@ -84,7 +90,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearch}>
+                {/* <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearch}>
                 <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
                     <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
                         focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
@@ -93,7 +99,19 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                     </svg>
                 </span>
                     Tìm Kiếm
-                </button>
+                </button> */}
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearch}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
                 <select onChange={(e) => getPlaneByAirline(e.target.value)} className='form-search'>
                     <option value="Lọc theo hãng bay">Lọc theo hãng bay</option>
                     {hangBay.map((hb) => (
@@ -168,7 +186,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                 <div className='pagination-container'>
                     <ul className="pagination pagination-lg">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}> <FaAngleLeft/> </a>
                         </li>
                         {[...Array(totalPages).keys()].map(number => (
                             <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
@@ -178,7 +196,7 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                             </li>
                         ))}
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}><FaAngleRight/></a>
                         </li>
                     </ul>
                 </div>

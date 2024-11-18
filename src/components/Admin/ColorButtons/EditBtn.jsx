@@ -5,7 +5,8 @@ import Stack from '@mui/material/Stack';
 
 export default function EditBtn() {
   return (
-    <Stack direction='row' spacing={2}>
+    <div style={{width: 90}}>
+      <Stack direction='row' spacing={2}>
       <Button
         variant='outlined'
         color='primary' // You can use "primary" or another color
@@ -14,5 +15,6 @@ export default function EditBtn() {
         Edit
       </Button>
     </Stack>
+    </div>
   );
 }

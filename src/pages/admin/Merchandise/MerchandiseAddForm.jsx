@@ -3,6 +3,7 @@ import FormInput from '../../../components/QL/FormInput';
 import { Link, useNavigate } from 'react-router-dom';
 import './StyleAddMerchandise.scss';
 import axios from 'axios';
+import { message } from 'antd';
 
 const AddMerchandise = () => {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ const AddMerchandise = () => {
           },
         }
       );
-      console.log('Merchandise saved successfully:', result);
+      message.success('Thêm hàng hoá thành công');
       navigate('/admin/merchandise');
     } catch (error) {
       console.error(

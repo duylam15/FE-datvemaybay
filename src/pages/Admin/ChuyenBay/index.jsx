@@ -99,7 +99,7 @@ export const ChuyenBay = () => {
 
   return (
     <>
-      <div className="main">
+      <div className="mainOfLam">
         <div className="containerMain">
           <h1>DANH SÁCH CHUYẾN BAY</h1>
           <>

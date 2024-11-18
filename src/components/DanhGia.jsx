@@ -20,7 +20,7 @@ const DanhGia = () => {
             setDanhGiaList(data);
         } catch (error) {
             console.error("Lỗi khi lấy danh sách đánh giá:", error);
-            setDanhGiaList([]);
+            setDanhGiaList([]);  // Ensure an empty array in case of error
         }
     };
 
@@ -31,8 +31,8 @@ const DanhGia = () => {
                 noiDung: newComment,
                 sao: selectedRating,
                 parentComment: replyToId ? { idDanhGia: replyToId } : null,
-                hangBay: { id: 1 },
-                khachHang: { id: 1 },
+                hangBay: null,
+                idKhachHang: 1,
             };
 
             await axios.post('http://localhost:8080/admin/danhgia/addCMT', newDanhGia);
@@ -49,13 +49,13 @@ const DanhGia = () => {
     const renderReplies = (parentId) => {
         const replies = danhGiaList.filter(danhGia => danhGia && danhGia.parentComment && danhGia.parentComment.idDanhGia === parentId);
         if (replies.length === 0) return null;
-
+    
         return replies.map(reply => (
             <div key={reply.idDanhGia} style={{ marginLeft: '20px', borderLeft: '2px solid #ccc', paddingLeft: '10px' }}>
-                <p><strong>abc:</strong> {reply.noiDung}</p>
+                <p><strong>{reply.tenKhachHang}:</strong> {reply.noiDung}</p>
                 <p>{reply.sao} sao</p>
                 {renderReplies(reply.idDanhGia)}
-                <span onClick={() => setReplyToId(reply.idDanhGia)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
+                <span onClick={() => { setReplyToId(reply.idDanhGia); }} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
                     Trả lời
                 </span>
                 {replyToId === reply.idDanhGia && renderReplyInput()}
@@ -88,11 +88,28 @@ const DanhGia = () => {
     return (
         <div>
             <h2>Danh Sách Đánh Giá</h2>
+            {/* Add a form for new comment */}
+            <div style={{ marginBottom: '20px' }}>
+                <textarea
+                    placeholder="Thêm bình luận mới"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                />
+                <select value={selectedRating} onChange={(e) => setSelectedRating(Number(e.target.value))}>
+                    <option value={-1}>Chọn sao</option>
+                    {[0, 1, 2, 3, 4].map(star => (
+                        <option key={star} value={star}>{star+1} sao</option>
+                    ))}
+                </select>
+                <span onClick={handleAddDanhGia} style={{ cursor: 'pointer', color: 'green', marginLeft: '5px' }}>
+                    {loading ? "Loading..." : "Gửi"}
+                </span>
+            </div>
             {danhGiaList
                 .filter(danhGia => danhGia && !danhGia.parentComment?.idDanhGia)
                 .map(danhGia => (
                     <div key={danhGia.idDanhGia}>
-                        <p><strong>abc:</strong> {danhGia.noiDung}</p>
+                        <p><strong>{danhGia.tenKhachHang}:</strong> {danhGia.noiDung}</p>
                         <p>{danhGia.sao} sao</p>
                         {renderReplies(danhGia.idDanhGia)}
                         <span onClick={() => setReplyToId(danhGia.idDanhGia)} style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}>
@@ -106,3 +123,4 @@ const DanhGia = () => {
 };
 
 export default DanhGia;
+

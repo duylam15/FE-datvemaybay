@@ -155,18 +155,22 @@ const QuyenThem = () => {
                                 />
                             </td>
                             <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.create || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
-                                />
+                                {item.tenChucNang !== "Quản lí đánh giá" && item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí vé" && (
+                                    <input
+                                        type="checkbox"
+                                        checked={permissions[item.tenChucNang]?.create || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
+                                    />
+                                )}
                             </td>
                             <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.edit || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
-                                />
+                                {item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí hoá đơn" && (
+                                    <input
+                                        type='checkbox'
+                                        checked={permissions[item.tenChucNang]?.edit || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
+                                    />
+                                )}
                             </td>
                             <td>
                                 <div className="btn_row">

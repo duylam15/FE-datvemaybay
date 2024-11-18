@@ -5,8 +5,6 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 	const [touched, setTouched] = useState({});
 	const [showForm, setShowForm] = useState(false);
 
-	console.log("adultDataadultDataadultData", adultData)
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setAdultData(prevData => {
@@ -26,6 +24,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 	const validateField = (fieldName) => {
 		const newErrors = {};
 		const value = adultData[index - 1][fieldName];
+
 		switch (fieldName) {
 			case 'fullName':
 				if (!value) newErrors.fullName = 'Tên không được để trống.';
@@ -37,17 +36,28 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 				if (!value) newErrors.gender = 'Giới tính không được để trống.';
 				break;
 			case 'cccd':
-				if (!value) newErrors.cccd = 'Căn cước công dân không được để trống.';
-				break;
-			case 'passPort':
-				if (!value) newErrors.passPort = 'Hộ chiếu không được để trống.';
+				if (!value) {
+					newErrors.cccd = 'Căn cước công dân không được để trống.';
+				} else if (!/^\d{9}$|^\d{12}$/.test(value)) {
+					newErrors.cccd = 'Căn cước công dân phải là 9 hoặc 12 số.';
+				}
 				break;
 			case 'birthDate':
-				if (!value) newErrors.birthDate = 'Ngày sinh không được để trống.';
+				if (!value) {
+					newErrors.birthDate = 'Ngày sinh không được để trống.';
+				} else {
+					const birthDate = new Date(value);
+					const today = new Date();
+					const age = today.getFullYear() - birthDate.getFullYear();
+					if (birthDate > today) {
+						newErrors.birthDate = 'Ngày sinh không thể ở tương lai.';
+					}
+				}
 				break;
 			default:
 				break;
 		}
+
 		setErrors(prevErrors => ({ ...prevErrors, ...newErrors }));
 	};
 
@@ -68,7 +78,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 								name="fullName"
 								placeholder="Tên Đệm và Tên"
 								onChange={handleChange}
-								onBlur={adultData.fullName ? "" : handleBlur}
+								onBlur={handleBlur}
 								className={touched.fullName && errors.fullName ? 'error-adult-input' : ''}
 							/>
 							{touched.fullName && errors.fullName && <span className="error-adult-form">{errors.fullName}</span>}
@@ -97,18 +107,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 							/>
 							{touched.cccd && errors.cccd && <span className="error-adult-form">{errors.cccd}</span>}
 						</div>
-						<div className="form-group-adultform">
-							<label className={touched.passPort && errors.passPort ? 'error-adult-label' : ''}>Hộ chiếu*</label>
-							<input
-								type="text"
-								name="passPort"
-								placeholder="Hộ chiếu"
-								onChange={handleChange}
-								onBlur={handleBlur}
-								className={touched.passPort && errors.passPort ? 'error-adult-input' : ''}
-							/>
-							{touched.passPort && errors.passPort && <span className="error-adult-form">{errors.passPort}</span>}
-						</div>
+
 						<div className="form-group-adultform">
 							<label className={touched.gender && errors.gender ? 'error-adult-label' : ''}>Giới tính*</label>
 							<select
@@ -120,7 +119,6 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 								<option value="">Chọn giới tính</option>
 								<option value="male">Nam</option>
 								<option value="female">Nữ</option>
-								<option value="other">Khác</option>
 							</select>
 							{touched.gender && errors.gender && <span className="error-adult-form">{errors.gender}</span>}
 						</div>

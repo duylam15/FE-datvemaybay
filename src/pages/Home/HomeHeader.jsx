@@ -26,12 +26,19 @@ export default function HomeHeader() {
   };
 
   const handleSelectLocation = (value, option) => {
-    setDepartureLocation(`${option.label} `);
+    setDepartureLocation(option.label);
   };
 
   const handleSelectArrivalLocation = (value, option) => {
-    setArrivalLocation(`${option.label}`);
+    setArrivalLocation(option.label);
   };
+
+  const getFilteredLocations = (selectedLocation) => {
+    return locations.filter(
+      (location) => location.label.trim() !== selectedLocation.trim()
+    );
+  };
+
 
   const handleChange = (state, setState) => {
     setState(state);
@@ -151,7 +158,10 @@ export default function HomeHeader() {
       <div className='container'>
         <div className='home-header__inner'>
           <form className='booking-form' onSubmit={handleSubmit} noValidate>
-            <h2>Đặt vé máy bay</h2>
+            <div className='booking-form__header'>
+              <h2 className='booking-form__header--heading'>ĐIỀN THÔNG TIN ĐẶT VÉ MÁY BAY</h2>
+              <img className='booking-form__header--img' src="public/images/Be_mang.png" alt="" class="booking-form__heading--img shake" />
+            </div>
 
             {/* Hiển thị thông báo lỗi ngay dưới "Đặt vé máy bay" */}
             {errorMessage && (
@@ -166,29 +176,6 @@ export default function HomeHeader() {
               </div>
             )}
 
-            <div className='trip-type'>
-              <label>
-                <input
-                  type='radio'
-                  name='tripType'
-                  value='one-way'
-                  onChange={handleTripChange}
-                  checked={!isRoundTrip}
-                />
-                Một chiều
-              </label>
-              <label>
-                <input
-                  type='radio'
-                  name='tripType'
-                  value='round-trip'
-                  onChange={handleTripChange}
-                  checked={isRoundTrip}
-                />
-                Khứ hồi
-              </label>
-            </div>
-
             {/* Hiển thị loading trong quá trình fetch dữ liệu */}
             {loading ? (
               <Spin />
@@ -199,16 +186,12 @@ export default function HomeHeader() {
                     <label>TỪ:</label>
                     <AutoComplete
                       className='input__form'
-                      options={locations}
+                      options={getFilteredLocations(arrivalLocation)} // Loại bỏ điểm đến đã chọn
                       onSelect={handleSelectLocation}
                       filterOption={(inputValue, option) =>
-                        option.label
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                        option.label.toLowerCase().includes(inputValue.toLowerCase())
                       }
-                      onChange={(value) =>
-                        handleChange(value, setDepartureLocation)
-                      }
+                      onChange={(value) => handleChange(value, setDepartureLocation)}
                       value={departureLocation}
                     >
                       <Input />
@@ -227,16 +210,12 @@ export default function HomeHeader() {
                     <label>ĐẾN:</label>
                     <AutoComplete
                       className='input__form'
-                      options={locations}
+                      options={getFilteredLocations(departureLocation)} // Loại bỏ điểm đi đã chọn
                       filterOption={(inputValue, option) =>
-                        option.label
-                          .toLowerCase()
-                          .includes(inputValue.toLowerCase())
+                        option.label.toLowerCase().includes(inputValue.toLowerCase())
                       }
                       onSelect={handleSelectArrivalLocation}
-                      onChange={(value) =>
-                        handleChange(value, setArrivalLocation)
-                      }
+                      onChange={(value) => handleChange(value, setArrivalLocation)}
                       value={arrivalLocation}
                     >
                       <Input />

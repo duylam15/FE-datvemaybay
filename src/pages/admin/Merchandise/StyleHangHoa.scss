@@ -32,30 +32,6 @@ body {
       margin: 0;
     }
   }
-
-  // Cấu trúc cho nút thêm
-  .add-btn {
-    padding: 7px 21px;
-    background-color: white;
-    color: $primary-color;
-    border: 1px solid $primary-color;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: $font-size-base;
-    margin-right: 25px;
-    transition: background-color 0.3s;
-    height: 100%;
-
-    &:hover {
-      color: white;
-      background-color: $primary-color;
-      // transform: scale(1.05); // Có thể mở lại nếu cần hiệu ứng phóng to
-    }
-
-    &:active {
-      transform: scale(0.98); // Hiệu ứng khi nhấn
-    }
-  }
 }
 
 .container-action {

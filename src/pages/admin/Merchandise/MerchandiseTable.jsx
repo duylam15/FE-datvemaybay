@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
+import CustomPagination from '../../../components/QL/Pagination';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
@@ -20,6 +21,31 @@ const MerchandiseTable = () => {
   const [originalMerchans, setOriginalMerchans] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const itemsPerPage = 10; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  const filteredMerchans = merchans.filter((merchan) =>
+    merchan.tenHangHoa.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Get the merchandises for the current page
+  const currentMerchans = filteredMerchans.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  // Total pages based on the filtered merchandises
+  const totalPages = Math.ceil(filteredMerchans.length / itemsPerPage);
+
+  const getNameById = (id) => {
+    const typeItem = typeMerchans.find((a) => a.idLoaiHangHoa === id);
+    return typeItem ? typeItem.tenLoaiHangHoa : 'Not Found';
+  };
+
+  // Load merchandise
   const loadMerchans = useCallback(async () => {
     setLoading(true);
     try {
@@ -35,6 +61,7 @@ const MerchandiseTable = () => {
     }
   }, []);
 
+  // Load merchandise types
   const loadTypeMerchandises = useCallback(async () => {
     try {
       const result = await axios.get(`${BASE_URL}/api/loaiHangHoa/all`);
@@ -46,11 +73,7 @@ const MerchandiseTable = () => {
     }
   }, []);
 
-  const getNameById = (id) => {
-    const typeItem = typeMerchans.find((a) => a.idLoaiHangHoa === id);
-    return typeItem ? typeItem.tenLoaiHangHoa : 'Not Found';
-  };
-
+  // Handle search input change
   const handleSearch = useCallback(
     async (event) => {
       const term = event.target.value;
@@ -70,15 +93,7 @@ const MerchandiseTable = () => {
     [originalMerchans]
   );
 
-  const handleBlock = async (idHangHoa) => {
-    try {
-      const updatedMerchans = await block(idHangHoa); // Assume `block` method blocks the merchandise
-      setMerchans(updatedMerchans);
-    } catch (error) {
-      console.error('Error blocking merchandise:', error);
-    }
-  };
-
+  // Sort function for merchandise
   const sortData = useCallback((data, field, order) => {
     return data.sort((a, b) => {
       const aValue =
@@ -92,6 +107,7 @@ const MerchandiseTable = () => {
     });
   }, []);
 
+  // Handle sorting click
   const handleSortClick = (field) => {
     const newSortOrder =
       sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
@@ -102,6 +118,7 @@ const MerchandiseTable = () => {
     setSortField(field);
   };
 
+  // Columns for the table
   const columns = [
     { header: 'ID', render: (item) => item.idHangHoa, sortField: 'idHangHoa' },
     {
@@ -123,7 +140,6 @@ const MerchandiseTable = () => {
       header: 'Trọng tải (kg)',
       render: (item) => item.taiTrong,
       sortField: 'taiTrong',
-      style: { width: '84px' }, // Đặt độ rộng cho cột này
     },
     {
       header: 'Giá phát sinh (VND)',
@@ -143,6 +159,7 @@ const MerchandiseTable = () => {
           isBlocked={
             item.trangThaiActive === 'IN_ACTIVE' ? 'IN_ACTIVE' : 'ACTIVE'
           }
+          type='Quản lí hàng hoá'
         />
       ),
     },
@@ -152,6 +169,11 @@ const MerchandiseTable = () => {
     loadMerchans();
     loadTypeMerchandises();
   }, []);
+
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
@@ -164,24 +186,29 @@ const MerchandiseTable = () => {
             onChange={handleSearch}
           />
         </div>
-        <PermissionAddButton feature="Quản lí hàng hoá">
+        <PermissionAddButton feature='Quản lí hàng hoá'>
           <Link to='add' className='add-btn'>
             <IconLabelButtons />
           </Link>
         </PermissionAddButton>
-
       </div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Table
-          columns={columns}
-          data={merchans}
-          onSortClick={handleSortClick}
-          currentSortField={sortField}
-          currentSortOrder={sortOrder}
-        />
-      )}
+
+      {/* Table Data */}
+      <Table
+        columns={columns}
+        data={currentMerchans}
+        onSortClick={handleSortClick}
+        currentSortField={sortField}
+        currentSortOrder={sortOrder}
+        type='Quản lí hàng hoá'
+      />
+
+      {/* Pagination Controls */}
+      <CustomPagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
