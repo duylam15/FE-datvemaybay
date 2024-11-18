@@ -180,20 +180,24 @@ const QuyenEdit = () => {
                                 />
                             </td>
                             <td>
-                                <input
-                                    type="checkbox"
-                                    checked={permissions[item.tenChucNang]?.create || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
-                                    disabled={item.tenChucNang == "Quản lí nhóm quyền" && idQuyen == 1 || item.tenChucNang === "Quản lí nhóm quyền" && idQuyen == 2}
-                                />
+                                {item.tenChucNang !== "Quản lí đánh giá" && item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí vé" && (
+                                    <input
+                                        type="checkbox"
+                                        checked={permissions[item.tenChucNang]?.create || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'create')}
+                                        disabled={item.tenChucNang == "Quản lí nhóm quyền" && idQuyen == 1 || item.tenChucNang === "Quản lí nhóm quyền" && idQuyen == 2}
+                                    />
+                                )}
                             </td>
                             <td>
-                                <input
-                                    type='checkbox'
-                                    checked={permissions[item.tenChucNang]?.edit || false}
-                                    onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
-                                    disabled={item.tenChucNang == "Quản lí nhóm quyền" && idQuyen == 1 || item.tenChucNang === "Quản lí nhóm quyền" && idQuyen == 2}
-                                />
+                                {item.tenChucNang !== "Quản lí thống kê" && item.tenChucNang !== "Quản lí hoá đơn" && (
+                                    <input
+                                        type='checkbox'
+                                        checked={permissions[item.tenChucNang]?.edit || false}
+                                        onChange={() => handleCheckboxChange(item.tenChucNang, 'edit')}
+                                        disabled={item.tenChucNang == "Quản lí nhóm quyền" && idQuyen == 1 || item.tenChucNang === "Quản lí nhóm quyền" && idQuyen == 2}
+                                    />
+                                )}
                             </td>
                             <td>
                                 <div className="btn_row">
