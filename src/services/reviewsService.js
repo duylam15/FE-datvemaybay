@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080';
@@ -65,11 +66,38 @@ export const searchByStartTimeAndEndTime = async (start, end) => {
 
 export const blockReview = async (idDanhGia) => {
     try {
-        const response1 = await axios.put(`${API_URL}/admin/danhgia/blockReview/${idDanhGia}`);
-        console.log('Block review:', response1.data);
-        const response2 = await fetch(`${API_URL}/admin/danhgia/getAllReview`);
-        const data = await response2.json();
-        return data.data;
+        const response = await axios.get(`${API_URL}/admin/danhgia/getReview/${idDanhGia}`);
+        const result = response.data.data;
+        console.log('Result: ', result);
+        if (result.trangThaiActive === 'ACTIVE') {
+            const response1 = await axios.put(`${API_URL}/admin/danhgia/blockReview/${idDanhGia}`);
+            console.log('Block review:', response1.data);
+            const reviewStatus = response1.data.data;
+
+            if (reviewStatus) {
+                message.success('Bình luận này sẽ không được hiển thị!');
+            } else {
+                message.error('Không thể cập nhật trạng thái bình luận!');
+            }
+
+            const response2 = await fetch(`${API_URL}/admin/danhgia/getAllReview`);
+            const data = await response2.json();
+            return data.data;
+        } else {
+            const response1 = await axios.put(`${API_URL}/admin/danhgia/blockReview/${idDanhGia}`);
+            console.log('Unblock review:', response1.data);
+            const reviewStatus = response1.data.data;
+
+            if (reviewStatus) {
+                message.success('Bình luận này sẽ được hiển thị!');
+            } else {
+                message.error('Không thể cập nhật trạng thái bình luận!');
+            }
+
+            const response2 = await fetch(`${API_URL}/admin/danhgia/getAllReview`);
+            const data = await response2.json();
+            return data.data;
+        }
     } catch (error) {
         console.error('Error fetching block review:', error);
     }

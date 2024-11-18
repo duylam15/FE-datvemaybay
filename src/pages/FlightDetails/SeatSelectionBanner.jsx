@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import axios from "axios";
+import { useSelector } from 'react-redux';
 
 
 const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contactData, selectedTicket, setAdultData,
@@ -14,11 +15,24 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const [columns, setColumns] = useState([]);
 	const [firstHalf, setFirstHalf] = useState([]);
 	const [secondHalf, setSecondHalf] = useState([]);
+	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
+	const idKhachHangIslog = useSelector(state => state.account.user.khachHang.idKhachHang);
+	console.log("isAuthenticated from seat", isAuthenticated)
+	console.log("idKhachHangIslog from seat", idKhachHangIslog)
 	const showModal = () => {
 		setIsModalVisible(true);
 	};
 
 	const handleOk = () => {
+		if (selectedSeats.length < numberOfTicketsToDetailNumber) {
+			// Nếu chưa chọn đủ ghế, hiển thị thông báo
+			notification.warning({
+				message: 'Chưa chọn đủ ghế',
+				description: `Bạn cần chọn ${numberOfTicketsToDetailNumber} ghế cho ${numberOfTicketsToDetailNumber} khách hàng.`,
+				duration: 3,
+			});
+			return;
+		}
 		const holdData = selectedSeats.map((seat, index) => ({
 			seatId: seat.idChoNgoi,
 			idVe: seat.idVe,
@@ -166,6 +180,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				const paymentUrl = response?.data?.data?.paymentUrl;
 				// Reset form state after successful submission
 				localStorage.setItem("bookingData", JSON.stringify(bookingData, null, 2))
+				localStorage.setItem("isAuthenticated", isAuthenticated)
+				localStorage.setItem("idKhachHangIslog", idKhachHangIslog)
 				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);

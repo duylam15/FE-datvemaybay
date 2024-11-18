@@ -90,16 +90,6 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                {/* <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={handleSearch}>
-                <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                    <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
-                        focusable='false' aria-hidden='true' viewBox='0 0 24 24' 
-                    >
-                        <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
-                    </svg>
-                </span>
-                    Tìm Kiếm
-                </button> */}
                 <Stack direction="row" spacing={2}>
                     <Button
                         variant="outlined"
@@ -170,8 +160,10 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
                                 <td>{mb.namSanXuat}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <td>
+                                    <div className='permission-button-container'>
                                     <PermissionButton feature="Quản lí máy bay" idButton={mb.idMayBay} onEdit={onEdit}>
                                     </PermissionButton>
+                                    </div>
                                 </td>
                             </tr>
                         ))

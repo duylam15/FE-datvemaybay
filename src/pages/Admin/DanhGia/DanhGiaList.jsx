@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterIcon from '@mui/icons-material/Search';
 import DetailBtn from '../../../components/Admin/ColorButtons/DetailBtn';
+import moment from 'moment/moment';
 const API_URL = 'http://localhost:8080';
 const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBay, handleSearchByStartTimeAndEndTime,
     handleBlock, searchTerm, setSearchTerm, startTime, setStartTime, endTime, setEndTime }) => {
@@ -32,6 +33,9 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
     // Hàm chuyển trang
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const formatDateTime = (isoDateTime) => {
+        return moment(isoDateTime).format('YYYY-MM-DD HH:mm:ss');
+    };
 
     const getHangBay = async () => {
         const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
@@ -71,7 +75,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                 return null;
         }
     }
-
+    
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error}</p>;
     return (
@@ -125,17 +129,20 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                             onChange={(e) => setEndTime(e.target.value)}
                         />
                     </div>
-                    <button className='MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-camtgg-MuiButtonBase-root-MuiButton-root' onClick={() => handleSearchByStartTimeAndEndTime(startTime, endTime)} style={{ margin: "20px" }}>
-                        <span className='MuiButton-icon MuiButton-startIcon MuiButton-iconSizeLarge css-170ovb9-MuiButton-startIcon'>
-                            <svg className='MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root'
-                                focusable='false' aria-hidden='true' viewBox='0 0 24 24'
-                            >
-                                <path d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14'></path>
-                            </svg>
-                        </span>
-                        Tìm Kiếm
-                    </button>
+                    
                 </div>
+                <Stack direction="row" spacing={2}>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<SearchIcon />}
+                        size="large"
+                        sx={{ fontSize: '1.25rem' }}  
+                        onClick={handleSearchByStartTimeAndEndTime}
+                    >
+                        Tìm kiếm
+                    </Button>
+                </Stack>
             </div>
             <table className="table">
                 <thead className="thead-dark">
@@ -174,7 +181,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                                 <td>{mb.noiDung}</td>
                                 <td>{mb.hangBay.tenHangBay}</td>
                                 <td>{mb.tenKhachHang}</td>
-                                <td>{mb.thoiGianTao}</td>
+                                <td>{formatDateTime(mb.thoiGianTao)}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <PermissionEditButton feature="Quản lí đánh giá">
                                     <td>

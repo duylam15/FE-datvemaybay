@@ -1,9 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTicketsToDetailNumber }) => {
 	const [errors, setErrors] = useState({});
 	const [touched, setTouched] = useState({});
+	const [existingCCCDs, setExistingCCCDs] = useState([]); // Lưu các CCCD hiện tại từ API
 	const [showForm, setShowForm] = useState(false);
+
+	useEffect(() => {
+		// Fetch danh sách khách hàng và lưu CCCD
+		const fetchCustomers = async () => {
+			try {
+				const response = await axios.get('http://localhost:8080/khachhang/getAllCustomer');
+				if (response.data.statusCode === 200) {
+					const cccds = response.data.data.map(customer => customer.cccd); // Lấy danh sách CCCD
+					setExistingCCCDs(cccds);
+				} else {
+					console.error('Lỗi khi lấy danh sách khách hàng:', response.data.message);
+				}
+			} catch (error) {
+				console.error('Lỗi khi gọi API:', error.message);
+			}
+		};
+		fetchCustomers();
+	}, []); // Chỉ gọi API một lần khi component mount
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -40,6 +60,8 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 					newErrors.cccd = 'Căn cước công dân không được để trống.';
 				} else if (!/^\d{9}$|^\d{12}$/.test(value)) {
 					newErrors.cccd = 'Căn cước công dân phải là 9 hoặc 12 số.';
+				} else if (existingCCCDs.includes(value)) {
+					newErrors.cccd = 'Căn cước công dân đã tồn tại.';
 				}
 				break;
 			case 'birthDate':
@@ -74,6 +96,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 						<div className="form-group-adultform">
 							<label className={touched.fullName && errors.fullName ? 'error-adult-label' : ''}>Nhập Tên Đệm và Tên*</label>
 							<input
+								onInput={handleChange}
 								type="text"
 								name="fullName"
 								placeholder="Tên Đệm và Tên"
@@ -86,6 +109,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 						<div className="form-group-adultform">
 							<label className={touched.lastName && errors.lastName ? 'error-adult-label' : ''}>Họ*</label>
 							<input
+								onInput={handleChange}
 								type="text"
 								name="lastName"
 								placeholder="Họ"
@@ -98,6 +122,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 						<div className="form-group-adultform">
 							<label className={touched.cccd && errors.cccd ? 'error-adult-label' : ''}>Căn cước công dân*</label>
 							<input
+								onInput={handleChange}
 								type="text"
 								name="cccd"
 								placeholder="Căn cước công dân"
@@ -125,6 +150,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 						<div className="form-group-adultform">
 							<label className={touched.birthDate && errors.birthDate ? 'error-adult-label' : ''}>Ngày sinh</label>
 							<input
+								onInput={handleChange}
 								type="date"
 								name="birthDate"
 								onChange={handleChange}

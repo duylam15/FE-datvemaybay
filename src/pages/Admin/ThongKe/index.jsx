@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
-import { Select } from 'antd';
+import { Select, Card } from 'antd';
 
 const { Option } = Select;
 
@@ -11,9 +11,9 @@ export default function ThongKe() {
 	// Dữ liệu mẫu
 	const customerDataSets = {
 		Tháng: [
-			{ time: 'Jan', customers: 120, type: '2023' },
-			{ time: 'Feb', customers: 140, type: '2023' },
-			{ time: 'Mar', customers: 150, type: '2023' },
+			{ time: 'Jan', customers: 120, type: '%' },
+			{ time: 'Feb', customers: 140, type: '%' },
+			{ time: 'Mar', customers: 150, type: '%' },
 		],
 		Quý: [
 			{ time: 'Q1', customers: 400, type: '2023' },
@@ -31,9 +31,9 @@ export default function ThongKe() {
 	];
 
 	const flightHoursData = [
-		{ employee: 'John Doe', hours: 120, type: '2023' },
-		{ employee: 'Jane Smith', hours: 150, type: '2023' },
-		{ employee: 'Alice Brown', hours: 90, type: '2023' },
+		{ employee: 'dưới 16', hours: 120, type: 'số lượng' },
+		{ employee: '16 - 35', hours: 150, type: 'số lượng' },
+		{ employee: 'trên 35', hours: 90, type: 'số lượng' },
 	];
 
 	const flightStatusData = [
@@ -43,24 +43,26 @@ export default function ThongKe() {
 	];
 
 	const flightRouteData = [
-		{ route: 'Hà Nội - TP HCM', frequency: 100, type: 'Tháng 1' },
-		{ route: 'Hà Nội - Đà Nẵng', frequency: 50, type: 'Tháng 1' },
-		{ route: 'TP HCM - Đà Nẵng', frequency: 80, type: 'Tháng 1' },
+		{ route: 'Hà Nội - TP HCM', frequency: 100, type: 'Số lượng' },
+		{ route: 'Hà Nội - Đà Nẵng', frequency: 50, type: 'Số lượng' },
+		{ route: 'TP HCM - Đà Nẵng', frequency: 80, type: 'Số lượng' },
+		{ route: 'TP HCM - Bình Định', frequency: 70, type: 'Số lượng' },
+		{ route: 'TP HCM - Huế', frequency: 60, type: 'Số lượng' },
 	];
 
 	const revenueDataSets = {
 		Tháng: [
-			{ time: 'Tháng 1', revenue: 1000, type: '2023' },
-			{ time: 'Tháng 2', revenue: 1200, type: '2023' },
-			{ time: 'Tháng 3', revenue: 1100, type: '2023' },
+			{ time: 'Tháng 1', revenue: 1000000, type: 'Đồng' },
+			{ time: 'Tháng 2', revenue: 1200000, type: 'Đồng' },
+			{ time: 'Tháng 3', revenue: 1100000, type: 'Đồng' },
 		],
 		Quý: [
-			{ time: 'Q1', revenue: 3500, type: '2023' },
-			{ time: 'Q2', revenue: 4000, type: '2023' },
+			{ time: 'Q1', revenue: 3500000, type: 'Đồng' },
+			{ time: 'Q2', revenue: 4000000, type: 'Đồng' },
 		],
 		Năm: [
-			{ time: '2023', revenue: 15000, type: '2023' },
-			{ time: '2022', revenue: 14000, type: '2022' },
+			{ time: '2023', revenue: 15000000, type: '2023' },
+			{ time: '2022', revenue: 14000000, type: '2022' },
 		],
 	};
 	// Lựa chọn dữ liệu theo thời gian
@@ -141,50 +143,25 @@ export default function ThongKe() {
 
 	return (
 		<div className="thongke">
-			<div className='container'>
-				<div style={{ marginBottom: 20 }}>
-					<Select
-						defaultValue="Tháng"
-						style={{ width: 200 }}
-						onChange={(value) => setTimeFrame(value)}
-					>
-						<Option value="Tháng">Tháng</Option>
-						<Option value="Quý">Quý</Option>
-						<Option value="Năm">Năm</Option>
-					</Select>
-				</div>
+			<div className="stats-container">
+				<Card title="Số chuyến bay" bordered>
+					100
+				</Card>
+				<Card title="Số khách hàng" bordered>
+					1500
+				</Card>
+				<Card title="Số máy bay" bordered>
+					10
+				</Card>
+				<Card title="Số nhân viên" bordered>
+					90
+				</Card>
+			</div>
 
-				<div className="chart-container">
-					<div className="chart-item">
-						<h2>Số khách hàng</h2>
-						<Line {...customerConfig} />
-					</div>
-
-					<div className="chart-item">
-						<h2>Tỷ lệ đánh giá theo số sao</h2>
-						<Pie {...ratingConfig} />
-					</div>
-
-					<div className="chart-item">
-						<h2>Số giờ bay của mỗi nhân viên</h2>
-						<Bar {...flightHoursConfig} />
-					</div>
-
-					<div className="chart-item">
-						<h2>Tỷ lệ chuyến bay đúng giờ, trễ, hoặc bị hủy</h2>
-						<Pie {...flightStatusConfig} />
-					</div>
-
-					<div className="chart-item">
-						<h2>Tỷ lệ sử dụng ghế ngồi</h2>
-						<Gauge {...seatUtilizationConfig} />
-					</div>
-
-					<div className="chart-item">
-						<h2>Tần suất chuyến bay theo tuyến</h2>
-						<Column {...flightRouteFrequencyConfig} />
-					</div>
-
+			{/* Phần biểu đồ */}
+			<div className="chart-container">
+				{/* Cột trái (chiếm 2 cột) */}
+				<div className="chart-left">
 					<div className="chart-item">
 						<h2>Doanh thu theo {revenueView.toLowerCase()}</h2>
 						<Select
@@ -198,8 +175,78 @@ export default function ThongKe() {
 						</Select>
 						<Area {...revenueConfig} />
 					</div>
+					<div className="chart-row">
+						<div className="chart-item">
+							<h2>Tỷ lệ chuyến bay đúng giờ, trễ, hoặc bị hủy Phúc Lâm</h2>
+							<Pie {...flightStatusConfig} />
+						</div>
+						<div className="chart-item">
+							<h2>Số hành khách theo độ tuổi</h2>
+							<Bar {...flightHoursConfig} />
+						</div>
+					</div>
+				</div>
+
+				{/* Cột phải (chiếm 1 cột) */}
+				<div className="chart-right">
+					<div className="chart-item">
+						<h2>Tỉ lệ tăng khách hàng</h2>
+						<Line {...customerConfig} />
+					</div>
+					<div className="chart-item">
+						<h2>Top 5 tuyến bay tần suất cao Hưng Lộc</h2>
+						<Column {...flightRouteFrequencyConfig} />
+					</div>
+				</div>
+				<div className="chart-right">
+					<div className="chart-item">
+						<h2>Top 5 máy bay có giờ bay cao : biểu đồ của tri</h2>
+						<Column {...flightRouteFrequencyConfig} />
+					</div>
 				</div>
 			</div>
+
+			{/* CSS */}
+			<style jsx>{`
+				.stats-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 ô thống kê */
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Cột trái (2 phần), cột phải (1 phần) */
+  gap: 20px;
+}
+
+.chart-left {
+  display: grid;
+  grid-template-rows: auto auto; /* 2 hàng */
+  gap: 20px;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Chia hàng 2 thành 2 cột con */
+  gap: 20px;
+}
+
+.chart-right {
+  display: grid;
+  grid-template-rows: auto auto; /* 2 hàng */
+  gap: 20px;
+}
+
+.chart-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+			`}</style>
 		</div>
 	);
 }

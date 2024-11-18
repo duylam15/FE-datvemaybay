@@ -152,11 +152,12 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                                 <td>{mb.thanhPho.tenThanhPho}</td>
                                 <td>{mb.diaChi}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
-                                <PermissionEditButton feature="Quản lí sân bay">
-                                    <td>
-                                        <div onClick={() => onEdit(mb.idSanBay)}><EditBtn></EditBtn></div>
-                                    </td>
-                                </PermissionEditButton>
+                                <td>
+                                    <div className='permission-button-container'>
+                                    <PermissionButton feature="Quản lí sân bay" idButton={mb.idSanBay} onEdit={onEdit}>
+                                    </PermissionButton>
+                                    </div>
+                                </td>
                             </tr>
                         ))
                     ) : (
