@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterIcon from '@mui/icons-material/Search';
 import DetailBtn from '../../../components/Admin/ColorButtons/DetailBtn';
+import moment from 'moment/moment';
 const API_URL = 'http://localhost:8080';
 const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBay, handleSearchByStartTimeAndEndTime,
     handleBlock, searchTerm, setSearchTerm, startTime, setStartTime, endTime, setEndTime }) => {
@@ -32,6 +33,9 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
     // Hàm chuyển trang
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const formatDateTime = (isoDateTime) => {
+        return moment(isoDateTime).format('YYYY-MM-DD HH:mm:ss');
+    };
 
     const getHangBay = async () => {
         const response = await fetch(`${API_URL}/admin/hangbay/getAllAirline`); // Thay đổi endpoint theo API của bạn
@@ -177,7 +181,7 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                                 <td>{mb.noiDung}</td>
                                 <td>{mb.hangBay.tenHangBay}</td>
                                 <td>{mb.tenKhachHang}</td>
-                                <td>{mb.thoiGianTao}</td>
+                                <td>{formatDateTime(mb.thoiGianTao)}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>
                                 <PermissionEditButton feature="Quản lí đánh giá">
                                     <td>
