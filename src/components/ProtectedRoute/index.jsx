@@ -11,11 +11,7 @@ const RoleBaseRoute = (props) => {
 	const user = useSelector(state => state.account.user);
 	const userRole = user?.quyen?.tenQuyen; // Lấy vai trò của người dùng
 	// Kiểm tra quyền truy cập dựa trên vai trò người dùng và loại đường dẫn
-	if (isAdminRoute && userRole === 'admin'
-	) {
-		// Nếu người dùng có quyền truy cập, hiển thị nội dung của props (children)
-		return (<>{props.children}</>)
-	} else if (isAdminRoute && userRole === 'user'
+	if (isAdminRoute && userRole !== 'user'
 	) {
 		// Nếu người dùng có quyền truy cập, hiển thị nội dung của props (children)
 		return (<>{props.children}</>)
