@@ -68,6 +68,7 @@ import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
 import Thongke from '../pages/Admin/ThongKe/index.jsx';
+import ThongTinCaNhanAdmin from '../pages/Admin/ThongTinCaNhan/ThongTinCaNhanAdmin.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -339,6 +340,10 @@ export const router = createBrowserRouter([
             element: <EditVe></EditVe>,
           }
         ],
+      },
+      {
+        path: 'my_profile',
+        element: <ThongTinCaNhanAdmin></ThongTinCaNhanAdmin>
       },
     ],
   },

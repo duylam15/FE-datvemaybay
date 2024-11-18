@@ -4,44 +4,57 @@ import EmailIcon from "./icon/EmailIcon";
 import SearchIcon from "./icon/SearchIcon";
 
 const UserPageInfoDetail = ({ profile, loading, error }) => {
-  const accountData = profile?.data; // Lấy data từ profile
+  console.log("12345")
   console.log(profile)
-  if (accountData) {
-    console.log("Account Data:", accountData); // Kiểm tra dữ liệu tài khoản
-    // Sử dụng thông tin từ accountData
-  } else {
-    console.log("No account data available");
-  }
+  const accountData = profile?.data; // Lấy data từ profile
+  const isKhachHang = accountData?.khachHang;
+
+  // Hàm tiện ích để lấy dữ liệu theo loại tài khoản
+  const getAccountField = (field) =>
+    isKhachHang ? accountData?.khachHang?.[field] : accountData?.nhanVien?.[field];
+
+  // Xử lý trạng thái loading và error
+  if (loading) return <div>Đang tải thông tin...</div>;
+  if (error) return <div>Có lỗi xảy ra: {error.message}</div>;
+  if (!accountData) return <div>Không có dữ liệu người dùng.</div>;
+
   return (
     <div className="user-info-detail">
-      <span className="user-info-detail__note">Để thay đổi các thông tin không cho phép người dùng tự thay đổi, vui lòng liên hệ tổng đài 19001133 để nhận được hỗ trợ.</span>
+      <span className="user-info-detail__note">
+        Để thay đổi các thông tin không cho phép người dùng tự thay đổi, vui lòng liên hệ tổng đài 19001133 để nhận được hỗ trợ.
+      </span>
       <span className="user-info-detail__title">Thông tin cá nhân</span>
+
+      {/* Thông tin cá nhân */}
       <p className="user-info-detail__row">
         <span className="user-info-detail__label">Tên</span>
-        <span className="user-info-detail__value">{accountData?.khachHang?.hoTen || ""}</span>
+        <span className="user-info-detail__value">{getAccountField("hoTen") || "Chưa cập nhật"}</span>
       </p>
       <p className="user-info-detail__row">
         <span className="user-info-detail__label">Ngày sinh</span>
         <span className="user-info-detail__value">
-          {accountData?.khachHang?.ngaySinh ? accountData.khachHang.ngaySinh.split('T')[0] : ''}
+          {getAccountField("ngaySinh")?.split("T")[0] || "Chưa cập nhật"}
         </span>
       </p>
       <p className="user-info-detail__row row_bottom">
         <span className="user-info-detail__label">Giới tính</span>
-        <span className="user-info-detail__value">{accountData?.khachHang?.gioiTinh == "NAM" ? "MALE" : "FEMALE"}</span>
+        <span className="user-info-detail__value">{getAccountField("gioiTinhEnum") || "Không xác định"}</span>
       </p>
+
       <span className="user-info-detail__title pt-5">Thông tin liên hệ</span>
+
+      {/* Thông tin liên hệ */}
       <div className="user-info-detail__contact-info">
         <div className="contact-info__item contact-info__baned">
           <label htmlFor="email">Email</label>
           <input
             type="email"
             className="contact-info__input email cursor_not_allowed"
-            value={accountData?.khachHang?.email || ""}
+            value={getAccountField("email") || ""}
             readOnly
           />
           <div className="contact-info__item--icon">
-            <EmailIcon></EmailIcon>
+            <EmailIcon />
           </div>
         </div>
 
@@ -50,12 +63,15 @@ const UserPageInfoDetail = ({ profile, loading, error }) => {
           <input
             type="tel"
             className="contact-info__input cursor_not_allowed"
-            value={accountData?.khachHang?.soDienThoai || ""}
+            value={getAccountField("soDienThoai") || ""}
             readOnly
           />
         </div>
       </div>
+
       <span className="user-info-detail__title pt-10">Địa chỉ hòm thư</span>
+
+      {/* Địa chỉ */}
       <div className="user-info-detail__contact-info wrap-flex">
         <div className="contact-info__item">
           <label htmlFor="texttinh">Thành phố/ tỉnh</label>
@@ -87,39 +103,33 @@ const UserPageInfoDetail = ({ profile, loading, error }) => {
           />
         </div>
       </div>
-      <span className="user-info-detail__title pt-10">Khác</span>
-      <div className="user-info-detail__contact-info wrap-flex">
-        <div className="contact-info__item contact-info__baned">
-          <label htmlFor="texthc">Hộ chiếu</label>
-          <input
-            type="text"
-            id="texthc"
-            className="contact-info__input cursor_not_allowed"
-            placeholder="Hộ chiếu"
-            readOnly
-          />
-        </div>
 
+      <span className="user-info-detail__title pt-10">Khác</span>
+
+      {/* Các trường thông tin khác */}
+      <div className="user-info-detail__contact-info wrap-flex">
         <div className="contact-info__item contact-info__baned">
           <label htmlFor="textcccd">CCCD</label>
           <input
-            type="textcccd"
+            type="text"
             id="textcccd"
             className="contact-info__input cursor_not_allowed"
             placeholder="CCCD"
-            value={accountData?.khachHang?.cccd || ""}
+            value={getAccountField("cccd") || ""}
             readOnly
           />
         </div>
       </div>
-      <div className="user-info-detail__action-row">
+
+      {/* Hành động */}
+      {/* <div className="user-info-detail__action-row">
         <button className="user-info-detail__button user-info-detail__button--cancel">
           Loại bỏ thay đổi
         </button>
         <button className="user-info-detail__button user-info-detail__button--confirm">
           Lưu thay đổi
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
