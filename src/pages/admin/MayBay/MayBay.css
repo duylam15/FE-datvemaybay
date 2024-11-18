@@ -115,3 +115,14 @@ label {
     background-color: #007bff; /* Màu nền khi hover */
     color: white; /* Màu chữ khi hover */
 }
+.table tbody td {
+    text-align: center; /* Căn giữa nội dung trong ô */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+}
+
+.permission-button-container {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100%; /* Đảm bảo nút chiếm toàn bộ chiều cao ô */
+}
