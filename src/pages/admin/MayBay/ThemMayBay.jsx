@@ -128,14 +128,16 @@ const AddMayBayForm = () => {
             <h2>Thêm thông tin máy bay</h2>
             <div className="form-group">
                 <label>Tên Máy Bay</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.tenMayBay ? 'is-invalid' : ''}`} 
-                    value={tenMayBay}
-                    onChange={(e) => setTenMayBay(e.target.value)}
-                    required
-                />
-                {fieldErrors.tenMayBay && <div className="invalid-feedback">{fieldErrors.tenMayBay}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.tenMayBay ? 'is-invalid' : ''}`} 
+                        value={tenMayBay}
+                        onChange={(e) => setTenMayBay(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.tenMayBay && <div className="invalid-feedback">{fieldErrors.tenMayBay}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Hãng Bay</label>
@@ -162,7 +164,7 @@ const AddMayBayForm = () => {
                     onChange={handleSelectSanBay}
                     required
                 >
-                    <option value="">Chọn Hãng Bay</option>
+                    <option value="">Chọn Sân Bay</option>
                     {listSanBay.map((hb) => (
                         <option value={hb.idSanBay} key={hb.idSanBay}>
                             {hb.tenSanBay}
@@ -173,80 +175,94 @@ const AddMayBayForm = () => {
             </div>
             <div className="form-group">
                 <label>ICAO Máy Bay</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.icaoMayBay ? 'is-invalid' : ''}`} 
-                    value={icaoMayBay}
-                    onChange={(e) => setIcaoMaybay(e.target.value)}
-                    required
-                />
-                {fieldErrors.icaoMayBay && <div className="invalid-feedback">{fieldErrors.icaoMayBay}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.icaoMayBay ? 'is-invalid' : ''}`} 
+                        value={icaoMayBay}
+                        onChange={(e) => setIcaoMaybay(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.icaoMayBay && <div className="invalid-feedback">{fieldErrors.icaoMayBay}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Số Hàng Ghế Thường</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.soHangGheThuong ? 'is-invalid' : ''}`} 
-                    value={soHangGheThuong}
-                    onChange={(e) => setSoHangGheThuong(e.target.value)}
-                    required
-                />
-                {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.soHangGheThuong ? 'is-invalid' : ''}`} 
+                        value={soHangGheThuong}
+                        onChange={(e) => setSoHangGheThuong(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.soHangGheThuong && <div className="invalid-feedback">{fieldErrors.soHangGheThuong}</div>}
+                </div>
             </div>
             <div className='form-group'>
                 <label>Số Cột Ghế Thường</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.soCotGheThuong ? 'is-invalid' : ''}`} 
-                    value={soCotGheThuong}
-                    onChange={(e) => setSoCotGheThuong(e.target.value)}
-                    required
-                />
-                {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.soCotGheThuong ? 'is-invalid' : ''}`} 
+                        value={soCotGheThuong}
+                        onChange={(e) => setSoCotGheThuong(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.soCotGheThuong && <div className="invalid-feedback">{fieldErrors.soCotGheThuong}</div>}
+                </div>
             </div>
             <div className='form-group'>
                 <label>Số Hàng Ghế VIP</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.soHangGheVip ? 'is-invalid' : ''}`} 
-                    value={soHangGheVip}
-                    onChange={(e) => setSoHangGheVip(e.target.value)}
-                    required
-                />
-                {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.soHangGheVip ? 'is-invalid' : ''}`} 
+                        value={soHangGheVip}
+                        onChange={(e) => setSoHangGheVip(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.soHangGheVip && <div className="invalid-feedback">{fieldErrors.soHangGheVip}</div>}
+                </div>
             </div>
             <div className='form-group'>
-                <label>Số Cột Ghế VIP</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.soCotGheVip ? 'is-invalid' : ''}`} 
-                    value={soCotGheVip}
-                    onChange={(e) => setSoCotGheVip(e.target.value)}
-                    required
-                />
-                {fieldErrors.soCotGheVip && <div className="invalid-feedback">{fieldErrors.soCotGheVip}</div>}
+                <label>Số Cột Ghế Vip</label>
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.soCotGheVip ? 'is-invalid' : ''}`} 
+                        value={soCotGheVip}
+                        onChange={(e) => setSoCotGheVip(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.soCotGheVip && <div className="invalid-feedback">{fieldErrors.soCotGheVip}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Số Hiệu</label>
-                <input
-                    type="text"
-                    className={`form-control ${fieldErrors.soHieu ? 'is-invalid' : ''}`} 
-                    value={soHieu}
-                    onChange={(e) => setSoHieu(e.target.value)}
-                    required
-                />
-                {fieldErrors.soHieu && <div className="invalid-feedback">{fieldErrors.soHieu}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="text"
+                        className={`form-control ${fieldErrors.soHieu ? 'is-invalid' : ''}`} 
+                        value={soHieu}
+                        onChange={(e) => setSoHieu(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.soHieu && <div className="invalid-feedback">{fieldErrors.soHieu}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Năm Sản Xuất</label>
-                <input
-                    type="number"
-                    className={`form-control ${fieldErrors.namSanXuat ? 'is-invalid' : ''}`} 
-                    value={namSanXuat}
-                    onChange={(e) => setNamSanXuat(e.target.value)}
-                    required
-                />
-                {fieldErrors.namSanXuat && <div className="invalid-feedback">{fieldErrors.namSanXuat}</div>}
+                <div className='form-insert'>
+                    <input
+                        type="number"
+                        className={`form-control ${fieldErrors.namSanXuat ? 'is-invalid' : ''}`} 
+                        value={namSanXuat}
+                        onChange={(e) => setNamSanXuat(e.target.value)}
+                        required
+                    />
+                    {fieldErrors.namSanXuat && <div className="invalid-feedback">{fieldErrors.namSanXuat}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Trạng Thái</label>

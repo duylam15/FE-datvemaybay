@@ -86,6 +86,7 @@ const AddSanBayForm = () => {
             <h2>Thêm thông tin sân bay</h2>
             <div className="form-group">
                 <label>Tên Sân Bay</label>
+                <div className='form-insert'>
                 <input
                     type="text"
                     className={`form-control ${fieldErrors.tenSanBay ? 'is-invalid' : ''}`} 
@@ -94,9 +95,11 @@ const AddSanBayForm = () => {
                     required
                 />
                 {fieldErrors.tenSanBay && <div className="invalid-feedback">{fieldErrors.tenSanBay}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>IATA Sân Bay</label>
+                <div className='form-insert'>
                 <input
                     type="text"
                     className={`form-control ${fieldErrors.iataSanBay ? 'is-invalid' : ''}`} 
@@ -105,9 +108,11 @@ const AddSanBayForm = () => {
                     required
                 />
                 {fieldErrors.iataSanBay && <div className="invalid-feedback">{fieldErrors.iataSanBay}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>ICAO Sân Bay</label>
+                <div className='form-insert'>
                 <input
                     type="text"
                     className={`form-control ${fieldErrors.icaoSanBay ? 'is-invalid' : ''}`} 
@@ -116,9 +121,11 @@ const AddSanBayForm = () => {
                     required
                 />
                 {fieldErrors.icaoSanBay && <div className="invalid-feedback">{fieldErrors.icaoSanBay}</div>}
+                </div>
             </div>
             <div className="form-group">
                 <label>Địa chỉ</label>
+                <div className='form-insert'>
                 <input
                     type="text"
                     className={`form-control ${fieldErrors.diaChi ? 'is-invalid' : ''}`} 
@@ -127,6 +134,7 @@ const AddSanBayForm = () => {
                     required
                 />
                 {fieldErrors.diaChi && <div className="invalid-feedback">{fieldErrors.diaChi}</div>}
+                </div>
             </div>
             <div className='form-group'>
                 <label>Thành Phố</label>
