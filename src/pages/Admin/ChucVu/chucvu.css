@@ -1,3 +1,8 @@
+
+.container__all{
+  display: flex;
+  justify-content: center;
+}
 .container__chucvu .container__input_custom{
   height: 100px !important;
 }

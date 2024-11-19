@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
 import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 import { dataChucVu, filterChucVuService } from "../../../services/chucVuServices";
 import DanhSachChucVu from "./DanhSachChucVu";
 import "./chucvu.css";
+
 const ChucVu = () => {
 
     const [searchInfor, setSearchInfor] = useState("");
@@ -22,8 +24,7 @@ const ChucVu = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await dataChucVu()
-            console.log(response.data.data);
-            setData(response.data.data);
+            setData(response.data);
             setone(!one);
         }
         fetchData();
@@ -41,8 +42,7 @@ const ChucVu = () => {
         console.log(searchInfor);
         const fetchData = async () => {
             const response = await filterChucVuService(searchInfor, searchTrangthai)
-            console.log(response.data.data);
-            setData(response.data.data);
+            setData(response.data);
         }
         fetchData();
     }, [searchInfor, searchTrangthai])
@@ -68,7 +68,7 @@ const ChucVu = () => {
                             </div>
                         </div>
                         <PermissionAddButton feature="Quản lí chức vụ">
-                            <li className='btn btnThem' onClick={addChucVu}>Thêm</li>
+                            <div className='' onClick={addChucVu}><IconLabelButtons></IconLabelButtons></div>
                         </PermissionAddButton>
                     </div>
                     {<DanhSachChucVu data={data ? data : []} setData={setData} page={page} />}

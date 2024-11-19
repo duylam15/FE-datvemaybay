@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "../utils/axios-8080"
 
 console.log("dang o nhan vien service");
 const REST_API_BASE_URL = 'http://localhost:8080/admin/nhanvien'
@@ -13,11 +13,7 @@ export const addNhanVien = (nhanvien) => axios.post(REST_API_BASE_URL + "/addnha
   }
 });
 
-export const editNhanVien = (idNhanVien, nhanvien) => axios.put(`${REST_API_BASE_URL}/updatenhanvien/${idNhanVien}`, nhanvien, {
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+export const editNhanVien = (idNhanVien, nhanvien) => axios.put(`${REST_API_BASE_URL}/updatenhanvien/${idNhanVien}`, nhanvien);
 
 export const getNhanVienById = (idNhanVien) => axios.get(`${REST_API_BASE_URL}/getnhanvienbyid?id=${idNhanVien}`, idNhanVien);
 

@@ -146,7 +146,6 @@ const TableComponent = (props) => {
                 </td>
               ))}
 
-
               {props.type == "Quản lí chức vụ" && (<PermissionEditButton feature="Quản lí chức vụ">
                 <td>
                   <div onClick={() => edit(item[props.dataKeys[0]])}>
@@ -155,12 +154,7 @@ const TableComponent = (props) => {
                 </td>
               </PermissionEditButton>)}
 
-
-
               {props.type == "Quản lí chuyến bay" && (<td><div><PermissionButton feature="Quản lí chuyến bay" idButton={item[props.dataKeys[0]]} onEdit={edit}></PermissionButton></div></td>)}
-
-
-
 
               {props.type == "Quản lí nhân viên" && (<PermissionEditButton feature="Quản lí nhân viên">
                 <td>

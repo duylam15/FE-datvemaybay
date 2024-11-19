@@ -1426,7 +1426,7 @@ export const AddChuyenBay = () => {
           </div>
         </div>
         <div className="container-btn">
-          <button data-keep-enabled className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+          <button data-keep-enabled className="btnHuy" onClick={cancle}>Quay lại</button>
           <PermissionEditOrAddButton feature="Quản lí chuyến bay">
             <button className="btn" onClick={idChuyenBay != -1 ? suaChuyenBay : createChuyenBay}>{idChuyenBay != -1 ? "Sửa chuyến bay" : "Thêm chuyến bay"}</button>
           </PermissionEditOrAddButton>
