@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "../utils/axios-80802"
 
 console.log("dang o nhan vien service");
 const REST_API_BASE_URL = 'http://localhost:8080/admin/nhanvien'
