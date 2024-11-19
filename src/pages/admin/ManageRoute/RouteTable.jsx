@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Table from '../../../components/QL/Table';
 import Actions from '../../../components/QL/Actions';
 import CustomPagination from '../../../components/QL/Pagination';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802';
 import { Link } from 'react-router-dom';
 import './StyleTuyenBay.scss';
 import { block } from '../../../services/tuyenBayService';

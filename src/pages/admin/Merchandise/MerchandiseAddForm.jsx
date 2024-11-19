@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FormInput from '../../../components/QL/FormInput';
 import { Link, useNavigate } from 'react-router-dom';
 import './StyleAddMerchandise.scss';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802';
 import { message } from 'antd';
 
 const AddMerchandise = () => {
