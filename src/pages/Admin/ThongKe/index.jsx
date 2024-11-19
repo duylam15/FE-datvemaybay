@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
 import { Select, Card, Spin, Table } from 'antd';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802';
 import "./Thongke.scss"
 
 import { fetchRevenueByTimeFrame } from '../../../services/hoaDonService';

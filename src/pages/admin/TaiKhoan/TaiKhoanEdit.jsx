@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802';
 
 const API_URL = 'http://localhost:8080';
 
@@ -130,17 +130,6 @@ const TaiKhoanEdit = () => {
                         id="tenDangNhap"
                     />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Mật khẩu</label>
-                    <input 
-                        name='matKhau'
-                        type="password" 
-                        className={`form-control form-control-lg`} 
-                        value={taiKhoan.matKhau}
-                        onChange={handleChange}
-                        id="matKhau"
-                    />
-                </div>
 
                 {taiKhoan.khachHang ? (
                     <div className="mb-3">
@@ -177,7 +166,6 @@ const TaiKhoanEdit = () => {
                                 <option value={nv.idNhanVien} key={nv.idNhanVien}>
                                     {nv.idNhanVien} - {nv.hoTen}
                                 </option>
-                            ))}
                         </select>
                     </div>
                     <div className="mb-3">
