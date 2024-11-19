@@ -4,7 +4,7 @@ import SearchBtn from "../../components/Admin/ColorButtons/SearchBtn";
 import { PermissionButton } from '../Admin/Sidebar';
 
 const KhachHangList = ({
-    khachHang,
+    khachHang = [],
     onEdit,
     searchTerm,
     setSearchTerm,
@@ -19,8 +19,9 @@ const KhachHangList = ({
     // Tính toán chỉ số bắt đầu và kết thúc của các khách hàng hiển thị trên trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentKhachHang = khachHang.slice(indexOfFirstItem, indexOfLastItem);
-
+    const currentKhachHang = Array.isArray(khachHang) 
+        ? khachHang.slice(indexOfFirstItem, indexOfLastItem)
+        : [];
     // Số lượng trang
     const totalPages = Math.ceil(khachHang.length / itemsPerPage);
 

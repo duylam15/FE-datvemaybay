@@ -105,9 +105,22 @@ const AddRoute = () => {
       message.success('Cập nhật tuyến bay thành công');
       navigate('/admin/route');
     } catch (error) {
-      console.error('Error updating route:', error);
+      if (error.response && error.response.status === 500) {
+        if (
+          error.response.data.message ===
+          'Error updating route: Query did not return a unique result: 2 results were returned'
+        ) {
+          message.error('Tuyến bay đã tồn tại');
+        } else {
+          message.error(error.response.data.message);
+        } // Hiển thị thông báo từ backend
+      } else {
+        console.error('Lỗi khi gửi dữ liệu đến API:', error);
+        message.error('Đã xảy ra lỗi khi sửa tuyến bay.');
+      }
     }
   };
+
   return (
     <div className='addform-manageroute'>
       <div className='container'>

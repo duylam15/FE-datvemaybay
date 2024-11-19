@@ -30,8 +30,12 @@ const AddKhachHangForm = () => {
 
         try {
             const response = await axios.post(`${API_URL}/khachhang/addCustomer`, khachHang);
-            console.log('Customer added successfully!', response.data);
-            navigate('/admin/customers'); // Điều hướng về trang danh sách khách hàng
+            // console.log('Customer added successfully!', response.data);
+            if (response.statusCode == 400) {
+                const errors = response.data; // Lấy danh sách lỗi từ phản hồi
+                setFieldErrors(errors);
+            } else
+                navigate('/admin/customers');
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -45,6 +49,13 @@ const AddKhachHangForm = () => {
     };
 
     return (
+        <>
+            <h1 style={{
+                fontWeight: 'bold',       // In đậm
+                textAlign: 'center',      // Nằm giữa trang
+                fontSize: '24px',         // Cỡ chữ lớn
+                margin: '20px 0'          // Khoảng cách trên dưới
+            }}>Danh sách Khách hàng</h1>
         <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <label>Họ Tên</label>
@@ -142,6 +153,7 @@ const AddKhachHangForm = () => {
             {error && <div className="alert alert-danger">{error}</div>} 
             <button type="submit" className="btn btn-primary">Thêm Khách Hàng</button>
         </form>
+        </>
     );
 };
 
