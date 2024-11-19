@@ -3,7 +3,7 @@ import { useFetchKhachHang } from '../../../utils/useFetchKhachHang.jsx';
 import KhachHangList from '../../../components/KhachHangList/KhachHangList.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleSort, searchCustomers, editCustomer, blockCustomer } from '../../../services/customersServices.js';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802.jsx';
 import IconLabelButtons from "../../../components/Admin/ColorButtons";
 import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 const KhachHangPage = () => {
@@ -39,24 +39,32 @@ const KhachHangPage = () => {
     if (error) return <p>Error: {error}</p>;
 
     return (
-        <div className="khach-hang-page">
-            <PermissionAddButton feature="Quản lí khách hàng">
-                <div onClick={() => navigate('/admin/customer/add')}>
-                    <IconLabelButtons></IconLabelButtons>
-                </div>
-            </PermissionAddButton>
-            <KhachHangList
-                khachHang={khachHang}
-                onEdit={handleEdit}
-                onBlock={handleBlock}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                handleSearch={handleSearch}
-                handleSort={handleSortClick}
-                sortOrder={sortOrder}
-                sortField={sortField}
-            />
-        </div>
+        <>
+            <h1 style={{
+                fontWeight: 'bold',       // In đậm
+                textAlign: 'center',      // Nằm giữa trang
+                fontSize: '24px',         // Cỡ chữ lớn
+                margin: '20px 0'          // Khoảng cách trên dưới
+            }}>Danh sách Khách hàng</h1>
+            <div className="khach-hang-page">
+                <PermissionAddButton feature="Quản lí khách hàng">
+                    <div onClick={() => navigate('/admin/customer/add')}>
+                        <IconLabelButtons></IconLabelButtons>
+                    </div>
+                </PermissionAddButton>
+                <KhachHangList
+                    khachHang={khachHang}
+                    onEdit={handleEdit}
+                    onBlock={handleBlock}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    handleSearch={handleSearch}
+                    handleSort={handleSortClick}
+                    sortOrder={sortOrder}
+                    sortField={sortField}
+                />
+            </div>
+        </>
     );
 };
 
