@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 
 export const getChiTietHoaDon = async (idHoaDon) => {
-    const response = await fetch(`${API_URL}/getListChiTietHoaDon/${idHoaDon}`); // Thay đổi endpoint theo API của bạn
+    const response = await axios.get(`${API_URL}/getListChiTietHoaDon/${idHoaDon}`); // Thay đổi endpoint theo API của bạn
     
     if (!response.ok) {
         throw new Error('Failed to fetch bills');

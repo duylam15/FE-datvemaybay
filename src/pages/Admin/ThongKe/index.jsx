@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
 import { Select, Card, Spin, Table } from 'antd';
 import axios from 'axios';
+import "./Thongke.scss"
+
+import { fetchRevenueByTimeFrame } from '../../../services/hoaDonService';
+
 const { Option } = Select;
+
 
 export default function ThongKe() {
   const [timeFrame, setTimeFrame] = useState('monthly');
   const [revenueView, setRevenueView] = useState('Tháng'); // Trạng thái hiển thị doanh thu
 
+<<<<<<< HEAD
   // Dữ liệu mẫu
   const customerDataSets = {
     Tháng: [
@@ -21,6 +27,22 @@ export default function ThongKe() {
     ],
     Năm: [{ time: '2023', customers: 1000, type: '2023' }],
   };
+=======
+
+	// Dữ liệu mẫu
+	const customerDataSets = {
+		Tháng: [
+			{ time: 'Jan', customers: 120, type: '%' },
+			{ time: 'Feb', customers: 140, type: '%' },
+			{ time: 'Mar', customers: 150, type: '%' },
+		],
+		Quý: [
+			{ time: 'Q1', customers: 400, type: '2023' },
+			{ time: 'Q2', customers: 450, type: '2023' },
+		],
+		Năm: [{ time: '2023', customers: 1000, type: '2023' }],
+	};
+>>>>>>> 2f375e7eda2a0fc5192cfe70537e701fda359de2
 
   const ratingData = [
     { category: '5 sao', value: 45 },
@@ -50,6 +72,7 @@ export default function ThongKe() {
     { route: 'TP HCM - Huế', frequency: 60, type: 'Số lượng' },
   ];
 
+<<<<<<< HEAD
   const revenueDataSets = {
     Tháng: [
       { time: 'Tháng 1', revenue: 1000000, type: 'Đồng' },
@@ -68,6 +91,26 @@ export default function ThongKe() {
   // Lựa chọn dữ liệu theo thời gian
   const customerData = customerDataSets[timeFrame] || [];
   const revenueData = revenueDataSets[revenueView];
+=======
+	const revenueDataSets = {
+		Tháng: [
+			{ time: 'Tháng 1', revenue: 1000000, type: 'Đồng' },
+			{ time: 'Tháng 2', revenue: 1200000, type: 'Đồng' },
+			{ time: 'Tháng 3', revenue: 1100000, type: 'Đồng' },
+		],
+		Quý: [
+			{ time: 'Q1', revenue: 3500000, type: 'Đồng' },
+			{ time: 'Q2', revenue: 4000000, type: 'Đồng' },
+		],
+		Năm: [
+			{ time: '2023', revenue: 15000000, type: '2023' },
+			{ time: '2022', revenue: 14000000, type: '2022' },
+		],
+	};
+	// Lựa chọn dữ liệu theo thời gian
+	const customerData = customerDataSets[timeFrame] || [];
+	// const revenueData = revenueDataSets[revenueView];
+>>>>>>> 2f375e7eda2a0fc5192cfe70537e701fda359de2
 
   // Cấu hình biểu đồ
   const commonConfig = {
@@ -131,6 +174,7 @@ export default function ThongKe() {
     legend: { position: 'top-left' },
   };
 
+<<<<<<< HEAD
   const revenueConfig = {
     ...commonConfig,
     data: revenueData,
@@ -140,6 +184,9 @@ export default function ThongKe() {
     areaStyle: { fillOpacity: 0.2 },
     smooth: true,
   };
+=======
+	
+>>>>>>> 2f375e7eda2a0fc5192cfe70537e701fda359de2
 
   // --------------------------------------------------------------------------------------------------
   const [viewType, setViewType] = useState('Chart'); // Chart, Table
@@ -255,6 +302,7 @@ export default function ThongKe() {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Cột phải (chiếm 1 cột) */}
         <div className='chart-right'>
           <div className='chart-item'>
@@ -316,6 +364,242 @@ export default function ThongKe() {
               )}
             </div>
           </div>
+=======
+	// Cấu hình biểu đồ
+	const growthRateConfig = {
+		data: growthData,
+		xField: 'time',
+		yField: 'growthRate',
+		smooth: true,
+		point: { size: 5, shape: 'diamond' },
+		tooltip: {
+			showMarkers: false,
+		},
+		areaStyle: { fillOpacity: 0.2 },
+	};
+	// Cấu hình bảng
+	const columns = [
+		{ title: 'Thời gian', dataIndex: 'time', key: 'time' },
+		{ title: 'Tỉ lệ tăng (%)', dataIndex: 'growthRate', key: 'growthRate' },
+	];
+
+	// ------------------------------------------------------------------------------------------------
+	const [viewMode, setViewMode] = useState('Chart');
+	const [revenueData, setRevenueData] = useState([]);
+
+	// Khai báo các biến `month` và `year` (có thể lấy từ state hoặc input)
+    const [year, setYear] = useState(new Date().getFullYear()); // Năm hiện tại
+	console.log(year);
+	const [yearList, setYearList] = useState([]);
+
+	useEffect(() => {
+		const fetchYear = async () => {
+			setLoading(true);
+			try {
+				const response = await axios.get('http://localhost:8080/thongke/namhoadon');
+				console.log(response.data);
+				setYearList(response.data.data);
+			} catch (error) {
+				console.error('Error fetching year list:', error);
+			}
+		}
+		fetchYear();
+	}, [])
+
+	console.log(yearList);
+	
+
+	const fetchRevenueData = async (timeFrame) => {
+		console.log(timeFrame);
+		setLoading(true);
+	
+		const endpoint = {
+			Tháng: `/thongke/theothang?year=${year}`,
+			Quý: `/thongke/theoquy?year=${year}`,
+			Năm: `/thongke/theonam`,
+		};
+	
+		try {
+			const response = await axios.get(`http://localhost:8080${endpoint[timeFrame]}`);
+			console.log(response.data);
+	
+			if (timeFrame === 'Tháng') {
+				// Giả sử response.data.data là mảng doanh thu của 12 tháng
+				const formattedData = response.data.data.map((revenue, index) => ({
+					time: `Tháng ${index + 1}`,  // Tên tháng
+					revenue: revenue,                      // Doanh thu của tháng
+					type: 'Đồng',                          // Giá trị mặc định
+				}));
+	
+				// Cập nhật state với dữ liệu doanh thu của 12 tháng
+				setRevenueData(formattedData);
+	
+			} else if (timeFrame === 'Quý') {
+				// Giả sử doanh thu của quý được trả về dạng mảng với 4 phần tử
+				const formattedData = [1, 2, 3, 4].map((qtr, index) => ({
+					time: `Quý ${qtr} / ${year}`,    // Tên quý
+					revenue: response.data.data[index],  // Doanh thu của quý đó
+					type: 'Đồng',                     // Giá trị mặc định
+				}));
+				setRevenueData(formattedData);
+	
+			} else if (timeFrame === 'Năm') {
+				// Giả sử doanh thu của từng năm được trả về trong một đối tượng hoặc mảng
+				const formattedData = Object.keys(response.data.data).map((year) => ({
+					time: `Năm ${year}`,  // Tên năm
+					revenue: response.data.data[year],  // Doanh thu của năm đó
+					type: 'Đồng',          // Giá trị mặc định
+				}));
+				setRevenueData(formattedData);
+			}
+	
+		} catch (error) {
+			console.error('Error fetching revenue data:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	
+	
+	
+	// Gọi hàm fetchRevenueData khi `revenueView` thay đổi
+	useEffect(() => {
+		fetchRevenueData(revenueView); // Gọi API khi thay đổi giá trị
+	  }, [year, revenueView]);
+	
+	// Cấu hình biểu đồ doanh thu
+	const revenueConfig = {
+		...commonConfig,
+		data: revenueData,
+		xField: 'time',
+		yField: 'revenue',
+		seriesField: 'type',
+		areaStyle: { fillOpacity: 0.2 },
+		smooth: true,
+	};
+
+	const revenueColumns = [
+		{
+		  title: 'Thời gian',
+		  dataIndex: 'time',
+		  key: 'time',
+		},
+		{
+		  title: 'Doanh thu(VND)',
+		  dataIndex: 'revenue',
+		  key: 'revenue',
+		},
+	  ];
+	  
+
+	// ------------------------------------------------------------------------------------------------
+	return (
+		<div className="thongke">
+			<div className="stats-container">
+				<Card className="card blue" title="Số chuyến bay" bordered>
+					<div className='card-wrap'>
+						100 <img className='icon' src="/public/icons/flight-ticket-svgrepo-com.svg" alt="" />
+					</div>
+				</Card>
+				<Card className="card orange" title="Tổng số khách hàng" bordered>
+					<div className='card-wrap'>
+						{customerCount !== null ? customerCount : <Spin />} <img className='icon' src="/public/icons/people-svgrepo-com.svg" alt="" />
+					</div>
+				</Card>
+				<Card className="card pink" title="Số máy bay" bordered>
+					<div className='card-wrap'>
+						10 <img className='icon' src="/public/icons/domestic-flight-tourism-svgrepo-com.svg" alt="" />
+					</div>
+				</Card>
+				<Card className="card green" title="Số nhân viên" bordered>
+					<div className='card-wrap'>
+						90 <img className='icon' src="/public/icons/hotel-man-3-svgrepo-com.svg" alt="" />
+					</div>
+				</Card>
+			</div>
+
+			{/* Phần biểu đồ */}
+			<div className="chart-container">
+				{/* Cột trái (chiếm 2 cột) */}
+				<div className="chart-left">
+					<div className="chart-item">
+						<h2>Doanh thu theo {revenueView.toLowerCase()}</h2>
+						
+						<Select
+							defaultValue="Tháng"
+							style={{ width: 200, marginBottom: 20 }}
+							onChange={(value) => setRevenueView(value)}
+						>
+							<Option value="Tháng">Tháng</Option>
+							<Option value="Quý">Quý</Option>
+							<Option value="Năm">Năm</Option>
+						</Select>
+
+						{/* Thêm chọn tháng và năm nếu là "Tháng" */}
+						{revenueView === 'Tháng' && (
+							<>
+							<Select
+								value={year}
+								style={{ width: 100, marginBottom: 20 }}
+								onChange={(value) => setYear(value)}
+							>
+								{yearList.map((y) => (
+								<Option key={y} value={y}>
+									{y}
+								</Option>
+								))}
+							</Select>
+							</>
+						)}
+
+						{/* Hiển thị combobox cho quý khi revenueView là "Quý" */}
+						{revenueView === 'Quý' && (
+							<>
+							<Select
+								value={year}
+								style={{ width: 100, marginBottom: 20 }}
+								onChange={(value) => setYear(value)}
+							>
+								{yearList.map((y) => (
+								<Option key={y} value={y}>
+									{y}
+								</Option>
+								))}
+							</Select>
+							</>
+						)}
+
+						{/* Combobox chọn hiển thị dưới dạng Biểu đồ hoặc Bảng */}
+						<Select
+							defaultValue="Chart"
+							style={{ width: 150, marginBottom: 20, marginTop: 20 }}
+							onChange={(value) => setViewMode(value)} // Cập nhật viewMode
+						>
+							<Option value="Chart">Biểu đồ</Option>
+							<Option value="Table">Bảng</Option>
+						</Select>
+
+						{/* Render dữ liệu theo mode */}
+						{viewMode === 'Chart' ? (
+							<Area {...revenueConfig} /> // Hiển thị biểu đồ nếu chọn 'Chart'
+						) : (
+							<Table dataSource={revenueData} columns={revenueColumns} /> // Hiển thị bảng nếu chọn 'Table'
+						)}
+					</div>
+
+					
+					<div className="chart-row">
+						<div className="chart-item">
+							<h2>Tỷ lệ chuyến bay đúng giờ, trễ, hoặc bị hủy Phúc Lâm</h2>
+							<Pie {...flightStatusConfig} />
+						</div>
+						<div className="chart-item">
+							<h2>Số hành khách theo độ tuổi</h2>
+							<Bar {...flightHoursConfig} />
+						</div>
+					</div>
+				</div>
+>>>>>>> 2f375e7eda2a0fc5192cfe70537e701fda359de2
 
           <div className='chart-item'>
             <h2>Top 5 tuyến bay tần suất cao Hưng Lộc</h2>

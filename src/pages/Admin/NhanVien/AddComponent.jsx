@@ -149,49 +149,44 @@ const AddComponent = (props) => {
   }
 
   const createNhanVien = () => {
-    setEmpty();
-    let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
-    const nhanvien = { hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
-    addNhanVien(nhanvien)
-      .then(() => {
-        // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-        // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
-        // navigator(`${newPath}/nhanvien`, { replace: true })
-        // props.setAction("main");
-        setTypeDisplay("block");
-        setThongBao({ message: message.sucessAdd, typeMessage: 'outpagehere' });
-      })
-      .catch(error => {
-        console.log(error.response.data);
-        const errorData = error.response.data.data;
-        setErrorData(errorData);
+
+    const fetchData = async () => {
+      setEmpty();
+      let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
+      const nhanvien = { hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
+      const response = await addNhanVien(nhanvien);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        setErrorData(response.data);
         setTypeDisplay("block");
         setThongBao({ message: message.errorField, typeMessage: 'inpage' });
-      });
-    console.log(nhanvien);
+      }
+      if (response.status == 201) {
+        setTypeDisplay("block");
+        setThongBao({ message: message.sucessAdd, typeMessage: 'outpagehere' });
+      }
+    }
+    fetchData();
   }
 
   const saveNhanVien = () => {
-    setEmpty();
-    let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
-    const nhanvien = { idNhanVien, hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
-    editNhanVien(idNhanVien, nhanvien).then(() => {
-      // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
-      // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
-      // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
-      // props.setAction("main");
-      setTypeDisplay("block");
-      setThongBao({ message: message.sucessEdit, typeMessage: "outpagehere" });
-    })
-      .catch(error => {
-        console.log(error.response?.data);
-        const errorData = error.response.data.data;
-        setErrorData(errorData);
+    const fetchData = async () => {
+      setEmpty();
+      let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
+      const nhanvien = { idNhanVien, hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
+      const response = await editNhanVien(idNhanVien, nhanvien);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        setErrorData(response.data);
         setTypeDisplay("block");
-        setThongBao({ message: message.errorField, typeMessage: "inpage" });
-      });
-
-    console.log(nhanvien);
+        setThongBao({ message: message.errorField, typeMessage: 'inpage' });
+      }
+      if (response.status == 201) {
+        setTypeDisplay("block");
+        setThongBao({ message: message.sucessEdit, typeMessage: 'outpagehere' });
+      }
+    }
+    fetchData();
   }
 
   const cancle = () => {
@@ -211,7 +206,7 @@ const AddComponent = (props) => {
     typeMessage: "" // "inpage" ,"outpage" ,  ""
   });
   const message = {
-    cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idNhanVien ? "sửa nhân viên" : "thêm nhân viên"),
+    cancle: "Bạn có quay trở lại trang chính ?",
     sucessAdd: "Thêm thành công",
     errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
     sucessEdit: "Sửa thành công"
@@ -306,7 +301,7 @@ const AddComponent = (props) => {
             <button className='btn' onClick={nhanvien ? saveNhanVien : createNhanVien}>
               {nhanvien ? "Sửa" : "Thêm"}
             </button>
-            <button className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+            <button className="btnHuy" onClick={cancle}>Quay lại</button>
           </div>
         </section>
       </div>

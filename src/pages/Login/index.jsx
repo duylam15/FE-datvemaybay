@@ -33,10 +33,10 @@ const Login = () => {
       localStorage.setItem("dataNguoiDung", JSON.stringify(infoUser.data))
       message.success('Đăng nhập tài khoản thành công!'); // Hiển thị thông báo thành công
       setTimeout(() => {
-        if (infoUser?.data?.quyen?.tenQuyen === "admin") {
-          navigate('/admin');
+        if (infoUser?.data?.quyen?.tenQuyen === "user") { 
+          navigate('/');
         }
-        else navigate('/');
+        else navigate('/admin');
       }, 500); // Delay để Redux cập nhật
     } else {
       notification.error({

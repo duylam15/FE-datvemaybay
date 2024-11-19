@@ -45,8 +45,8 @@ const currentDataList = ({
             <table className="table">
                 <thead className="thead-dark">
                     <tr className=''>
-                        <th scope="col" className='align-bottom' onClick={() => handleSort('idcurrentData')}>
-                            ID {sortField === 'idcurrentData' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        <th scope="col" className='align-bottom' onClick={() => handleSort('idTaiKhoan')}>
+                            ID {sortField === 'idTaiKhoan' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='align-bottom' onClick={() => handleSort('tenDangNhap')}>
                             Tên đăng nhập {sortField === 'tenDangNhap' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}

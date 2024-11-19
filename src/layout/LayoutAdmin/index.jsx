@@ -13,6 +13,7 @@ const LayoutAdmin = () => {
   // const user = useSelector(state => state.account.user);
   // const userRole = user?.data?.quyen?.tenQuyen;
   const dispatch = useDispatch(); // Khởi tạo hook dispatch để gửi các action đến Redux store
+  const navigate = useNavigate();
 
   // Hàm xử lý khi nhấn logout
   const handleLogout = async () => {

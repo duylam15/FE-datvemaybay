@@ -36,7 +36,7 @@ const AddChucVu = () => {
     typeMessage: "" // "inpage" ,"outpage" ,  ""
   });
   const message = {
-    cancle: "Bạn có quay trở lại trang chính và ngưng việc " + (idChucVu ? "sửa chức vụ" : "thêm chức vụ"),
+    cancle: "Bạn có quay trở lại trang chính ",
     sucessAdd: "Thêm thành công",
     errorField: "Có thông tin không hợp lệ.Hãy kiểm tra lại!",
     sucessEdit: "Sửa thành công"
@@ -60,37 +60,45 @@ const AddChucVu = () => {
   }
 
   const createChucVu = () => {
-    const ten = tenChucVu;
-    const data = { ten, moTa, trangThaiActive };
-    addChucVuService(data)
-      .then((response) => {
-        setTypeDisplay("block");
-        setThongBao({ message: "Thêm thành công", typeMessage: "outpagengay" });
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      const ten = tenChucVu;
+      const data = { ten, moTa, trangThaiActive };
+      const response = await addChucVuService(data);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
         emptyField();
-        errorField(error.response.data.data);
-        console.log(error.response.data);
+        errorField(response.data);
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
-      });
+        setThongBao({ message: response.message, typeMessage: 'inpage' });
+      }
+      if (response.status == 201) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Thêm thành công", typeMessage: 'outpagehere' });
+      }
+    }
+
+    fetchData();
   }
 
   const saveChucVu = () => {
-    const ten = tenChucVu;
-    const data = { idChucVu, ten, moTa, trangThaiActive };
-    updateChucVuService(idChucVu, data)
-      .then((response) => {
-        setTypeDisplay("block");
-        setThongBao({ message: "Sửa chức vụ thành công", typeMessage: "outpagengay" });
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      const ten = tenChucVu;
+      const data = { idChucVu, ten, moTa, trangThaiActive };
+      const response = await updateChucVuService(idChucVu, data);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
         emptyField();
-        errorField(error.response.data.data);
-        console.log(error.response.data);
+        errorField(response.data);
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
-      })
+        setThongBao({ message: response.message, typeMessage: 'inpage' });
+      }
+      if (response.status == 201) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Sửa thành công", typeMessage: 'outpagehere' });
+      }
+    }
+
+    fetchData();
   }
 
   const unable = () => {
@@ -116,43 +124,45 @@ const AddChucVu = () => {
 
   return (
     <>
-      <div className="container__chucvu">
-        <div className="container-infor">
-          <h3>{idChucVu ? "Sửa" : "Thêm"} chức vụ</h3>
-          <div className="container__input">
-            <div className="form-input">
-              <label htmlFor="">Tên Chức vụ : </label>
-              <input type="text" onChange={handleTenChucVu} value={tenChucVu} placeholder='Nhập tên chức vụ' disabled={unable()} />
+      <div className="container__all">
+        <div className="container__chucvu">
+          <div className="container-infor">
+            <h3>{idChucVu ? "Sửa" : "Thêm"} chức vụ</h3>
+            <div className="container__input">
+              <div className="form-input">
+                <label htmlFor="">Tên Chức vụ : </label>
+                <input type="text" onChange={handleTenChucVu} value={tenChucVu} placeholder='Nhập tên chức vụ' disabled={unable()} />
+              </div>
+              <span>{errorTenChucVu}</span>
             </div>
-            <span>{errorTenChucVu}</span>
+            <div className="container__input container__input_custom">
+              <div className="form-input form-custom">
+                <label htmlFor="">Mô tả: </label>
+                <textarea type="text" onChange={handleMoTa} value={moTa} placeholder='Nhập Mô tả' />
+              </div>
+              <span>{errorMoTa}</span>
+            </div>
+            <div className="container__input">
+              <div className="form-input">
+                <label htmlFor="">Trạng Thái: </label>
+                <select onChange={handleTrangThaiActive} value={trangThaiActive}>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="IN_ACTIVE">IN_ACTIVE</option>
+                </select>
+              </div>
+              <span>{errorTrangThaiActive}</span>
+            </div>
           </div>
-          <div className="container__input container__input_custom">
-            <div className="form-input form-custom">
-              <label htmlFor="">Mô tả: </label>
-              <textarea type="text" onChange={handleMoTa} value={moTa} placeholder='Nhập Mô tả' />
-            </div>
-            <span>{errorMoTa}</span>
-          </div>
-          <div className="container__input">
-            <div className="form-input">
-              <label htmlFor="">Trạng Thái: </label>
-              <select onChange={handleTrangThaiActive} value={trangThaiActive}>
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="IN_ACTIVE">IN_ACTIVE</option>
-              </select>
-            </div>
-            <span>{errorTrangThaiActive}</span>
+          <div className="container__add-edit container__btn">
+            <button className='btn' onClick={idChucVu ? saveChucVu : createChucVu}>
+              {idChucVu ? "Sửa" : "Thêm"}
+            </button>
+            <button className="btnHuy" onClick={cancle}>Quay lại</button>
           </div>
         </div>
-        <div className="container__add-edit container__btn">
-          <button className='btn' onClick={idChucVu ? saveChucVu : createChucVu}>
-            {idChucVu ? "Sửa" : "Thêm"}
-          </button>
-          <button className="btnHuy" onClick={cancle}>Huỷ bỏ</button>
+        <div style={{ display: typeDisplay }}>
+          <LayOutThongBao thongBao={thongBao} setTypeDisplay={setTypeDisplay} />
         </div>
-      </div>
-      <div style={{ display: typeDisplay }}>
-        <LayOutThongBao thongBao={thongBao} setTypeDisplay={setTypeDisplay} />
       </div>
     </>
   );

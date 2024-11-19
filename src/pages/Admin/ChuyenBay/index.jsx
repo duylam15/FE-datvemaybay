@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
+import { PermissionAddButton } from "../../../components/Admin/Sidebar";
 import { dataChuyenBay, filterChuyenBay } from "../../../services/chuyenBayServices";
 import { dataSanBay } from "../../../services/sanBayService";
 import { dataTuyenBay } from "../../../services/tuyenBayService";
 import DanhSachCHuyenBay from "./DanhSachChuyenBay";
-import { PermissionAddButton } from "../../../components/Admin/Sidebar";
-
 
 export const ChuyenBay = () => {
 
@@ -99,7 +99,7 @@ export const ChuyenBay = () => {
 
   return (
     <>
-      <div className="main">
+      <div className="mainOfLam">
         <div className="containerMain">
           <h1>DANH SÁCH CHUYẾN BAY</h1>
           <>
@@ -129,7 +129,7 @@ export const ChuyenBay = () => {
                 </div>
               </li>
               <PermissionAddButton feature="Quản lí chuyến bay">
-                <li className='btn btnThem' onClick={addChuyenBay}>Thêm</li>
+                <li className='' onClick={addChuyenBay}><IconLabelButtons></IconLabelButtons></li>
               </PermissionAddButton>
             </ul>
             {<DanhSachCHuyenBay data={data ? data : []} setData={setData} page={page} />}

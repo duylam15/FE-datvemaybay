@@ -1,0 +1,108 @@
+.thongke {
+    .card {
+        &-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        border-radius: 20px;
+        border: none;
+    }
+
+    .ant-card-head {
+        border-bottom: none; /* Loại bỏ đường gạch chân */
+    }
+    .icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .orange {
+        background: hsla(16, 100%, 76%, 1);
+
+        background: linear-gradient(
+            90deg,
+            hsla(16, 100%, 76%, 1) 0%,
+            hsla(49, 100%, 81%, 1) 100%
+        );
+
+        background: -moz-linear-gradient(
+            90deg,
+            hsla(16, 100%, 76%, 1) 0%,
+            hsla(49, 100%, 81%, 1) 100%
+        );
+
+        background: -webkit-linear-gradient(
+            120deg,
+            hsla(16, 100%, 76%, 1) 0%,
+            hsla(49, 100%, 81%, 1) 100%
+        );
+    }
+
+    .blue {
+        background: hsla(217, 100%, 50%, 1);
+
+        background: linear-gradient(
+            90deg,
+            hsla(217, 100%, 50%, 1) 0%,
+            hsla(186, 100%, 69%, 1) 100%
+        );
+
+        background: -moz-linear-gradient(
+            90deg,
+            hsla(217, 100%, 50%, 1) 0%,
+            hsla(186, 100%, 69%, 1) 100%
+        );
+
+        background: -webkit-linear-gradient(
+            120deg,
+            hsla(217, 100%, 50%, 1) 0%,
+            hsla(186, 100%, 69%, 1) 100%
+        );
+    }
+
+    .pink {
+        background: hsla(0, 100%, 67%, 1);
+
+        background: linear-gradient(
+            90deg,
+            hsla(0, 100%, 67%, 1) 0%,
+            hsla(0, 100%, 89%, 1) 100%
+        );
+
+        background: -moz-linear-gradient(
+            90deg,
+            hsla(0, 100%, 67%, 1) 0%,
+            hsla(0, 100%, 89%, 1) 100%
+        );
+
+        background: -webkit-linear-gradient(
+            120deg,
+            hsla(0, 100%, 67%, 1) 0%,
+            hsla(0, 100%, 89%, 1) 100%
+        );
+    }
+
+    .green {
+        background: hsla(145, 84%, 73%, 1);
+
+        background: linear-gradient(
+            90deg,
+            hsla(145, 84%, 73%, 1) 0%,
+            hsla(150, 61%, 48%, 1) 100%
+        );
+
+        background: -moz-linear-gradient(
+            90deg,
+            hsla(145, 84%, 73%, 1) 0%,
+            hsla(150, 61%, 48%, 1) 100%
+        );
+
+        background: -webkit-linear-gradient(
+            40deg,
+            hsla(145, 84%, 73%, 1) 0%,
+            hsla(150, 61%, 48%, 1) 100%
+        );
+    }
+}

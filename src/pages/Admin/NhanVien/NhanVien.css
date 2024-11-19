@@ -6,7 +6,7 @@
   color: red;
 }
 
-.main {
+.mainOfLam {
   display: flex;
   width: 100%;
 }
@@ -28,8 +28,7 @@
   margin-bottom: 30px !important;
 }
 
-.btn {
-  color: #1976d2;
+.mainOfLam .btn {
   border: 1px solid #1976d2 !important;
   border-radius: 6px;
   display: flex;
@@ -39,12 +38,12 @@
   font-size: 12px;
   transition: background-color 0.4s ease !important;
 }
-.btn:hover{
+.mainOfLam  .btn:hover{
   background-color: #1976d2 !important;
   color: white !important;
 }
 
-.btn:disabled {
+.mainOfLam .btn:disabled {
   opacity: 0.5; /* Làm mờ nút */
   cursor: not-allowed; /* Đổi con trỏ thành biểu tượng không cho phép */
   background-color: #cccccc; /* Đổi màu nền */
@@ -53,7 +52,7 @@
 }
 
 
-.btnHuy{
+.mainOfLam  .btnHuy{
   margin-left: 10px;
   display: flex;
   align-items: center;
@@ -64,7 +63,7 @@
   border: 1px solid #1976d2;
 }
 
-.btnHuy:hover{
+.mainOfLam  .btnHuy:hover{
   background-color: #639cd4 !important;
 }
 

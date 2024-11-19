@@ -60,7 +60,7 @@ export default function NhanVien() {
   return (
     <>
 
-      <div className='main'>
+      <div className='mainOfLam'>
         <div className='containerMain'>
           <h1>DANH SÁCH NHÂN VIÊN</h1>
           {

@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(139, 132, 132, 0.0) !important;
-  top: 0px;
+  top: 90px;
   left: 0px !important;
   animation: slideDown 0.3s forwards; /* Thêm animation */
 }
@@ -18,7 +18,7 @@
     top: -100%; /* Bắt đầu từ trên ngoài màn hình */
   }
   100% {
-    top: 0; /* Cuối cùng di chuyển đến vị trí ban đầu */
+    top: 60px; /* Cuối cùng di chuyển đến vị trí ban đầu */
   }
 }
 

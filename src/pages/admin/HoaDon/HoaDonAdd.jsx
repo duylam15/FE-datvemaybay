@@ -13,7 +13,7 @@ const HoaDonAdd = () => {
 
     const [khachHang, setKhachHang] = useState(null);
     const [nhanVien, setNhanVien] = useState(userData.nhanVien.idNhanVien);
-    const [loaiHoaDon, setLoaiHoaDon] = useState(''); // radio button value
+    const [loaiHoaDon, setLoaiHoaDon] = useState('ve'); // radio button value
     const [phuongThucThanhToan, setPhuongThucThanhToan] = useState(null);
     const [tongTien, setTongTien] = useState('');
     const [trangThaiActive, setTrangThaiActive] = useState('PENDING');
@@ -233,163 +233,78 @@ const HoaDonAdd = () => {
     return (
         <div className='hoa-don-add add-form'>
             <h1>Thêm hóa đơn</h1>
-                <div className="mb-3 radio-group">
-                    <label>
-                        <input
-                            type="radio"
-                            id="ve"
-                            name="loaiHoaDon"
-                            value="ve"
-                            checked={loaiHoaDon === 've'}
-                            onChange={handleLoaiHoaDonChange}
-                        />
-                        Hóa đơn vé
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            id="hangHoa"
-                            name="loaiHoaDon"
-                            value="hangHoa"
-                            checked={loaiHoaDon === 'hangHoa'}
-                            onChange={handleLoaiHoaDonChange}
-                        />
-                        Hóa đơn hàng hóa
-                    </label>
-                </div>
                 <form onSubmit={handleSubmit} className="row">
+                    <div className='chon-cb'>
+                        <button type='button' onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
 
-                {loaiHoaDon === 've' && (
-                    <>
-                        <div className='chon-cb'>
-                            <button type='button' onClick={handleOpenPopupChuyenBay}>Chọn chuyến bay</button>
+                        <label>Thông tin chuyến bay:</label>
+                        <input 
+                            type="text" 
+                            value={selectedChuyenBay ? `Chuyến bay: ${selectedChuyenBay.idChuyenBay}`: ''}
+                            disabled={true}
+                        />
+                    </div>
+                    {
+                        selectedChuyenBay && (
+                            <>
+                            <div className="mb-3 col-4">
+                                <label className="form-label">Số lượng vé</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={soLuongVe}
+                                    onChange={(e) => setSoLuongVe(Number(e.target.value))}
+                                    min="1"
+                                />
+                            </div>
+                            {/* Tạo các frame cho từng vé */}
+                            {[...Array(soLuongVe)].map((_, index) => (
+                                <FrameVe 
+                                    key={index} 
+                                    index={index} 
+                                    selectedChuyenBay={selectedChuyenBay} 
+                                    onSelectVe={handleSelectVe} 
+                                    onGuestInfoChange={handleGuestInfoChange} 
+                                />
+                            ))}
+                            <div className="mb-3 col-4">
+                                <label className="form-label">Phương thức thanh toán</label>
+                                <select
+                                    className="form-control"
+                                    value={phuongThucThanhToan? phuongThucThanhToan : ''}
+                                    onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
+                                >
+                                    <option value="">Chọn phương thức thanh toán</option>
+                                    {phuongThucThanhToanList.map((pttt) => (
+                                        <option key={pttt.idPTTT} value={pttt.idPTTT}>
+                                            {pttt.tenPTTT}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
 
-                            <label>Thông tin chuyến bay:</label>
-                            <input 
-                                type="text" 
-                                value={selectedChuyenBay ? `Chuyến bay: ${selectedChuyenBay.idChuyenBay}`: ''}
-                                disabled={true}
-                            />
-                        </div>
-                        {
-                            selectedChuyenBay && (
-                                <>
-                                <div className="mb-3 col-4">
-                                    <label className="form-label">Số lượng vé</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        value={soLuongVe}
-                                        onChange={(e) => setSoLuongVe(Number(e.target.value))}
-                                        min="1"
-                                    />
-                                </div>
-                                {/* Tạo các frame cho từng vé */}
-                                {[...Array(soLuongVe)].map((_, index) => (
-                                    <FrameVe 
-                                        key={index} 
-                                        index={index} 
-                                        selectedChuyenBay={selectedChuyenBay} 
-                                        onSelectVe={handleSelectVe} 
-                                        onGuestInfoChange={handleGuestInfoChange} 
-                                    />
-                                ))}
-                                <div className="mb-3 col-4">
-                                    <label className="form-label">Phương thức thanh toán</label>
-                                    <select
-                                        className="form-control"
-                                        value={phuongThucThanhToan? phuongThucThanhToan : ''}
-                                        onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
-                                    >
-                                        <option value="">Chọn phương thức thanh toán</option>
-                                        {phuongThucThanhToanList.map((pttt) => (
-                                            <option key={pttt.idPTTT} value={pttt.idPTTT}>
-                                                {pttt.tenPTTT}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                            
 
-                                
+                            {/* Popup chọn vé */}
+                            {isPopupVeOpen && selectedChuyenBay && (
+                                <ChonVe
+                                    onClose={handleClosePopupVe}
+                                    onSelect={handleSelectVe}
+                                    chuyenBayId={selectedChuyenBay.idChuyenBay}
+                                />
+                            )}
+                            </>
+                            
+                        )
+                    }
+                    {/* Popup chọn chuyến bay */}
+                    {isPopupChuyenBayOpen && (
+                        <PopupChonChuyenBay
+                            onClose={handleClosePopupChuyenBay}
+                            onSelect={handleSelectChuyenBay}
+                        />
+                    )}
 
-                                {/* Popup chọn vé */}
-                                {isPopupVeOpen && selectedChuyenBay && (
-                                    <ChonVe
-                                        onClose={handleClosePopupVe}
-                                        onSelect={handleSelectVe}
-                                        chuyenBayId={selectedChuyenBay.idChuyenBay}
-                                    />
-                                )}
-                                </>
-                                
-                            )
-                        }
-                        {/* Popup chọn chuyến bay */}
-                        {isPopupChuyenBayOpen && (
-                            <PopupChonChuyenBay
-                                onClose={handleClosePopupChuyenBay}
-                                onSelect={handleSelectChuyenBay}
-                            />
-                        )}
-                    </>
-                )}
-
-                {loaiHoaDon === 'hangHoa' && (
-                    <>
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Tên hàng hóa</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={tenHangHoa}
-                                onChange={(e) => setTenHangHoa(e.target.value)}
-                            />
-                        </div>
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Tải trọng</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={taiTrong}
-                                onChange={(e) => {
-                                    setTaiTrong(e.target.value); 
-                                    if (e.target.value <= 45) {
-                                        setGiaPhatSinh(0);
-                                    } else {
-                                        setGiaPhatSinh((e.target.value-45) * getGiaTienLoaiHangHoa(3));
-                                    }
-                                    
-                                }}
-                            />
-                        </div>
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Giá phát sinh</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={giaPhatSinh}
-                                disabled={true}
-                            />
-                        </div>
-                        <div className="mb-3 col-4">
-                            <label className="form-label">Phương thức thanh toán</label>
-                            <select
-                                className="form-control"
-                                value={phuongThucThanhToan}
-                                onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
-                            >
-                                <option value="">Chọn phương thức thanh toán</option>
-                                {phuongThucThanhToanList.map((pttt) => (
-                                    <option key={pttt.idPTTT} value={pttt.idPTTT}>
-                                        {pttt.tenPTTT}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </>
-                )}
-
-                
                 <button type="submit" className="btn btn-primary">Thêm hóa đơn</button>
             </form>
         </div>
