@@ -49,13 +49,34 @@ const MerchandiseTable = () => {
   const loadMerchans = useCallback(async () => {
     setLoading(true);
     try {
-      const result = await axios.get(`${BASE_URL}/getAllMerchandises`);
-      if (result.status === 200) {
-        setMerchans(result.data.data);
-        setOriginalMerchans(result.data.data);
+      // Gọi cả hai API đồng thời
+      const [merchanResult, hangHoaResult] = await Promise.all([
+        axios.get(`${BASE_URL}/getAllMerchandises`),
+        axios.get('http://localhost:8080/hanhkhach/hanghoa'),
+      ]);
+
+      // Kiểm tra kết quả của từng API
+      if (merchanResult.status === 200 && hangHoaResult.status === 200) {
+        const merchans = merchanResult.data.data; // Dữ liệu từ API merchandise
+        const hangHoas = hangHoaResult.data.data; // Dữ liệu từ API hành khách - hàng hóa
+
+        // Kết hợp dữ liệu dựa trên idHangHoa
+        const combinedData = merchans.map((merchandise) => {
+          const relatedHangHoa = hangHoas.find(
+            (hangHoa) => hangHoa.idHangHoa === merchandise.idHangHoa
+          );
+          return {
+            ...merchandise,
+            relatedHangHoa, // Gắn dữ liệu từ bảng hành khách - hàng hóa
+          };
+        });
+
+        // Lưu dữ liệu kết hợp vào state
+        setMerchans(combinedData);
+        setOriginalMerchans(combinedData);
       }
     } catch (error) {
-      console.error('Error loading merchandise:', error);
+      console.error('Error loading data:', error);
     } finally {
       setLoading(false);
     }
@@ -118,6 +139,8 @@ const MerchandiseTable = () => {
     setSortField(field);
   };
 
+  console.error(merchans);
+
   // Columns for the table
   const columns = [
     { header: 'ID', render: (item) => item.idHangHoa, sortField: 'idHangHoa' },
@@ -149,6 +172,11 @@ const MerchandiseTable = () => {
     {
       header: 'Trạng thái',
       render: (item) => item.trangThaiActive,
+    },
+    {
+      header: 'Id Hành khách',
+      render: (item) =>
+        item.relatedHangHoa ? item.relatedHangHoa.idHanhKhach : 'N/A',
     },
     {
       header: 'Actions',

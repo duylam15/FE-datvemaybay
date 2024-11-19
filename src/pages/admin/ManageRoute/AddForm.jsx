@@ -65,6 +65,7 @@ const AddRoute = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+
     const formErrors = Object.values(errors).some((error) => error);
     if (
       formErrors ||
@@ -73,8 +74,9 @@ const AddRoute = () => {
     ) {
       return;
     }
+
     try {
-      await axios.post(
+      const response = await axios.post(
         'http://localhost:8080/addNewRoute',
         {
           thoiGianChuyenBay: route.thoiGianChuyenBay,
@@ -93,7 +95,19 @@ const AddRoute = () => {
       message.success('Thêm tuyến bay mới thành công');
       navigate('/admin/route');
     } catch (error) {
-      console.error('Lỗi khi gửi dữ liệu đến API:', error);
+      if (error.response && error.response.status === 500) {
+        if (
+          error.response.data.message ===
+          'hehehehe:Query did not return a unique result: 2 results were returned'
+        ) {
+          message.error('Tuyến bay đã tồn tại');
+        } else {
+          message.error(error.response.data.message);
+        } // Hiển thị thông báo từ backend
+      } else {
+        console.error('Lỗi khi gửi dữ liệu đến API:', error);
+        message.error('Đã xảy ra lỗi khi thêm tuyến bay.');
+      }
     }
   };
 
