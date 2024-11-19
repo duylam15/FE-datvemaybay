@@ -1,6 +1,6 @@
 import React from "react";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Routes, Outlet, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet, Link, useNavigate } from "react-router-dom";
 import "./layoutAdmin.css";
 import Sidebar from "../../components/Admin/Sidebar";
 import { LogoutOutlined } from '@ant-design/icons';
