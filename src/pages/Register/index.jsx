@@ -13,7 +13,8 @@ const Register = () => {
     console.log("values", values)
     setIsSubmit(true);
     const res = await callRegister(values);
-    console.log("res register", res)
+    console.log("res register", res?.soDienThoai)
+    console.log("res register", res?.data?.phone)
     setIsSubmit(false);
 
     if (res.statusCode === 200) {
@@ -21,7 +22,7 @@ const Register = () => {
       navigate('/login');
     } else {
       notification.error({
-        message: 'Có lỗi xảy ra',
+        message: res?.userName || res?.data?.username || res?.data?.phone || res?.data?.email || res?.password || res?.rePassword || res?.soDienThoai || res?.hoTen || res?.soDienThoai || res?.cccd,
         description: res.message && Array.isArray(res.message) ? res.message[0] : res.message,
         duration: 5,
       });

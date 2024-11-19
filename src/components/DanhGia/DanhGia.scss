@@ -1,0 +1,101 @@
+.danh-gia-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+
+    h2 {
+        text-align: center;
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .review,
+    .reply-section {
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .author {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .rating {
+        color: #ff9800;
+    }
+
+    .reply-button {
+        margin-top: 10px;
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+    }
+
+    .toggle-replies {
+        margin-top: 10px;
+        cursor: pointer;
+        color: #007bff;
+        background: none;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .star-rating {
+        display: flex;
+        gap: 5px;
+    }
+
+    .star-rating svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        resize: vertical;
+        height: 30px;
+    }
+
+    select {
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .submit-button,
+    .cancel-button {
+        margin-top: 10px;
+        cursor: pointer;
+        color: green;
+    }
+
+    .submit-button {
+        color: #4caf50;
+    }
+
+    .cancel-button {
+        color: #f44336;
+    }
+
+    .login-message {
+        margin-top: 10px;
+        color: #f44336;
+        font-size: 14px;
+    }
+}

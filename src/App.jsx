@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  Navigate,
   RouterProvider
 } from "react-router-dom";
 import "./assets/css/font.css";

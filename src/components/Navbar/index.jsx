@@ -182,59 +182,6 @@ const Navbar = () => {
 					]
 				}
 			]
-		},
-		{
-			"h1title": "Liên hệ",
-			"items": [
-				{
-					"id": 1,
-					"title": "Hỗ trợ khách hàng",
-					"subTitle": [
-						{ "id": 1, "text": "Gọi điện" },
-						{ "id": 2, "text": "Chat trực tuyến" },
-						{ "id": 3, "text": "Email" },
-						{ "id": 4, "text": "Hỏi đáp" },
-						{ "id": 5, "text": "Giải quyết khiếu nại" },
-						{ "id": 6, "text": "Phản hồi ý kiến" }
-					]
-				},
-				{
-					"id": 2,
-					"title": "Thông tin công ty",
-					"subTitle": [
-						{ "id": 1, "text": "Giới thiệu công ty" },
-						{ "id": 2, "text": "Địa chỉ" },
-						{ "id": 3, "text": "Liên hệ hợp tác" },
-						{ "id": 4, "text": "Tin tức công ty" },
-						{ "id": 5, "text": "Đánh giá từ khách hàng" },
-						{ "id": 6, "text": "Chính sách bảo mật" }
-					]
-				},
-				{
-					"id": 3,
-					"title": "Theo dõi trên mạng xã hội",
-					"subTitle": [
-						{ "id": 1, "text": "Facebook" },
-						{ "id": 2, "text": "Instagram" },
-						{ "id": 3, "text": "Twitter" },
-						{ "id": 4, "text": "YouTube" },
-						{ "id": 5, "text": "LinkedIn" },
-						{ "id": 6, "text": "Pinterest" }
-					]
-				},
-				{
-					"id": 4,
-					"title": "Địa chỉ văn phòng",
-					"subTitle": [
-						{ "id": 1, "text": "Văn phòng Hà Nội" },
-						{ "id": 2, "text": "Văn phòng TP.HCM" },
-						{ "id": 3, "text": "Văn phòng Đà Nẵng" },
-						{ "id": 4, "text": "Văn phòng Nha Trang" },
-						{ "id": 5, "text": "Văn phòng Hải Phòng" },
-						{ "id": 6, "text": "Văn phòng Cần Thơ" }
-					]
-				}
-			]
 		}
 	]
 	const isAuthenticated = useSelector(state => state.account.isAuthenticated); // Kiểm tra trạng thái đăng nhập của người dùng từ Redux+
@@ -321,9 +268,18 @@ const Navbar = () => {
 											</div>
 										))}
 									</div>
+
 								</div>
 							</div>
 						))}
+						<div className="navbar__menu-link">
+							<p ss className="navbar__menu-item" onClick={() => {
+								window.scrollTo(0, 0);
+								navigate("/cmt");
+							}}>
+								Đánh giá
+							</p>
+						</div>
 					</div>
 					<div className="navbar__auth">
 						{!isAuthenticated ? (
