@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
 import { Select, Card, Spin, Table } from 'antd';
 import axios from 'axios';
+import "./Thongke.scss"
 const { Option } = Select;
+
 
 export default function ThongKe() {
 	const [timeFrame, setTimeFrame] = useState('monthly');
@@ -207,17 +209,25 @@ export default function ThongKe() {
 	return (
 		<div className="thongke">
 			<div className="stats-container">
-				<Card title="Số chuyến bay" bordered>
-					100
+				<Card className="card blue" title="Số chuyến bay" bordered>
+					<div className='card-wrap'>
+						100 <img className='icon' src="/public/icons/flight-ticket-svgrepo-com.svg" alt="" />
+					</div>
 				</Card>
-				<Card title="Tổng số khách hàng" bordered>
-					{customerCount !== null ? customerCount : <Spin />}
+				<Card className="card orange" title="Tổng số khách hàng" bordered>
+					<div className='card-wrap'>
+						{customerCount !== null ? customerCount : <Spin />} <img className='icon' src="/public/icons/people-svgrepo-com.svg" alt="" />
+					</div>
 				</Card>
-				<Card title="Số máy bay" bordered>
-					10
+				<Card className="card pink" title="Số máy bay" bordered>
+					<div className='card-wrap'>
+						10 <img className='icon' src="/public/icons/domestic-flight-tourism-svgrepo-com.svg" alt="" />
+					</div>
 				</Card>
-				<Card title="Số nhân viên" bordered>
-					90
+				<Card className="card green" title="Số nhân viên" bordered>
+					<div className='card-wrap'>
+						90 <img className='icon' src="/public/icons/hotel-man-3-svgrepo-com.svg" alt="" />
+					</div>
 				</Card>
 			</div>
 
