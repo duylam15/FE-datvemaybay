@@ -13,7 +13,7 @@ import Promotion from './Promotion';
 import HotFlight from './HotFlight';
 import { notification } from 'antd';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -21,6 +21,8 @@ const Home = () => {
 	const [message, setMessage] = useState('');
 	const [ticketIds, setTicketIds] = useState([]);
 	const { search } = useLocation();
+
+
 	useEffect(() => {
 		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
 		const fetchAndStoreLastCustomerId = async () => {
@@ -119,12 +121,15 @@ const Home = () => {
 				let idkhang
 				const isAuthenticated = localStorage.getItem("isAuthenticated")
 				const idKhachHangIslog = localStorage.getItem("idKhachHangIslog")
-				if (isAuthenticated) {
+				console.log(isAuthenticated)
+				console.log(idKhachHangIslog)
+				console.log(localStorage.getItem("idKh"))
+				if (isAuthenticated === true) {
 					const idKhAuth = idKhachHangIslog;
-					console.log("idKhAuthidKhAuthidKhAuthidKhAuth", idKhAuth)
 					idkhang = idKhAuth
 				} else {
 					idkhang = localStorage.getItem("idKh")
+					console.log("aaaaaaaaaaaaaaaaaaaaa")
 				}
 				console.log("idkhangidkhangidkhangidkhang", idkhang)
 				const hoaDonDTO = {

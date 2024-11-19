@@ -59,7 +59,7 @@ import ResetPassword from '../pages/ResetPassword';
 import UsersPage from '../pages/UserPage';
 import CheckBookingPage from '../pages/UserPage/CheckBooking';
 // import EditVe from '../pages/Admin/Ve/EditVe';
-import DanhGia from '../components/DanhGia.jsx';
+import DanhGia from '../components/DanhGia';
 import { XemChuyenBay } from '../pages/Admin/ChuyenBay/XemChuyenBay';
 import DanhGiaPage from '../pages/admin/DanhGia/index.jsx';
 import EditVe from '../pages/Admin/Ve/EditVe';
@@ -68,11 +68,13 @@ import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
 import Thongke from '../pages/Admin/ThongKe/index.jsx';
+import ThongTinCaNhanAdmin from '../pages/Admin/ThongTinCaNhan/ThongTinCaNhanAdmin.jsx';
+import ProtectedRouteHome from '../components/ProtectedRouteHome/index.jsx';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <LayoutDefault />, // Hiển thị Layout cho các route này
+    element: <ProtectedRouteHome><LayoutDefault /></ProtectedRouteHome>, // Hiển thị Layout cho các route này
     errorElement: <Error />, // Hiển thị NotFound khi có lỗi
     children: [
       {
@@ -102,37 +104,38 @@ export const router = createBrowserRouter([
         path: 'flightDetails',
         element: <FlightDetails />,
       },
+      {
+        path: '/cmt',
+        element: <DanhGia />,
+      },
+      {
+        path: '/my_profile',
+        element: <UsersPage />,
+        children: [
+          {
+            index: true,
+            element: <InfoAccount></InfoAccount>,
+          },
+          {
+            path: 'account',
+            element: <InfoAccount></InfoAccount>,
+          },
+          { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
+          { path: 'checkbooking', element: <CheckBookingPage /> },
+        ],
+      },
     ],
   },
-
   {
     path: '/login',
     element: <Login />,
   },
-  {
-    path: '/cmt',
-    element: <DanhGia />,
-  },
+
   {
     path: '/register',
     element: <Register />,
   },
-  {
-    path: '/my_profile',
-    element: <UsersPage />,
-    children: [
-      {
-        index: true,
-        element: <InfoAccount></InfoAccount>,
-      },
-      {
-        path: 'account',
-        element: <InfoAccount></InfoAccount>,
-      },
-      { path: 'lichsubay', element: <LichSuBay></LichSuBay> },
-      { path: 'checkbooking', element: <CheckBookingPage /> },
-    ],
-  },
+
   {
     path: '/forgot_password',
     element: <ForgotPassword></ForgotPassword>,
@@ -339,6 +342,10 @@ export const router = createBrowserRouter([
             element: <EditVe></EditVe>,
           }
         ],
+      },
+      {
+        path: 'my_profile',
+        element: <ThongTinCaNhanAdmin></ThongTinCaNhanAdmin>
       },
     ],
   },

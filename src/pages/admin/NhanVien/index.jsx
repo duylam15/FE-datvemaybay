@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import IconLabelButtons from '../../../components/Admin/ColorButtons';
-import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 import { dataChucVu } from '../../../services/chucVuServices';
 import { filterNhanVien } from '../../../services/nhanVienServices';
 import DanhSachComponent from './DanhSachComponent';
 import './NhanVien.css';
+import IconLabelButtons from '../../../components/Admin/ColorButtons';
+import { PermissionAddButton } from '../../../components/Admin/Sidebar';
 
 export default function NhanVien() {
   const [searchInfo, setSearchInfo] = useState("");
@@ -25,27 +25,25 @@ export default function NhanVien() {
     setAction("addEmployee");
   }
 
-  const [one, setone] = useState(false);
   useEffect(() => {
-    console.log('hhelol');
-    setone(!one);
+    dataChucVu()
+      .then((response) => {
+        const data = response.data.data;
+        console.log(data);
+        setDataChucVu(data?.filter((item) => item.trangThaiActive == "ACTIVE"));
+      });
   }, [])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const fdDataChucVu = await dataChucVu();
-      const data = fdDataChucVu.data;
-      setDataChucVu(data?.filter((item) => item.trangThaiActive == "ACTIVE"));
-    }
-    fetchData();
-  }, [one])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const fdFilterNhanVien = await filterNhanVien(typeInfo == "1" ? searchInfo : "", typeInfo == "4" ? searchInfo : "", typeInfo == "2" ? searchInfo : "", typeInfo == "3" ? searchInfo : "", selectChucVu);
-      setData(fdFilterNhanVien.data.length > 0 ? fdFilterNhanVien.data : [])
-    }
-    fetchData();
+    console.log(typeInfo);
+    console.log("ho ten : " + (typeInfo == "1" ? searchInfo : ""));
+    filterNhanVien(typeInfo == "1" ? searchInfo : "", typeInfo == "4" ? searchInfo : "", typeInfo == "2" ? searchInfo : "", typeInfo == "3" ? searchInfo : "", selectChucVu)
+      .then((response) => {
+        setData(response.data.data);
+      })
+      .catch((error) => {
+        setData([]);
+      })
   }, [selectChucVu, typeInfo, searchInfo])
 
   const handleSearch = (e) => {
@@ -83,7 +81,7 @@ export default function NhanVien() {
                     <label htmlFor="">Chức vụ : </label>
                     <select name="" id="" value={selectChucVu} onChange={(e) => setSelectChucVu(e.target.value)}>
                       <option value="0">Toàn bộ chức vụ</option>
-                      {dataCV?.map((item) => (<option value={item.idChucVu}>{item.ten}</option>))}
+                      {dataCV.map((item) => (<option value={item.idChucVu}>{item.ten}</option>))}
                     </select>
                   </li>
                   <PermissionAddButton feature="Quản lí nhân viên">

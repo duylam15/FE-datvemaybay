@@ -7,7 +7,7 @@ export default function useEffectDataNhanVienByID(id) {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getNhanVienById(id);
-      setNhanVien(response.data);
+      setNhanVien(response.data.data);
     };
     fetchData();
   }, []);

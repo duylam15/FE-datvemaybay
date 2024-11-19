@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { message } from 'antd';
+import './SanBay.css'
 
 
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
@@ -102,28 +103,33 @@ const SanBayEdit = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Tên Sân Bay:</label>
-                    <input
+                    <div className='form-insert'>
+                        <input
                         type="text"
                         name="tenSanBay"
                         className={`form-control ${fieldErrors.tenSanBay ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
                         value={sanBay.tenSanBay}
                         onChange={handleChange}
-                    />
-                    {fieldErrors.tenSanBay && <div className="invalid-feedback">{fieldErrors.tenSanBay}</div>} {/* Hiển thị thông báo lỗi */}
+                        />
+                        {fieldErrors.tenSanBay && <div className="invalid-feedback">{fieldErrors.tenSanBay}</div>} {/* Hiển thị thông báo lỗi */}
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>IATA Sân Bay:</label>
-                    <input
-                        type="text"
-                        name="iataSanBay"
-                        className={`form-control ${fieldErrors.iataSanBay ? 'is-invalid' : ''}`}
-                        value={sanBay.iataSanBay}
-                        onChange={handleChange}
-                    />
-                    {fieldErrors.iataSanBay && <div className="invalid-feedback">{fieldErrors.iataSanBay}</div>}
+                    <div className='form-insert'>
+                        <input
+                            type="text"
+                            name="iataSanBay"
+                            className={`form-control ${fieldErrors.iataSanBay ? 'is-invalid' : ''}`}
+                            value={sanBay.iataSanBay}
+                            onChange={handleChange}
+                        />
+                        {fieldErrors.iataSanBay && <div className="invalid-feedback">{fieldErrors.iataSanBay}</div>}
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>ICAO Sân Bay:</label>
+                    <div className='form-insert'>
                     <input
                         type="text"
                         name="icaoSanBay"
@@ -132,9 +138,11 @@ const SanBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.icaoSanBay && <div className="invalid-feedback">{fieldErrors.icaoSanBay}</div>}
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>Địa chỉ:</label>
+                    <div className='form-insert'>
                     <input
                         type="text"
                         name="diaChi"
@@ -143,6 +151,7 @@ const SanBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.diaChi && <div className="invalid-feedback">{fieldErrors.diaChi}</div>} 
+                    </div>
                 </div>
                 <div className='form-group'>
                     <label>Thành Phố</label>

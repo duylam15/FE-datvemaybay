@@ -51,8 +51,8 @@ const AddComponent = (props) => {
   useEffect(() => {
     dataChucVu()
       .then((response) => {
-        setChucVus(response.data);
-        console.log(response.data);
+        setChucVus(response.data.data);
+        console.log(response.data.data);
       })
   }, []);
 
@@ -149,25 +149,21 @@ const AddComponent = (props) => {
   }
 
   const createNhanVien = () => {
+
     const fetchData = async () => {
       setEmpty();
       let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
       const nhanvien = { hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
-      const fdAddNhanVien = await addNhanVien(nhanvien);
-      console.log(fdAddNhanVien);
-      if (fdAddNhanVien.statusCode == 400) {
-        setErrorData(fdAddNhanVien.data);
+      const response = await addNhanVien(nhanvien);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
+        setErrorData(response.data);
         setTypeDisplay("block");
         setThongBao({ message: message.errorField, typeMessage: 'inpage' });
       }
-      if (fdAddNhanVien.statusCode == 201) {
+      if (response.status == 201) {
         setTypeDisplay("block");
         setThongBao({ message: message.sucessAdd, typeMessage: 'outpagehere' });
-      }
-      if (fdAddNhanVien.statusCode == 409) {
-        setErrorData(fdAddNhanVien.data);
-        setTypeDisplay("block");
-        setThongBao({ message: message.errorField, typeMessage: 'inpage' });
       }
     }
     fetchData();
@@ -179,25 +175,25 @@ const AddComponent = (props) => {
       let chucVu = chucVus.find(item => item.idChucVu == selectchucVu);
       const nhanvien = { idNhanVien, hoTen, cccd, soDienThoai, gioiTinhEnum, email, ngaySinh, chucVu, trangThaiActive }
       const response = await editNhanVien(idNhanVien, nhanvien);
-      if (response.statusCode == 400) {
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
         setErrorData(response.data);
         setTypeDisplay("block");
         setThongBao({ message: message.errorField, typeMessage: 'inpage' });
       }
-      if (response.statusCode == 201) {
+      if (response.status == 201) {
         setTypeDisplay("block");
-        setThongBao({ message: message.sucessAdd, typeMessage: 'outpagehere' });
-      }
-      if (response.statusCode == 409) {
-        setErrorData(response.data);
-        setTypeDisplay("block");
-        setThongBao({ message: message.errorField, typeMessage: 'inpage' });
+        setThongBao({ message: message.sucessEdit, typeMessage: 'outpagehere' });
       }
     }
     fetchData();
   }
 
   const cancle = () => {
+    // const currentPath = window.location.pathname; // Lấy đường dẫn hiện tại
+    // const newPath = currentPath.split("/nhanvien")[0]; // Thêm đoạn mới vào
+    // navigator(`${newPath}/nhanvien`, { replace: true })// Điều hướng đến đường dẫn mới mà không lưu vào lịch sử
+    // props.setAction("main");
     setTypeDisplay("block");
     setThongBao({ message: message.cancle, typeMessage: 'outpage' });
   }

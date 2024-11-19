@@ -1,0 +1,6 @@
+.invalid-feedback {
+    display: block; /* Đảm bảo luôn hiển thị dưới ô input */
+    margin-top: 5px; /* Tạo khoảng cách giữa ô input và thông báo lỗi */
+    color: red; /* Màu sắc tùy chỉnh */
+    font-size: 1rem; /* Điều chỉnh kích thước font nếu cần */
+}

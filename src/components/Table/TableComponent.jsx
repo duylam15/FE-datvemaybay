@@ -1,12 +1,10 @@
 // TableComponent.js
-import EditIcon from "@mui/icons-material/Edit";
-import Button from "@mui/material/Button";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { dataNhanVienSorted } from '../../services/nhanVienServices';
-import './table.css';
-import { PermissionButton, PermissionEditButton } from "../Admin/Sidebar";
 import EditBtn from "../Admin/ColorButtons/EditBtn";
+import { PermissionButton, PermissionEditButton } from "../Admin/Sidebar";
+import './table.css';
 const TableComponent = (props) => {
   console.log("props nhan vien", props.type);
 
@@ -50,21 +48,24 @@ const TableComponent = (props) => {
       return obj[key];
     }
 
-    const date = new Date(obj[key]);
-    if (!isNaN(date.getTime())) {
-      // Lấy ngày, tháng, năm
-      const day = String(date.getDate()).padStart(2, '0'); // Ngày
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng (tháng bắt đầu từ 0)
-      const year = date.getFullYear(); // Năm
+    if (obj[key]?.toString()?.toLowerCase()?.includes(":")) {
+      const date = new Date(obj[key]);
+      if (!isNaN(date.getTime())) {
+        // Lấy ngày, tháng, năm
+        const day = String(date.getDate()).padStart(2, '0'); // Ngày
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng (tháng bắt đầu từ 0)
+        const year = date.getFullYear(); // Năm
 
-      // Lấy giờ, phút, giây
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
+        // Lấy giờ, phút, giây
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
 
-      // Trả về chuỗi định dạng
-      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        // Trả về chuỗi định dạng
+        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+      }
     }
+
     return key.split('.').reduce((o, k) => (o && o[k] !== 'undefined' ? o[k] : null), obj);
   }
 

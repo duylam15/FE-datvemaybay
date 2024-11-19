@@ -60,27 +60,20 @@ const AddChucVu = () => {
   }
 
   const createChucVu = () => {
-
     const fetchData = async () => {
       const ten = tenChucVu;
       const data = { ten, moTa, trangThaiActive };
       const response = await addChucVuService(data);
       console.log(response);
-      if (response.statusCode == 400) {
+      if (response.statusCode == 400 || response.statusCode == 409) {
         emptyField();
         errorField(response.data);
         setTypeDisplay("block");
-        setThongBao({ message: response.message, typeMessage: "inpage" });
+        setThongBao({ message: response.message, typeMessage: 'inpage' });
       }
-      if (response.statusCode == 409) {
-        emptyField();
-        errorField(response.data);
+      if (response.status == 201) {
         setTypeDisplay("block");
-        setThongBao({ message: response.message, typeMessage: "inpage" });
-      }
-      if (response.statusCode == 201) {
-        setTypeDisplay("block");
-        setThongBao({ message: "Thêm thành công", typeMessage: "outpagengay" });
+        setThongBao({ message: "Thêm thành công", typeMessage: 'outpagehere' });
       }
     }
 
@@ -88,20 +81,24 @@ const AddChucVu = () => {
   }
 
   const saveChucVu = () => {
-    const ten = tenChucVu;
-    const data = { idChucVu, ten, moTa, trangThaiActive };
-    updateChucVuService(idChucVu, data)
-      .then((response) => {
-        setTypeDisplay("block");
-        setThongBao({ message: "Sửa chức vụ thành công", typeMessage: "outpagengay" });
-      })
-      .catch((error) => {
+    const fetchData = async () => {
+      const ten = tenChucVu;
+      const data = { idChucVu, ten, moTa, trangThaiActive };
+      const response = await updateChucVuService(idChucVu, data);
+      console.log(response);
+      if (response.statusCode == 400 || response.statusCode == 409) {
         emptyField();
-        errorField(error.response.data.data);
-        console.log(error.response.data);
+        errorField(response.data);
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
-      })
+        setThongBao({ message: response.message, typeMessage: 'inpage' });
+      }
+      if (response.status == 201) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Sửa thành công", typeMessage: 'outpagehere' });
+      }
+    }
+
+    fetchData();
   }
 
   const unable = () => {

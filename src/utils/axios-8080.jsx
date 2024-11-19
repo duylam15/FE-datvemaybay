@@ -32,6 +32,7 @@ instance.defaults.headers.common[
   "Authorization"
 ] = `Bearer ${localStorage.getItem("access_token")}`;
 
+
 const NO_RETRY_HEADER = "x-no-retry";
 
 instance.interceptors.response.use(

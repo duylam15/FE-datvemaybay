@@ -91,7 +91,6 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     const fetchData = async () => {
       const resGiaVe = await getAllGiaVeTheoIdChuyenBay(idChuyenBay);
-      console.log("gia ve la: !", resGiaVe)
       setGiaVeThuong(resGiaVe?.data?.giaVeThuong)
       setGiaVeThuongGia(resGiaVe?.data?.giaVeThuongGia)
     }
@@ -249,7 +248,7 @@ export const AddChuyenBay = () => {
       const responseSanBay = await dataSanBay();
       const getDataSanbay = responseSanBay.data.data;
       setDataSanBay(getDataSanbay.filter((item) => item.trangThaiActive == "ACTIVE"));
-      setone(true);
+      setone(!one);
     };
     fetchData();
   }, [])
@@ -258,18 +257,18 @@ export const AddChuyenBay = () => {
   useEffect(() => {
     const fetchData = async () => {
       const responseTuyenBay = await dataTuyenBay();
-      let getdataTuyenBay = responseTuyenBay.data.data;
+      let getdataTuyenBay = responseTuyenBay.data;
 
-      getdataTuyenBay.map((item) => {
+      getdataTuyenBay?.map((item) => {
         const sanbaybatdau = sanBay.find((s) => s.idSanBay == item.idSanBayBatDau);
         const sanbayketthuc = sanBay.find((s) => s.idSanBay == item.idSanBayKetThuc);
         item.sanBayBatDau = sanbaybatdau;
         item.sanBayKetThuc = sanbayketthuc;
       });
 
-      setTuyenBays(getdataTuyenBay.filter((item) => item.status == "ACTIVE")
+      setTuyenBays(getdataTuyenBay?.filter((item) => item.status == "ACTIVE")
         .sort((a, b) => a.sanBayBatDau?.tenSanBay.localeCompare(b.sanBayBatDau?.tenSanBay)));
-      settwo(true);
+      settwo(!two);
     }
     fetchData();
   }, [one])
@@ -344,7 +343,7 @@ export const AddChuyenBay = () => {
   const [five, setfive] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
-      const tb = tuyenBays.find((item) => selectTuyenBay == item.idTuyenBay)
+      const tb = tuyenBays?.find((item) => selectTuyenBay == item.idTuyenBay)
       setTuyenBay(tb);
       setDataSanBayBatDau({
         idSanBay: tb?.sanBayBatDau?.idSanBay,
@@ -794,228 +793,200 @@ export const AddChuyenBay = () => {
 
   // CREATE CHUYEN BAY 
   const createChuyenBay = () => {
-    console.log("Gia ve th: ", giaVeThuong)
-    console.log("Gia ve thuong gia: ", giaVeThuongGia);
-    noError();
-    const hasError = HasError();
-    if (hasError) return;
+    setone(!one);
+    const fetchData = async () => {
+      noError();
+      const hasError = HasError();
+      if (hasError) return;
 
-    if (checkNhanVienHangKhong()) return;
+      if (checkNhanVienHangKhong()) return;
 
-    delete tuyenBay.sanBayBatDau;
-    delete tuyenBay.sanBayKetThuc;
+      delete tuyenBay.sanBayBatDau;
+      delete tuyenBay.sanBayKetThuc;
 
-    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-');
-    const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
+      const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-');
+      const dataChuyenBay = { delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
 
-    addChuyenbay(dataChuyenBay)
-      .then((response) => {
-        if (response.data.statusCode == 201) {
-          const chuyenBayMoi = response.data.data;
-
-          if (selectedCoTruong) {
-            selectedCoTruong.chuyenBay = chuyenBayMoi;
-            editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong)
-              .then(() => {
-              })
-              .catch((err) => {
-              })
-          }
-
-          if (selectedCoPho) {
-            selectedCoPho.chuyenBay = chuyenBayMoi;
-            editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
-              .then(() => {
-              })
-              .catch((err) => {
-              })
-          }
-
-          const newList = dataTiepVienMoi;
-          if (newList.length > 0) {
-            newList?.map((item) => {
-              item.chuyenBay = chuyenBayMoi;
-              editNhanVien(item.idNhanVien, item)
-                .then(() => {
-                })
-                .catch((err) => {
-                })
-            });
-          }
-          setTypeDisplay("block");
-          setThongBao({ message: message.sucessAdd, type: "outpagengay" });
-        }
-      })
-      .catch(error => {
-        const errorData = error.response.data.data;
+      const response = await addChuyenbay(dataChuyenBay);
+      console.log(response);
+      if (response.statusCode == 409) {
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data?.message, typeMessage: "inpage" });
-      })
-  }
-
-  const suaChuyenBay = () => {
-
-    /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
-    const currentTime = new Date();
-    const endreal = new Date(thoiGianKetThucThucTe);
-    if (trangThaiCu == "IN_FLIGHT" && currentTime.getTime() < endreal.getTime()) {
-      setTypeDisplay("block");
-      setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
-      return;
-    }
-    if (trangThai == "CANCELED" || trangThai == "COMPLETED") {
-      if (selectedCoTruongCu) {
-        selectedCoTruongCu.chuyenBay = null;
-        editNhanVien(selectedCoTruongCu.idNhanVien, selectedCoTruongCu)
-          .then(() => {
-          })
-          .catch((err) => {
-          })
+        setThongBao({ message: response.message, typeMessage: "inpage" });
       }
-      if (selectedCoPhoCu) {
-        selectedCoPhoCu.chuyenBay = null;
-        editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu)
-          .then((response) => {
-
-          })
-          .catch((err) => {
-          })
-      }
-
-      if (dataTiepVienCu.length > 0) {
-        dataTiepVienCu?.map((item) => {
-          item.chuyenBay = null;
-          editNhanVien(item.idNhanVien, item)
+      if (response.status == 201) {
+        const chuyenBayMoi = response.data.data;
+        if (selectedCoTruong) {
+          selectedCoTruong.chuyenBay = chuyenBayMoi;
+          editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong)
             .then(() => {
             })
             .catch((err) => {
             })
-        });
+        }
+
+        if (selectedCoPho) {
+          selectedCoPho.chuyenBay = chuyenBayMoi;
+          editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
+            .then(() => {
+            })
+            .catch((err) => {
+            })
+        }
+
+        const newList = dataTiepVienMoi;
+        if (newList.length > 0) {
+          newList?.map((item) => {
+            item.chuyenBay = chuyenBayMoi;
+            editNhanVien(item.idNhanVien, item)
+              .then(() => {
+              })
+              .catch((err) => {
+              })
+          });
+        }
+        setTypeDisplay("block");
+        setThongBao({ message: message.sucessAdd, type: "outpagengay" });
       }
+    }
+    fetchData();
+  }
+
+  const suaChuyenBay = () => {
+    setone(!one);
+    const fetchData = async () => {
+      /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
+      const currentTime = new Date();
+      const endreal = new Date(thoiGianKetThucThucTe);
+      if (trangThaiCu == "IN_FLIGHT" && currentTime.getTime() < endreal.getTime()) {
+        setTypeDisplay("block");
+        setThongBao({ message: "Chuyến bay đang diễn ra .Không thể thay đổi thông tin", typeMessage: "inpage" });
+        return;
+      }
+
+      if (trangThaiCu == "CANCELED") {
+        setTypeDisplay("block");
+        setThongBao({ message: "Chuyến bay đã huỷ .Không thể thay đổi thông tin", typeMessage: "inpage" });
+        return;
+      }
+
+      if (trangThaiCu == "COMPLETED") {
+        setTypeDisplay("block");
+        setThongBao({ message: "Chuyến bay đã hoàn thành .Không thể thay đổi thông tin", typeMessage: "inpage" });
+        return;
+      }
+
+      if (trangThai == "CANCELED" || trangThai == "COMPLETED") {
+        if (selectedCoTruongCu) {
+          selectedCoTruongCu.chuyenBay = null;
+          const rseditnhanvien = await editNhanVien(selectedCoTruongCu.idNhanVien, selectedCoTruongCu);
+        }
+        if (selectedCoPhoCu) {
+          selectedCoPhoCu.chuyenBay = null;
+          const rseditnhanvien = await editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu)
+        }
+
+        if (dataTiepVienCu.length > 0) {
+          dataTiepVienCu?.map(async (item) => {
+            item.chuyenBay = null;
+            const rseditNhanVien = await editNhanVien(item.idNhanVien, item)
+          });
+        }
+
+        delete tuyenBay.sanBayBatDau;
+        delete tuyenBay.sanBayKetThuc;
+        const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
+        const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
+        const response = await updateChuyenBay(idChuyenBay, dataChuyenBay);
+        if (response.status == 201) {
+          if (trangThai == "COMPLETED") {
+            const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
+            mayBay.sanBay = sanBayMoi;
+            const rseditmay = editMayBay(mayBay.idMayBay, mayBay);
+          }
+          setTypeDisplay("block");
+          setThongBao({ message: "Sửa chuyến bay thành công", typeMessage: "outpagengay" });
+        }
+        return;
+      }
+      noError();
+      let hasError = HasError();
+      if (hasError) return;
+
+      if (checkNhanVienHangKhong()) return;
 
       delete tuyenBay.sanBayBatDau;
       delete tuyenBay.sanBayKetThuc;
       const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
       const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
-      updateChuyenBay(idChuyenBay, dataChuyenBay)
-        .then((response) => {
-          if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
-            const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
-            mayBay.sanBay = sanBayMoi;
-            editMayBay(mayBay.idMayBay, mayBay)
-              .then(() => {
-
-              })
-              .catch((error) => {
-
-              })
-          }
-          else {
-            console.log("chuyen bay chua hoan tat , khong the thay doi san bay");
-          }
-          setTypeDisplay("block");
-          setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
-        })
-        .catch((error) => {
-          setTypeDisplay("block");
-          setThongBao({ message: "Không thể sửa chuyến bay ", typeMessage: "inpage" })
-          const errorData = error.response.data.data;
-        })
-
-      return;
-    }
-
-    noError();
-    let hasError = HasError();
-    if (hasError) return;
-
-    if (checkNhanVienHangKhong()) return;
-
-    delete tuyenBay.sanBayBatDau;
-    delete tuyenBay.sanBayKetThuc;
-    const nvhk = indexCoTruong + "/" + indexCoPho + "/" + danhSachTiepVien.join('-')
-    const dataChuyenBay = { idChuyenBay, delay, iataChuyenBay, icaoChuyenBay, ngayBay, thoiGianBatDauDuTinh, thoiGianBatDauThucTe, thoiGianKetThucDuTinh, thoiGianKetThucThucTe, trangThai, trangThaiActive, soGhe, tuyenBay, cong, mayBay, nvhk, giaVeThuong, giaVeThuongGia };
-    updateChuyenBay(idChuyenBay, dataChuyenBay)
-      .then((response) => {
-        if (response.data.statusCode == 201 && trangThai == "COMPLETED") {
-          const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
-          mayBay.sanBay = sanBayMoi;
-          editMayBay(mayBay.idMayBay, mayBay)
-            .then(() => {
-
-            })
-            .catch((error) => {
-
-            })
-        }
+      const response = await updateChuyenBay(idChuyenBay, dataChuyenBay);
+      console.log(response);
+      if (response.status == 200) {
         setTypeDisplay("block");
         setThongBao({ message: response.data.message, typeMessage: "outpagengay" });
-      })
-      .catch((error) => {
-        const errorData = error.response.data.data;
+      }
+      if (response.status == 201) {
+        if (trangThai == "COMPLETED") {
+          const sanBayMoi = sanBay.find((item) => item.idSanBay == dataSanBayKetThuc.idSanBay)
+          mayBay.sanBay = sanBayMoi;
+          const rsmaybay = editMayBay(mayBay.idMayBay, mayBay);
+          if (selectedCoTruongCu && selectedCoTruong && selectedCoTruong.idNhanVien != selectedCoTruongCu.idNhanVien) {
+            selectedCoTruong.chuyenBay = dataSelectChuyenBay;
+            const rscotruong = await editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong);
+
+            selectedCoTruongCu.chuyenBay = null;
+            const rscotruongcu = await editNhanVien(selectedCoTruongCu.idNhanVien, selectedCoTruongCu);
+          }
+          if (selectedCoPhoCu && selectedCoPho && selectedCoPho.idNhanVien != selectedCoPhoCu.idNhanVien) {
+            selectedCoPho.chuyenBay = dataSelectChuyenBay;
+            const rscopho = await editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
+
+            selectedCoPhoCu.chuyenBay = null;
+            const rscophoCu = await editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu);
+          }
+
+          const oldList = dataTiepVienCu;
+          const newList = dataTiepVienMoi;
+          // Phần giống nhau
+          const same = oldList.filter(oldItem =>
+            newList.some(newItem =>
+              newItem.idNhanVien === oldItem.idNhanVien && JSON.stringify(newItem) === JSON.stringify(oldItem)
+            )
+          );
+
+          // Danh sách 1 khác danh sách 2 (chỉ có trong oldList)
+          const onlyInOldList = oldList.filter(oldItem =>
+            !newList.some(newItem => newItem.idNhanVien === oldItem.idNhanVien)
+          );
+
+          // Danh sách 2 khác danh sách 1 (chỉ có trong newList)
+          const onlyInNewList = newList.filter(newItem =>
+            !oldList.some(oldItem => oldItem.idNhanVien === newItem?.idNhanVien)
+          );
+
+          if (onlyInOldList.length > 0) {
+            onlyInOldList?.map(async (item) => {
+              item.chuyenBay = null;
+              const rsnhanvien = await editNhanVien(item.idNhanVien, item);
+            });
+          }
+
+          if (onlyInNewList.length > 0) {
+            onlyInNewList?.map(async (item) => {
+              item.chuyenBay = dataSelectChuyenBay;
+              const rsnhanvien = await editNhanVien(item.idNhanVien, item);
+            });
+          }
+        }
         setTypeDisplay("block");
-        setThongBao({ message: error.response.data.message, typeMessage: "inpage" });
-      })
+        setThongBao({ message: "Sửa chuyến bay thành công", typeMessage: "outpagengay" });
+      }
 
-    if (selectedCoTruongCu && selectedCoTruong && selectedCoTruong.idNhanVien != selectedCoTruongCu.idNhanVien) {
-      selectedCoTruong.chuyenBay = dataSelectChuyenBay;
-      editNhanVien(selectedCoTruong.idNhanVien, selectedCoTruong)
-        .then(() => {
-        })
-      selectedCoTruongCu.chuyenBay = null;
-      editNhanVien(selectedCoTruongCu.idNhanVien, selectedCoTruongCu)
-        .then(() => {
-        })
+      if (response.statusCode == 409) {
+        setTypeDisplay("block");
+        setThongBao({ message: response.message, typeMessage: "inpage" });
+      }
     }
-    if (selectedCoPhoCu && selectedCoPho && selectedCoPho.idNhanVien != selectedCoPhoCu.idNhanVien) {
-      selectedCoPho.chuyenBay = dataSelectChuyenBay;
-      editNhanVien(selectedCoPho.idNhanVien, selectedCoPho)
-        .then(() => {
-        })
-      selectedCoPhoCu.chuyenBay = null;
-      editNhanVien(selectedCoPhoCu.idNhanVien, selectedCoPhoCu)
-        .then(() => {
-        })
-    }
-
-    const oldList = dataTiepVienCu;
-    const newList = dataTiepVienMoi;
-    // Phần giống nhau
-    const same = oldList.filter(oldItem =>
-      newList.some(newItem =>
-        newItem.idNhanVien === oldItem.idNhanVien && JSON.stringify(newItem) === JSON.stringify(oldItem)
-      )
-    );
-
-    // Danh sách 1 khác danh sách 2 (chỉ có trong oldList)
-    const onlyInOldList = oldList.filter(oldItem =>
-      !newList.some(newItem => newItem.idNhanVien === oldItem.idNhanVien)
-    );
-
-    // Danh sách 2 khác danh sách 1 (chỉ có trong newList)
-    const onlyInNewList = newList.filter(newItem =>
-      !oldList.some(oldItem => oldItem.idNhanVien === newItem?.idNhanVien)
-    );
-
-    if (onlyInOldList.length > 0) {
-      onlyInOldList?.map((item) => {
-        item.chuyenBay = null;
-        editNhanVien(item.idNhanVien, item)
-          .then(() => {
-          })
-      });
-    }
-
-    if (onlyInNewList.length > 0) {
-      onlyInNewList?.map((item) => {
-        item.chuyenBay = dataSelectChuyenBay;
-        editNhanVien(item.idNhanVien, item)
-          .then(() => {
-            console.log("thanh cong");
-          })
-      });
-    }
-
+    fetchData();
   }
 
   const [errorCoTruong, setErrorCoTruong] = useState("");
@@ -1076,7 +1047,7 @@ export const AddChuyenBay = () => {
                 <select name="" id="" onChange={handleSelectTuyenBay} value={selectTuyenBay}>
                   {selectTuyenBay == 0 && <option value="0">Chọn tuyến bay</option>}
                   {
-                    tuyenBays.map((item) => (
+                    tuyenBays?.map((item) => (
                       <option value={item.idTuyenBay}>{item.sanBayBatDau?.tenSanBay}{"->"}{item.sanBayKetThuc?.tenSanBay}</option>
                     ))
                   }

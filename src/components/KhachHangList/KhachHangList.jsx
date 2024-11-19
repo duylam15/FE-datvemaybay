@@ -1,11 +1,36 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import EditBtn from "../../components/Admin/ColorButtons/EditBtn";
 import SearchBtn from "../../components/Admin/ColorButtons/SearchBtn";
 import { PermissionButton } from '../Admin/Sidebar';
-const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSearch, handleSort, sortOrder, sortField }) => {
+
+const KhachHangList = ({
+    khachHang = [],
+    onEdit,
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    handleSort,
+    sortOrder,
+    sortField
+}) => {
+    const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+    const itemsPerPage = 5; // Số lượng khách hàng mỗi trang
+
+    // Tính toán chỉ số bắt đầu và kết thúc của các khách hàng hiển thị trên trang hiện tại
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentKhachHang = Array.isArray(khachHang) 
+        ? khachHang.slice(indexOfFirstItem, indexOfLastItem)
+        : [];
+    // Số lượng trang
+    const totalPages = Math.ceil(khachHang.length / itemsPerPage);
+
+    // Hàm chuyển trang
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     return (
         <div>
+            {/* Thanh tìm kiếm */}
             <div className="search-sort-controlss" style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -27,15 +52,16 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                         border: '1px solid #858383'
                     }}
                 />
-                <div onClick={handleSearch}><SearchBtn></SearchBtn></div>
+                <div onClick={handleSearch}><SearchBtn /></div>
             </div>
+            
+            {/* Bảng danh sách khách hàng */}
             <table className="table table-striped">
                 <thead className="thead-dark">
                     <tr>
                         <th onClick={() => handleSort('idKhachHang')}>
                             ID {sortField === 'idKhachHang' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        {/* <th>#</th> */}
                         <th onClick={() => handleSort('hoTen')}>
                             Họ Tên {sortField === 'hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
@@ -54,40 +80,49 @@ const KhachHangList = ({ khachHang, onEdit, searchTerm, setSearchTerm, handleSea
                     </tr>
                 </thead>
                 <tbody>
-                    {khachHang.map(kh => (
-                        <tr key={kh.idKhachHang}>
-                            {/* <td>
-                                {kh.point >= 1000000 ? (
-                                    <span>
-                                        <img src="/public/images/star-badge.png" alt="Diamond" style={{ width: '24px', height: '24px' }} />
-                                    </span>
-                                ) : kh.point >= 700000 ? (
-                                    <span>
-                                        <img src="/public/images/silver-badge.png" alt="Gold" style={{ width: '24px', height: '24px' }} />
-                                    </span>
-                                ) : kh.point >= 200000 ? (
-                                    <span>
-                                        <img src="/public/images/coin.png" alt="Silver" style={{ width: '24px', height: '24px' }} />
-                                    </span>
-                                ) : (
-                                    <span></span>
-                                )}
-                            </td> */}
-                            <td>{kh.idKhachHang}</td>
-                            <td>{kh.hoTen}</td>
-                            <td>{kh.email}</td>
-                            <td>{kh.soDienThoai}</td>
-                            <td>{kh.point}</td>
-                            <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
-                            <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
-                            <td>
-                            <PermissionButton feature="Quản lí khách hàng" idButton={kh.idKhachHang} onEdit={onEdit}>
-                            </PermissionButton>
-                            </td>
+                    {currentKhachHang.length > 0 ? (
+                        currentKhachHang.map(kh => (
+                            <tr key={kh.idKhachHang}>
+                                <td>{kh.idKhachHang}</td>
+                                <td>{kh.hoTen}</td>
+                                <td>{kh.email}</td>
+                                <td>{kh.soDienThoai}</td>
+                                <td>{kh.point}</td>
+                                <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
+                                <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
+                                <td>
+                                    <PermissionButton feature="Quản lí khách hàng" idButton={kh.idKhachHang} onEdit={onEdit}>
+                                        <EditBtn />
+                                    </PermissionButton>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="8" className="text-center">Không có khách hàng!</td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
             </table>
+            
+            {/* Phân trang */}
+            {totalPages > 1 && (
+                <ul className="pagination pagination-lg">
+                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                        <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                    </li>
+                    {[...Array(totalPages).keys()].map(number => (
+                        <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
+                            <a className="page-link" href="#" onClick={() => paginate(number + 1)}>
+                                {number + 1}
+                            </a>
+                        </li>
+                    ))}
+                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                        <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                    </li>
+                </ul>
+            )}
         </div>
     );
 };

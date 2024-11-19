@@ -24,7 +24,8 @@ const ChucVu = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await dataChucVu()
-            setData(response.data);
+            console.log(response.data.data);
+            setData(response.data.data);
             setone(!one);
         }
         fetchData();
@@ -42,7 +43,8 @@ const ChucVu = () => {
         console.log(searchInfor);
         const fetchData = async () => {
             const response = await filterChucVuService(searchInfor, searchTrangthai)
-            setData(response.data);
+            console.log(response.data.data);
+            setData(response.data.data);
         }
         fetchData();
     }, [searchInfor, searchTrangthai])
