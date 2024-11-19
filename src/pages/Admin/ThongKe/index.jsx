@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
-import { Select, Card } from 'antd';
-
+import { Select, Card, Spin, Table } from 'antd';
+import axios from 'axios';
 const { Option } = Select;
 
 export default function ThongKe() {
-	const [timeFrame, setTimeFrame] = useState('Tháng');
+	const [timeFrame, setTimeFrame] = useState('monthly');
 	const [revenueView, setRevenueView] = useState('Tháng'); // Trạng thái hiển thị doanh thu
 
 	// Dữ liệu mẫu
@@ -141,14 +141,77 @@ export default function ThongKe() {
 		smooth: true,
 	};
 
+
+	// --------------------------------------------------------------------------------------------------
+	const [viewType, setViewType] = useState('Chart'); // Chart, Table
+	const [customerCount, setCustomerCount] = useState(null); // Số khách hàng tổng cộng
+	const [growthData, setGrowthData] = useState([]); // Dữ liệu tăng trưởng
+	const [loading, setLoading] = useState(false); // Loading state
+	// Fetch tổng số khách hàng
+	useEffect(() => {
+		const fetchTotalCustomers = async () => {
+			try {
+				const response = await axios.get('http://localhost:8080/khachhang/totalKhachHang');
+				setCustomerCount(response.data);
+			} catch (error) {
+				console.error('Error fetching total customers:', error);
+			}
+		};
+		fetchTotalCustomers();
+	}, []);
+	// Fetch dữ liệu tăng trưởng
+	useEffect(() => {
+		const fetchGrowthRate = async () => {
+			setLoading(true); // Bắt đầu loading ngay lập tức
+			try {
+				const response = await axios.get('http://localhost:8080/khachhang/growthRate', {
+					params: { period: timeFrame.toLowerCase() },
+				});
+				const formattedData = Object.entries(response.data.data).map(([time, rate]) => ({
+					time,
+					growthRate: rate,
+				}));
+				setGrowthData(formattedData); // Cập nhật dữ liệu
+			} catch (error) {
+				console.error('Error fetching growth rate:', error); // Xử lý lỗi nếu có
+			} finally {
+				// Đảm bảo loading luôn hiển thị ít nhất 1 giây
+				setTimeout(() => {
+					setLoading(false); // Tắt loading sau 1 giây
+				}, 300);
+			}
+		};
+
+		fetchGrowthRate(); // Gọi hàm fetchGrowthRate khi timeFrame thay đổi
+	}, [timeFrame]); // Chạy lại effect khi timeFrame thay đổi
+
+
+	// Cấu hình biểu đồ
+	const growthRateConfig = {
+		data: growthData,
+		xField: 'time',
+		yField: 'growthRate',
+		smooth: true,
+		point: { size: 5, shape: 'diamond' },
+		tooltip: {
+			showMarkers: false,
+		},
+		areaStyle: { fillOpacity: 0.2 },
+	};
+	// Cấu hình bảng
+	const columns = [
+		{ title: 'Thời gian', dataIndex: 'time', key: 'time' },
+		{ title: 'Tỉ lệ tăng (%)', dataIndex: 'growthRate', key: 'growthRate' },
+	];
+	// ------------------------------------------------------------------------------------------------
 	return (
 		<div className="thongke">
 			<div className="stats-container">
 				<Card title="Số chuyến bay" bordered>
 					100
 				</Card>
-				<Card title="Số khách hàng" bordered>
-					1500
+				<Card title="Tổng số khách hàng" bordered>
+					{customerCount !== null ? customerCount : <Spin />}
 				</Card>
 				<Card title="Số máy bay" bordered>
 					10
@@ -190,9 +253,49 @@ export default function ThongKe() {
 				{/* Cột phải (chiếm 1 cột) */}
 				<div className="chart-right">
 					<div className="chart-item">
-						<h2>Tỉ lệ tăng khách hàng</h2>
-						<Line {...customerConfig} />
+						<h2>Tỉ lệ tăng trưởng khách hàng</h2>
+						<div style={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
+							<Select
+								value={timeFrame}
+								style={{ width: 100, marginRight: 10 }}
+								onChange={(value) => setTimeFrame(value)}
+							>
+								<Option value="monthly">Tháng</Option>
+								<Option value="quarterly">Quý</Option>
+								<Option value="yearly">Năm</Option>
+							</Select>
+							<Select
+								value={viewType}
+								style={{ width: 100 }}
+								onChange={(value) => setViewType(value)}
+							>
+								<Option value="Chart">Biểu đồ</Option>
+								<Option value="Table">Bảng</Option>
+							</Select>
+						</div>
+
+						{/* Cố định chiều cao của container */}
+						<div style={{ height: '430px', position: 'relative' }}>
+							{/* Hiển thị loading hoặc dữ liệu */}
+							{loading ? (
+								<div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+									<Spin />
+								</div>
+							) : viewType === 'Chart' ? (
+								<Line {...growthRateConfig} />
+							) : (
+								<Table
+									dataSource={growthData.map((item, index) => ({ key: index, ...item }))}
+									columns={columns}
+									pagination={{
+										pageSize: 4,
+										showSizeChanger: false,
+									}}
+								/>
+							)}
+						</div>
 					</div>
+
 					<div className="chart-item">
 						<h2>Top 5 tuyến bay tần suất cao Hưng Lộc</h2>
 						<Column {...flightRouteFrequencyConfig} />
