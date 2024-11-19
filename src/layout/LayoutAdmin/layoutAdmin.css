@@ -20,12 +20,34 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: calc(100% - 240px);
     height: 60px;
     z-index: 777;
-    background-color: red;
     margin-left: 240px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 .pt_35px {
     padding-top: 35px;
+}
+.container_header_admin {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: flex-end;
+    height: 60px;
+}
+.flex_header_admin {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.img_icon_person {
+    cursor: pointer;
+}
+.block_thongtin{
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }

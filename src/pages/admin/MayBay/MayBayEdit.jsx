@@ -144,14 +144,17 @@ const MayBayEdit = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Tên Máy Bay:</label>
-                    <input
-                        type="text"
-                        name="tenMayBay"
-                        className={`form-control ${fieldErrors.tenMayBay ? 'is-invalid' : ''}`} // Thêm lớp is-invalid nếu có lỗi
-                        value={mayBay.tenMayBay}
-                        onChange={handleChange}
-                    />
-                    {fieldErrors.tenMayBay && <div className="invalid-feedback">{fieldErrors.tenMayBay}</div>} {/* Hiển thị thông báo lỗi */}
+                    <div className='form-insert'>
+                        <input
+                            type="text"
+                            name="tenMayBay"
+                            className={`form-control ${fieldErrors.tenMayBay ? 'is-invalid' : ''}`} 
+                            value={mayBay.tenMayBay}
+                            onChange={handleChange}
+                        />
+                        {fieldErrors.tenMayBay && <div className="invalid-feedback">{fieldErrors.tenMayBay}</div>}
+                    </div>
+                     
                 </div>
                 <div className="form-group">
                     <label>Hãng Bay</label>
@@ -189,7 +192,8 @@ const MayBayEdit = () => {
                 </div>
                 <div className="form-group">
                     <label>ICAO Máy Bay:</label>
-                    <input
+                    <div className='form-insert'>
+                        <input
                         type="text"
                         name="icaoMayBay"
                         className={`form-control ${fieldErrors.icaoMayBay ? 'is-invalid' : ''}`}
@@ -197,6 +201,8 @@ const MayBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.icaoMayBay && <div className="invalid-feedback">{fieldErrors.icaoMayBay}</div>}
+                    </div>
+                    
                 </div>
                 <div className="form-group">
                     <label>Số Hàng Ghế Thường:</label>
@@ -245,7 +251,8 @@ const MayBayEdit = () => {
                 </div>
                 <div className="form-group">
                     <label>Số Hiệu:</label>
-                    <input
+                    <div className='form-insert'>
+                        <input
                         type="text"
                         name="soHieu"
                         className={`form-control ${fieldErrors.soHieu ? 'is-invalid' : ''}`}
@@ -253,10 +260,13 @@ const MayBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.soHieu && <div className="invalid-feedback">{fieldErrors.soHieu}</div>}
+                    </div>
+                    
                 </div>
                 <div className="form-group">
                     <label>Năm Sản Xuất:</label>
-                    <input
+                    <div className='form-insert'>
+                        <input
                         type="text"
                         name="namSanXuat"
                         className={`form-control ${fieldErrors.namSanXuat ? 'is-invalid' : ''}`}
@@ -264,6 +274,7 @@ const MayBayEdit = () => {
                         onChange={handleChange}
                     />
                     {fieldErrors.namSanXuat && <div className="invalid-feedback">{fieldErrors.namSanXuat}</div>}
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>Trạng Thái:</label>

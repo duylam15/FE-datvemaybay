@@ -88,3 +88,15 @@ label {
     align-items: center; /* Căn giữa theo chiều dọc */
     height: 100%; /* Đảm bảo nút chiếm toàn bộ chiều cao ô */
 }
+.form-insert {
+    display: flex;
+    flex-direction: column;
+    width: 895px;
+}
+.form-insert .invalid-feedback {
+    color: red; /* Màu chữ cảnh báo */
+    font-size: 14px; /* Cỡ chữ nhỏ hơn */
+}
+.form-insert .form-control {
+    width: 100%;
+}
