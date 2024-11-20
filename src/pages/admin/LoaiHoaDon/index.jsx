@@ -5,7 +5,6 @@ import { editLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
 import { searchLoaiHoaDon } from '../../../services/loaiHoaDonService.js';
 import { handleSort } from '../../../services/loaiHoaDonService.js';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import { Link, Outlet } from "react-router-dom";
 import IconLabelButtons from "../../../components/Admin/ColorButtons";

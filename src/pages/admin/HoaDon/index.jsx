@@ -1,6 +1,5 @@
 // pơges/PhuongThucThanhToan
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchHoaDon } from '../../../utils/useFetchHoaDon.jsx';
 import HoaDonList from './HoaDonList.jsx';
