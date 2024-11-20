@@ -156,9 +156,19 @@ const Home = () => {
 					}
 				}));
 
+				const hangHoaDTOList = [
+					{
+						"idLoaiHangHoa": 1,
+						"tenHangHoa": "Hàng hóa 1",
+						"taiTrong": 0,
+						"trangThaiActive": "ACTIVE"
+					}
+				]
+
 				const data = {
 					hoaDonDTO: hoaDonDTO,
-					chiTietHoaDonDTOList: chiTietHoaDonDTOList
+					chiTietHoaDonDTOList: chiTietHoaDonDTOList,
+					hangHoaDTOList
 				};
 
 				axios.post('http://localhost:8080/createHoaDon', data)
