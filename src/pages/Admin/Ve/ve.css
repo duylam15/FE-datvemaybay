@@ -223,3 +223,32 @@ tbody tr:hover {
 .ant-picker-content thead tr th {
     color: #fff !important;
 }
+
+.search-sort-controlsss {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search-sort-controlsss .blockInput {
+    height: 35px;
+}
+.search-sort-controlsss .blockInput input {
+    height: 100%;
+}
+.search-sort-controlsss .blockInput .ant-space {
+    height: 100%;
+}
+.search-sort-controlsss .blockInput .ant-picker {
+    height: 100%;
+}
+.search-sort-controlsss .blockInput .ant-space-item {
+    height: 100%;
+}
+.search-sort-controlsss .blockInput .ant-input-affix-wrapper {
+    height: 100%;
+}
+
+
+
+

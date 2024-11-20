@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Input, DatePicker, Select } from 'antd';
-import { UserOutlined, MailOutlined, IdcardOutlined, PhoneOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const { Option } = Select;
 const dateFormat = 'YYYY-MM-DD';
 
-const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChieu, handleInputChange }) => {
+const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, handleInputChange, trangThaiVe }) => {
     const handleDateChange = (date, dateString) => {
         handleInputChange({ target: { name: 'ngaySinh', value: dateString } });
     };
@@ -29,6 +29,7 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
                                 prefix={<UserOutlined />}
                                 value={hoTen}
                                 onChange={handleInputChange}
+                                disabled={trangThaiVe === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
                             />
                         </div>
                     </div>
@@ -41,8 +42,8 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
                                 format={dateFormat}
                                 name="ngaySinh"  // Name for mapping
                                 onChange={handleDateChange}
+                                disabled={trangThaiVe === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
                             />
-
                         </div>
                     </div>
 
@@ -55,24 +56,11 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
                                 style={{ width: 200 }}
                                 onChange={handleSelectChange}
                                 placeholder="Chọn giới tính"
+                                disabled={trangThaiVe === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
                             >
                                 <Option value="NAM">Nam</Option>
                                 <Option value="NU">Nữ</Option>
                             </Select>
-                        </div>
-                    </div>
-
-                    <div className="row_input">
-                        <div className='label'>CCCD: </div>
-                        <div className='w-260px'>
-                            <Input
-                                name='CCCD'
-                                placeholder="Nhập CCCD hành khách"
-                                value={CCCD}
-                                showCount maxLength={12}
-                                onChange={handleInputChange}
-
-                            />
                         </div>
                     </div>
                 </div>
@@ -88,6 +76,7 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
                                 value={SDT}
                                 showCount maxLength={10}
                                 onChange={handleInputChange}
+                                disabled={trangThaiVe === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
                             />
                         </div>
                     </div>
@@ -101,19 +90,20 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
                                 prefix={<MailOutlined />}
                                 value={email}
                                 onChange={handleInputChange}
+                                disabled={trangThaiVe === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
                             />
                         </div>
                     </div>
 
                     <div className="row_input">
-                        <div className='label'>Hộ chiếu: </div>
+                        <div className='label'>CCCD: </div>
                         <div className='w-260px'>
                             <Input
-                                name='hoChieu'
-                                placeholder="Nhập hộ chiếu"
-                                prefix={<IdcardOutlined />}
-                                value={hoChieu}
-                                onChange={handleInputChange}
+                                name='CCCD'
+                                placeholder="Nhập CCCD hành khách"
+                                value={CCCD}
+                                showCount maxLength={12}
+                                disabled // Luôn luôn không cho sửa
                             />
                         </div>
                     </div>
@@ -121,8 +111,6 @@ const InfoHanhKhachInput = ({ hoTen, ngaySinh, gioiTinh, CCCD, SDT, email, hoChi
             </div>
         </>
     );
-
 };
-
 
 export default InfoHanhKhachInput;

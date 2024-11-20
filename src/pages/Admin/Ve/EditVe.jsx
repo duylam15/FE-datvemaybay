@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './editVe.scss';
-import { Select } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { Input } from 'antd';
 import { GradientButton, GradientButtonBack, GradientButtonCancel } from '../../../components/Admin/GradientButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllStatusVe, getChiTietVeTheoId, editVe } from '../../../services/veService';
 import { message } from 'antd'; // Import Ant Design message component for notifications
-import InfoHanhKhach from './Components/InfoHanhKhach';
-import InfoHanhKhachInput from './Components/InfoHanhKhachInput';
 import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 const { Option } = Select;
-
+import { Input, DatePicker, Select } from 'antd';
+import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+const dateFormat = 'YYYY-MM-DD';
 
 const EditVe = () => {
     const { idVe } = useParams();
@@ -136,7 +134,7 @@ const EditVe = () => {
         console.log("Updated Data received from child:", updatedData);
         setDataVePrint((prevData) => ({
             ...prevData,
-            hanhKhach: updatedData || {} 
+            hanhKhach: updatedData || {}
         }));
     };
 
@@ -171,6 +169,24 @@ const EditVe = () => {
         return `${hours}h${remainingMinutes}m`;
     }
 
+    const handleNgaySinhChange = (date, dateString) => {
+        setDataVePrint((prevData) => ({
+            ...prevData,
+            hanhKhach: {
+                ...prevData.hanhKhach,
+                ngaySinh: dateString, // Sử dụng dateString đã được định dạng sẵn bởi DatePicker
+            },
+        }));
+    };
+    const handleGioiTinhChange = (value, option) => {
+        setDataVePrint((prevData) => ({
+            ...prevData,
+            hanhKhach: {
+                ...prevData.hanhKhach,
+                gioiTinh: value, // Cập nhật trạng thái dựa trên giá trị chọn
+            },
+        }));
+    };
 
 
     const handleEdit = async () => {
@@ -190,9 +206,9 @@ const EditVe = () => {
             // Lấy dữ liệu từ dataVePrint để gửi lên server
             const data = {
                 idVe: dataVePrint.idVe,
-                giaVe: dataVePrint.giaVe,
-                trangThai: dataVePrint.trangThai,
                 tenHanhKhach: dataVePrint.hanhKhach.hoTen,
+                gioiTinhEnum: dataVePrint.hanhKhach.gioiTinh,
+                ngaySinh: dataVePrint.hanhKhach.ngaySinh,
                 trangThaiActive: dataVePrint.trangThaiActive
             };
             console.log("data to Edit: ", data)
@@ -217,30 +233,99 @@ const EditVe = () => {
         <div className='page_edit_ve'>
             <p className='titleBIG'>Thông tin chi tiết vé</p>
             <div className='infoHanhKhach_XuatVe'>
-                {dataVePrint.trangThai === "EMPTY" ? (
-                    <InfoHanhKhachInput
-                        hoTen={dataVePrint.hanhKhach.hoTen}
-                        handleInputChange={handleInputChange}
-                        ngaySinh={dataVePrint.hanhKhach.ngaySinh}
-                        gioiTinh={dataVePrint.hanhKhach.gioiTinh}
-                        CCCD={dataVePrint.hanhKhach.CCCD}
-                        SDT={dataVePrint.hanhKhach.SDT}
-                        email={dataVePrint.hanhKhach.email}
-                        hoChieu={dataVePrint.hanhKhach.hoChieu}
-                    />
-                ) : (
-                    <InfoHanhKhach
-                        hoTen={dataVePrint.hanhKhach.hoTen}
-                        handleInputChange={handleInputChange}
-                        ngaySinh={dataVePrint.hanhKhach.ngaySinh}
-                        gioiTinh={dataVePrint.hanhKhach.gioiTinh}
-                        CCCD={dataVePrint.hanhKhach.CCCD}
-                        SDT={dataVePrint.hanhKhach.SDT}
-                        email={dataVePrint.hanhKhach.email}
-                        hoChieu={dataVePrint.hanhKhach.hoChieu}
-                    />
-                )}
+                <>
+                    <p className='title_'>Thông tin hành khách</p>
+                    <div className="content">
+                        <div className='content_hanhKhach'>
+                            <div className="row_input">
+                                <div className='label'>Họ tên: </div>
+                                <div className='w-260px'>
+                                    <Input
+                                        name='hoTen'
+                                        placeholder="Nhập tên hành khách"
+                                        prefix={<UserOutlined />}
+                                        value={dataVePrint.hanhKhach.hoTen}
+                                        onChange={handleInputChange}
+                                        disabled={dataVePrint.trangThai === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
+                                    />
+                                </div>
+                            </div>
 
+                            <div className="row_input">
+                                <div className='label'>Ngày sinh: </div>
+                                <div className='w-260px'>
+                                    <DatePicker
+                                        value={dataVePrint.hanhKhach.ngaySinh ? dayjs(dataVePrint.hanhKhach.ngaySinh) : null} // Hiển thị ngày nếu có
+                                        format={dateFormat} // Định dạng ngày hiển thị
+                                        onChange={handleNgaySinhChange} // Hàm xử lý khi thay đổi
+                                        disabled={dataVePrint.trangThai === "EMPTY"} // Không cho phép chỉnh sửa nếu trạng thái là EMPTY
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="row_input">
+                                <div className='label'>Giới tính: </div>
+                                <div className='w-260px'>
+                                    <Select
+                                        name='gioiTinh'
+                                        value={dataVePrint.hanhKhach.gioiTinh}
+                                        style={{ width: 200 }}
+                                        onChange={handleGioiTinhChange}
+                                        placeholder="Chọn giới tính"
+                                        disabled={dataVePrint.trangThai === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
+                                    >
+                                        <Option value="NAM">Nam</Option>
+                                        <Option value="NU">Nữ</Option>
+                                    </Select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='content_hanhKhach'>
+                            <div className="row_input">
+                                <div className='label'>SĐT: </div>
+                                <div className='w-260px'>
+                                    <Input
+                                        name='SDT'
+                                        prefix={<PhoneOutlined />}
+                                        placeholder="Nhập SĐT hành khách"
+                                        value={dataVePrint.hanhKhach.SDT}
+                                        showCount maxLength={10}
+                                        onChange={handleInputChange}
+                                        disabled={dataVePrint.trangThai === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="row_input">
+                                <div className='label'>Email: </div>
+                                <div className='w-260px'>
+                                    <Input
+                                        name='email'
+                                        placeholder="Nhập email hành khách"
+                                        prefix={<MailOutlined />}
+                                        value={dataVePrint.hanhKhach.email}
+                                        onChange={handleInputChange}
+                                        disabled={dataVePrint.trangThai === "EMPTY"} // Không cho sửa nếu trạng thái là EMPTY
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="row_input">
+                                <div className='label'>CCCD: </div>
+                                <div className='w-260px'>
+                                    <Input
+                                        name='CCCD'
+                                        placeholder="Nhập CCCD hành khách"
+                                        value={dataVePrint.hanhKhach.CCCD}
+                                        showCount maxLength={12}
+                                        disabled // Luôn luôn không cho sửa
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
             </div>
             <div className="seperate"></div>
             <div className="content">
@@ -259,6 +344,7 @@ const EditVe = () => {
                             suffix="VND"
                             value={dataVePrint.giaVe}
                             onChange={handlePriceChange} // Handle price changes
+                            disabled
                         />
                     </div>
                     <div>
@@ -267,6 +353,7 @@ const EditVe = () => {
                             value={dataVePrint.trangThai} // Set the value of the Select
                             style={{ width: 200 }}
                             onChange={handleChangeSelectBox}
+                            disabled
                         >
                             {statuses.map((e, index) => (
                                 <Option key={index} value={e}>{e}</Option>
