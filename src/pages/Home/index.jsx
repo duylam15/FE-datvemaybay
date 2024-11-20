@@ -90,6 +90,7 @@ const Home = () => {
 
 	useEffect(() => {
 		const params = new URLSearchParams(search);
+		console.log("params", params)
 		const newStatusCode = params.get('statusCode');
 		const vnp_ResponseCode = params.get('vnp_ResponseCode');
 		const newMessage = decodeURIComponent(params.get('message') || "");
@@ -124,7 +125,7 @@ const Home = () => {
 				console.log(isAuthenticated)
 				console.log(idKhachHangIslog)
 				console.log(localStorage.getItem("idKh"))
-				if (isAuthenticated === true) {
+				if (isAuthenticated === "true") {
 					const idKhAuth = idKhachHangIslog;
 					idkhang = idKhAuth
 				} else {
