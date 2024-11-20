@@ -40,7 +40,7 @@ const TaiKhoanEdit = () => {
                 setLoading(false); // Đảm bảo loading được thiết lập lại ở cuối
             }
         };
-    
+
         if (idTaiKhoan) { // Kiểm tra xem idTaiKhoan có giá trị không
             fetchTaiKhoan();
         }
@@ -54,21 +54,21 @@ const TaiKhoanEdit = () => {
                     fetch(`${API_URL}/quyen`),
                     fetch(`${API_URL}/khachhang/getKhachHangChuaCoTaiKhoan`)
                 ]);
-    
+
                 if (!nhanVienResponse.ok) throw new Error('Failed to fetch nhanvien');
                 if (!quyenResponse.ok) throw new Error('Failed to fetch roles');
                 if (!khachHangResponse.ok) throw new Error('Failed to fetch customers');
-                
+
                 const nhanVienData = nhanVienResponse.status === 204 ? { data: { content: [] } } : await nhanVienResponse.json();
                 const quyenData = quyenResponse.status === 204 ? { data: { content: [] } } : await quyenResponse.json();
                 const khachHangData = khachHangResponse.status === 204 ? { data: { content: [] } } : await khachHangResponse.json();
-                
+
                 console.log(khachHangData);
 
                 setListNhanVien(nhanVienData.data.content || []);
                 setListQuyen(quyenData.data.content || []);
                 setListKhachHang(khachHangData.data || []);
-                
+
             } catch (err) {
                 setError(err.message);
                 console.error('Error fetching data:', err); // Log lỗi ra console để kiểm tra
@@ -76,10 +76,10 @@ const TaiKhoanEdit = () => {
         };
         fetchData();
     }, []);
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         try {
             const response = await axios.put(`${API_URL}/taikhoan/updateTaiKhoan/${idTaiKhoan}`, taiKhoan);
             console.log('Account updated successfully!', response.data);
@@ -118,11 +118,11 @@ const TaiKhoanEdit = () => {
     return (
         <div className="edit-form">
             <h2>Chỉnh sửa thông tin tài khoản</h2>
-                <form style={{ margin: '20px' }} onSubmit={handleSubmit}>
-                 <div className="mb-3">
-                     <label className="form-label">Tên đăng nhập</label>
-                     <input 
-                        type="text" 
+            <form style={{ margin: '20px' }} onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label">Tên đăng nhập</label>
+                    <input
+                        type="text"
                         name='tenDangNhap'
                         className={`form-control form-control-lg `}
                         value={taiKhoan.tenDangNhap}
@@ -142,58 +142,58 @@ const TaiKhoanEdit = () => {
                             name="khachHang"
                         >
                             <option value={taiKhoan.khachHang.idKhachHang}>{taiKhoan.khachHang.hoTen}</option>
-                            {listKhachHang.leng > 0 ? 
-                            (listKhachHang.map((kh) => (
-                                <option value={kh.idKhachHang} key={kh.idKhachHang}>
-                                    {kh.idKhachHang} - {kh.hoTen}
-                                </option>
-                            ))
-                            ) : ""}
+                            {listKhachHang.leng > 0 ?
+                                (listKhachHang.map((kh) => (
+                                    <option value={kh.idKhachHang} key={kh.idKhachHang}>
+                                        {kh.idKhachHang} - {kh.hoTen}
+                                    </option>
+                                ))
+                                ) : ""}
                         </select>
                     </div>
                 ) : (
                     <>
-                    <div className="mb-3">
-                        <label className="form-label">Nhân viên</label>
-                        <select
-                            className={`form-control form-control-lg`}
-                            onChange={handleChange}
-                            value={taiKhoan.nhanVien?.idNhanVien || ''}
-                            id="nhanVien"
-                            name="nhanVien"
-                        >
-                            {listNhanVien.map((nv) => (
-                                <option value={nv.idNhanVien} key={nv.idNhanVien}>
-                                    {nv.idNhanVien} - {nv.hoTen}
-                                </option>
-                        </select>
-                    </div>
-                    <div className="mb-3">
-                    <label className="form-label">Quyền</label>
-                    <select className={`form-control form-control-lg`} 
-                            onChange={handleChange} 
-                            value={taiKhoan.quyen?.idQuyen || ''} 
-                            id="quyen" 
-                            name='quyen'
-                    >
-                        <option value="">Chọn quyền</option>
-                        {listQuyen.map(q => (
-                            <option value={q.idQuyen} key={q.idQuyen}>
-                                {q.idQuyen} - {q.tenQuyen}
-                            </option>
-                        ))}
-                    </select>
-                    </div>
+                        <div className="mb-3">
+                            <label className="form-label">Nhân viên</label>
+                            <select
+                                className={`form-control form-control-lg`}
+                                onChange={handleChange}
+                                value={taiKhoan.nhanVien?.idNhanVien || ''}
+                                id="nhanVien"
+                                name="nhanVien"
+                            >
+                                {listNhanVien.map((nv) => (
+                                    <option value={nv.idNhanVien} key={nv.idNhanVien}>
+                                        {nv.idNhanVien} - {nv.hoTen}
+                                    </option>))}
+                            </select>
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Quyền</label>
+                            <select className={`form-control form-control-lg`}
+                                onChange={handleChange}
+                                value={taiKhoan.quyen?.idQuyen || ''}
+                                id="quyen"
+                                name='quyen'
+                            >
+                                <option value="">Chọn quyền</option>
+                                {listQuyen.map(q => (
+                                    <option value={q.idQuyen} key={q.idQuyen}>
+                                        {q.idQuyen} - {q.tenQuyen}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </>
                 )}
 
-                
+
                 <div className="mb-3">
                     <label className="form-label">Thời gian tạo</label>
-                    <input 
+                    <input
                         name='thoiGianTao'
-                        type="date" 
-                        className={`form-control form-control-lg`} 
+                        type="date"
+                        className={`form-control form-control-lg`}
                         value={taiKhoan.thoiGianTao}
                         onChange={handleChange}
                         id="thoiGianTao"
@@ -203,7 +203,7 @@ const TaiKhoanEdit = () => {
                     <label className="form-label">Trạng thái</label>
                     <select
                         name='trangThaiActive'
-                        className={`form-control form-control-lg`} 
+                        className={`form-control form-control-lg`}
                         value={taiKhoan.trangThaiActive}
                         onChange={handleChange}
                     >
