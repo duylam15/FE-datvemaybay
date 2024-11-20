@@ -173,9 +173,14 @@ const MerchandiseTable = () => {
       render: (item) => item.trangThaiActive,
     },
     {
-      header: 'Id Hành khách',
+      header: 'Tên Hành khách',
       render: (item) =>
-        item.relatedHangHoa ? item.relatedHangHoa.idHanhKhach : 'N/A',
+        item.relatedHangHoa ? item.relatedHangHoa.tenHanhKhach : 'N/A',
+    },
+    {
+      header: 'Cccd',
+      render: (item) =>
+        item.relatedHangHoa ? item.relatedHangHoa.cccd : 'N/A',
     },
     {
       header: 'Actions',
