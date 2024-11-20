@@ -14,3 +14,5 @@ export const getChuyenBayById = (idChuyenBay) => axios.get(`${REST_API_BASE_URL}
 export const updateChuyenBay = (idChuyenBay, chuyenBay) => axios.put(`${REST_API_BASE_URL}/updatechuyenbay/${idChuyenBay}`, chuyenBay);
 
 export const filterChuyenBay = (trangThai, thoiGianBatDau, thoiGianKetThuc) => axios.get(`${REST_API_BASE_URL}/filter?trangThai=${trangThai}&thoiGianBatDau=${thoiGianBatDau}&thoiGianKetThuc=${thoiGianKetThuc}`)
+
+export const thongKeTrangThaiByYear = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYear`);

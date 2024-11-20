@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
-import { Select, Card, Spin, Table } from 'antd';
+import { Area, Bar, Column, Line, Pie } from '@ant-design/charts';
+import { Card, Select, Spin, Table } from 'antd';
 import axios from 'axios';
-import "./Thongke.scss"
+import React, { useEffect, useState } from 'react';
+import "./Thongke.scss";
+import dataFlightStatus from './dataFilightStatus';
 const { Option } = Select;
 
 
 export default function ThongKe() {
 	const [timeFrame, setTimeFrame] = useState('monthly');
 	const [revenueView, setRevenueView] = useState('Tháng'); // Trạng thái hiển thị doanh thu
+
 
 	// Dữ liệu mẫu
 	const customerDataSets = {
@@ -38,12 +40,15 @@ export default function ThongKe() {
 		{ employee: 'trên 35', hours: 90, type: 'số lượng' },
 	];
 
-	const flightStatusData = [
-		{ status: 'Đúng giờ', value: 70 },
-		{ status: 'Trễ', value: 20 },
-		{ status: 'Hủy', value: 10 },
-	];
+	// const flightStatusData = [
+	// 	{ status: 'Đúng giờ', value: 70 },
+	// 	{ status: 'Trễ', value: 20 },
+	// 	{ status: 'Hủy', value: 10 },
+	// ];
 
+	const flightStatusData = dataFlightStatus();
+
+	console.log(flightStatusData);
 	const flightRouteData = [
 		{ route: 'Hà Nội - TP HCM', frequency: 100, type: 'Số lượng' },
 		{ route: 'Hà Nội - Đà Nẵng', frequency: 50, type: 'Số lượng' },
@@ -108,7 +113,7 @@ export default function ThongKe() {
 	const flightStatusConfig = {
 		...commonConfig,
 		data: flightStatusData,
-		angleField: 'value',
+		angleField: 'percent',
 		colorField: 'status',
 		radius: 1,
 		label: { type: 'outer', content: '{name} {percentage}' },
