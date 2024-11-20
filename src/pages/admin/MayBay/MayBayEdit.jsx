@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802.jsx';
 import { message } from 'antd';
 import { PermissionEditButton } from '../../../components/Admin/Sidebar';
 

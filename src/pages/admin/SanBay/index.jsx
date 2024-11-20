@@ -5,7 +5,7 @@ import AddSanBayForm from './ThemSanBay.jsx';
 import { useNavigate } from 'react-router-dom';
 import { blockAirport, editAirport, getByCity, getByNation, handleSortAirport, searchAirports } from '../../../services/airportsService.js';
 import './SanBay.css';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802.jsx';
 import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 import IconLabelButtons from '../../../components/Admin/ColorButtons/index.jsx';
 const API_URL = 'http://localhost:8080';

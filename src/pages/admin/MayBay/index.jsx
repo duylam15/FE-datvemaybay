@@ -5,7 +5,7 @@ import AddMayBayForm from './ThemMayBay.jsx';
 import { useNavigate } from 'react-router-dom';
 import { handleSort, searchPlanes, editPlane, blockPlane, getSoLuong, getByAirline, getByAirport } from '../../../services/planesServices.js';
 import './MayBay.css';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802.jsx';
 import { PermissionAddButton } from '../../../components/Admin/Sidebar/index.jsx';
 import IconLabelButtons from '../../../components/Admin/ColorButtons/index.jsx';
 const API_URL = 'http://localhost:8080';

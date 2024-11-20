@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802.jsx';
 import './DanhGia.css'
 import { FaAngleLeft, FaAngleRight, FaGrinStars, FaStar, FaStarAndCrescent, FaStarOfDavid, FaStarOfLife } from 'react-icons/fa';
 import { DatePicker, Space } from 'antd';
