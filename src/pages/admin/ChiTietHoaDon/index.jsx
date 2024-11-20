@@ -1,6 +1,5 @@
 // pơges/PhuongThucThanhToan
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useFetchChiTietHoaDon } from '../../../utils/useFetchCTHD.jsx';
 import ChiTietHoaDonList from './ChiTietHoaDonList.jsx';

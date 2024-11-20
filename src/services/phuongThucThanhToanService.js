@@ -3,14 +3,13 @@ import axios from "../utils/axios-80802"
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 export const getPhuongThucTT = async () => {
-    const response = await fetch(`${API_URL}/getAllPTTT`); // Thay đổi endpoint theo API của bạn
-    if (!response.ok) {
+    try {
+        const response = await axios.get(`${API_URL}/getAllPTTT`); // Gọi API lấy danh sách hóa đơn
+        return response.data.data; // Trả về dữ liệu bên trong "data" của phản hồi
+    } catch (error) {
+        console.error('Failed to fetch payment methods:', error); // In lỗi nếu có vấn đề khi gọi API
         throw new Error('Failed to fetch payment methods');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    console.log(data);
-    return data.data; // Trả về phần data bên trong JSON
-
 };
 export const editPhuongThucTT= (navigate, idPhuongThucTT) => {
     navigate(`/admin/pttt/edit/${idPhuongThucTT}`);

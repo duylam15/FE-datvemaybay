@@ -50,7 +50,7 @@ export const handleSort = async (field, sortOrder, setTaiKhoan, setSortOrder, se
 };
 
 export const handlePaginatonServ = async (page, size, setTaiKhoan) => {
-    const response = await fetch(`${API_URL}/taikhoan`, { params: { keyWord: searchTerm, page: page, size: size } }); // Thay đổi endpoint theo API của bạn
+    const response = await axios.get(`${API_URL}/taikhoan`, { params: { keyWord: searchTerm, page: page, size: size } }); // Thay đổi endpoint theo API của bạn
     if (!response.ok) {
         throw new Error('Failed to fetch accounts');
     }

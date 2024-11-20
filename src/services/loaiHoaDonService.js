@@ -3,13 +3,13 @@ import axios from "../utils/axios-80802"
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 export const getLoaiHoaDon = async () => {
-    const response = await fetch(`${API_URL}/getAllLoaiHD`); // Thay đổi endpoint theo API của bạn
-    if (!response.ok) {
-        throw new Error('Failed to fetch bill type');
+    try {
+        const response = await axios.get(`${API_URL}/getAllLoaiHD`); // Gọi API lấy danh sách hóa đơn
+        return response.data.data; // Trả về dữ liệu bên trong "data" của phản hồi
+    } catch (error) {
+        console.error('Failed to fetch bill types:', error); // In lỗi nếu có vấn đề khi gọi API
+        throw new Error('Failed to fetch bill types');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    return data.data; // Trả về phần data bên trong JSON
-
 };
 export const editLoaiHoaDon= (navigate, idLoaiHD) => {
     navigate(`/admin/loaihoadon/edit/${idLoaiHD}`);

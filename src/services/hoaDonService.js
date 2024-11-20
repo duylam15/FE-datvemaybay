@@ -3,13 +3,13 @@ import axios from "../utils/axios-80802"
 const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 export const getHoaDon = async () => {
-    const response = await fetch(`${API_URL}/getAllHoaDon`); // Thay đổi endpoint theo API của bạn
-    if (!response.ok) {
+    try {
+        const response = await axios.get(`${API_URL}/getAllHoaDon`); // Gọi API lấy danh sách hóa đơn
+        return response.data.data; // Trả về dữ liệu bên trong "data" của phản hồi
+    } catch (error) {
+        console.error('Failed to fetch bills:', error); // In lỗi nếu có vấn đề khi gọi API
         throw new Error('Failed to fetch bills');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    return data.data; // Trả về phần data bên trong JSON
-
 };
 export const editHoaDon= (navigate, idHoaDon) => {
     navigate(`/hoadon/edit/${idHoaDon}`);
@@ -111,3 +111,18 @@ export const getComboboxValue = async (field, setComboBoxValues) => {
         console.error('Lỗi khi lấy dữ liệu combobox:', error);
     }
 }
+
+export const fetchRevenueByTimeFrame = async (timeFrame) => {
+    const endpoint = {
+        monthly: '/thongke/thang',
+        quarterly: '/thongke/quy',
+        yearly: '/thongke/nam',
+    };
+    try {
+        const response = await axios.get(`http://localhost:8080${endpoint[timeFrame]}`);
+        return response.data; // Giả sử API trả về đúng cấu trúc { data: [...] }
+    } catch (error) {
+        console.error(`Error fetching revenue for ${timeFrame}:`, error);
+        throw error;
+    }
+};
