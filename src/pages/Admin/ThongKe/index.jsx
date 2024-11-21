@@ -4,6 +4,7 @@ import { Select, Card, Spin, Table } from 'antd';
 import axios from '../../../utils/axios-80802';
 import './Thongke.scss';
 import { fetchRevenueByTimeFrame } from '../../../services/hoaDonService';
+import XuatExcel from './XuatExcel/XuatExcel';
 
 const { Option } = Select;
 
@@ -34,7 +35,7 @@ export default function ThongKe() {
     { category: '1 sao', value: 5 },
   ];
 
- 
+
 
   const flightStatusData = [
     { status: 'Đúng giờ', value: 70 },
@@ -93,7 +94,7 @@ export default function ThongKe() {
     label: { type: 'outer', content: '{name} {percentage}' },
   };
 
-  
+
   const flightStatusConfig = {
     ...commonConfig,
     data: flightStatusData,
@@ -313,252 +314,252 @@ export default function ThongKe() {
           'http://localhost:8080/admin/maybay/getAllPlane'
         );
         const planes = response.data.data;
-  
+
         const planeMap = planes.reduce((acc, plane) => {
           acc[plane.idMayBay] = plane.tenMayBay; // Sửa nếu key đúng là `idMayBay`
           return acc;
         }, {});
-    
+
         // Cập nhật state
         setPlaneInfoMap(planeMap);
       } catch (error) {
         console.error('Error fetching plane details:', error);
       }
     };
-  
+
     fetchPlaneDetails();
   }, []);
-  
-
-const fetchHourOfPlaneData = async (period) => {
-  setLoadingHour(true); // Start loading for hour data
-  try {
-    const response = await axios.get(
-      `http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${period}`
-    );
-    console.log('Response: ', response.data.data);
-
-    const formattedData = Object.entries(response.data.data).map(([time, planes]) => {
-      return Object.entries(planes).map(([planeId, hours]) => ({
-        time: parseInt(time),    
-        planeId: parseInt(planeId), 
-        hours: hours,            
-      }));
-    }).flat();
-
-    if (period === 'monthly') setHourOfPlaneMonthly(formattedData);
-    if (period === 'quarterly') setHourOfPlaneQuarterly(formattedData);
-    if (period === 'yearly') setHourOfPlaneYearly(formattedData);
-
-  } catch (error) {
-    console.error(`Error fetching data for ${period}:`, error);
-  } finally {
-    setLoadingHour(false);
-  }
-};
 
 
-useEffect(() => {
-  if (timeFrame) {
-    fetchHourOfPlaneData(timeFrame); 
-  }
-}, [timeFrame]);
+  const fetchHourOfPlaneData = async (period) => {
+    setLoadingHour(true); // Start loading for hour data
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${period}`
+      );
+      console.log('Response: ', response.data.data);
 
-const flightHoursData = (period) => {
-  switch (period) {
-    case 'monthly':
-      return hourOfPlaneMonthly.map(item => ({
-        ...item,
-        time: item.time, 
-      }));
-    case 'quarterly':
-      return hourOfPlaneQuarterly.map(item => ({
-        ...item,
-        time: item.time, 
-      }));
-    case 'yearly':
-      return hourOfPlaneYearly.map(item => ({
-        ...item,
-        time: item.time, 
-      }));
-    default:
-      return [];
-  }
-};
+      const formattedData = Object.entries(response.data.data).map(([time, planes]) => {
+        return Object.entries(planes).map(([planeId, hours]) => ({
+          time: parseInt(time),
+          planeId: parseInt(planeId),
+          hours: hours,
+        }));
+      }).flat();
 
-const flightHoursConfig = {
-  ...commonConfig,
-  data: flightHoursData(timeFrame),  // Dữ liệu tùy thuộc vào thời gian
-  yField: 'hours',                   // Trục Y là số giờ bay
-  xField: 'time',                   // Trục X là tháng (Month 1, Month 2, ...)
-  seriesField: 'planeId',            // Nhóm theo ID máy bay
-  legend: { position: 'top-left' },
-  xAxis: {
-    title: {
-      text: 'Tháng',  // Tiêu đề cho trục X
+      if (period === 'monthly') setHourOfPlaneMonthly(formattedData);
+      if (period === 'quarterly') setHourOfPlaneQuarterly(formattedData);
+      if (period === 'yearly') setHourOfPlaneYearly(formattedData);
+
+    } catch (error) {
+      console.error(`Error fetching data for ${period}:`, error);
+    } finally {
+      setLoadingHour(false);
+    }
+  };
+
+
+  useEffect(() => {
+    if (timeFrame) {
+      fetchHourOfPlaneData(timeFrame);
+    }
+  }, [timeFrame]);
+
+  const flightHoursData = (period) => {
+    switch (period) {
+      case 'monthly':
+        return hourOfPlaneMonthly.map(item => ({
+          ...item,
+          month: item.time,
+        }));
+      case 'quarterly':
+        return hourOfPlaneQuarterly.map(item => ({
+          ...item,
+          quarter: Math.ceil(item.time / 3),
+        }));
+      case 'yearly':
+        return hourOfPlaneYearly.map(item => ({
+          ...item,
+          year: item.time,
+        }));
+      default:
+        return [];
+    }
+  };
+
+  const flightHoursConfig = {
+    ...commonConfig,
+    data: flightHoursData(timeFrame),  // Dữ liệu tùy thuộc vào thời gian
+    yField: 'hours',                   // Trục Y là số giờ bay
+    xField: 'month',                   // Trục X là tháng (Month 1, Month 2, ...)
+    seriesField: 'planeId',            // Nhóm theo ID máy bay
+    legend: { position: 'top-left' },
+    xAxis: {
+      title: {
+        text: 'Tháng',  // Tiêu đề cho trục X
+      },
+      label: {
+        rotate: -90,   // Xoay nhãn trục X 90 độ để hiển thị theo chiều dọc
+        style: {
+          textAlign: 'center',  // Căn giữa nhãn trục X
+        },
+      },
+      tickInterval: 1,  // Một tick cho mỗi tháng
+      range: [0, 1],    // Điều chỉnh phạm vi cho trục X để các cột được căn chỉnh chính giữa
     },
-    label: {
-      rotate: -90,   // Xoay nhãn trục X 90 độ để hiển thị theo chiều dọc
-      style: {
-        textAlign: 'center',  // Căn giữa nhãn trục X
+    columnWidthRatio: 0.8,  // Điều chỉnh độ rộng cột để chúng không quá rộng, giúp căn giữa tốt hơn
+  };
+
+
+
+
+  const flightHoursColumns = [
+    {
+      title: 'Thời gian',
+      dataIndex: 'time',
+      key: 'time',
+      render: (value) => {
+        return timeFrame === 'monthly'
+          ? `Tháng ${value}`
+          : timeFrame === 'quarterly'
+            ? `Quý ${Math.ceil(value / 3)}`
+            : `Năm ${value}`;
+      },
+    }, {
+      title: 'ID Máy Bay',
+      dataIndex: 'planeId',
+      key: 'planeId'
+    },
+    {
+      title: 'Tên Máy Bay',
+      dataIndex: 'planeId',
+      key: 'planeId',
+      render: (planeId) => {
+        return planeInfoMap[planeId] || 'Không xác định'; // Sử dụng planeInfoMap để tìm tên máy bay
       },
     },
-    tickInterval: 1,  // Một tick cho mỗi tháng
-    range: [0, 1],    // Điều chỉnh phạm vi cho trục X để các cột được căn chỉnh chính giữa
-  },
-  columnWidthRatio: 0.8,  // Điều chỉnh độ rộng cột để chúng không quá rộng, giúp căn giữa tốt hơn
-};
-
-
-
-
-const flightHoursColumns = [
-  {
-    title: 'Thời gian',
-    dataIndex: 'time',
-    key: 'time',
-    render: (value) => {
-      return timeFrame === 'monthly'
-        ? `Tháng ${value}`
-        : timeFrame === 'quarterly'
-        ? `Quý ${Math.ceil(value / 3)}`
-        : `Năm ${value}`;
+    {
+      title: 'Số Giờ Bay',
+      dataIndex: 'hours',
+      key: 'hours',
+      render: (value) => `${value} giờ`, // Hiển thị giá trị kèm chữ "giờ"
     },
-  },{
-    title: 'ID Máy Bay',
-    dataIndex: 'planeId',
-    key: 'planeId'
-  },
-  {
-    title: 'Tên Máy Bay',
-    dataIndex: 'planeId',
-    key: 'planeId',
-    render: (planeId) => {
-      return planeInfoMap[planeId] || 'Không xác định'; // Sử dụng planeInfoMap để tìm tên máy bay
-    },
-  },
-  {
-    title: 'Số Giờ Bay',
-    dataIndex: 'hours',
-    key: 'hours',
-    render: (value) => `${value} giờ`, // Hiển thị giá trị kèm chữ "giờ"
-  },
-];
-const [planeInfoCache, setPlaneInfoCache] = useState({}); // Cache thông tin máy bay
+  ];
+  const [planeInfoCache, setPlaneInfoCache] = useState({}); // Cache thông tin máy bay
 
-const fetchPlaneInfo = async (planeId) => {
-  if (planeInfoCache[planeId]) {
-    // Nếu đã có trong cache, không gọi lại API
-    return planeInfoCache[planeId];
-  }
-  try {
-    const response = await axios.get(`http://localhost:8080/admin/maybay/getPlane/${planeId}`);
-    const planeInfo = response.data;
-    setPlaneInfoCache((prevCache) => ({ ...prevCache, [planeId]: planeInfo }));
-    return planeInfo;
-  } catch (error) {
-    console.error(`Error fetching plane info for ID ${planeId}:`, error);
-    return null;
-  }
-};
+  const fetchPlaneInfo = async (planeId) => {
+    if (planeInfoCache[planeId]) {
+      // Nếu đã có trong cache, không gọi lại API
+      return planeInfoCache[planeId];
+    }
+    try {
+      const response = await axios.get(`http://localhost:8080/admin/maybay/getPlane/${planeId}`);
+      const planeInfo = response.data;
+      setPlaneInfoCache((prevCache) => ({ ...prevCache, [planeId]: planeInfo }));
+      return planeInfo;
+    } catch (error) {
+      console.error(`Error fetching plane info for ID ${planeId}:`, error);
+      return null;
+    }
+  };
 
   const [viewMode, setViewMode] = useState('Chart');
-	const [revenueData, setRevenueData] = useState([]);
-	// Khai báo các biến `month` và `year` (có thể lấy từ state hoặc input)
-    const [year, setYear] = useState(new Date().getFullYear()); // Năm hiện tại
-	
-	const [yearList, setYearList] = useState([]);
-	useEffect(() => {
-		const fetchYear = async () => {
-			setLoading(true);
-			try {
-				const response = await axios.get('http://localhost:8080/thongke/namhoadon');
-				
-				setYearList(response.data.data);
-			} catch (error) {
-				console.error('Error fetching year list:', error);
-			}
-		}
-		fetchYear();
-	}, [])
+  const [revenueData, setRevenueData] = useState([]);
+  // Khai báo các biến `month` và `year` (có thể lấy từ state hoặc input)
+  const [year, setYear] = useState(new Date().getFullYear()); // Năm hiện tại
 
-	
-	const fetchRevenueData = async (timeFrame) => {
-		
-		setLoading(true);
-	
-		const endpoint = {
-			Tháng: `/thongke/theothang?year=${year}`,
-			Quý: `/thongke/theoquy?year=${year}`,
-			Năm: `/thongke/theonam`,
-		};
-	
-		try {
-			const response = await axios.get(`http://localhost:8080${endpoint[timeFrame]}`);
-	
-			if (timeFrame === 'Tháng') {
+  const [yearList, setYearList] = useState([]);
+  useEffect(() => {
+    const fetchYear = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('http://localhost:8080/thongke/namhoadon');
 
-				const formattedData = response.data.data.map((revenue, index) => ({
-					time: `Tháng ${index + 1}`, 
-					revenue: revenue,                    
-					type: 'Đồng',                          
-				}));
-	
-				setRevenueData(formattedData);
-	
-			} else if (timeFrame === 'Quý') {
-				
-				const formattedData = [1, 2, 3, 4].map((qtr, index) => ({
-					time: `Quý ${qtr} / ${year}`,   
-					revenue: response.data.data[index], 
-					type: 'Đồng',               
-				}));
-				setRevenueData(formattedData);
-	
-			} else if (timeFrame === 'Năm') {
+        setYearList(response.data.data);
+      } catch (error) {
+        console.error('Error fetching year list:', error);
+      }
+    }
+    fetchYear();
+  }, [])
 
-				const formattedData = Object.keys(response.data.data).map((year) => ({
-					time: `Năm ${year}`,
-					revenue: response.data.data[year],  
-					type: 'Đồng', 
-				}));
-				setRevenueData(formattedData);
-			}
-	
-		} catch (error) {
-			console.error('Error fetching revenue data:', error);
-		} finally {
-			setLoading(false);
-		}
-	};
-	
-	// Gọi hàm fetchRevenueData khi `revenueView` thay đổi
-	useEffect(() => {
-		fetchRevenueData(revenueView); // Gọi API khi thay đổi giá trị
-	  }, [year, revenueView]);
+
+  const fetchRevenueData = async (timeFrame) => {
+
+    setLoading(true);
+
+    const endpoint = {
+      Tháng: `/thongke/theothang?year=${year}`,
+      Quý: `/thongke/theoquy?year=${year}`,
+      Năm: `/thongke/theonam`,
+    };
+
+    try {
+      const response = await axios.get(`http://localhost:8080${endpoint[timeFrame]}`);
+
+      if (timeFrame === 'Tháng') {
+
+        const formattedData = response.data.data.map((revenue, index) => ({
+          time: `Tháng ${index + 1}`,
+          revenue: revenue,
+          type: 'Đồng',
+        }));
+
+        setRevenueData(formattedData);
+
+      } else if (timeFrame === 'Quý') {
+
+        const formattedData = [1, 2, 3, 4].map((qtr, index) => ({
+          time: `Quý ${qtr} / ${year}`,
+          revenue: response.data.data[index],
+          type: 'Đồng',
+        }));
+        setRevenueData(formattedData);
+
+      } else if (timeFrame === 'Năm') {
+
+        const formattedData = Object.keys(response.data.data).map((year) => ({
+          time: `Năm ${year}`,
+          revenue: response.data.data[year],
+          type: 'Đồng',
+        }));
+        setRevenueData(formattedData);
+      }
+
+    } catch (error) {
+      console.error('Error fetching revenue data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Gọi hàm fetchRevenueData khi `revenueView` thay đổi
+  useEffect(() => {
+    fetchRevenueData(revenueView); // Gọi API khi thay đổi giá trị
+  }, [year, revenueView]);
 
   // Cấu hình biểu đồ doanh thu
-	const revenueConfig = {
-		...commonConfig,
-		data: revenueData,
-		xField: 'time',
-		yField: 'revenue',
-		seriesField: 'type',
-		areaStyle: { fillOpacity: 0.2 },
-		smooth: true,
-	};
-	const revenueColumns = [
-		{
-		  title: 'Thời gian',
-		  dataIndex: 'time',
-		  key: 'time',
-		},
-		{
-		  title: 'Doanh thu(VND)',
-		  dataIndex: 'revenue',
-		  key: 'revenue',
-		},
-	  ];
+  const revenueConfig = {
+    ...commonConfig,
+    data: revenueData,
+    xField: 'time',
+    yField: 'revenue',
+    seriesField: 'type',
+    areaStyle: { fillOpacity: 0.2 },
+    smooth: true,
+  };
+  const revenueColumns = [
+    {
+      title: 'Thời gian',
+      dataIndex: 'time',
+      key: 'time',
+    },
+    {
+      title: 'Doanh thu(VND)',
+      dataIndex: 'revenue',
+      key: 'revenue',
+    },
+  ];
 
 
   // ------------------------------------------------------------------------------------------------
@@ -625,52 +626,52 @@ const fetchPlaneInfo = async (planeId) => {
               <Option value='Năm'>Năm</Option>
             </Select>
             {/* Thêm chọn tháng và năm nếu là "Tháng" */}
-						{revenueView === 'Tháng' && (
-							<>
-							<Select
-								value={year}
-								style={{ width: 100, marginBottom: 20 }}
-								onChange={(value) => setYear(value)}
-							>
-								{yearList.map((y) => (
-								<Option key={y} value={y}>
-									{y}
-								</Option>
-								))}
-							</Select>
-							</>
-						)}
-						{/* Hiển thị combobox cho quý khi revenueView là "Quý" */}
-						{revenueView === 'Quý' && (
-							<>
-							<Select
-								value={year}
-								style={{ width: 100, marginBottom: 20 }}
-								onChange={(value) => setYear(value)}
-							>
-								{yearList.map((y) => (
-								<Option key={y} value={y}>
-									{y}
-								</Option>
-								))}
-							</Select>
-							</>
-						)}
-						{/* Combobox chọn hiển thị dưới dạng Biểu đồ hoặc Bảng */}
-						<Select
-							defaultValue="Chart"
-							style={{ width: 150, marginBottom: 20, marginTop: 20 }}
-							onChange={(value) => setViewMode(value)} // Cập nhật viewMode
-						>
-							<Option value="Chart">Biểu đồ</Option>
-							<Option value="Table">Bảng</Option>
-						</Select>
-						{/* Render dữ liệu theo mode */}
-						{viewMode === 'Chart' ? (
-							<Area {...revenueConfig} /> // Hiển thị biểu đồ nếu chọn 'Chart'
-						) : (
-							<Table dataSource={revenueData} columns={revenueColumns} pagination={revenueData.length > 4 ? { pageSize: 4 } : false} /> // Hiển thị bảng nếu chọn 'Table'
-						)}
+            {revenueView === 'Tháng' && (
+              <>
+                <Select
+                  value={year}
+                  style={{ width: 100, marginBottom: 20 }}
+                  onChange={(value) => setYear(value)}
+                >
+                  {yearList.map((y) => (
+                    <Option key={y} value={y}>
+                      {y}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            )}
+            {/* Hiển thị combobox cho quý khi revenueView là "Quý" */}
+            {revenueView === 'Quý' && (
+              <>
+                <Select
+                  value={year}
+                  style={{ width: 100, marginBottom: 20 }}
+                  onChange={(value) => setYear(value)}
+                >
+                  {yearList.map((y) => (
+                    <Option key={y} value={y}>
+                      {y}
+                    </Option>
+                  ))}
+                </Select>
+              </>
+            )}
+            {/* Combobox chọn hiển thị dưới dạng Biểu đồ hoặc Bảng */}
+            <Select
+              defaultValue="Chart"
+              style={{ width: 150, marginBottom: 20, marginTop: 20 }}
+              onChange={(value) => setViewMode(value)} // Cập nhật viewMode
+            >
+              <Option value="Chart">Biểu đồ</Option>
+              <Option value="Table">Bảng</Option>
+            </Select>
+            {/* Render dữ liệu theo mode */}
+            {viewMode === 'Chart' ? (
+              <Area {...revenueConfig} /> // Hiển thị biểu đồ nếu chọn 'Chart'
+            ) : (
+              <Table dataSource={revenueData} columns={revenueColumns} pagination={revenueData.length > 4 ? { pageSize: 4 } : false} /> // Hiển thị bảng nếu chọn 'Table'
+            )}
           </div>
           <div className='chart-row'>
             <div className='chart-item'>
@@ -736,10 +737,10 @@ const fetchPlaneInfo = async (planeId) => {
                   )}
                 </div>
               </div>
-              
+
             </div>
           </div>
-          
+
         </div>
 
         {/* Cột phải (chiếm 1 cột) */}
@@ -808,29 +809,29 @@ const fetchPlaneInfo = async (planeId) => {
             <h2>Top 5 tuyến bay tần suất cao Hưng Lộc</h2>
             <Column {...flightRouteFrequencyConfig} />
           </div>
-          
+
         </div>
         <div className='chart-right'>
-        <div className='chart-item'>
-          <h2>Top 1 máy bay có giờ bay cao nhất</h2>
-          <div style={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
-            <Select
-              value={timeFrame}
-              style={{ width: 100, marginRight: 10 }}
-              onChange={(value) => setTimeFrame(value)}
-            >
-              <Option value='monthly'>Tháng</Option>
-              <Option value='quarterly'>Quý</Option>
-              <Option value='yearly'>Năm</Option>
-            </Select>
-            <Select
-              value={viewTypeMB}
-              style={{ width: 100 }}
-              onChange={(value) => setViewTypeMB(value)}
-            >
-              <Option value='Chart'>Biểu đồ</Option>
-              <Option value='Table'>Bảng</Option>
-            </Select>
+          <div className='chart-item'>
+            <h2>Top 1 máy bay có giờ bay cao nhất</h2>
+            <div style={{ display: 'flex', marginBottom: '20px', marginTop: '10px' }}>
+              <Select
+                value={timeFrame}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setTimeFrame(value)}
+              >
+                <Option value='monthly'>Tháng</Option>
+                <Option value='quarterly'>Quý</Option>
+                <Option value='yearly'>Năm</Option>
+              </Select>
+              <Select
+                value={viewTypeMB}
+                style={{ width: 100 }}
+                onChange={(value) => setViewTypeMB(value)}
+              >
+                <Option value='Chart'>Biểu đồ</Option>
+                <Option value='Table'>Bảng</Option>
+              </Select>
             </div>
             <div style={{ height: '430px', position: 'relative' }}>
               {loading ? (
@@ -860,9 +861,10 @@ const fetchPlaneInfo = async (planeId) => {
                 />
               )}
             </div>
-          
+
+          </div>
+          <XuatExcel></XuatExcel>
         </div>
-      </div>
 
       </div>
 
