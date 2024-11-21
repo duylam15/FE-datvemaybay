@@ -1,6 +1,7 @@
 import axios from '../../../utils/axios-80802'
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 const API_URL = 'http://localhost:8080';
 
@@ -18,13 +19,6 @@ const TaiKhoanAdd = () => {
     const [listNhanVien, setListNhanVien] = useState([]);
     const [listQuyen, setListQuyen] = useState([]);
     const [listKhachHang, setListKhachHang] = useState([]);
-
-    const [hoTen, setHoTen] = useState('');
-    const [gioiTinh, setGioiTinh] = useState(null);
-    const [ngaySinh, setNgaySinh] = useState('');
-    const [soDienThoai, setSoDienThoai] = useState('');
-    const [email, setEmail] = useState('');
-    const [maQuyen, setMaQuyen] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -75,7 +69,7 @@ const TaiKhoanAdd = () => {
             setKhachHang(null);
         } else {
             setNhanVien(null);
-            const selectedQuyen = listQuyen.find(q => q.idQuyen === 16);
+            const selectedQuyen = listQuyen.find(q => q.idQuyen === 2);
             setQuyen(selectedQuyen);
         }
     };
@@ -97,8 +91,11 @@ const TaiKhoanAdd = () => {
         setFieldErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
     };
 
+    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
         const currentTime = new Date().toISOString(); // Hoặc sử dụng Date.now() nếu bạn muốn dạng timestamp
         setThoiGianTao(currentTime);
         const taiKhoan = {
@@ -110,21 +107,49 @@ const TaiKhoanAdd = () => {
             thoiGianTao: new Date().toISOString().split('T')[0],
             trangThaiActive,
         };
+        // Kiểm tra nếu trường `nhanVien` bị bỏ trống
+        if (accountType === 'employee') {
+            if (!nhanVien) {
+                setFieldErrors(prevErrors => ({
+                    ...prevErrors,
+                    nhanVien: "Nhân viên không được bỏ trống!"
+                }));
+                return; // Dừng lại và không gửi form nếu có lỗi
+            }
+            
+        } else {
+            if (!khachHang) {
+                setFieldErrors(prevErrors => ({
+                    ...prevErrors,
+                    khachHang: "Khách hàng không được bỏ trống!"
+                    }));
+                return; // Dừng lại và không gửi form nếu có lỗi
+            }
+        }
+        
         try {
             const response = await axios.post(`${API_URL}/taikhoan/addNewTaiKhoan`, taiKhoan);
-            console.log('Thêm tài khoản thành công', response.data);
-            navigate('/admin/taikhoan');
-        } catch (error) {
-            console.log("Tai khoan can them: ", taiKhoan)
-            if (error.response && error.response.data) {
-                const errors = error.response.data.data;
-                console.log(errors);
+            console.log("response: ", response);
+            
+            
+            if (response.statusCode == 400) {
+                const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
+            } else
+                message.success('Thêm tài khoản thành công!')
+                navigate('/admin/taikhoan');
+        } catch (error) {
+            // Kiểm tra lỗi từ phản hồi của backend
+            if (error.response && error.response.data) {
+                const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
+                setFieldErrors(errors); // Cập nhật lỗi cho từng trường
             } else {
-                setError('Đã xảy ra lỗi trong quá trình thêm tài khoản!');
+                setError('Đã xảy ra lỗi trong quá trình thêm tài khoản!'); // Đặt thông báo lỗi chung
             }
             console.error('There was an error adding account!', error);
         }
+        
+        
     };
 
     return (
@@ -198,7 +223,7 @@ const TaiKhoanAdd = () => {
                                 </option>
                             ))}
                         </select>
-                        {fieldErrors?.matKhau && (
+                        {fieldErrors?.khachHang && (
                             <div className="invalid-feedback">{fieldErrors?.khachHang}</div>
                         )}
                     </div>
@@ -241,14 +266,19 @@ const TaiKhoanAdd = () => {
                                     </option>
                                 ))}
                             </select>
+                            {fieldErrors?.quyen && (
+                                <div className="invalid-feedback">{fieldErrors?.quyen}</div>
+                            )}
                         </div>
                     </>
                 )}
-
-                {/* Các phần khác của form, bao gồm quyền và trạng thái */}
-                <button type="submit" className="btn btn-primary">Cập nhật</button>
+                <div className='add-btn-group'>
+                    <button type='button' className='btn btn-primary' onClick={() => navigate("/admin/taikhoan")}>Quay lại</button>
+                    <button type="submit" className="btn btn-primary">Thêm</button>
+                </div>
+                
             </form>
-            {/* {error && <div className="alert alert-danger">{error}</div>} */}
+            
         </div>
     );
 };

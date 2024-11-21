@@ -4,15 +4,13 @@ const API_URL = 'http://localhost:8080'; // Thay đổi theo URL API của bạn
 
 
 export const getChiTietHoaDon = async (idHoaDon) => {
-    const response = await axios.get(`${API_URL}/getListChiTietHoaDon/${idHoaDon}`); // Thay đổi endpoint theo API của bạn
-    
-    if (!response.ok) {
-        throw new Error('Failed to fetch bills');
+    try {
+        const response = await axios.get(`${API_URL}/getListChiTietHoaDon/${idHoaDon}`); // Gọi API lấy danh sách hóa đơn
+        return response.data.data; // Trả về dữ liệu bên trong "data" của phản hồi
+    } catch (error) {
+        console.error('Failed to fetch bill details:', error); // In lỗi nếu có vấn đề khi gọi API
+        throw new Error('Failed to fetch bill details');
     }
-    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-    console.log(data.data);
-    return data.data; // Trả về phần data bên trong JSON
-
 };
 export const editChiTietHoaDon= (navigate, idChiTietHoaDon) => {
     navigate(`/hoadon/chitiet/edit/${idChiTietHoaDon}`);
