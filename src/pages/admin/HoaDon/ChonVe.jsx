@@ -13,12 +13,12 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
     setLoadingVe(true);
     setError(null); // Reset lỗi trước khi fetch
     try {
-      const response = await axios.get(`${API_URL}/ve/chuyenbay/${chuyenBayId}`);
+      const response = await axios.get(`${API_URL}/ve/getVeByIdCBNotPaging`, {params: {idChuyenBay: chuyenBayId}});
       console.log("Dữ liệu trả về từ server:", response.data); // Xem dữ liệu trả về
       if (response.status === 204) {
         setVeList([]);
       } else {
-        setVeList(response.data.data.content || []);
+        setVeList(response.data.data || []);
       }
     } catch (error) {
       console.error("Lỗi khi lấy danh sách vé:", error);
@@ -66,7 +66,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
     console.log(`Vé ${ve.idVe} đã chọn: ${isSelected}`); // Log thông tin trạng thái vé
     return isSelected;
   };
-
+  console.log(veList);
   return (
     <div className="popup-overlay ve-popup">
       <div className="popup-container">
@@ -75,7 +75,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
           <div className="loading">Đang tải danh sách vé...</div>
         ) : error ? (
           <div className="error-message">{error}</div>
-        ) : veList.filter(ve => ve.trangThai === 'EMPTY').length > 0 ? (
+        ) : veList.filter(ve => ve.trangThai === "EMPTY").length > 0 ? (
           <table className="table">
             <thead>
               <tr>
