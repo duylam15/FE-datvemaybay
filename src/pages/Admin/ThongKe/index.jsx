@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Line, Pie, Bar, Gauge, Column, Area } from '@ant-design/charts';
 import { Select, Card, Spin, Table } from 'antd';
-import axios from 'axios';
+import axios from '../../../utils/axios-80802';
 import './Thongke.scss';
+import { fetchRevenueByTimeFrame } from '../../../services/hoaDonService';
+
 const { Option } = Select;
 
 export default function ThongKe() {
@@ -65,7 +67,6 @@ export default function ThongKe() {
   };
   // Lựa chọn dữ liệu theo thời gian
   const customerData = customerDataSets[timeFrame] || [];
-  const revenueData = revenueDataSets[revenueView];
 
   // Cấu hình biểu đồ
   const commonConfig = {
@@ -119,16 +120,6 @@ export default function ThongKe() {
     yField: 'frequency',
     seriesField: 'type',
     legend: { position: 'top-left' },
-  };
-
-  const revenueConfig = {
-    ...commonConfig,
-    data: revenueData,
-    xField: 'time',
-    yField: 'revenue',
-    seriesField: 'type',
-    areaStyle: { fillOpacity: 0.2 },
-    smooth: true,
   };
 
   // --------------------------------------------------------------------------------------------------
@@ -471,14 +462,107 @@ const fetchPlaneInfo = async (planeId) => {
   }
 };
 
+  const [viewMode, setViewMode] = useState('Chart');
+	const [revenueData, setRevenueData] = useState([]);
+	// Khai báo các biến `month` và `year` (có thể lấy từ state hoặc input)
+    const [year, setYear] = useState(new Date().getFullYear()); // Năm hiện tại
+	
+	const [yearList, setYearList] = useState([]);
+	useEffect(() => {
+		const fetchYear = async () => {
+			setLoading(true);
+			try {
+				const response = await axios.get('http://localhost:8080/thongke/namhoadon');
+				
+				setYearList(response.data.data);
+			} catch (error) {
+				console.error('Error fetching year list:', error);
+			}
+		}
+		fetchYear();
+	}, [])
 
-  const hourOfPlaneColumn = () => {
+	
+	const fetchRevenueData = async (timeFrame) => {
+		
+		setLoading(true);
+	
+		const endpoint = {
+			Tháng: `/thongke/theothang?year=${year}`,
+			Quý: `/thongke/theoquy?year=${year}`,
+			Năm: `/thongke/theonam`,
+		};
+	
+		try {
+			const response = await axios.get(`http://localhost:8080${endpoint[timeFrame]}`);
+	
+			if (timeFrame === 'Tháng') {
 
-  }
+				const formattedData = response.data.data.map((revenue, index) => ({
+					time: `Tháng ${index + 1}`, 
+					revenue: revenue,                    
+					type: 'Đồng',                          
+				}));
+	
+				setRevenueData(formattedData);
+	
+			} else if (timeFrame === 'Quý') {
+				
+				const formattedData = [1, 2, 3, 4].map((qtr, index) => ({
+					time: `Quý ${qtr} / ${year}`,   
+					revenue: response.data.data[index], 
+					type: 'Đồng',               
+				}));
+				setRevenueData(formattedData);
+	
+			} else if (timeFrame === 'Năm') {
 
-  const hourOfPlaneGroupConfig = () => {
+				const formattedData = Object.keys(response.data.data).map((year) => ({
+					time: `Năm ${year}`,
+					revenue: response.data.data[year],  
+					type: 'Đồng', 
+				}));
+				setRevenueData(formattedData);
+			}
+	
+		} catch (error) {
+			console.error('Error fetching revenue data:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	
+	// Gọi hàm fetchRevenueData khi `revenueView` thay đổi
+	useEffect(() => {
+		fetchRevenueData(revenueView); // Gọi API khi thay đổi giá trị
+	  }, [year, revenueView]);
 
-  }
+  // Cấu hình biểu đồ doanh thu
+	const revenueConfig = {
+		...commonConfig,
+		data: revenueData,
+		xField: 'time',
+		yField: 'revenue',
+		seriesField: 'type',
+		areaStyle: { fillOpacity: 0.2 },
+		smooth: true,
+	};
+	const revenueColumns = [
+		{
+		  title: 'Thời gian',
+		  dataIndex: 'time',
+		  key: 'time',
+		},
+		{
+		  title: 'Doanh thu(VND)',
+		  dataIndex: 'revenue',
+		  key: 'revenue',
+		},
+	  ];
+
+
+  // ------------------------------------------------------------------------------------------------
+
 
   return (
     <div className='thongke'>
@@ -540,7 +624,53 @@ const fetchPlaneInfo = async (planeId) => {
               <Option value='Quý'>Quý</Option>
               <Option value='Năm'>Năm</Option>
             </Select>
-            <Area {...revenueConfig} />
+            {/* Thêm chọn tháng và năm nếu là "Tháng" */}
+						{revenueView === 'Tháng' && (
+							<>
+							<Select
+								value={year}
+								style={{ width: 100, marginBottom: 20 }}
+								onChange={(value) => setYear(value)}
+							>
+								{yearList.map((y) => (
+								<Option key={y} value={y}>
+									{y}
+								</Option>
+								))}
+							</Select>
+							</>
+						)}
+						{/* Hiển thị combobox cho quý khi revenueView là "Quý" */}
+						{revenueView === 'Quý' && (
+							<>
+							<Select
+								value={year}
+								style={{ width: 100, marginBottom: 20 }}
+								onChange={(value) => setYear(value)}
+							>
+								{yearList.map((y) => (
+								<Option key={y} value={y}>
+									{y}
+								</Option>
+								))}
+							</Select>
+							</>
+						)}
+						{/* Combobox chọn hiển thị dưới dạng Biểu đồ hoặc Bảng */}
+						<Select
+							defaultValue="Chart"
+							style={{ width: 150, marginBottom: 20, marginTop: 20 }}
+							onChange={(value) => setViewMode(value)} // Cập nhật viewMode
+						>
+							<Option value="Chart">Biểu đồ</Option>
+							<Option value="Table">Bảng</Option>
+						</Select>
+						{/* Render dữ liệu theo mode */}
+						{viewMode === 'Chart' ? (
+							<Area {...revenueConfig} /> // Hiển thị biểu đồ nếu chọn 'Chart'
+						) : (
+							<Table dataSource={revenueData} columns={revenueColumns} pagination={revenueData.length > 4 ? { pageSize: 4 } : false} /> // Hiển thị bảng nếu chọn 'Table'
+						)}
           </div>
           <div className='chart-row'>
             <div className='chart-item'>
