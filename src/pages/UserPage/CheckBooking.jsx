@@ -126,7 +126,7 @@ const CheckBookingPage = () => {
         if (profile) {
           // Fetch hóa đơn
           console.log("idTaiKhoanidTaiKhoan",accountData)
-          const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.idTaiKhoan}`);
+          const responseHD = await axios.get(`${API_URL}/getHoaDonByField?field=khachHang&input=${accountData?.khachHang?.idKhachHang}`);
 
           if (responseHD.status === 204 || !responseHD.data?.data) {
             setHD([]);
