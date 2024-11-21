@@ -20,9 +20,8 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
     const [selectedDates, setSelectedDates] = useState(["", ""]); // State để lưu ngày
 
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
-    const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
+    const itemsPerPage = 8; 
 
-    // Tính toán chỉ số bắt đầu và kết thúc của các hóa đơn hiển thị trên trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentDanhGia = danhGia.slice(indexOfFirstItem, indexOfLastItem);
@@ -157,9 +156,6 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                             Nội Dung
                         </th>
                         <th >
-                            Hãng Bay
-                        </th>
-                        <th >
                             Khách Hàng
                         </th>
                         <th >
@@ -173,13 +169,12 @@ const DanhGiaList = ({ danhGia, handleSearchByTenKhachHang, handleSearchByHangBa
                     </tr>
                 </thead>
                 <tbody>
-                    {danhGia.length > 0 ? (
-                        danhGia.map(mb => (
+                    {currentDanhGia.length > 0 ? (
+                        currentDanhGia.map(mb => (
                             <tr key={mb.idDanhGia}>
                                 <td>{mb.idDanhGia}</td>
                                 <td>{mb.sao === null ? 'NULL' : getSao(mb.sao)}</td>
                                 <td>{mb.noiDung}</td>
-                                <td>{mb.hangBay.tenHangBay}</td>
                                 <td>{mb.tenKhachHang}</td>
                                 <td>{formatDateTime(mb.thoiGianTao)}</td>
                                 <td>{mb.trangThaiActive === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</td>

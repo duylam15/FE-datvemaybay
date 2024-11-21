@@ -19,9 +19,8 @@ const MayBayList = ({ mayBay, onEdit, getSoLuongGhe, getPlaneByAirline, getPlane
     console.log("MayBay: ", mayBay);
 
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
-    const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
+    const itemsPerPage = 8; 
 
-    // Tính toán chỉ số bắt đầu và kết thúc của các hóa đơn hiển thị trên trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentMayBay = mayBay.slice(indexOfFirstItem, indexOfLastItem);
