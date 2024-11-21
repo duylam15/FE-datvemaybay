@@ -369,17 +369,17 @@ const flightHoursData = (period) => {
     case 'monthly':
       return hourOfPlaneMonthly.map(item => ({
         ...item,
-        month: item.time, 
+        time: item.time, 
       }));
     case 'quarterly':
       return hourOfPlaneQuarterly.map(item => ({
         ...item,
-        quarter: Math.ceil(item.time / 3), 
+        time: item.time, 
       }));
     case 'yearly':
       return hourOfPlaneYearly.map(item => ({
         ...item,
-        year: item.time, 
+        time: item.time, 
       }));
     default:
       return [];
@@ -390,7 +390,7 @@ const flightHoursConfig = {
   ...commonConfig,
   data: flightHoursData(timeFrame),  // Dữ liệu tùy thuộc vào thời gian
   yField: 'hours',                   // Trục Y là số giờ bay
-  xField: 'month',                   // Trục X là tháng (Month 1, Month 2, ...)
+  xField: 'time',                   // Trục X là tháng (Month 1, Month 2, ...)
   seriesField: 'planeId',            // Nhóm theo ID máy bay
   legend: { position: 'top-left' },
   xAxis: {
