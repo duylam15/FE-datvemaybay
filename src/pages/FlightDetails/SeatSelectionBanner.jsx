@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 
 const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contactData, selectedTicket, setAdultData,
-	setContactData }) => {
+	setContactData, customers, setCustomers }) => {
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [seatData, setSeatData] = useState([]);
 	const [selectedSeats, setSelectedSeats] = useState([]);
@@ -54,7 +54,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 			console.error('Error submitting data:', error);
 			notification.error({
 				message: 'Lỗi',
-				description: 'Vui lòng thử lại.',
+				description: 'Không thể chọn ghế đang được giữ',
 			});
 		});
 		setIsModalVisible(false);
@@ -63,7 +63,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 
 	const handleCancel = () => {
 		setIsModalVisible(false);
-		setSelectedSeats([]); // Xóa ghế đã chọn khi đóng modal
+		// setSelectedSeats([]); // Xóa ghế đã chọn khi đóng modal
 	};
 
 	// socket from kiet code
@@ -92,7 +92,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		};
 	}, []);
 
-
+	console.log("customers", customers)
 	const handleSubmit = () => {
 		// Kiểm tra thông tin người lớn
 		for (let i = 0; i < adultData.length; i++) {
@@ -107,7 +107,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		}
 
 		// Kiểm tra thông tin liên lạc
-		if (!contactData.email || !contactData.phone) {
+		if (!contactData.email || !contactData.soDienThoai) {
 			notification.warning({
 				message: 'Chưa điền thông tin liên lạc',
 				description: `Vui lòng nhập đầy đủ thông tin liên lạc.`,
@@ -129,10 +129,36 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 
 		// Kiểm tra số điện thoại
 		const phonePattern = /^\d{10}$/; // Chỉ cho phép số điện thoại có 10 chữ số
-		if (!phonePattern.test(contactData.phone)) {
+		if (!phonePattern.test(contactData.soDienThoai)) {
 			notification.warning({
 				message: 'Nhập địa chỉ số điện thoại chưa hợp lệ',
 				description: `Vui lòng nhập số điện thoại hợp lệ (10 chữ số).`,
+				duration: 3,
+			});
+			return;
+		}
+
+		// Kiểm tra trùng email hoặc số điện thoại
+		const isEmailDuplicate = customers.some(customer =>
+			customer.email === contactData.email && customer.cccd !== contactData.cccd
+		);
+		const isPhoneDuplicate = customers.some(customer =>
+			customer.soDienThoai === contactData.soDienThoai && customer.cccd !== contactData.cccd
+		);
+
+		if (isEmailDuplicate) {
+			notification.warning({
+				message: 'Email đã tồn tại',
+				description: `Email này đã được sử dụng bởi khách hàng khác.`,
+				duration: 3,
+			});
+			return;
+		}
+
+		if (isPhoneDuplicate) {
+			notification.warning({
+				message: 'Số điện thoại đã tồn tại',
+				description: `Số điện thoại này đã được sử dụng bởi khách hàng khác.`,
 				duration: 3,
 			});
 			return;
@@ -154,7 +180,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 			idVe: seat.idVe,
 			hoTen: adultData[index]?.fullName,
 			ngaySinh: adultData[index]?.birthDate,
-			soDienThoai: contactData.phone,
+			soDienThoai: contactData.soDienThoai,
 			email: contactData.email,
 			cccd: adultData[index]?.cccd,
 			gioiTinhEnum: adultData[index]?.gender === 'male' ? 'NAM' : adultData[index]?.gender === 'female' ? 'NU' : 'KHAC',
@@ -164,6 +190,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		console.log("selectedSeats", selectedSeats)
 
 		console.log('Booking Data:', bookingData);
+
 
 		if (1) {
 			axios.post(
@@ -182,6 +209,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				localStorage.setItem("bookingData", JSON.stringify(bookingData, null, 2))
 				localStorage.setItem("isAuthenticated", isAuthenticated)
 				localStorage.setItem("idKhachHangIslog", idKhachHangIslog)
+				localStorage.setItem("contactDataCccd", contactData.cccd)
+				console.log(localStorage.getItem("contactDataCccd"))
 				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);
@@ -331,7 +360,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 																		) : seat.trangThai === 'HOLD' ? (
 																			<img src="public/icons/booked-seat.svg" alt="Available Seat" className="seat--icon" />
 																		) : (
-																			''
+																			<img src="public/icons/booked-seat.svg" alt="Available Seat" className="seat--icon" />
 																		)}
 																	</div>
 																) : (
@@ -361,7 +390,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 																		) : seat.trangThai === 'EMPTY' ? (
 																			<img src="public/icons/available-seat.svg" alt="Available Seat" className="seat--icon" />
 																		) : (
-																			''
+																			<img src="public/icons/booked-seat.svg" alt="Available Seat" className="seat--icon" />
 																		)}
 																	</div>
 																) : (
