@@ -51,8 +51,8 @@ export const detail = (navigate, idHoaDon) => {
 export const filHoaDon = async (field, input, setHoaDon) => {
     try {
         const response = await axios.get(`${API_URL}/getHoaDonByField`, { params: { field, input}});
-        console.log(response.data.data);
-        setHoaDon(response.data.data ? response.data.data : []);
+        console.log(response.data);
+        setHoaDon(response.data ? response.data.data : []);
     } catch (error) {
         console.error('Lỗi khi lấy danh sách hóa đơn:', error);
         throw error;

@@ -29,7 +29,7 @@ const HoaDonList = ({
     const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
 
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
-    const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
+    const itemsPerPage = 8;  // Số lượng hóa đơn mỗi trang
 
     // Tính toán chỉ số bắt đầu và kết thúc của các hóa đơn hiển thị trên trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -70,6 +70,7 @@ const HoaDonList = ({
                 <label htmlFor="hoadon-filter-field">Lọc theo:</label>
                 <select className='filter-field' id='hoadon-filter-field' value={filterType} onChange={(e) => {
                     setFilterType(e.target.value);
+                    setSelectedValue('0');
                     console.log("Filter type selected: ", e.target.value);
                     handleComboBoxValues(e.target.value);}} 
                 >
@@ -78,15 +79,35 @@ const HoaDonList = ({
                     <option value="khachHang">Khách hàng</option>
                     <option value="phuongThucThanhToan">Phương thức thanh toán</option>
                     <option value="loaiHoaDon">Loại hóa đơn</option>
+                    <option value="thoiGianLap">Ngày lập</option>
                 </select>
 
                 <label htmlFor="hoadon-filter-value">Giá trị:</label>
-                <select onChange={(e) => {setSelectedValue(e.target.value)}} className='filter-value' id='hoadon-filter-value'> 
-                <option value={0}>Tất cả</option>
-                    {comboBoxValues.length>0 ? comboBoxValues.map(item => (
-                        <option key={item.id} value={item.id}>{item.ten}</option>
-                    )) : ""}
-                </select>
+                {
+                    filterType === 'thoiGianLap' ? (
+                        // Ô chọn ngày
+                        <input 
+                            type="date" 
+                            onChange={(e) => setSelectedValue(e.target.value)} 
+                            className="filter-value" 
+                            id="hoadon-filter-value" 
+                        />
+                    ) : (
+                        // Dropdown menu
+                        <select 
+                            onChange={(e) => {setSelectedValue(e.target.value); console.log(e.target.value)}} 
+                            className="filter-value" 
+                            id="hoadon-filter-value"
+                        > 
+                            <option value="0">Tất cả</option>
+                            {comboBoxValues.length > 0 ? comboBoxValues.map(item => (
+                                <option key={item.id} value={item.id}>{item.ten}</option>
+                            )) : ""}
+                        </select>
+                    )
+                }
+
+                
                 <Stack direction="row" spacing={2}>
                     <Button
                         variant="outlined"
@@ -110,7 +131,7 @@ const HoaDonList = ({
                         <th scope="col" className='align-bottom col-2' onClick={() => handleSort('khachHang.hoTen')}>
                             Tên Khách hàng {sortField === 'khachHang.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('nhanVien.hoTen')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('nhanVien.hoTen')}>
                             Tên Nhân viên {sortField === 'nhanVien.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='align-bottom col-1' onClick={() => handleSort('soLuongVe')}>
@@ -119,8 +140,11 @@ const HoaDonList = ({
                         <th scope="col" className='align-bottom col-2' onClick={() => handleSort('loaiHoaDon')}>
                             Loại hóa đơn {sortField === 'loaiHoaDon' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('phuongThucTT.tenPhuongThucTT')}>
+                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('phuongThucTT.tenPhuongThucTT')}>
                             Phương thức thanh toán {sortField === 'phuongThucTT.tenPhuongThucTT' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                        </th>
+                        <th scope="col" className='align-bottom col-2' onClick={() => handleSort('thoiGianLap')}>
+                            Thời gian lập {sortField === 'thoiGianLap' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
                         <th scope="col" className='align-bottom col-1' onClick={() => handleSort('tongTien')}>
                             Tổng tiền {sortField === 'tongTien' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
@@ -142,6 +166,16 @@ const HoaDonList = ({
                             <td className='align-middle'>{hd.soLuongVe}</td>
                             <td className='align-middle'>{hd.loaiHoaDon.tenLoaiHoaDon}</td>
                             <td className='align-middle'>{hd.phuongThucThanhToan.tenPhuongThucTT}</td>
+                            <td className='align-middle'>
+                                {new Date(hd.thoiGianLap).toLocaleString('vi-VN', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                })}
+                            </td>
                             <td className='align-middle'>{hd.tongTien}</td>
                             <td className='align-middle'>
                                 <select name="status" id="hd.status" className='status-select' value={hd.status} onChange={(e) => {
@@ -171,7 +205,9 @@ const HoaDonList = ({
             {totalPages > 1 && (
                 <ul className="pagination pagination-lg">
                     <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                        <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}>Previous</a>
+                        <a className="page-link" href="#" aria-label="Previous" onClick={() => paginate(currentPage - 1)}>
+                            <span aria-hidden="true">&#8249;</span> 
+                        </a>
                     </li>
                     {[...Array(totalPages).keys()].map(number => (
                         <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>
@@ -181,7 +217,9 @@ const HoaDonList = ({
                         </li>
                     ))}
                     <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                        <a className="page-link" href="#" onClick={() => paginate(currentPage + 1)}>Next</a>
+                        <a className="page-link" href="#" aria-label="Next" onClick={() => paginate(currentPage + 1)}>
+                            <span aria-hidden="true">&#8250;</span>
+                        </a>
                     </li>
                 </ul>
             )}

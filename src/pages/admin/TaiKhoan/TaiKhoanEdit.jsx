@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from '../../../utils/axios-80802';
+import { message } from 'antd';
 
 const API_URL = 'http://localhost:8080';
 
@@ -21,6 +22,8 @@ const TaiKhoanEdit = () => {
     const [listNhanVien, setListNhanVien] = useState([]);
     const [listQuyen, setListQuyen] = useState([]);
     const [listKhachHang, setListKhachHang] = useState([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchTaiKhoan = async () => {
@@ -79,20 +82,26 @@ const TaiKhoanEdit = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         try {
             const response = await axios.put(`${API_URL}/taikhoan/updateTaiKhoan/${idTaiKhoan}`, taiKhoan);
-            console.log('Account updated successfully!', response.data);
-            window.location.href = '/admin/taikhoan';
-        } catch (error) {
-            if (error.response && error.response.data) {
-                const errors = error.response.data.data;
+            console.log("response: ", response);
+            
+            
+            if (response.statusCode == 400) {
+                const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
-                console.log(errors);
+            } else
+                message.success('Sửa tài khoản thành công!');
+                navigate('/admin/taikhoan');
+        } catch (error) {
+            // Kiểm tra lỗi từ phản hồi của backend
+            if (error.response && error.response.data) {
+                const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
+                setFieldErrors(errors); // Cập nhật lỗi cho từng trường
             } else {
-                setError('There was an error updating the account!');
+                setError('Đã xảy ra lỗi trong quá trình thêm tài khoản!'); // Đặt thông báo lỗi chung
             }
-            console.error('There was an error updating the account!', error);
+            console.error('There was an error adding account!', error);
         }
     };
 
@@ -117,25 +126,26 @@ const TaiKhoanEdit = () => {
 
     return (
         <div className="edit-form">
-            <h2>Chỉnh sửa thông tin tài khoản</h2>
+            <h1>Chỉnh sửa thông tin tài khoản</h1>
             <form style={{ margin: '20px' }} onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label className="form-label">Tên đăng nhập</label>
                     <input
                         type="text"
                         name='tenDangNhap'
-                        className={`form-control form-control-lg `}
+                        className={`form-control form-control-lg ${fieldErrors?.tenDangNhap ? 'is-invalid' : ''}`}
                         value={taiKhoan.tenDangNhap}
                         onChange={handleChange}
                         id="tenDangNhap"
                     />
-                </div>
+                    {fieldErrors?.tenDangNhap && <div className="invalid-feedback">{fieldErrors?.tenDangNhap}</div>} {/* Hiển thị thông báo lỗi */}
+                    </div>
 
                 {taiKhoan.khachHang ? (
                     <div className="mb-3">
                         <label className="form-label">Khách hàng</label>
                         <select
-                            className={`form-control form-control-lg`}
+                            className={`form-control form-control-lg ${fieldErrors?.khachHang ? 'is-invalid' : ''}`}
                             onChange={handleChange}
                             value={taiKhoan.khachHang?.idKhachHang || ''} // Sử dụng '' làm giá trị mặc định
                             id="khachHang"
@@ -150,27 +160,29 @@ const TaiKhoanEdit = () => {
                                 ))
                                 ) : ""}
                         </select>
+                        {fieldErrors?.khachHang && <div className="invalid-feedback">{fieldErrors?.khachHang}</div>} {/* Hiển thị thông báo lỗi */}
                     </div>
                 ) : (
                     <>
                         <div className="mb-3">
                             <label className="form-label">Nhân viên</label>
                             <select
-                                className={`form-control form-control-lg`}
+                                className={`form-control form-control-lg ${fieldErrors?.nhanVien ? 'is-invalid' : ''}`}
                                 onChange={handleChange}
                                 value={taiKhoan.nhanVien?.idNhanVien || ''}
                                 id="nhanVien"
                                 name="nhanVien"
                             >
-                                {listNhanVien.map((nv) => (
-                                    <option value={nv.idNhanVien} key={nv.idNhanVien}>
-                                        {nv.idNhanVien} - {nv.hoTen}
-                                    </option>))}
+                                <option value={taiKhoan.nhanVien.idNhanVien} key={taiKhoan.nhanVien.idNhanVien}>
+                                    {taiKhoan.nhanVien.idNhanVien} - {taiKhoan.nhanVien.hoTen}
+                                </option>
                             </select>
+                        {fieldErrors?.nhanVien && <div className="invalid-feedback">{fieldErrors?.nhanVien}</div>} {/* Hiển thị thông báo lỗi */}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Quyền</label>
-                            <select className={`form-control form-control-lg`}
+                            <select                                 
+                                className={`form-control form-control-lg ${fieldErrors?.quyen ? 'is-invalid' : ''}`}
                                 onChange={handleChange}
                                 value={taiKhoan.quyen?.idQuyen || ''}
                                 id="quyen"
@@ -183,6 +195,7 @@ const TaiKhoanEdit = () => {
                                     </option>
                                 ))}
                             </select>
+                            {fieldErrors?.quyen && <div className="invalid-feedback">{fieldErrors?.quyen}</div>} {/* Hiển thị thông báo lỗi */}
                         </div>
                     </>
                 )}
@@ -208,10 +221,13 @@ const TaiKhoanEdit = () => {
                         onChange={handleChange}
                     >
                         <option value="ACTIVE">Kích Hoạt</option>
-                        <option value="INACTIVE">Không Kích Hoạt</option>
+                        <option value="IN_ACTIVE">Không Kích Hoạt</option>
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary">Cập nhật</button>
+                <div className='add-btn-group'>
+                    <button type='button' className='btn btn-primary' onClick={() => navigate("/admin/taikhoan")}>Quay lại</button>
+                    <button type="submit" className="btn btn-primary">Cập nhật</button>
+                </div>
             </form>
         </div>
     );

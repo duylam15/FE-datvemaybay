@@ -59,7 +59,7 @@
     height: 100%;
 }
 
-.taikhoan-add {
+.taikhoan-add, .edit-form  {
     width: 60%;
     margin: 0 auto;
     display: flex;
@@ -67,7 +67,7 @@
     justify-content: center;
 }
 
-.taikhoan-add h1, .hoa-don-add h1 {
+.taikhoan-add h1, .hoa-don-add h1, .edit-form h1 {
     text-align: center;
     font-size: 1.8em;
     padding: 5px;
@@ -85,7 +85,7 @@
     margin: 0 10px;
 }
 
-.add-form form {
+.add-form form, .edit-form form {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -94,11 +94,11 @@
     width: 100%;
 }
 
-.taikhoan-add form .mb-3 {
+.taikhoan-add form .mb-3, .edit-form form .mb-3 {
     width: 60%;
 }
 
-.taikhoan-add form input, .taikhoan-add form select{
+.taikhoan-add form input, .taikhoan-add form select, .edit-form form input, .edit-form form select{
     width: 100%;
 }
 
@@ -228,7 +228,7 @@
 }
 
 .chon-cb button {
-    background-color: #28a745;
+    // background-color: #28a745;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -239,7 +239,7 @@
 }
 
 .chon-cb button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
 }
 
 .frame-ve {
@@ -352,3 +352,10 @@
     height: 100%;
 }
 
+//taikhoan
+.add-form .add-btn-group, .edit-form .add-btn-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -18,9 +18,8 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
     const [error, setError] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
-    const itemsPerPage = 10;  // Số lượng hóa đơn mỗi trang
+    const itemsPerPage = 8; 
 
-    // Tính toán chỉ số bắt đầu và kết thúc của các hóa đơn hiển thị trên trang hiện tại
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentSanBay = sanBay.slice(indexOfFirstItem, indexOfLastItem);
@@ -30,6 +29,7 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
 
     // Hàm chuyển trang
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 
 
     const getThanhPho = async () => {
@@ -142,8 +142,8 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                     </tr>
                 </thead>
                 <tbody>
-                    {sanBay.length > 0 ? (
-                        sanBay.map(mb => (
+                    {currentSanBay.length > 0 ? (
+                        currentSanBay.map(mb => (
                             <tr key={mb.idSanBay}>
                                 <td>{mb.idSanBay}</td>
                                 <td>{mb.tenSanBay}</td>
@@ -171,7 +171,7 @@ const SanBayList = ({ sanBay, onEdit, getAirportByCity, getAirportByNation, onBl
                 <div className='pagination-container'>
                     <ul className="pagination pagination-lg">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}><FaAngleLeft/></a>
+                            <a className="page-link" href="#" onClick={() => paginate(currentPage - 1)}> <FaAngleLeft/> </a>
                         </li>
                         {[...Array(totalPages).keys()].map(number => (
                             <li key={number + 1} className={`page-item ${currentPage === number + 1 ? 'active' : ''}`}>

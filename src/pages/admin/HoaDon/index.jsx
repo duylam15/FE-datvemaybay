@@ -54,9 +54,9 @@ const HoaDonPage = () => {
     };
 
     const handleFilter = (filterType, selectedValue) => {
+        console.log("value: ", selectedValue);
         try {
             filHoaDon(filterType, selectedValue, setHoaDon);
-            console.log(hoaDon);
         } catch (err) {
             setError('Không thể tải dữ liệu hóa đơn.');
         }
@@ -73,8 +73,9 @@ const HoaDonPage = () => {
 
         if (field == "0") {
             setComboBoxValues([]);
-        }
-        else {
+        } else if (field === "thoiGianLap") {
+            console.log("loc theo ngay");
+        } else {
             getComboboxValue(field, setComboBoxValues);
             console.log("cbb value trong handle: ", comboBoxValues);
         }
