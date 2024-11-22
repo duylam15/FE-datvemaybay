@@ -837,7 +837,7 @@ export default function ThongKe() {
 					</div>
 					<div className='chart-row'>
 						<div className='chart-item'>
-							<h2>Tỷ lệ chuyến bay đúng giờ, trễ, hoặc bị hủy Phúc Lâm</h2>
+							<h2>Số chuyến bay đúng giờ, trễ, hoặc bị hủy</h2>
 							<div
 								style={{
 									display: 'flex',

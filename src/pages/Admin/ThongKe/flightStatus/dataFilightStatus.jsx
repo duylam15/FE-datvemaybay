@@ -7,7 +7,6 @@ export default function dataFlightStatus(timeFlightStatus, selectYearFLightStatu
   useEffect(() => {
     const fetchData = async () => {
       const loadData = (data, type) => {
-        const currentDate = new Date();
         let result = data.find(
           (item) => item['Year:' + selectYearFLightStatus] != undefined
         )['Year:' + selectYearFLightStatus];
@@ -27,7 +26,6 @@ export default function dataFlightStatus(timeFlightStatus, selectYearFLightStatu
             }
           }
         }
-        console.log(formater);
         setStatus(formater);
       }
       let response = null;
