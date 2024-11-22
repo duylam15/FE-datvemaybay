@@ -411,9 +411,9 @@ export default function ThongKe() {
   // Cấu hình biểu đồ
   const topRouteConfig = {
     data: filteredTopRouteData,
-    xField: 'route', // Trục x: tuyến bay
+    xField: 'time', // Trục x: tuyến bay
     yField: 'countFlight', // Trục y: số chuyến bay
-    seriesField: 'time', // Màu sắc phân biệt theo thời gian
+    seriesField: 'route', // Màu sắc phân biệt theo thời gian
     colorField: 'route', // Màu dựa trên số chuyến bay
     label: {
       position: 'middle',
