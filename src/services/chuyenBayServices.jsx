@@ -16,3 +16,7 @@ export const updateChuyenBay = (idChuyenBay, chuyenBay) => axios.put(`${REST_API
 export const filterChuyenBay = (trangThai, thoiGianBatDau, thoiGianKetThuc) => axios.get(`${REST_API_BASE_URL}/filter?trangThai=${trangThai}&thoiGianBatDau=${thoiGianBatDau}&thoiGianKetThuc=${thoiGianKetThuc}`)
 
 export const thongKeTrangThaiByYear = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYear`);
+
+export const thongKeTrangThaiByYearAndMonth = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYearAndMonth`);
+
+export const thongKeTrangThaiByYearAndQuy = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYearAndQuy`);
