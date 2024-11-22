@@ -460,172 +460,129 @@ export default function ThongKe() {
 	// ------------------------------------------------------------------------------------------------
 	// top 1 may bay co so gio bay cao nhat theo bang, so do( theo thang, quy, nam)
 	const [viewTypeMB, setViewTypeMB] = useState('Chart'); // Chart, Table
-	const [mayBay, setMayBay] = useState([]);
-	const [hourOfPlaneMonthly, setHourOfPlaneMonthly] = useState([]);
-	const [hourOfPlaneQuarterly, setHourOfPlaneQuarterly] = useState([]);
-	const [hourOfPlaneYearly, setHourOfPlaneYearly] = useState([]);
-	const [loadingMayBay, setLoadingMayBay] = useState(false); // Loading for MayBay
-	const [loadingHour, setLoadingHour] = useState(false); // Loading for Hour of Plane
-
-	const [planeInfoMap, setPlaneInfoMap] = useState({});
-
+	const [hourOfPlane, setHourOfPlane] = useState([]);
+	const [txtYear, setTxtYear] = useState('');
+	const [txtMonth, setTxtMonth] = useState('');
+	const [txtQuarter, setTxtQuarter] = useState('');
+	const currentYear = new Date().getFullYear();
+	const currentMonth = new Date().getMonth();
+	const [loadingHour, setLoadingHour] = useState(false);
+	const [choice, setChoice] = useState('');
+	const [totalPlane, setTotalPlane] = useState('');
+  
 	useEffect(() => {
-		const fetchPlaneDetails = async () => {
-			try {
-				const response = await axios.get(
-					'http://localhost:8080/admin/maybay/getAllPlane'
-				);
-				const planes = response.data.data;
-
-				const planeMap = planes.reduce((acc, plane) => {
-					acc[plane.idMayBay] = plane.tenMayBay; // Sửa nếu key đúng là `idMayBay`
-					return acc;
-				}, {});
-
-				// Cập nhật state
-				setPlaneInfoMap(planeMap);
-			} catch (error) {
-				console.error('Error fetching plane details:', error);
-			}
-		};
-
-		fetchPlaneDetails();
-	}, []);
-
-	const fetchHourOfPlaneData = async (period) => {
-		setLoadingHour(true); // Start loading for hour data
-		try {
-			const response = await axios.get(
-				`http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${period}`
-			);
-			console.log('Response: ', response.data.data);
-
-			const formattedData = Object.entries(response.data.data)
-				.map(([time, planes]) => {
-					return Object.entries(planes).map(([planeId, hours]) => ({
-						time: parseInt(time),
-						planeId: parseInt(planeId),
-						hours: hours,
-					}));
-				})
-				.flat();
-
-			if (period === 'monthly') setHourOfPlaneMonthly(formattedData);
-			if (period === 'quarterly') setHourOfPlaneQuarterly(formattedData);
-			if (period === 'yearly') setHourOfPlaneYearly(formattedData);
-		} catch (error) {
-			console.error(`Error fetching data for ${period}:`, error);
-		} finally {
-			setLoadingHour(false);
+	  // Lấy tháng và năm hiện tại
+	  const currentDate = new Date();
+	  const currentMonth = currentDate.getMonth() + 1; // Tháng từ 0 đến 11, vì vậy không cần +1 cho tháng
+	  const currentYear = currentDate.getFullYear();
+	  
+	  if (currentMonth === 1 || currentMonth === 2 || currentMonth === 3) {
+		setTxtQuarter(1);
+	  } else if (currentMonth === 4 || currentMonth === 5 || currentMonth === 6) {
+		setTxtQuarter(2);
+	  } else if (currentMonth === 7 || currentMonth === 8 || currentMonth === 9) {
+		setTxtQuarter(3);
+	  } else if (currentMonth === 10 || currentMonth === 11 || currentMonth === 11) {
+		setTxtQuarter(4);
+	  } else {
+		setTxtQuarter(0);
+	  }
+	
+	  // Cập nhật giá trị cho txtMonth và txtYear
+	  setTxtMonth(currentMonth); // +1 vì trong Select bạn cần tháng từ 1 đến 12
+	  setTxtYear(currentYear); // Cập nhật năm hiện tại
+	  setChoice('monthly')
+	}, []); // useEffect này chỉ chạy 1 lần khi component được mount
+	
+	const fetchHourOfPlaneData = async (choice, txtMonth, txtQuarter, txtYear) => {
+	  setLoadingHour(true);
+	  try {
+		let url = '';
+		
+		// Điều chỉnh URL theo các lựa chọn
+		if (choice === 'monthly') {
+		  url = `http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${choice}&month=${txtMonth}&quarter=0&year=${txtYear}`;
+		} else if (choice === 'quarterly') {
+		  url = `http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${choice}&month=0&quarter=${txtQuarter}&year=${txtYear}`;
+		} else if (choice === 'yearly') {
+		  url = `http://localhost:8080/admin/maybay/calculateHourOfPlane?period=${choice}&month=0&quarter=0&year=${txtYear}`;
 		}
+		
+		const response = await axios.get(url);
+		console.log(`Response ${txtMonth}/${txtYear}: `, response.data.data);
+	
+		// Đảm bảo dữ liệu được định dạng đúng
+		const formattedData = response.data.data.map((item) => {
+		  return {
+			tenMayBay: item.left !== "Không có máy bay" ? item.left : "Không có máy bay", 
+			hours: item.right,
+		  };
+		});
+	
+		// Gán dữ liệu vào state
+		setHourOfPlane(formattedData);
+		console.log(`hourOfPlane ${txtMonth}/${txtYear}: `, hourOfPlane);
+	  } catch (error) {
+		console.error(`Error fetching data for ${txtMonth}/${txtYear}:`, error);
+	  } finally {
+		setLoadingHour(false);
+	  }
 	};
-
+  
+	const fetchTotalPlane = async () => {
+	  try {
+		const response = await axios.get(`http://localhost:8080/admin/maybay/getTotalPlane`);
+		setTotalPlane(response.data.data);
+	  } catch (err) {
+		console.error(`Error fetching data for total plane:`, err);
+		setTotalPlane(null)
+	  }
+	}
+	
 	useEffect(() => {
-		if (timeFrame) {
-			fetchHourOfPlaneData(timeFrame);
-		}
-	}, [timeFrame]);
-
-	const flightHoursData = (period) => {
-		switch (period) {
-			case 'monthly':
-				return hourOfPlaneMonthly.map((item) => ({
-					...item,
-					month: item.time,
-				}));
-			case 'quarterly':
-				return hourOfPlaneQuarterly.map((item) => ({
-					...item,
-					quarter: Math.ceil(item.time / 3),
-				}));
-			case 'yearly':
-				return hourOfPlaneYearly.map((item) => ({
-					...item,
-					year: item.time,
-				}));
-			default:
-				return [];
-		}
-	};
-
+	  fetchTotalPlane();
+	},[])
+  
+	useEffect(() => {
+	  // Kiểm tra điều kiện trước khi gọi API (chỉ gọi API khi các giá trị hợp lệ)
+	  if (choice === 'monthly' && txtMonth && txtYear) {
+		fetchHourOfPlaneData(choice, txtMonth, txtQuarter, txtYear);
+	  } else if (choice === 'quarterly' && txtQuarter && txtYear) {
+		fetchHourOfPlaneData(choice, txtMonth, txtQuarter, txtYear);
+	  } else if (choice === 'yearly' && txtYear) {
+		fetchHourOfPlaneData(choice, txtMonth, txtQuarter, txtYear);
+	  }
+	}, [choice, txtMonth, txtQuarter, txtYear]);
+	
+  
 	const flightHoursConfig = {
-		...commonConfig,
-		data: flightHoursData(timeFrame), // Dữ liệu tùy thuộc vào thời gian
-		yField: 'hours', // Trục Y là số giờ bay
-		xField: 'month', // Trục X là tháng (Month 1, Month 2, ...)
-		seriesField: 'planeId', // Nhóm theo ID máy bay
-		legend: { position: 'top-left' },
-		xAxis: {
-			title: {
-				text: 'Tháng', // Tiêu đề cho trục X
-			},
-			label: {
-				rotate: -90, // Xoay nhãn trục X 90 độ để hiển thị theo chiều dọc
-				style: {
-					textAlign: 'center', // Căn giữa nhãn trục X
-				},
-			},
-			tickInterval: 1, // Một tick cho mỗi tháng
-			range: [0, 1], // Điều chỉnh phạm vi cho trục X để các cột được căn chỉnh chính giữa
-		},
-		columnWidthRatio: 0.8, // Điều chỉnh độ rộng cột để chúng không quá rộng, giúp căn giữa tốt hơn
+	  ...commonConfig,
+	  animationEnabled: true,
+	  data: hourOfPlane, // Dữ liệu tùy thuộc vào thời gian
+	  yField: 'hours', // Trục Y là số giờ bay
+	  xField: 'tenMayBay', 
+	  colorField: 'tenMayBay',
+	  legend: { position: 'top-left' },
 	};
-
+  
+   
+  
 	const flightHoursColumns = [
-		{
-			title: 'Thời gian',
-			dataIndex: 'time',
-			key: 'time',
-			render: (value) => {
-				return timeFrame === 'monthly'
-					? `Tháng ${value}`
-					: timeFrame === 'quarterly'
-						? `Quý ${Math.ceil(value / 3)}`
-						: `Năm ${value}`;
-			},
-		},
-		{
-			title: 'ID Máy Bay',
-			dataIndex: 'planeId',
-			key: 'planeId',
-		},
-		{
-			title: 'Tên Máy Bay',
-			dataIndex: 'planeId',
-			key: 'planeId',
-			render: (planeId) => {
-				return planeInfoMap[planeId] || 'Không xác định'; // Sử dụng planeInfoMap để tìm tên máy bay
-			},
-		},
-		{
-			title: 'Số Giờ Bay',
-			dataIndex: 'hours',
-			key: 'hours',
-			render: (value) => `${value} giờ`, // Hiển thị giá trị kèm chữ "giờ"
-		},
+	  {
+		title: 'Tên Máy Bay',
+		dataIndex: 'tenMayBay',  // Trường trong dữ liệu, không phải tháng/năm
+		key: 'tenMayBay',
+	  },
+	  {
+		title: 'Số Giờ Bay',
+		dataIndex: 'hours',
+		key: 'hours',
+		render: (value) => `${value ? value : 0} giờ`, // Kiểm tra value nếu không có giá trị thì hiển thị "0 giờ"
+	  },
 	];
-	const [planeInfoCache, setPlaneInfoCache] = useState({}); // Cache thông tin máy bay
-
-	const fetchPlaneInfo = async (planeId) => {
-		if (planeInfoCache[planeId]) {
-			// Nếu đã có trong cache, không gọi lại API
-			return planeInfoCache[planeId];
-		}
-		try {
-			const response = await axios.get(
-				`http://localhost:8080/admin/maybay/getPlane/${planeId}`
-			);
-			const planeInfo = response.data;
-			setPlaneInfoCache((prevCache) => ({
-				...prevCache,
-				[planeId]: planeInfo,
-			}));
-			return planeInfo;
-		} catch (error) {
-			console.error(`Error fetching plane info for ID ${planeId}:`, error);
-			return null;
-		}
-	};
+	
+  
+	
 
 	const [viewMode, setViewMode] = useState('Chart');
 	const [revenueData, setRevenueData] = useState([]);
@@ -748,7 +705,7 @@ export default function ThongKe() {
 				</Card>
 				<Card className='card pink' title='Số máy bay' bordered>
 					<div className='card-wrap'>
-						10{' '}
+					{totalPlane !== null ? totalPlane : <Spin />}{' '}
 						<img
 							className='icon'
 							src='/public/icons/domestic-flight-tourism-svgrepo-com.svg'
@@ -1080,62 +1037,133 @@ export default function ThongKe() {
 					</div>
 				</div>
 				<div className='chart-right'>
-					<div className='chart-item'>
-						<h2>Top 1 máy bay có giờ bay cao nhất</h2>
-						<div
-							style={{
-								display: 'flex',
-								marginBottom: '20px',
-								marginTop: '10px',
-							}}
-						>
-							<Select
-								value={timeFrame}
-								style={{ width: 100, marginRight: 10 }}
-								onChange={(value) => setTimeFrame(value)}
-							>
-								<Option value='monthly'>Tháng</Option>
-								<Option value='quarterly'>Quý</Option>
-								<Option value='yearly'>Năm</Option>
-							</Select>
-							<Select
-								value={viewTypeMB}
-								style={{ width: 100 }}
-								onChange={(value) => setViewTypeMB(value)}
-							>
-								<Option value='Chart'>Biểu đồ</Option>
-								<Option value='Table'>Bảng</Option>
-							</Select>
-						</div>
-						<div style={{ height: '430px', position: 'relative' }}>
-							{loading ? (
-								<div
-									style={{
-										position: 'absolute',
-										top: '50%',
-										left: '50%',
-										transform: 'translate(-50%, -50%)',
-									}}
-								>
-									<Spin />
-								</div>
-							) : viewTypeMB === 'Chart' ? (
-								<Column {...flightHoursConfig} />
-							) : (
-								<Table
-									dataSource={flightHoursData(timeFrame).map((item, index) => ({
-										key: index,
-										...item,
-									}))}
-									columns={flightHoursColumns}
-									pagination={{
-										pageSize: 4,
-										showSizeChanger: false,
-									}}
-								/>
-							)}
-						</div>
-					</div>
+				<div className='chart-item'>
+            <h2>Top 5 máy bay có số giờ bay cao nhất từng tháng, quý, năm</h2>
+            <div
+              style={{
+                display: 'flex',
+                marginBottom: '20px',
+                marginTop: '10px',
+              }}
+            >
+              <Select
+                value={choice}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setChoice(value)}
+              >
+                <Option value='monthly'>Tháng</Option>
+                <Option value='quarterly'>Quý</Option>
+                <Option value='yearly'>Năm</Option>
+              </Select>
+              {choice === 'monthly' ? (
+                <div>
+                  <Select
+                value={txtMonth}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setTxtMonth(value)}
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <Option key={i + 1} value={i + 1}>
+                    Tháng {i + 1}
+                  </Option>
+                ))}
+                <Option key={0} value={0}>
+                  Không chọn tháng
+                </Option>
+              </Select>
+              <Select
+                value={txtYear}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setTxtYear(value)}
+              >
+                {/* Lặp qua các năm từ 2020 đến năm hiện tại */}
+                {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
+                  <Option key={2020 + i} value={2020 + i}>
+                    {2020 + i}
+                  </Option>
+                ))}
+              </Select>
+                </div>
+              ) : choice === 'quarterly' ? (
+                <div>
+                  <Select
+              value={txtQuarter}
+              style={{ width: 100, marginRight: 10 }}
+              onChange={(value) => setTxtQuarter(value)}
+              >
+                <Option value={1}>Xuân</Option>
+                <Option value={2}>Hạ</Option>
+                <Option value={3}>Thu</Option>
+                <Option value={4}>Đông</Option>
+                <Option value={0}>Không chọn quý</Option>
+              </Select>
+                  <Select
+                value={txtYear}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setTxtYear(value)}
+              >
+                {/* Lặp qua các năm từ 2020 đến năm hiện tại */}
+                {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
+                  <Option key={2020 + i} value={2020 + i}>
+                    {2020 + i}
+                  </Option>
+                ))}
+              </Select>
+                </div>
+              ) : (
+                <div>
+                  <Select
+                value={txtYear}
+                style={{ width: 100, marginRight: 10 }}
+                onChange={(value) => setTxtYear(value)}
+              >
+                {/* Lặp qua các năm từ 2020 đến năm hiện tại */}
+                {Array.from({ length: currentYear - 2020 + 1 }, (_, i) => (
+                  <Option key={2020 + i} value={2020 + i}>
+                    {2020 + i}
+                  </Option>
+                ))}
+              </Select>
+                </div>
+              )}
+              <Select
+                value={viewTypeMB}
+                style={{ width: 100 }}
+                onChange={(value) => setViewTypeMB(value)}
+              >
+                <Option value='Chart'>Biểu đồ</Option>
+                <Option value='Table'>Bảng</Option>
+              </Select>
+            </div>
+            <div style={{ height: '430px', position: 'relative' }}>
+              {loading ? (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <Spin />
+                </div>
+              ) : viewTypeMB === 'Chart' ? (
+                <Column {...flightHoursConfig} />
+              ) : (
+                <Table
+                  dataSource={hourOfPlane.map((item, index) => ({
+                    key: index,
+                    ...item,
+                  }))}
+                  columns={flightHoursColumns}
+                  pagination={{
+                    pageSize: 3,
+                    showSizeChanger: false,
+                  }}
+                />
+              )}
+            </div>
+          </div>
 					<XuatExcel></XuatExcel>
 				</div>
 			</div>
