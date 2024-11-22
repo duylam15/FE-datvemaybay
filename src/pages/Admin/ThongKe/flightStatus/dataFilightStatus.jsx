@@ -48,6 +48,8 @@ export default function dataFlightStatus(timeFlightStatus, selectYearFLightStatu
           const getDetailItem = data[item];
           for (let detailItem in getDetailItem) {
             const dataDetailItem = getDetailItem[detailItem];
+            if (detailItem.split(":")[1] < "2019")
+              continue;
             result.push({ time: "Năm " + detailItem.split(":")[1], status: "Đúng giờ", value: dataDetailItem.SCHEDULED })
             result.push({ time: "Năm " + detailItem.split(":")[1], status: "Trễ giờ", value: dataDetailItem.DELAYED })
             result.push({ time: "Năm " + detailItem.split(":")[1], status: "Huỷ", value: dataDetailItem.CANCELED })
