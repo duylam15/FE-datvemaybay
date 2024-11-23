@@ -153,7 +153,7 @@ export default function ThongKe() {
         const formattedData = Object.entries(response.data.data).map(
           ([time, rate]) => ({
             time,
-            growthRate: rate,
+            '%': rate,
           })
         );
         setGrowthData(formattedData); // Cập nhật dữ liệu
@@ -174,18 +174,15 @@ export default function ThongKe() {
   const growthRateConfig = {
     data: growthData,
     xField: 'time',
-    yField: 'growthRate',
+    yField: '%',
     smooth: true,
     point: { size: 5, shape: 'diamond' },
-    tooltip: {
-      showMarkers: false,
-    },
     areaStyle: { fillOpacity: 0.2 },
   };
   // Cấu hình bảng
   const columns = [
     { title: 'Thời gian', dataIndex: 'time', key: 'time' },
-    { title: 'Tỉ lệ tăng (%)', dataIndex: 'growthRate', key: 'growthRate' },
+    { title: 'Tỉ lệ tăng (%)', dataIndex: '%', key: '%' },
   ];
 
   // ------------------------------------------------------------------------------------------------
@@ -690,9 +687,13 @@ export default function ThongKe() {
 
   return (
     <div className='thongke'>
+    <h1 style={{fontWeight: 'bold',       // In đậm
+                textAlign: 'center',      // Nằm giữa trang
+                fontSize: '24px',         // Cỡ chữ lớn
+                margin: '20px 0' }}>Thống kê tổng quát</h1>
       <div className='stats-container'>
         <Card className='card blue' title='Số chuyến bay' bordered>
-          <div className='card-wrap'>
+          <div className='card-wrap' style={{ fontWeight: 'bold',fontSize: '24px'}}>
             100{' '}
             <img
               className='icon'
@@ -702,7 +703,7 @@ export default function ThongKe() {
           </div>
         </Card>
         <Card className='card orange' title='Tổng số khách hàng' bordered>
-          <div className='card-wrap'>
+          <div className='card-wrap' style={{ fontWeight: 'bold',fontSize: '24px'}}>
             {customerCount !== null ? customerCount : <Spin />}{' '}
             <img
               className='icon'
@@ -712,7 +713,7 @@ export default function ThongKe() {
           </div>
         </Card>
         <Card className='card pink' title='Số máy bay' bordered>
-          <div className='card-wrap'>
+          <div className='card-wrap' style={{ fontWeight: 'bold',fontSize: '24px'}}>
             10{' '}
             <img
               className='icon'
@@ -722,7 +723,7 @@ export default function ThongKe() {
           </div>
         </Card>
         <Card className='card green' title='Số nhân viên' bordered>
-          <div className='card-wrap'>
+          <div className='card-wrap' style={{ fontWeight: 'bold',fontSize: '24px'}}>
             90{' '}
             <img
               className='icon'
