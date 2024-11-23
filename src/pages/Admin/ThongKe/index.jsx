@@ -6,6 +6,7 @@ import './Thongke.scss';
 import XuatExcel from './XuatExcel/XuatExcel';
 import dataFlightStatus from './flightStatus/dataFilightStatus';
 import loadYearListFLightStatus from './flightStatus/loadYearListFLightStatus';
+import numNhanVienAndChuyenBay from './flightStatus/numNhanVienAndChuyenBay';
 
 const { Option } = Select;
 
@@ -40,18 +41,12 @@ export default function ThongKe() {
 		{ category: '1 sao', value: 5 },
 	];
 
-
+	//START thong ke chuyen bay ra bieu do |||||||||||||||||||||||||||||||||||||||||||||
 	// let flightStatusData = [
 	// 	{ time: "January", status: "Đúng giờ", value: 80 },
-	// 	{ time: "January", status: "Trễ giờ", value: 10 },
-	// 	{ time: "January", status: "Hủy", value: 10 },
-	// 	{ time: "February", status: "Đúng giờ", value: 85 },
-	// 	{ time: "February", status: "Trễ giờ", value: 8 },
-	// 	{ time: "February", status: "Hủy", value: 7 },
-	// 	{ time: "March", status: "Đúng giờ", value: 75 },
-	// 	{ time: "March", status: "Trễ giờ", value: 15 },
-	// 	{ time: "March", status: "Hủy", value: 10 },
 	// ];
+	console.log("so chuyen bay va nhan vien ");
+	numNhanVienAndChuyenBay();
 
 	const [timeFlightStatus, setTimeFlightStatus] = useState('monthly');
 	const [viewFlightStatus, setViewFlightStatus] = useState('Chart');
@@ -60,6 +55,7 @@ export default function ThongKe() {
 
 	//load data trang thai chuyen bay
 	let flightStatusData = dataFlightStatus(timeFlightStatus, selectYearFLightStatus, viewFlightStatus);
+
 	const flightStatusConfig = {
 		data: flightStatusData,
 		xField: "time", // Trục hoành
@@ -87,9 +83,7 @@ export default function ThongKe() {
 			key: 'value',
 		},
 	];
-
-	console.log("data trang thai cua chuyen bay : ");
-
+	//END thong ke chuyen bay ra bieu do |||||||||||||||||||||||||||||||||||||||||||||
 
 	const flightRouteData = [
 		{ route: 'Hà Nội - TP HCM', frequency: 100, type: 'Số lượng' },
@@ -722,13 +716,15 @@ export default function ThongKe() {
 	];
 
 	// ------------------------------------------------------------------------------------------------
-
+	const getNumNhanVienAndChuyenBay = numNhanVienAndChuyenBay();
+	console.log("danh sahc so nhan vien va chuyen bay");
+	console.log(getNumNhanVienAndChuyenBay);
 	return (
 		<div className='thongke'>
 			<div className='stats-container'>
 				<Card className='card blue' title='Số chuyến bay' bordered>
 					<div className='card-wrap'>
-						100{' '}
+						{getNumNhanVienAndChuyenBay[1]}{' '}
 						<img
 							className='icon'
 							src='/public/icons/flight-ticket-svgrepo-com.svg'
@@ -758,7 +754,7 @@ export default function ThongKe() {
 				</Card>
 				<Card className='card green' title='Số nhân viên' bordered>
 					<div className='card-wrap'>
-						90{' '}
+						{getNumNhanVienAndChuyenBay[0]}{' '}
 						<img
 							className='icon'
 							src='/public/icons/hotel-man-3-svgrepo-com.svg'

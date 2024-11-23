@@ -20,3 +20,7 @@ export const thongKeTrangThaiByYear = () => axios.get(`${REST_API_BASE_URL}/thon
 export const thongKeTrangThaiByYearAndMonth = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYearAndMonth`);
 
 export const thongKeTrangThaiByYearAndQuy = () => axios.get(`${REST_API_BASE_URL}/thongKeChuyenBayTheoTrangThaiByYearAndQuy`);
+
+export const thongKeSoNhanVien = () => axios.get(`${REST_API_BASE_URL}/thongkesonhanvien`);
+
+export const thongKeSoChuyenBay = () => axios.get(`${REST_API_BASE_URL}/thongkesochuyenbay`);

@@ -4,7 +4,7 @@ import TableComponent from '../../../components/Table/TableComponent';
 
 export default function DanhSachComponent(props) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 3;
+  const itemsPerPage = 8;
 
   const nhanviens = props.data;
   useEffect(() => {
