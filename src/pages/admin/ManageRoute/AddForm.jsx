@@ -92,17 +92,22 @@ const AddRoute = () => {
           withCredentials: true,
         }
       );
-      message.success('Thêm tuyến bay mới thành công');
-      navigate('/admin/route');
-    } catch (error) {
-      if (error.response && error.response.status === 500) {
-        if (
-          error.response.data.message ===
-          'hehehehe:Query did not return a unique result: 2 results were returned'
-        ) {
+      if (response.statusCode == 400) {
+        if (response.message === 'Route already exists.') {
           message.error('Tuyến bay đã tồn tại');
         } else {
-          message.error(error.response.data.message);
+          message.error(response.message);
+        }
+      } else {
+        message.success('Thêm tuyến bay mới thành công');
+        navigate('/admin/route');
+      }
+    } catch (error) {
+      if (response.statusCode == 400) {
+        if (response.message === 'Route already exists.') {
+          message.error('Tuyến bay đã tồn tại');
+        } else {
+          message.error(response.message);
         } // Hiển thị thông báo từ backend
       } else {
         console.error('Lỗi khi gửi dữ liệu đến API:', error);
