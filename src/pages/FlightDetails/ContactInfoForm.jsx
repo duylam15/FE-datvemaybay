@@ -1,22 +1,58 @@
 import React, { useState, useEffect } from 'react';
 
-const ContactInfoForm = ({ contactData, setContactData }) => {
+const ContactInfoForm = ({ contactData, setContactData, customers }) => {
 	const [error, setError] = useState({});
 	const [showForm, setShowForm] = useState(false);
 	const [touched, setTouched] = useState({});
-
+	const [prevCCCD, setPrevCCCD] = useState(''); // Lưu CCCD trước đó
+	const [flag, setFlag] = useState(false)
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		setFlag(false)
+		// Kiểm tra nếu CCCD thay đổi
+		if (name === 'cccd' && value !== prevCCCD) {
+			setPrevCCCD(value); // Cập nhật giá trị CCCD mới
+
+			// Tìm khách hàng dựa trên CCCD
+			const matchedCustomer = customers.find(customer => customer.cccd === value);
+
+			// Nếu có khách hàng khớp, cập nhật thông tin
+			if (matchedCustomer) {
+				setFlag(true)
+				setContactData({
+					cccd: value,
+					email: matchedCustomer.email || '',
+					soDienThoai: matchedCustomer.soDienThoai || '',
+					phoneType: "personal"
+				});
+			} else {
+				// Nếu không tìm thấy, reset các trường khác
+				setContactData({
+					cccd: value,
+					email: '',
+					soDienThoai: '',
+					phoneType: "personal"
+				});
+			}
+
+			// Xóa lỗi
+			setError({});
+			return; // Ngừng xử lý tiếp các logic khác cho CCCD
+		}
+
+		// Cập nhật các trường khác ngoài CCCD
 		setContactData(prevData => ({
 			...prevData,
 			[name]: value,
 		}));
-		setError(prevError => ({ ...prevError, [name]: '' })); // Xóa lỗi khi có thay đổi
+
+		// Xóa lỗi khi có thay đổi
+		setError(prevError => ({ ...prevError, [name]: '' }));
 	};
 
 	const handleBlur = (e) => {
 		const { name } = e.target;
-		setTouched(prevTouched => ({ ...prevTouched, [name]: true })); // Đánh dấu trường đã chạm vào
+		setTouched(prevTouched => ({ ...prevTouched, [name]: true }));
 		validateField(name);
 	};
 
@@ -35,19 +71,26 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 		const value = contactData[fieldName];
 
 		switch (fieldName) {
-			case 'email':
+			case 'cccd':
 				if (!value) {
-					newErrors.email = 'Email không được để trống.';
-				} else if (!validateEmail(value)) {
-					newErrors.email = 'Email không hợp lệ.';
+					newErrors.cccd = 'Căn cước công dân không được để trống.';
+				} else if (!/^\d{9}$|^\d{12}$/.test(value)) {
+					newErrors.cccd = 'Căn cước công dân phải là 9 hoặc 12 số.';
 				}
 				break;
-			case 'phone':
-				if (!value) {
-					newErrors.phone = 'Số điện thoại không được để trống.';
-				} else if (!validatePhone(value)) {
-					newErrors.phone = 'Số điện thoại không hợp lệ (10 chữ số).';
-				}
+			case 'email':
+				// if (!value) {
+				// 	newErrors.email = 'Email không được để trống.';
+				// } else if (!validateEmail(value)) {
+				// 	newErrors.email = 'Email không hợp lệ.';
+				// }
+				break;
+			case 'soDienThoai':
+				// if (!value) {
+				// 	newErrors.soDienThoai = 'Số điện thoại không được để trống.';
+				// } else if (!validatePhone(value)) {
+				// 	newErrors.soDienThoai = 'Số điện thoại không hợp lệ (10 chữ số).';
+				// }
 				break;
 			default:
 				break;
@@ -58,9 +101,7 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 
 	const toggleForm = () => setShowForm(!showForm);
 
-	useEffect(() => {
-		Object.keys(contactData).forEach(field => validateField(field));
-	}, [contactData]);
+	console.log("contactData:", contactData);
 
 	return (
 		<div className='ContactInfoForm'>
@@ -72,14 +113,29 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 					</div>
 					<form className={`form-content show`} autoComplete="off">
 						<div className="form-group-adultform">
+							<label className={touched.cccd && error.cccd ? 'error-adult-label' : ''}>Căn cước công dân*</label>
+							<input
+								type="text"
+								name="cccd"
+								placeholder="Căn cước công dân"
+								value={contactData.cccd || ''}
+								onChange={handleChange}
+								onBlur={handleBlur}
+								className={touched.cccd && error.cccd ? 'error-adult-input' : ''}
+							/>
+							{touched.cccd && error.cccd && <span className="error-adult-form">{error.cccd}</span>}
+						</div>
+						<div className="form-group-adultform">
 							<label className={touched.email && error.email ? 'error-adult-label' : ''}>Địa chỉ email</label>
 							<input
 								type="email"
 								name="email"
 								placeholder="Email"
+								value={contactData.email || ''}
 								className={error.email && touched.email ? 'error-adult-input' : ''}
 								onChange={handleChange}
 								onBlur={handleBlur}
+								disabled={!!contactData.email && flag}
 							/>
 							{error.email && touched.email && <span className="error-adult-form">{error.email}</span>}
 						</div>
@@ -91,21 +147,22 @@ const ContactInfoForm = ({ contactData, setContactData }) => {
 							</select>
 						</div>
 						<div className="form-group-adultform">
-							<label className={touched.phone && error.phone ? 'error-adult-label' : ''}>Số điện thoại</label>
+							<label className={touched.soDienThoai && error.soDienThoai ? 'error-adult-label' : ''}>Số điện thoại</label>
 							<input
 								type="text"
-								name="phone"
+								name="soDienThoai"
 								placeholder="Số điện thoại"
-								className={error.phone && touched.phone ? 'error-adult-input' : ''}
+								value={contactData.soDienThoai || ''}
+								className={error.soDienThoai && touched.soDienThoai ? 'error-adult-input' : ''}
 								onChange={handleChange}
 								onBlur={handleBlur}
+								disabled={!!contactData.soDienThoai && flag}
 							/>
-							{error.phone && touched.phone && <span className="error-adult-form">{error.phone}</span>}
+							{error.soDienThoai && touched.soDienThoai && <span className="error-adult-form">{error.soDienThoai}</span>}
 						</div>
 					</form>
 				</div>
 			</div>
-
 		</div>
 	);
 };
