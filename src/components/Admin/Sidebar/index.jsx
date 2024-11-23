@@ -40,9 +40,9 @@ export { PermissionAddButton }
 
 
 const PermissionEditButton = ({ feature, children }) => {
-  console.log("GEfkdsjkfjskd", feature)
+  // console.log("GEfkdsjkfjskd", feature)
   const isAllowed = hasPermission(feature, "EDIT");
-  console.log(isAllowed)
+  // console.log(isAllowed)
   return isAllowed ? children : null;
 };
 

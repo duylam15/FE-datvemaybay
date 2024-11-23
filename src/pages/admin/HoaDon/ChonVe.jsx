@@ -3,26 +3,20 @@ import axios from '../../../utils/axios-80802';
 
 const API_URL = 'http://localhost:8080';
 
-const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
+const ChonVe = ({ onClose, onSelect, chuyenBayId, selectedVe, currentFieldsetIndex }) => {
   const [veList, setVeList] = useState([]);
   const [loadingVe, setLoadingVe] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedVes, setSelectedVes] = useState([]); // Khởi tạo với mảng rỗng
 
   const fetchVeList = async () => {
     setLoadingVe(true);
-    setError(null); // Reset lỗi trước khi fetch
+    setError(null); 
     try {
-      const response = await axios.get(`${API_URL}/ve/getVeByIdCBNotPaging`, {params: {idChuyenBay: chuyenBayId}});
-      console.log("Dữ liệu trả về từ server:", response.data); // Xem dữ liệu trả về
-      if (response.status === 204) {
-        setVeList([]);
-      } else {
-        setVeList(response.data.data || []);
-      }
+      const response = await axios.get(`${API_URL}/ve/getVeByIdCBNotPaging`, { params: { idChuyenBay: chuyenBayId } });
+      setVeList(response.data?.data || []);
     } catch (error) {
       console.error("Lỗi khi lấy danh sách vé:", error);
-      setError("Không thể tải danh sách vé. Vui lòng thử lại.");
+      setError(`Lỗi: ${error.response?.status} - ${error.response?.data?.message || error.message}`);
     } finally {
       setLoadingVe(false);
     }
@@ -35,49 +29,33 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
   }, [chuyenBayId]);
 
   const handleSelectVe = (ve) => {
-    console.log("Vé được chọn:", ve);
-
-    // Kiểm tra nếu vé đã được chọn rồi
-    if (selectedVes.some(v => v.idVe === ve.idVe)) {
-        alert("Vé này đã được chọn rồi.");
-        return;
+    if (isVeSelected(ve)) {
+      alert("Vé này đã được chọn.");
+      return;
     }
-
-    // Cập nhật selectedVes bằng cách sử dụng hàm cập nhật state (function form)
-    setSelectedVes((prevSelectedVes) => {
-        console.log("Danh sách vé trước khi cập nhật:", prevSelectedVes);
-        
-        // Nếu selectedVes là mảng rỗng, prevSelectedVes sẽ là []
-        const updatedSelectedVes = [...prevSelectedVes, ve];  // Thêm vé mới vào mảng
-        
-        console.log("Danh sách vé sau khi cập nhật:", updatedSelectedVes);
-        
-        // Trả về mảng cập nhật để React cập nhật lại state
-        return updatedSelectedVes;
-    });
-
-    onSelect(ve);  // Trả về vé đã chọn
-    onClose();     // Đóng popup
-};
-
+    onSelect(ve);
+    onClose();
+  };
 
   const isVeSelected = (ve) => {
-    const isSelected = selectedVes.some(v => v.idVe === ve.idVe);
-    console.log(`Vé ${ve.idVe} đã chọn: ${isSelected}`); // Log thông tin trạng thái vé
-    return isSelected;
+    return selectedVe.some(selVe => selVe?.idVe === ve.idVe);
   };
-  console.log(veList);
+
+  const emptySeats = veList.filter(ve => ve.trangThai === 'EMPTY');
+
   return (
     <div className="popup-overlay ve-popup">
       <div className="popup-container">
         <h3>Chọn vé</h3>
         {loadingVe ? (
-          <div className="loading">Đang tải danh sách vé...</div>
+          <div className="loading">
+            <span className="spinner"></span> Đang tải danh sách vé...
+          </div>
         ) : error ? (
           <div className="error-message">{error}</div>
-        ) : veList.filter(ve => ve.trangThai === "EMPTY").length > 0 ? (
+        ) : emptySeats.length > 0 ? (
           <table className="table">
-            <thead>
+            <thead className="thead-dark">
               <tr>
                 <th>Mã vé</th>
                 <th>Hạng vé</th>
@@ -88,25 +66,25 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId }) => {
               </tr>
             </thead>
             <tbody>
-              {veList.filter(ve => ve.trangThai === 'EMPTY') // Lọc vé có trạng thái 'EMPTY'
-                .map((ve) => (
-                  <tr key={ve.idVe}>
-                    <td>{ve.idVe}</td>
-                    <td>{ve.hangVe.tenHangVe}</td>
-                    <td>{ve.giaVe.toLocaleString()} VNĐ</td>
-                    <td>{ve.choNgoi.rowIndex}{ve.choNgoi.columnIndex}</td>
-                    <td>{ve.trangThai}</td>
-                    <td>
-                      <button
-                        className="btn-select"
-                        onClick={() => handleSelectVe(ve)}
-                        disabled={isVeSelected(ve)} // Disable nút chọn nếu vé đã được chọn
-                      >
-                        Chọn
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              {emptySeats.map((ve) => (
+                <tr key={ve.idVe} className={isVeSelected(ve) ? 'selected' : ''}>
+                  <td>{ve.idVe}</td>
+                  <td>{ve.hangVe.tenHangVe}</td>
+                  <td>{ve.giaVe.toLocaleString()} VNĐ</td>
+                  <td>{ve.choNgoi.rowIndex}{ve.choNgoi.columnIndex}</td>
+                  <td>{ve.trangThai}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn-select"
+                      onClick={() => handleSelectVe(ve)}
+                      disabled={isVeSelected(ve)}
+                    >
+                      Chọn
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         ) : (

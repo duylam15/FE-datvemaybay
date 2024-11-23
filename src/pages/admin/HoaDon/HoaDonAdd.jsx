@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../utils/axios-80802';
+import { message } from 'antd';
 
 import PopupChonChuyenBay from './ChonChuyenBay'; // Import Popup
 import ChonVe from './ChonVe';
 import FrameVe from './FrameVe'; // Import FrameVe
+import { forEach } from 'lodash';
 
 const API_URL = 'http://localhost:8080';
 
@@ -19,7 +21,6 @@ const HoaDonAdd = () => {
     const [trangThaiActive, setTrangThaiActive] = useState('PENDING');
 
     // State cho hàng hóa
-    const [loaiHangHoa, setLoaiHangHoa] = useState('');
     const [tenHangHoa, setTenHangHoa] = useState('');
     const [taiTrong, setTaiTrong] = useState('');
     const [giaPhatSinh, setGiaPhatSinh] = useState('');
@@ -30,76 +31,100 @@ const HoaDonAdd = () => {
     const [isPopupVeOpen, setIsPopupVeOpen] = useState(false);
     const [selectedChuyenBay, setSelectedChuyenBay] = useState(null);
 
-    const [selectedVe, setSelectedVe] = useState(null);
+    const [selectedVe, setSelectedVe] = useState([]);
     const [guestList, setGuestList] = useState([]); // Mảng lưu thông tin hành khách
     const [veList, setVeList] = useState([]);
+    const [hangHoaDTOList, setHangHoaDTOList] = useState([]);
 
     const [phuongThucThanhToanList, setPhuongThucThanhToanList] = useState([]);
     const [loaiHoangHoaList, setLoaiHangHoaList] = useState([]);
 
+    const [fieldErrors, setFieldErrors] = useState({
+        hoTen: '',
+        email: '',
+        ngaySinh: '',
+        soDienThoai: '',
+        gioiTinhEnum: '',
+        cccd: ''
+    });
+
     const navigate = useNavigate();
 
-    // Mở popup chọn chuyến bay
     const handleOpenPopupChuyenBay = () => {
         setIsPopupChuyenBayOpen(true);
     };
 
-    // Đóng popup chọn chuyến bay
     const handleClosePopupChuyenBay = () => {
         setIsPopupChuyenBayOpen(false);
     };
 
-    // Mở popup chọn vé
-    const handleOpenPopupVe = () => {
-        setIsPopupVeOpen(true);
-    };
-
-    // Đóng popup chọn vé
     const handleClosePopupVe = () => {
         setIsPopupVeOpen(false);
     };
 
-    // Xử lý khi chọn chuyến bay
     const handleSelectChuyenBay = (chuyenBay) => {
         setSelectedChuyenBay(chuyenBay);
-        handleClosePopupChuyenBay(); // Đóng popup chuyến bay
+        handleClosePopupChuyenBay(); 
+    };
+
+    const handleSoLuongVeChange = (event) => {
+        const newSoLuongVe = parseInt(event.target.value, 10);
+    
+        setSoLuongVe(newSoLuongVe);
+    
+        // Cập nhật veList và guestList sao cho chúng phản ánh đúng số lượng vé
+        const newVeList = [...veList];
+        const newGuestList = [...guestList];
+        const newHangHoaList = [...hangHoaDTOList];
+        // Nếu số lượng vé thay đổi, làm mới cả veList và guestList
+        if (newSoLuongVe > newVeList.length) {
+          // Thêm phần tử vào veList và guestList khi số lượng vé tăng lên
+          for (let i = newVeList.length; i < newSoLuongVe; i++) {
+            newVeList.push(null); // Thêm vé null để tương ứng với số lượng vé mới
+            newGuestList.push({}); // Thêm khách hàng rỗng
+            newHangHoaList.push({});
+          }
+        } else if (newSoLuongVe < newVeList.length) {
+          // Xóa phần tử trong veList và guestList khi số lượng vé giảm đi
+          newVeList.length = newSoLuongVe;
+          newGuestList.length = newSoLuongVe;
+          newHangHoaList.length = newSoLuongVe;
+        }
+    
+        setVeList(newVeList);
+        setGuestList(newGuestList);
+        setHangHoaDTOList(newHangHoaList);
     };
 
     // Hàm nhận thông tin vé và khách hàng từ FrameVe
-    const handleSelectVe = (index, selectedVe, guestInfo) => {
+    const handleSelectVe = (index, selectedVe, guestInfo, hangHoaInfo) => {
         // Cập nhật lại veList
         const updatedVeList = [...veList];
         updatedVeList[index] = selectedVe; // Chỉ cập nhật vé đã chọn
         setVeList(updatedVeList); // Cập nhật lại danh sách vé
-
         // Cập nhật guestList
         const updatedGuestList = [...guestList];
         updatedGuestList[index] = guestInfo; // Chỉ cập nhật thông tin khách hàng
         setGuestList(updatedGuestList); // Cập nhật lại danh sách hành khách
+
+        const updatedHangHoaList = [...hangHoaDTOList];
+        updatedHangHoaList[index] = hangHoaInfo; // Chỉ cập nhật thông tin
+        setHangHoaDTOList(updatedHangHoaList); // Cập nhật lại danh sách
     };
 
     // Hàm nhận thông tin thay đổi từ khách hàng
-    const handleGuestInfoChange = (index, field, value) => {
+    const handleGuestInfoChange = (index, updatedGuestInfo) => {
         const updatedGuestList = [...guestList];
-        const updatedGuestInfo = { ...updatedGuestList[index], [field]: value };
-        updatedGuestList[index] = updatedGuestInfo; // Cập nhật thông tin khách hàng
+        updatedGuestList[index] = updatedGuestInfo; // Cập nhật thông tin khách hàng theo index
         setGuestList(updatedGuestList); // Cập nhật lại danh sách khách hàng
     };
 
-    const handleLoaiHoaDonChange = (e) => {
-        setLoaiHoaDon(e.target.value); // Cập nhật loại hóa đơn
-        // Reset các giá trị liên quan khi thay đổi
-        if (e.target.value === 've') {
-            setTenHangHoa('');
-            setTaiTrong('');
-            setGiaPhatSinh('');
-        } else {
-            setSoLuongVe(0);
-            setSelectedChuyenBay(null);
-            setSelectedVe(null);
-        }
+    // Hàm cập nhật thông tin hàng hóa
+    const handleHangHoaChange = (index, updatedHangHoa) => {
+        const updatedHangHoaList = [...hangHoaDTOList];
+        updatedHangHoaList[index] = updatedHangHoa;
+        setHangHoaDTOList(updatedHangHoaList);
     };
-
 
     useEffect(() => {
         fetchPTTTList();
@@ -130,103 +155,177 @@ const HoaDonAdd = () => {
     };
 
     const saveGuestsAndUpdateTickets = async () => {
+        const errors = {};
+        
+        veList.forEach((ve, index) => {
+            console.log("ve ", index, ": ", ve);
+            if (!ve) {
+                errors[`ve${index}`] = 'Vé không được để trống';
+            }
+        });
+        if (veList.length < soLuongVe) {
+            errors.veList = `Vui lòng chọn vé!`;
+        }
+
+        guestList.forEach((guest, index) => {
+            console.log("guest ", index,": ", guest);
+            if (!guest.hoTen) {
+                errors[`hoTen-${index}`] = 'Họ tên không được để trống';
+            }
+            if (!guest.email) {
+                errors[`email-${index}`] = 'Email không được để trống';
+            }
+            if (!guest.cccd) {
+                errors[`cccd-${index}`] = 'Số CCCD không được để trống';
+            }
+            if (!guest.soDienThoai) {
+                errors[`soDienThoai-${index}`] = "Số điện thoại không được để trống";
+            }
+            if (!guest.ngaySinh) {
+                errors[`ngaySinh-${index}`] = 'Ngày sinh không được để trống';
+            }
+            if (!guest.gioiTinhEnum) {
+                errors[`gioiTinhEnum-${index}`] = 'Giới tính không được để trống';
+            }
+        });
+ 
+        if (!phuongThucThanhToan) {
+            errors['phuongThucThanhToan'] = 'Vui lòng chọn phương thức thanh toán';
+        }
+
+        hangHoaDTOList.forEach((hangHoa, index) => {
+            if (!hangHoa.tenHangHoa) {
+                errors[`tenHangHoa-${index}`] = 'Tên hàng hóa không được để trống';
+            }
+        });
+    
+        setFieldErrors(errors); // Lưu lại lỗi vào state
+            // Nếu có lỗi, cập nhật state fieldErrors và dừng việc submit
+        if (Object.keys(errors).length > 0) {
+            console.log("Lỗi kiểm tra khách hàng va hang hoa");
+            console.log(errors);
+            return false; // Dừng xử lý và trả về false
+        }
+    
         try {
             // Bước 1: Lưu tất cả khách hàng song song
             const guestPromises = guestList.map(guest =>
-                axios.post(`${API_URL}/hanhkhach`, guest)  // Gửi yêu cầu lưu khách hàng
+                axios.post(`${API_URL}/hanhkhach`, guest) // Gửi yêu cầu lưu khách hàng
             );
     
             // Bước 2: Chờ tất cả yêu cầu lưu khách hàng hoàn thành
             const guestResponses = await Promise.all(guestPromises);
     
             // Lấy danh sách khách hàng đã lưu từ phản hồi của API
-            const savedGuests = guestResponses.map(response => response.data); // savedGuests là danh sách khách hàng đã lưu
-            console.log(savedGuests);
+            const savedGuests = guestResponses.map(response => response.data);
+    
             // Bước 3: Cập nhật thông tin khách hàng vào vé
             const updatedVeList = veList.map((ve, index) => {
-                const guest = savedGuests[index];  // Gán khách hàng tương ứng vào vé
-                console.log("hanhkhach: ",index,": ", guest);
+                const guest = savedGuests[index];
                 return {
                     idVe: ve.idVe,
-                    idHanhKhach: guest.data.idHanhKhach,  // Gán khách hàng vào vé
+                    idHanhKhach: guest.data.idHanhKhach, // Gán khách hàng vào vé
                     trangThai: "BOOKED"
                 };
             });
     
             // Cập nhật lại veList với khách hàng đã gán
             setVeList(updatedVeList);
-            console.log("updated ve list: ", updatedVeList);
     
-            // Bước 4: Nếu cần, bạn có thể lưu các vé đã cập nhật vào cơ sở dữ liệu
+            // Bước 4: Lưu các vé đã cập nhật vào cơ sở dữ liệu
             const ticketPromises = updatedVeList.map(ve =>
-                axios.put(`${API_URL}/ve/update_hanhkhach`, ve)  // Giả sử API lưu vé đã cập nhật
+                axios.put(`${API_URL}/ve/update_hanhkhach`, ve)
             );
     
             // Chờ tất cả các yêu cầu lưu vé hoàn thành
             await Promise.all(ticketPromises);
     
             console.log("Đã lưu tất cả khách hàng và cập nhật vé thành công.");
+            return true; // Trả về true khi thành công
         } catch (error) {
             console.error("Lỗi khi lưu khách hàng hoặc cập nhật vé:", error);
+            return false; // Trả về false khi có lỗi
         }
     };
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        let errors ={};
+        if (!selectedChuyenBay) {
+            errors[`selectedChuyenBay`] = 'Vui lòng chọn chuyến bay';
+            setFieldErrors(errors);
+            return;
+        }
         try {
-
-            const hangHoa = 
-            {
+            const hangHoa = {
                 tenHangHoa,
-                idLoaiHangHoa: loaiHangHoa === 've' ? 1 : 2 ,
+                idLoaiHangHoa: 1,
                 taiTrong,
                 giaPhatSinh,
                 trangThaiActive: 'ACTIVE',
-            }
+            };
 
-            var idHangHoa = null;
-            if (loaiHoaDon==='hangHoa') {
-                const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
-                idHangHoa = hangHoaResponse.data.data.idHangHoa;
-            }  else {
-                if (veList.length === 0) {
-                    alert("Bạn chưa chọn vé. Vui lòng chọn ít nhất một vé để tạo hóa đơn.");
-                    return; // Dừng việc xử lý nếu không có vé nào trong danh sách
+
+            // Gọi saveGuestsAndUpdateTickets và kiểm tra kết quả
+            const success = await saveGuestsAndUpdateTickets();
+            if (!success) {
+                console.log("them hanh khach va update ve that bai");
+                return; // Dừng nếu lưu khách hàng hoặc cập nhật vé thất bại
+            }
+            if (hangHoaDTOList && hangHoaDTOList.length > 0) {
+                try {
+                    const updatedHangHoaList = await Promise.all(hangHoaDTOList.map(async (hangHoa) => {
+                        const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
+                        console.log(hangHoaResponse.data); 
+                        
+                        return {
+                            ...hangHoa,
+                            idHangHoa: hangHoaResponse.data.data.idHangHoa,
+                        };
+                    }));
+            
+                    setHangHoaDTOList(updatedHangHoaList); 
+            
+                } catch (error) {
+                    console.error('Error saving merchandise:', error);
                 }
-                await saveGuestsAndUpdateTickets();            
             }
             
-
-            const chiTietHoaDonDTOList = loaiHoaDon === 've'
-                ? veList.map(vesl => ({ ve: { idVe: vesl.idVe } }))
-                : [{hangHoa: {idHangHoa : idHangHoa}}];
-
-            // console.log(khachHang);
-            console.log(guestList);
-            console.log(veList);
+            const chiTietHoaDonDTOList = veList.map((ve) => ({
+                ve: { idVe: ve.idVe },
+            }));
 
             const hoaDonDTO = {
                 khachHang: null,
                 nhanVien: { idNhanVien: nhanVien },
                 soLuongVe: loaiHoaDon === 've' ? soLuongVe : 0,
-                loaiHoaDon: loaiHoaDon === 've' ? {idLoaiHoaDon: 1} : {idLoaiHoaDon: 2},
+                loaiHoaDon: loaiHoaDon === 've' ? { idLoaiHoaDon: 1 } : { idLoaiHoaDon: 2 },
                 phuongThucThanhToan: { idPhuongThucTT: phuongThucThanhToan },
                 tongTien,
                 status: trangThaiActive,
             };
-
-            const hoaDonCreate = { hoaDonDTO, chiTietHoaDonDTOList };
-            console.log(hoaDonCreate);
+    
+            const hoaDonCreate = { hoaDonDTO, chiTietHoaDonDTOList, hangHoaDTOList};
             const response = await axios.post(`${API_URL}/createHoaDon`, hoaDonCreate);
-            console.log('Thêm hóa đơn thành công:', response.data);
-            alert("Thêm hóa đơn thành công!");
-            navigate('/admin/hoadon');
+    
+            if (response.statusCode === 400) {
+                const errors = response.data;
+                setFieldErrors(errors);
+                return;
+            } else {
+                message.success('Thêm hóa đơn thành công!');
+                navigate('/admin/hoadon');
+            }
         } catch (error) {
-            console.error('Có lỗi xảy ra khi thêm hóa đơn:', error);
-            alert("Xảy ra lỗi!");
+            if (error.response && error.response.data) {
+                const errors = error.response.data.data;
+                setFieldErrors(errors);
+            }
+            console.error('There was an error adding bill!', error);
         }
     };
+    
+    
 
     
 
@@ -243,6 +342,10 @@ const HoaDonAdd = () => {
                             value={selectedChuyenBay ? `Chuyến bay: ${selectedChuyenBay.idChuyenBay}`: ''}
                             disabled={true}
                         />
+                        {!selectedChuyenBay && (
+                            fieldErrors.selectedChuyenBay && (
+                            <p style={{ color: "red", marginLeft: "50px"}}>{fieldErrors.selectedChuyenBay}</p>
+                        ))}
                     </div>
                     {
                         selectedChuyenBay && (
@@ -253,7 +356,7 @@ const HoaDonAdd = () => {
                                     type="number"
                                     className="form-control"
                                     value={soLuongVe}
-                                    onChange={(e) => setSoLuongVe(Number(e.target.value))}
+                                    onChange={handleSoLuongVeChange}
                                     min="1"
                                 />
                             </div>
@@ -265,22 +368,25 @@ const HoaDonAdd = () => {
                                     selectedChuyenBay={selectedChuyenBay} 
                                     onSelectVe={handleSelectVe} 
                                     onGuestInfoChange={handleGuestInfoChange} 
+                                    onHangHoaChange={handleHangHoaChange}
+                                    fieldErrors={fieldErrors}
                                 />
                             ))}
                             <div className="mb-3 col-4">
                                 <label className="form-label">Phương thức thanh toán</label>
                                 <select
-                                    className="form-control"
+                                    className={`form-control form-control-lg ${fieldErrors?.phuongThucThanhToan ? 'is-invalid' : ''}`}
                                     value={phuongThucThanhToan? phuongThucThanhToan : ''}
                                     onChange={(e) => setPhuongThucThanhToan(parseInt(e.target.value))}
                                 >
-                                    <option value="">Chọn phương thức thanh toán</option>
+                                    <option value="0">Chọn phương thức thanh toán</option>
                                     {phuongThucThanhToanList.map((pttt) => (
                                         <option key={pttt.idPTTT} value={pttt.idPTTT}>
                                             {pttt.tenPTTT}
                                         </option>
                                     ))}
                                 </select>
+                                {fieldErrors?.phuongThucThanhToan && <div className="invalid-feedback">{fieldErrors?.phuongThucThanhToan}</div>} {/* Hiển thị thông báo lỗi */}
                             </div>
 
                             
@@ -305,7 +411,11 @@ const HoaDonAdd = () => {
                         />
                     )}
 
-                <button type="submit" className="btn btn-primary">Thêm hóa đơn</button>
+                <div className='add-btn-group'>
+                    <button type='button' className='btn btn-primary' onClick={() => navigate("/admin/hoadon")}>Quay lại</button>
+                    <button type="submit" className="btn btn-primary">Thêm</button>
+                </div>
+
             </form>
         </div>
     );

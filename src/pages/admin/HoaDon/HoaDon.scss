@@ -13,13 +13,23 @@
 
 .popup-container {
     background: white;
-    padding: 20px;
+    padding: 20px !important;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     max-width: 1000px;
     width: 100%;
     height: 90%;
     overflow-y: scroll;
+
+}
+
+.cb-popup .loc-cb {
+    display: flex;
+    float: left;
+}
+
+.cb-popup .loc-cb * {
+    margin-right: 10px;
 }
 
 .table {
@@ -53,6 +63,8 @@
 .btn-select:hover, .btn-close:hover {
     background-color: #0056b3;
 }
+
+//-----------------------------------------------
 
 .content-admin {
     width: 100%;
@@ -135,6 +147,8 @@
     flex-direction: column;
     align-items: flex-start;
     font-size: 1em;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .hoa-don-add .mb-3 {
@@ -146,10 +160,6 @@
     
 }
 
-.hoa-don-add button[type=submit]{
-    margin: 10px auto;
-    color: white;
-}
 
 
 .radio-group {
@@ -324,33 +334,12 @@
     margin: 0px 5px;
 }
 
-.hoa-don-add .guest-info {
+.hoa-don-add .guest-info, .hoa-don-add .hang-hoa-info {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
 }
-.hoa-don-add .guest-info * {
-    margin-bottom: 10px;
-}
-.hoa-don-add .guest-info label {
-    width: 15%;
-}
-.hoa-don-add .guest-info input[type=text] {
-    width: 30%;
-    margin-right: 10px;
-    border-radius: 4px;
-    border: solid black 1px;
-}
-.hoa-don-add .guest-info .gioi-tinh {
-    width: 30%;
-    margin-right: 10px;
-}
 
-.hoa-don-add .guest-info input[type=date] {
-    width: 30%;
-    margin-right: 10px;
-    height: 100%;
-}
 
 //taikhoan
 .add-form .add-btn-group, .edit-form .add-btn-group {
@@ -358,4 +347,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    height: 50px;
 }
+
+.add-form .add-btn-group, .edit-form .add-btn-group * {
+    padding: 5px !important;
+    margin: 0 !important;
+}
+
+//
+.selected {
+    background-color: #f5f5f5;
+    color: #aaa;
+}
+

@@ -25,7 +25,6 @@ const HoaDonList = ({
     comboBoxValues,
     handleComboBoxValues
 }) => {
-
     const hoaDonState = ["PENDING", "PAID", "CANCELLED", "REFUNDED", "EXPIRED"];
 
     const [currentPage, setCurrentPage] = useState(1);  // Trang hiện tại
@@ -37,7 +36,7 @@ const HoaDonList = ({
     const currentHoaDon = hoaDon ? hoaDon.slice(indexOfFirstItem, indexOfLastItem) : [];
 
     // Số lượng trang
-    const totalPages = Math.ceil(hoaDon.length / itemsPerPage);
+    const totalPages = hoaDon ? Math.ceil(hoaDon.length / itemsPerPage) : 1;
 
     // Hàm chuyển trang
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
