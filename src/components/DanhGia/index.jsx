@@ -13,7 +13,7 @@ const DanhGia = () => {
 
     const user = useSelector(state => state.account.user);
     const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-
+    console.log("user from danh gia", user.khachHang.hoTen)
     useEffect(() => {
         fetchDanhGia();
     }, []);
@@ -43,13 +43,16 @@ const DanhGia = () => {
         setLoading(true);
         const currentData = commentsData[replyToId] || {};
         try {
+            console.log("currentData.sao", currentData.sao - 1)
             const newDanhGia = {
                 noiDung: currentData.noiDung || '',
-                sao: currentData.sao || -1,
+                sao: currentData.sao - 1,
                 parentComment: replyToId ? { idDanhGia: replyToId } : null,
                 hangBay: null,
-                idKhachHang: user?.id || 1, // Sử dụng ID người dùng nếu có
+                idKhachHang: user?.khachHang?.idKhachHang || 1, // Sử dụng ID người dùng nếu có
             };
+
+            console.log("newDanhGia", newDanhGia)
 
             await axios.post('http://localhost:8080/admin/danhgia/addCMT', newDanhGia);
             await fetchDanhGia();
@@ -93,7 +96,41 @@ const DanhGia = () => {
                 {visibleReplies[parentId] && replies.map(reply => (
                     <div key={reply.idDanhGia} className="reply-section" style={{ marginLeft: `${level * 20}px` }}>
                         <p><strong className="author">{reply.tenKhachHang}:</strong> {reply.noiDung}</p>
-                        <p className="rating">{reply.sao} sao</p>
+                        <p className="rating">
+                            {reply.sao === "ONE" ? (
+                                <>
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                </>
+                            ) : reply.sao === "TWO" ? (
+                                <>
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                </>
+                            ) : reply.sao === "THREE" ? (
+                                <>
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                </>
+                            ) : reply.sao === "FOUR" ? (
+                                <>
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                </>
+                            ) : reply.sao === "FIVE" ? (
+                                <>
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                        </p>
                         {renderReplies(reply.idDanhGia, level + 1)} {/* Tăng level để tạo phân cấp cho các câu trả lời */}
                         <span
                             onClick={() => setReplyToId(reply.idDanhGia)}
@@ -118,12 +155,12 @@ const DanhGia = () => {
                         onChange={(e) => updateCommentData(id, 'noiDung', e.target.value)}
                     />
                     <select
-                        value={commentsData[id]?.sao || -1}
+                        value={commentsData[id]?.sao}
                         onChange={(e) => updateCommentData(id, 'sao', Number(e.target.value))}
                     >
                         <option value={-1}>Chọn sao</option>
-                        {[1, 2, 3, 4, 5].map(star => (
-                            <option key={star} value={star}>{star} sao</option>
+                        {[0, 1, 2, 3, 4].map(star => (
+                            <option key={star} value={star + 1}>{star + 1} sao</option>
                         ))}
                     </select>
                     <span
@@ -163,9 +200,9 @@ const DanhGia = () => {
                             value={commentsData[null]?.sao || -1}
                             onChange={(e) => updateCommentData(null, 'sao', Number(e.target.value))}
                         >
-                            <option value={-1}>Chọn sao</option>
-                            {[1, 2, 3, 4, 5].map(star => (
-                                <option key={star} value={star}>{star} sao</option>
+                            <option value={-1}>Chọn saosss</option>
+                            {[0, 1, 2, 3, 4].map(star => (
+                                <option key={star} value={star + 1}>{star + 1} sao</option>
                             ))}
                         </select>
                         <span
@@ -183,7 +220,43 @@ const DanhGia = () => {
                     .map(danhGia => (
                         <div key={danhGia.idDanhGia} className="review">
                             <p><strong className="author">{danhGia.tenKhachHang}:</strong> {danhGia.noiDung}</p>
-                            <p className="rating">{danhGia.sao} sao</p>
+                            <p className="rating">
+                                {danhGia.sao === "ONE" ? (
+                                    <>
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    </>
+                                ) : danhGia.sao === "TWO" ? (
+                                    <>
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    </>
+                                ) : danhGia.sao === "THREE" ? (
+                                    <>
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    </>
+                                ) : danhGia.sao === "FOUR" ? (
+                                    <>
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    </>
+                                ) : danhGia.sao === "FIVE" ? (
+                                    <>
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                            </p>
+
+
                             {renderReplies(danhGia.idDanhGia)} {/* Render các câu trả lời cấp 0 cho các bình luận chính */}
                             <span
                                 onClick={() => setReplyToId(danhGia.idDanhGia)}

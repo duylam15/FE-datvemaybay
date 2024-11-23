@@ -48,6 +48,7 @@
         align-items: center;
         gap: 20px;
         margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .star-rating {
@@ -56,6 +57,11 @@
     }
 
     .star-rating svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .icon-star {
         width: 20px;
         height: 20px;
     }
