@@ -105,9 +105,12 @@ const AddMayBayForm = () => {
         try {
             const response = await axios.post(`${API_URL}/admin/maybay/addPlane`, mayBay);
             console.log('Plane added successfully!', response.data);
-            message.success('Thêm mới máy bay thành công')
-            navigate('/admin/maybay'); 
-            
+            if (response.statusCode == 400) {
+                const errors = response.data; // Lấy danh sách lỗi từ phản hồi
+                setFieldErrors(errors);
+            } else
+                message.success('Thêm mới máy bay thành công')
+                navigate("/admin/maybay")
         } catch (error) {
             message.error('Thêm mới máy bay không thành công')
             // Kiểm tra lỗi từ phản hồi của backend

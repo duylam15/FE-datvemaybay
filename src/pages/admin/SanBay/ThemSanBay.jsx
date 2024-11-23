@@ -65,7 +65,12 @@ const AddSanBayForm = () => {
         try {
             const response = await axios.post(`${API_URL}/admin/sanbay/addAirport`, SanBay);
             console.log('Airport added successfully!', response.data);
-            message.success('Thêm mới sân bay thành công')
+            if (response.statusCode == 400) {
+                const errors = response.data; // Lấy danh sách lỗi từ phản hồi
+                setFieldErrors(errors);
+            } else
+                message.success('Thêm mới sân bay thành công')
+                navigate("/admin/sanbay")
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             message.error('Thêm mới sân bay không thành công')
