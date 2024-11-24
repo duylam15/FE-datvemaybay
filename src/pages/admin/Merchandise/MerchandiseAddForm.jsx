@@ -12,7 +12,6 @@ const AddMerchandise = () => {
     idLoaiHangHoa: '',
     tenHangHoa: '',
     taiTrong: '',
-    giaPhatSinh: '',
     trangThaiActive: 'ACTIVE',
   });
 
@@ -47,11 +46,12 @@ const AddMerchandise = () => {
   const validateField = (name, value) => {
     let errorMessage = '';
 
-    // if (!value.trim()) {
-    //   errorMessage = 'Trường này không thể để trống';
-    // } else
-    if (name === 'taiTrong' && (isNaN(value) || value < 0 || value == 0)) {
+    if (!value.trim()) {
+      errorMessage = 'Trường này không thể để trống';
+    } else if (name === 'taiTrong' && (isNaN(value) || value <= 0)) {
       errorMessage = 'Vui lòng nhập số dương hợp lệ';
+    } else if (name === 'idLoaiHangHoa' && value === '') {
+      errorMessage = 'Vui lòng chọn loại hàng hóa';
     }
 
     setErrors((prevErrors) => ({
@@ -66,17 +66,19 @@ const AddMerchandise = () => {
     const newErrors = {};
 
     Object.keys(merchan).forEach((field) => {
-      if (!merchan[field].trim()) {
+      console.log(`Validating field: ${field}, value: ${merchan[field]}`);
+      if (typeof merchan[field] === 'string' && !merchan[field].trim()) {
+        console.log(`Error in field: ${field}`);
         newErrors[field] = 'Trường này không thể để trống';
-        formIsValid = false;
-      } else if (
-        field === 'taiTrong' &&
-        (isNaN(merchan[field]) || merchan[field] < 0)
-      ) {
-        newErrors[field] = 'Vui lòng nhập số dương hợp lệ';
         formIsValid = false;
       }
     });
+
+    if (!merchan.idLoaiHangHoa) {
+      console.log('Error: idLoaiHangHoa is empty');
+      newErrors.idLoaiHangHoa = 'Vui lòng chọn loại hàng hóa';
+      formIsValid = false;
+    }
 
     setErrors(newErrors);
     return formIsValid;
@@ -85,14 +87,18 @@ const AddMerchandise = () => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return; // Nếu có lỗi, ngừng việc gửi dữ liệu
-    }
-
+    if (!validateForm()) return;
+    alert('123');
     try {
       const result = await axios.post(
         'http://localhost:8080/addNewMerchandise',
-        merchan,
+        {
+          idLoaiHangHoa: merchan.idLoaiHangHoa,
+          tenHangHoa: merchan.tenHangHoa,
+          taiTrong: merchan.taiTrong,
+          giaPhatSinh: merchan.giaPhatSinh,
+          trangThaiActive: merchan.trangThaiActive,
+        },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -100,12 +106,18 @@ const AddMerchandise = () => {
         }
       );
       message.success('Thêm hàng hoá thành công');
+      setMerchan({
+        idLoaiHangHoa: '',
+        tenHangHoa: '',
+        taiTrong: '',
+        giaPhatSinh: '',
+        trangThaiActive: 'ACTIVE',
+      });
       navigate('/admin/merchandise');
     } catch (error) {
-      console.error(
-        'Error saving merchandise:',
-        error.response ? error.response.data : error
-      );
+      const errorMsg = error.response?.data?.message || 'Lỗi khi thêm hàng hóa';
+      message.error(errorMsg);
+      console.error('Error saving merchandise:', error);
     }
   };
 

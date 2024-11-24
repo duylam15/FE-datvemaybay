@@ -13,7 +13,6 @@ const AddMerchandise = () => {
     idLoaiHangHoa: '',
     tenHangHoa: '',
     taiTrong: '',
-    giaPhatSinh: '',
     trangThaiActive: 'ACTIVE',
   });
 
