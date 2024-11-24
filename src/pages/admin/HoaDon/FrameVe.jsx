@@ -1,148 +1,125 @@
 import React, { useState } from "react";
 import ChonVe from "./ChonVe"; // Import popup chọn vé
-
-const API_URL = 'http://localhost:8080';
+import GuestInfoForm from './GuesInfoForm'; // Import form thông tin khách hàng
+import HangHoaForm from './HangHoaForm'; // Import form thông tin hàng hóa (tạo mới)
 
 const FrameVe = ({
-    index, 
-    selectedChuyenBay, 
-    onSelectVe, 
-    onGuestInfoChange 
+  index,
+  selectedChuyenBay,
+  onSelectVe,
+  onGuestInfoChange,
+  onHangHoaChange, // Hàm thay đổi thông tin hàng hóa
+  fieldErrors,
 }) => {
-    const [selectedVe, setSelectedVe] = useState(null);
-    const [guestInfo, setGuestInfo] = useState({
-        hoTen: "",
-        cccd: "",
-        gioiTinhEnum: "",
-        ngaySinh: "",
-        soDienThoai: "",
-        email: "",
-        trangThaiActive: "ACTIVE", // Mặc định trang thái khách hàng là "ACTIVE"
+  const [selectedVe, setSelectedVe] = useState([]);
+  const [guestInfo, setGuestInfo] = useState({
+    hoTen: "",
+    cccd: "",
+    gioiTinhEnum: "",
+    ngaySinh: "",
+    soDienThoai: "",
+    email: "",
+    trangThaiActive: "ACTIVE", // Mặc định trang thái khách hàng là "ACTIVE"
+  });
+  
+  // Thêm state quản lý hàng hóa
+    const [hangHoa, setHangHoa] = useState({
+        tenHangHoa: "",
+        taiTrong: 0,
+        idLoaiHangHoa: 1,
+        giaPhatSinh: 0,
+        trangThaiActive: 'ACTIVE'
     });
-    const [isPopupVeOpen, setIsPopupVeOpen] = useState(false);
+  
+  const [isPopupVeOpen, setIsPopupVeOpen] = useState(false);
+  const [currentFieldsetIndex, setCurrentFieldsetIndex] = useState(null);
 
-    // Mở popup chọn vé
-    const handleOpenPopupVe = () => {
-        setIsPopupVeOpen(true);
-    };
+  const handleOpenPopupVe = (currentIndex) => {
+    setCurrentFieldsetIndex(currentIndex); // Lưu lại `index` của fieldset hiện tại
+    setIsPopupVeOpen(true); // Mở popup
+  };
 
-    // Đóng popup chọn vé
-    const handleClosePopupVe = () => {
-        setIsPopupVeOpen(false);
-    };
+  const handleClosePopupVe = () => {
+    setIsPopupVeOpen(false);
+  };
 
-    // Khi chọn vé
-    const handleSelectVe = (ve) => {
-        setSelectedVe(ve); // Cập nhật vé đã chọn
-        // Truyền thông tin vé và khách hàng về component cha (HoaDonAdd)
-        onSelectVe(index, ve, guestInfo); 
-    };
+  const handleSelectVe = (ve) => {
+    if (selectedVe.some((v) => v.idVe === ve.idVe)) {
+      alert("Vé này đã được chọn.");
+      return;
+    }
+    setSelectedVe((prevSelectedVe) => {
+      const updatedSelectedVe = [...prevSelectedVe];
+      updatedSelectedVe[index] = ve; // Thay thế vé tại vị trí tương ứng
+      return updatedSelectedVe;
+    });
+    onSelectVe(index, ve, guestInfo, hangHoa);
+  };
 
-    // Khi thay đổi thông tin khách hàng
-    const handleGuestInfoChange = (field, value) => {
-        const updatedGuestInfo = { ...guestInfo, [field]: value };
-        setGuestInfo(updatedGuestInfo);
-        onGuestInfoChange(index, field, value); // Truyền dữ liệu lên cha
-    };
+  const handleGuestInfoChange = (field, value) => {
+    const updatedGuestInfo = { ...guestInfo, [field]: value };
+    setGuestInfo(updatedGuestInfo);
+    onGuestInfoChange(index, updatedGuestInfo); // Truyền dữ liệu lên cha
+  };
 
-    return (
-        <fieldset className="frame-ve">
-            <legend>Vé {index + 1}</legend>
+  const handleHangHoaChange = (field, value) => {
+    const updatedHangHoa = {...hangHoa, [field]: value};
+    setHangHoa(updatedHangHoa);
+    onHangHoaChange(index, updatedHangHoa); // Truyền dữ liệu lên cha
+  };
 
-            {/* Nút chọn vé */}
-            <button type="button" onClick={handleOpenPopupVe}>
-                Chọn vé
-            </button>
+  return (
+    <fieldset className="frame-ve">
+      <legend>Vé {index + 1}</legend>
 
-            {/* Hiển thị thông tin vé đã chọn */}
-            {selectedVe && (
-                <>
-                <div className="ticket-info">
-                    
-                    <label>Vé đã chọn:</label>
-                    <input
-                        type="text"
-                        value={selectedVe.choNgoi.rowIndex + selectedVe.choNgoi.columnIndex}
-                        disabled={true}
-                    />
-                </div>
-                {/* Thông tin khách hàng */}
-                <label htmlFor="" style={{fontSize: '1.1em', fontWeight: 'bold'}}>Thông tinh hành khách</label>
-                <div className="guest-info">
-                    <label>Họ và tên:</label>
-                    <input
-                        type="text"
-                        placeholder="Nhập họ tên"
-                        value={guestInfo.hoTen} // Sửa lại từ guestInfo.ten thành guestInfo.hoTen
-                        onChange={(e) => handleGuestInfoChange("hoTen", e.target.value)}
-                    />
+      <button type="button" onClick={() => handleOpenPopupVe(index)}>
+        Chọn vé
+      </button>
 
-                    <label>CMND/CCCD:</label>
-                    <input
-                        type="text"
-                        placeholder="012345678901"
-                        value={guestInfo.cccd}
-                        onChange={(e) => handleGuestInfoChange("cccd", e.target.value)}
-                    />
+      {selectedVe[index] && (
+        <div className="ticket-info">
+          <label>Vé đã chọn:</label>
+          <input
+            type="text"
+            value={`${selectedVe[index].choNgoi.rowIndex}${selectedVe[index].choNgoi.columnIndex}`}
+            disabled
+          />
+        </div>
+      )}
+      {!selectedVe[index] && (
+            fieldErrors.veList && (
+                <p style={{ color: "red" }}>{fieldErrors.veList}</p>
+            )
+        )
+      }
+        
+      {/* Sử dụng GuestInfoForm */}
+      <GuestInfoForm
+        guestInfo={guestInfo}
+        onGuestInfoChange={handleGuestInfoChange}
+        fieldErrors={fieldErrors}
+        index={index}
+      />
 
-                    <label>Số điện thoại:</label>
-                    <input
-                        type="text"
-                        placeholder="0123123123"
-                        value={guestInfo.soDienThoai}
-                        onChange={(e) => handleGuestInfoChange("soDienThoai", e.target.value)}
-                    />
-                    <label>Email:</label>
-                    <input
-                        type="text"
-                        placeholder="abc@exmaple.com"
-                        value={guestInfo.email}
-                        onChange={(e) => handleGuestInfoChange("email", e.target.value)}
-                    />
+      {/* Sử dụng HangHoaForm cho hàng hóa */}
+      <HangHoaForm
+        hangHoa={hangHoa}  // Lấy thông tin hàng hóa tại index
+        onHangHoaChange={handleHangHoaChange}  // Cập nhật thông tin hàng hóa
+        fieldErrors={fieldErrors}
+        index={index}
+      />
 
-                    <label>Giới tính:</label>
-                    <div className="gioi-tinh">
-                        <input
-                            type="radio"
-                            id={`nam-${index}`}
-                            name={`gioiTinh-${index}`}
-                            value="NAM"
-                            checked={guestInfo.gioiTinhEnum === "NAM"}
-                            onChange={(e) => handleGuestInfoChange("gioiTinhEnum", e.target.value)}
-                        />
-                        <label htmlFor={`nam-${index}`}>Nam</label>
-
-                        <input
-                            type="radio"
-                            id={`nu-${index}`}
-                            name={`gioiTinh-${index}`}
-                            value="NU"
-                            checked={guestInfo.gioiTinhEnum === "NU"}
-                            onChange={(e) => handleGuestInfoChange("gioiTinhEnum", e.target.value)}
-                        />
-                        <label htmlFor={`nu-${index}`}>Nữ</label>
-                    </div>
-
-                    <label>Ngày sinh:</label>
-                    <input
-                        type="date"
-                        value={guestInfo.ngaySinh}
-                        onChange={(e) => handleGuestInfoChange("ngaySinh", e.target.value)}
-                    />
-                </div>
-                </>
-            )}
-
-            {/* Popup chọn vé */}
-            {isPopupVeOpen && (
-                <ChonVe
-                    onClose={handleClosePopupVe}
-                    onSelect={handleSelectVe}
-                    chuyenBayId={selectedChuyenBay?.idChuyenBay} // Truyền id chuyến bay
-                />
-            )}
-        </fieldset>
-    );
+      {isPopupVeOpen && (
+        <ChonVe
+          onClose={handleClosePopupVe}
+          onSelect={handleSelectVe}
+          chuyenBayId={selectedChuyenBay?.idChuyenBay}
+          selectedVe={selectedVe}
+          currentFieldsetIndex={currentFieldsetIndex}
+        />
+      )}
+    </fieldset>
+  );
 };
 
 export default FrameVe;

@@ -19,6 +19,7 @@ export const useFetchHoaDon = () => {
                     setHoaDon([]);
                 } else {
                     console.error("An error occurred:", error.message);
+                    setHoaDon([]);
                 }
             } finally {
                 setLoading(false);

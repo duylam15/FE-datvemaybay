@@ -138,8 +138,6 @@ const MerchandiseTable = () => {
     setSortField(field);
   };
 
-  console.error(merchans);
-
   // Columns for the table
   const columns = [
     { header: 'ID', render: (item) => item.idHangHoa, sortField: 'idHangHoa' },

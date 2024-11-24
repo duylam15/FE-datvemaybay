@@ -184,6 +184,24 @@ const DanhGia = () => {
             )}
         </>
     );
+    // Hàm tính khoảng thời gian thủ công
+    function calculateTimeDifference(createdTime) {
+        const now = new Date();
+        const createdDate = new Date(createdTime);
+        const diffInSeconds = Math.floor((now - createdDate) / 1000);
+
+        if (diffInSeconds < 60) return `${diffInSeconds} giây trước`;
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) return `${diffInMinutes} phút trước`;
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) return `${diffInHours} giờ trước`;
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays < 30) return `${diffInDays} ngày trước`;
+        const diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths < 12) return `${diffInMonths} tháng trước`;
+        const diffInYears = Math.floor(diffInMonths / 12);
+        return `${diffInYears} năm trước`;
+    }
 
     return (
         <div className="danh-gia-container">
@@ -219,51 +237,62 @@ const DanhGia = () => {
                     .filter(danhGia => danhGia && !danhGia.parentComment?.idDanhGia)
                     .map(danhGia => (
                         <div key={danhGia.idDanhGia} className="review">
-                            <p><strong className="author">{danhGia.tenKhachHang}:</strong> {danhGia.noiDung}</p>
-                            <p className="rating">
-                                {danhGia.sao === "ONE" ? (
-                                    <>
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                    </>
-                                ) : danhGia.sao === "TWO" ? (
-                                    <>
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                    </>
-                                ) : danhGia.sao === "THREE" ? (
-                                    <>
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                    </>
-                                ) : danhGia.sao === "FOUR" ? (
-                                    <>
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                    </>
-                                ) : danhGia.sao === "FIVE" ? (
-                                    <>
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                        <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
-                                    </>
-                                ) : (
-                                    <></>
-                                )}
-                            </p>
+                            <div style={{ display: 'flex' }}>
+                                <p style={{ marginRight: '10px' }}><strong className="author">{danhGia.tenKhachHang}</strong> </p>
+                                <p className="rating">
+                                    {danhGia.sao === "ONE" ? (
+                                        <>
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        </>
+                                    ) : danhGia.sao === "TWO" ? (
+                                        <>
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        </>
+                                    ) : danhGia.sao === "THREE" ? (
+                                        <>
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        </>
+                                    ) : danhGia.sao === "FOUR" ? (
+                                        <>
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        </>
+                                    ) : danhGia.sao === "FIVE" ? (
+                                        <>
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                            <img src="public/icons/star-svgrepo-com (2).svg" className='icon-star' alt="" />
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </p>
+                            </div>
+                            <p style={{ marginTop: '10px' }}>{danhGia.noiDung}</p>
+
 
 
                             {renderReplies(danhGia.idDanhGia)} {/* Render các câu trả lời cấp 0 cho các bình luận chính */}
-                            <span
-                                onClick={() => setReplyToId(danhGia.idDanhGia)}
-                                className="reply-button"
-                            >
-                                Trả lời
-                            </span>
+
+                            <div style={{ display: 'flex' }}>
+                                <p className="time-created" style={{ marginTop: '10px', marginRight: '10px', fontSize: '0.8em' }}>
+                                    {calculateTimeDifference(danhGia.thoiGianTao)}
+                                </p>
+                                <span
+                                    style={{ fontSize: '0.8em' }}
+                                    onClick={() => setReplyToId(danhGia.idDanhGia)}
+                                    className="reply-button"
+                                >
+                                    Trả lời
+                                </span>
+                            </div>
                             {replyToId === danhGia.idDanhGia && renderReplyInput(danhGia.idDanhGia)}
                         </div>
                     ))}

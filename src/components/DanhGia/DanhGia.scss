@@ -21,7 +21,7 @@
 
     .author {
         font-weight: bold;
-        color: #007bff;
+        color: #000;
     }
 
     .rating {
@@ -31,14 +31,14 @@
     .reply-button {
         margin-top: 10px;
         cursor: pointer;
-        color: #007bff;
+        color: #282828;
         text-decoration: underline;
     }
 
     .toggle-replies {
         margin-top: 10px;
         cursor: pointer;
-        color: #007bff;
+        color: #282828;
         background: none;
     }
 
@@ -62,8 +62,7 @@
     }
 
     .icon-star {
-        width: 20px;
-        height: 20px;
+        width: 12px;
     }
 
     textarea {

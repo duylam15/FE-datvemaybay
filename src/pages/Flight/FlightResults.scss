@@ -184,7 +184,7 @@
             position: relative;
             height: 163px;
             padding: 25px;
-            width: -webkit-fill-available;
+            width: 163px;
             align-items: center;
             background: #344054;
 
@@ -712,6 +712,10 @@
 
   .justify-content-between {
     justify-content: space-between;
+  }
+
+  .width136 {
+    width: 136px;
   }
 
   /* CSS cho overlay */

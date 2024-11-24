@@ -102,17 +102,23 @@ const AddRoute = () => {
         `http://localhost:8080/updateRoute/${idTuyenBay}`,
         route
       );
-      message.success('Cập nhật tuyến bay thành công');
-      navigate('/admin/route');
-    } catch (error) {
-      if (error.response && error.response.status === 500) {
-        if (
-          error.response.data.message ===
-          'Error updating route: Query did not return a unique result: 2 results were returned'
-        ) {
+      if (result.statusCode == 400) {
+        if (result.message === 'Route already exists.') {
           message.error('Tuyến bay đã tồn tại');
         } else {
-          message.error(error.response.data.message);
+          message.error(result.message);
+        }
+      } else {
+        message.success('Cập nhật tuyến bay thành công');
+        navigate('/admin/route');
+      }
+    } catch (error) {
+      if (result.statusCode == 400) {
+        alert('123');
+        if (result.message === 'Route already exists.') {
+          message.error('Tuyến bay đã tồn tại');
+        } else {
+          message.error(result.message);
         } // Hiển thị thông báo từ backend
       } else {
         console.error('Lỗi khi gửi dữ liệu đến API:', error);

@@ -16,17 +16,17 @@ export const editHoaDon= (navigate, idHoaDon) => {
 };
 
 export const searchHoaDon = async (searchTerm, setHoaDon) => {
+    console.log("tu khoa: ", searchTerm);
     try {
         const response = await axios.get(`${API_URL}/getHoaDonByKeyWord`, { params: { keyWord: searchTerm } });
         console.log('Search results:', response.data);
         setHoaDon(response.data.data);
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.error("Error 404: Resource not found");
             // Xử lý lỗi 404
             setHoaDon([]);
         } else {
-            console.error("An error occurred:", error.message);
+            setHoaDon([]);
         }
     }
 };
