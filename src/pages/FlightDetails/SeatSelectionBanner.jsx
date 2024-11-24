@@ -17,6 +17,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	const [secondHalf, setSecondHalf] = useState([]);
 	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 	const idKhachHangIslog = useSelector(state => state.account.user.khachHang.idKhachHang);
+	const [idKhachHangState, setIdKhachHangState] = useState()
+
 	console.log("isAuthenticated from seat", isAuthenticated)
 	console.log("idKhachHangIslog from seat", idKhachHangIslog)
 	const showModal = () => {
@@ -211,6 +213,72 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				localStorage.setItem("idKhachHangIslog", idKhachHangIslog)
 				localStorage.setItem("contactDataCccd", contactData.cccd)
 				console.log(localStorage.getItem("contactDataCccd"))
+				console.log('Booking Data:', bookingData); // Check if the data exists and is correctly fetched
+				const contactDataCccd = localStorage.getItem("contactDataCccd")
+				console.log("contactDataCccdcontactDataCccdcontactDataCccd", contactDataCccd)
+				if (bookingData) {
+					console.log(bookingData[0].ngaySinh);  // Accessing the first item's 'ngaySinh' value
+					const dataKhachHang = {
+						ngaySinh: bookingData[0].ngaySinh,
+						hoTen: bookingData[0].hoTen,
+						email: bookingData[0].email,
+						cccd: contactDataCccd,
+						soDienThoai: bookingData[0].soDienThoai
+					};
+					const cccd = dataKhachHang.cccd
+					console.log("contactDataCccd from home", localStorage.getItem("contactDataCccd"))
+					console.log("dataKhachHangdataKhachHangdataKhachHang", dataKhachHang)
+					let flag = 0
+					let idkh = 1;
+
+					const checkCccd = async () => {
+						console.log("idkh from check cccd", idkh)
+						try {
+							console.log("Starting API call with cccd:", contactDataCccd); // Log giá trị trước khi gọi API
+							const response = await axios.get(`http://localhost:8080/khachhang/findByCccd?cccd=${contactDataCccd}`);
+							console.log("API Response:", response); // Log kết quả nếu thành công
+						} catch (error) {
+							if (error.response) {
+								console.log("error.response)", error.response)
+								const idkh = error.response?.data?.data?.idKhachHang
+								console.log("idKh from check cccd ", idkh)
+								console.log("error", error?.response?.data?.data?.idKhachHang)
+								flag = 1
+								console.log("flag checkCccd", flag)
+								localStorage.setItem("idKh", idkh);
+								console.error("API Error Response:", error.response.status, error.response.data);
+							} else {
+								console.error("Network/Error:", error.message);
+							}
+						}
+
+					}
+					checkCccd();
+					console.log("flag", flag)
+					const postAndLogCustomer = async () => {
+						try {
+							console.log("flag postAndLogCustomer", flag)
+							const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
+							console.log("response postAndLogCustomer", response)
+							const idkh = response.data?.data?.idKhachHang;
+							console.log("Customer ID 1:", idkh);
+							setIdKhachHangState(idkh)
+							localStorage.setItem("idKh", idkh);
+						} catch (error) {
+							console.error("Error:", error.response ? error.response.data : error.message);
+						}
+					}
+					console.log("idKhachHangState outt", idKhachHangState)
+					console.log("idkh out outoutout", idkh)
+
+					if (flag === 0) {
+						console.log("flag000", flag)
+
+						postAndLogCustomer();
+					}
+				} else {
+					console.log('No booking data found in localStorage.');
+				}
 				window.location.href = paymentUrl
 			}).catch((error) => {
 				console.error('Error submitting booking data:', error);

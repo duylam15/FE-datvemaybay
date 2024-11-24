@@ -22,7 +22,7 @@ const Home = () => {
 	const [ticketIds, setTicketIds] = useState([]);
 	const { search } = useLocation();
 	const [idKhachHangState, setIdKhachHangState] = useState()
-
+	const [idKhachHangSTT, setIdKhachHangSTT] = useState(null);
 
 	useEffect(() => {
 		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
@@ -59,70 +59,77 @@ const Home = () => {
 	}, []); // useEffect chỉ chạy một lần khi component được mount
 
 	useEffect(() => {
-		const bookingData = JSON.parse(localStorage.getItem("bookingData"));
-		console.log('Booking Data:', bookingData); // Check if the data exists and is correctly fetched
-		const contactDataCccd = localStorage.getItem("contactDataCccd")
-		console.log("contactDataCccdcontactDataCccdcontactDataCccd", contactDataCccd)
-		if (bookingData) {
-			console.log(bookingData[0].ngaySinh);  // Accessing the first item's 'ngaySinh' value
-			const dataKhachHang = {
-				ngaySinh: bookingData[0].ngaySinh,
-				hoTen: bookingData[0].hoTen,
-				email: bookingData[0].email,
-				cccd: contactDataCccd,
-				soDienThoai: bookingData[0].soDienThoai
-			};
-			const cccd = dataKhachHang.cccd
-			console.log("contactDataCccd from home", localStorage.getItem("contactDataCccd"))
-			console.log("contactDataCccd from home", localStorage.getItem("contactDataCccd"))
-			let flag = 0
-			let idkh;
+		// const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+		// console.log('Booking Data:', bookingData); // Check if the data exists and is correctly fetched
+		// const contactDataCccd = localStorage.getItem("contactDataCccd")
+		// console.log("contactDataCccdcontactDataCccdcontactDataCccd", contactDataCccd)
+		// if (bookingData) {
+		// 	console.log(bookingData[0].ngaySinh);  // Accessing the first item's 'ngaySinh' value
+		// 	const dataKhachHang = {
+		// 		ngaySinh: bookingData[0].ngaySinh,
+		// 		hoTen: bookingData[0].hoTen,
+		// 		email: bookingData[0].email,
+		// 		cccd: contactDataCccd,
+		// 		soDienThoai: bookingData[0].soDienThoai
+		// 	};
+		// 	const cccd = dataKhachHang.cccd
+		// 	console.log("contactDataCccd from home", localStorage.getItem("contactDataCccd"))
+		// 	console.log("dataKhachHangdataKhachHangdataKhachHang", dataKhachHang)
+		// 	let flag = 0
+		// 	let idkh = 1;
 
-			async function checkCccd() {
-				try {
-					console.log("Starting API call with cccd:", contactDataCccd); // Log giá trị trước khi gọi API
-					const response = await axios.get(`http://localhost:8080/khachhang/findByCccd?cccd=${contactDataCccd}`);
-					console.log("API Response:", response); // Log kết quả nếu thành công
-				} catch (error) {
-					if (error.response) {
-						idkh = error.response.data.data?.idKhachHang
-						console.log("error", error.response.data.data?.idKhachHang)
-						flag = 1
-						console.log("flag checkCccd", flag)
-						localStorage.setItem("idKh", idkh);
-						console.error("API Error Response:", error.response.status, error.response.data);
-					} else {
-						console.error("Network/Error:", error.message);
-					}
-				}
-			}
-			checkCccd();
-			console.log("flag", flag)
-			const postAndLogCustomer = async () => {
-				try {
-					console.log("flag postAndLogCustomer", flag)
-					const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
-					idkh = response.data?.data?.idKhachHang;
-					localStorage.setItem("idKh", idkh);
-					console.log("Customer ID:", idkh);
-					setIdKhachHangState(idkh)
-				} catch (error) {
-					console.error("Error:", error.response ? error.response.data : error.message);
-				}
-			}
+		// 	const checkCccd = async () => {
+		// 		console.log("idkh from check cccd", idkh)
+		// 		try {
+		// 			console.log("Starting API call with cccd:", contactDataCccd); // Log giá trị trước khi gọi API
+		// 			const response = await axios.get(`http://localhost:8080/khachhang/findByCccd?cccd=${contactDataCccd}`);
+		// 			console.log("API Response:", response); // Log kết quả nếu thành công
+		// 		} catch (error) {
+		// 			if (error.response) {
+		// 				console.log("error.response)", error.response)
+		// 				const idkh = error.response?.data?.data?.idKhachHang
+		// 				console.log("idKh from check cccd ", idkh)
+		// 				console.log("error", error?.response?.data?.data?.idKhachHang)
+		// 				flag = 1
+		// 				console.log("flag checkCccd", flag)
+		// 				localStorage.setItem("idKh", idkh);
+		// 				console.error("API Error Response:", error.response.status, error.response.data);
+		// 			} else {
+		// 				console.error("Network/Error:", error.message);
+		// 			}
+		// 		}
 
-			if (flag === 0) {
-				console.log("flag000", flag)
+		// 	}
+		// 	checkCccd();
+		// 	console.log("flag", flag)
+		// 	const postAndLogCustomer = async () => {
+		// 		try {
+		// 			console.log("flag postAndLogCustomer", flag)
+		// 			const response = await axios.post('http://localhost:8080/khachhang/addCustomer', dataKhachHang);
+		// 			console.log("response postAndLogCustomer", response)
+		// 			const idkh = response.data?.data?.idKhachHang;
+		// 			console.log("Customer ID 1:", idkh);
+		// 			setIdKhachHangState(idkh)
+		// 			localStorage.setItem("idKh", idkh);
+		// 		} catch (error) {
+		// 			console.error("Error:", error.response ? error.response.data : error.message);
+		// 		}
+		// 	}
+		// 	console.log("idKhachHangState outt", idKhachHangState)
+		// 	console.log("idkh out outoutout", idkh)
 
-				postAndLogCustomer();
-			}
-		} else {
-			console.log('No booking data found in localStorage.');
-		}
-	}, []);
+		// 	if (flag === 0) {
+		// 		console.log("flag000", flag)
+
+		// 		postAndLogCustomer();
+		// 	}
+		// } else {
+		// 	console.log('No booking data found in localStorage.');
+		// }
+		}, []);
 
 
-	useEffect(() => {
+		useEffect(() => {
 		const params = new URLSearchParams(search);
 		console.log("params", params)
 		const newStatusCode = params.get('statusCode');
@@ -153,16 +160,18 @@ const Home = () => {
 				let idkhang
 				const isAuthenticated = localStorage.getItem("isAuthenticated")
 				const idKhachHangIslog = localStorage.getItem("idKhachHangIslog")
+				console.log("localStorage.getItemidKh", localStorage.getItem("idKh"))
+
 				console.log(isAuthenticated)
 				console.log(idKhachHangIslog)
 				console.log("localStorage.getItem", localStorage.getItem("idKh"))
+				console.log("localStorage.getItem", localStorage.getItem("lastCustomerId"))
 				if (isAuthenticated === "true") {
 					const idKhAuth = idKhachHangIslog;
 					idkhang = idKhAuth
 					setIdKhachHangState(idKhAuth)
 				} else {
-					idkhang = localStorage.getItem("lastCustomerId")
-					console.log("aaaaaaaaaaaaaaaaaaaaa")
+					idkhang = Number(localStorage.getItem("idKh"))
 				}
 				console.log("idkhangidkhangidkhangidkhang", Number(idkhang))
 				console.log("idKhachHangState", idKhachHangState)
@@ -202,11 +211,14 @@ const Home = () => {
 					hangHoaDTOList
 				};
 
+				console.log("data createHoaDon", data)
+
 				axios.post('http://localhost:8080/createHoaDon', data)
 					.then(response => {
 						console.log("Response data createHoaDon:", response.data);
 						localStorage.setItem("contactDataCccd", "")
 						// localStorage.setItem("idKh", "")
+						// localStorage.setItem("lastCustomerId", "")
 
 						notification.success({
 							message: 'Đăt vé thành công',
