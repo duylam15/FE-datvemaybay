@@ -33,7 +33,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId, selectedVe, currentFieldsetInd
       alert("Vé này đã được chọn.");
       return;
     }
-    onSelect(ve);
+    onSelect(ve, currentFieldsetIndex);
     onClose();
   };
 
