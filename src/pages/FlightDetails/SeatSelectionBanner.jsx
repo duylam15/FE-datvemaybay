@@ -62,7 +62,6 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		setIsModalVisible(false);
 	};
 
-
 	const handleCancel = () => {
 		setIsModalVisible(false);
 		// setSelectedSeats([]); // Xóa ghế đã chọn khi đóng modal
@@ -71,6 +70,8 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 	// socket from kiet code
 	const [stompClient, setStompClient] = useState(null);
 	const [messages, setMessages] = useState([]);
+	const [isSeatHoldExpired, setIsSeatHoldExpired] = useState(false);
+
 
 	useEffect(() => {
 		const socket = new SockJS('http://localhost:8080/ws');
@@ -78,9 +79,11 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		stompClientInstance.connect({}, (frame) => {
 			console.log('Connected: ' + frame);
 			stompClientInstance.subscribe('/topic/seatHeld', (message) => {
+
 				// alert('Seat held:' + message.body);
 			});
 			stompClientInstance.subscribe('/topic/seatCancelHold', (message) => {
+				setIsSeatHoldExpired(true); // Cập nhật trạng thái giữ ghế đã hết hạn
 				// alert('Canceled seat after 20 seconds:' + message.body);
 				// console.log("alert('Canceled seat after 20 seconds:' + message.body);")
 				// setMessages(prevMessages => [...prevMessages, message.body]);
@@ -93,6 +96,7 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 			if (stompClientInstance) stompClientInstance.disconnect();
 		};
 	}, []);
+
 
 	console.log("customers", customers)
 	const handleSubmit = () => {
@@ -174,6 +178,16 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 				duration: 3,
 			});
 			return;
+		}
+
+		if (isSeatHoldExpired) {
+			notification.error({
+				message: 'Thời gian giữ ghế đã hết',
+				description: 'Vui lòng chọn lại ghế để tiếp tục.',
+				duration: 3,
+			});
+			setIsSeatHoldExpired(false); // Cập nhật trạng thái giữ ghế đã hết hạn
+			return; // Ngăn việc submit nếu ghế đã hết hạn
 		}
 
 		// Nếu tất cả đều hợp lệ, gửi dữ liệu
@@ -290,7 +304,6 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 		}
 	};
 
-
 	useEffect(() => {
 		if (isModalVisible) {
 			axios.get(`http://localhost:8080/getChoNgoiByChuyenBayAndHangVe?idChuyenBay=${selectedTicket.flightId.idChuyenBay}&idHangVe=${selectedTicket.classTicketId}`)
@@ -353,8 +366,6 @@ const SeatSelectionBanner = ({ numberOfTicketsToDetailNumber, adultData, contact
 						<div type="primary" className='seat-selection__btn' onClick={showModal}>
 							Chọn ghế
 						</div>
-
-
 						<Modal
 							visible={isModalVisible}
 							onOk={handleOk}

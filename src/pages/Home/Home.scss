@@ -33,7 +33,7 @@
             width: 100%;
             justify-content: space-between;
             align-items: center;
-            &--heading{
+            &--heading {
                 color: var(--color-primary-dark);
             }
         }
@@ -180,7 +180,18 @@
         }
     }
 }
-
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5); // Màu nền mờ
+    z-index: 1000;
+}
 .service {
     margin-top: -3px;
     &__inner {
