@@ -5,11 +5,17 @@ import { PermissionAddButton } from "../../../components/Admin/Sidebar";
 import { dataChuyenBay, filterChuyenBay } from "../../../services/chuyenBayServices";
 import { dataSanBay } from "../../../services/sanBayService";
 import { dataTuyenBay } from "../../../services/tuyenBayService";
+import { useFetchProfile } from "../../../utils/useFetchProfile";
 import DanhSachCHuyenBay from "./DanhSachChuyenBay";
 
 export const ChuyenBay = () => {
 
-  const idNhanVienDangNhap = -1;
+  const { profile, loading, error } = useFetchProfile();
+  console.log(profile);
+
+  let idNhanVienDangNhap = -1;
+  if (profile?.data?.nhanVien?.chucVu?.ten == "Cơ trưởng" || profile?.data?.nhanVien?.chucVu?.ten == "Cơ phó" || profile?.data?.nhanVien?.chucVu?.ten == "Tiếp viên")
+    idNhanVienDangNhap = profile?.data?.nhanVien?.idNhanVien;
 
   const [selectTrangThai, setSelectTrangThai] = useState("SCHEDULED");
   const [selectThoiGianBatDau, setSelectThoiGianBatDau] = useState("");
