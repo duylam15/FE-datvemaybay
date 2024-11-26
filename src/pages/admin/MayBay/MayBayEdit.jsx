@@ -104,9 +104,11 @@ const MayBayEdit = () => {
             if (response.statusCode == 400) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
-            } else
+            } else {
                 message.success('Cập nhật máy bay thành công')
                 navigate("/admin/maybay")
+            }
+                
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             message.error('Cập nhật máy bay không thành công')

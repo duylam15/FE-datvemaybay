@@ -68,9 +68,10 @@ const AddSanBayForm = () => {
             if (response.statusCode == 400) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
-            } else
+            } else {
                 message.success('Thêm mới sân bay thành công')
                 navigate("/admin/sanbay")
+            }  
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             message.error('Thêm mới sân bay không thành công')
