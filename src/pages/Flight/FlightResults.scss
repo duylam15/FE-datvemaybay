@@ -324,7 +324,7 @@
                     border-radius: 50%;
                     position: absolute;
                     top: 13.8%;
-                    left: 49%;
+                    left: 49.4%;
                   }
                   input[type='radio'] {
                     background-color: #4b843f;
@@ -456,7 +456,7 @@
                     border-radius: 50%;
                     position: absolute;
                     top: 13.8%;
-                    left: 49%;
+                    left: 49.4%;
                   }
                   input[type='radio'] {
                     background-color: #00558f;
@@ -740,5 +740,9 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     z-index: 1001; /* Đảm bảo popup ở trên overlay */
+  }
+
+  .font15 {
+    font-size: 15px;
   }
 }

@@ -207,6 +207,18 @@ const MerchandiseTable = () => {
 
   return (
     <div>
+      <header>
+        <h1
+          style={{
+            fontWeight: 'bold',
+            textAlign: 'center',
+            fontSize: '24px',
+            margin: '20px 0',
+          }}
+        >
+          Danh sách Hàng Hoá
+        </h1>
+      </header>
       <div className='topup-table'>
         <div className='search-sort-controls'>
           <input

@@ -42,7 +42,7 @@ const FlightResult = () => {
       class: 'Phổ Thông Tiết Kiệm',
       changeFee: '1.500.000 VND',
       refundFee: '2.500.000 VND',
-      checkedLuggage: '1 x 23 kg',
+      checkedLuggage: '1 x 20 kg',
       handLuggage: '1 túi',
       mileage: '⭐Tích lũy 50% số dặm',
     },
@@ -629,7 +629,7 @@ const FlightResult = () => {
                                           (flight, index) => (
                                             <div key={index}>
                                               <div className='flightDetail__flight--breakdown-fare-price-list'>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -639,7 +639,7 @@ const FlightResult = () => {
                                                   {flight.changeFee} mỗi hành
                                                   khách cho toàn bộ vé
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -649,7 +649,7 @@ const FlightResult = () => {
                                                   {flight.refundFee} mỗi hành
                                                   khách cho toàn bộ vé
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -658,7 +658,7 @@ const FlightResult = () => {
                                                   Hành lý ký gửi{' '}
                                                   {flight.checkedLuggage}
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -667,7 +667,7 @@ const FlightResult = () => {
                                                   Hành lý xách tay{' '}
                                                   {flight.handLuggage}
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -761,7 +761,7 @@ const FlightResult = () => {
                                           (flight, index) => (
                                             <div key={index}>
                                               <div className='flightDetail__flight--breakdown-fare-price-list'>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -771,7 +771,7 @@ const FlightResult = () => {
                                                   {flight.changeFee} mỗi hành
                                                   khách cho toàn bộ vé
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -781,7 +781,7 @@ const FlightResult = () => {
                                                   {flight.refundFee} mỗi hành
                                                   khách cho toàn bộ vé
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -790,7 +790,7 @@ const FlightResult = () => {
                                                   Hành lý ký gửi{' '}
                                                   {flight.checkedLuggage}
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
@@ -799,7 +799,7 @@ const FlightResult = () => {
                                                   Hành lý xách tay{' '}
                                                   {flight.handLuggage}
                                                 </div>
-                                                <div className='flightDetail__flight--breakdown-fare-text'>
+                                                <div className='flightDetail__flight--breakdown-fare-text font15'>
                                                   <img
                                                     src='public/icons/tick-svgrepo-com.svg'
                                                     alt=''
