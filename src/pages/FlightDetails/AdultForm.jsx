@@ -90,7 +90,7 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 			<div className="container">
 				<div className="adult-form">
 					<div className='adult-form__header' onClick={toggleForm}>
-						<h3 className='form-title form__heading'>NGƯỜI LỚN {index} (Người lớn)</h3>
+						<h3 className='form-title form__heading'>HÀNH KHÁCH {index}</h3>
 					</div>
 					<form className={`form-content show `} autoComplete="off">
 						<div className="form-group-adultform">
