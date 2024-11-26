@@ -1,7 +1,7 @@
-import axios from '../../../utils/axios-80802'
+import { message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { message } from 'antd';
+import axios from '../../../utils/axios-80802';
 
 const API_URL = 'http://localhost:8080';
 
@@ -25,7 +25,7 @@ const TaiKhoanAdd = () => {
             try {
                 const responses = await Promise.allSettled([
                     fetch(`${API_URL}/admin/nhanvien/getallnhanvien`),
-                    fetch(`${API_URL}/quyen`),
+                    fetch(`${API_URL}/quyen?size=100`),
                     fetch(`${API_URL}/khachhang/getKhachHangChuaCoTaiKhoan`)
                 ]);
 
@@ -91,11 +91,11 @@ const TaiKhoanAdd = () => {
         setFieldErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
     };
 
-    
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         const currentTime = new Date().toISOString(); // Hoặc sử dụng Date.now() nếu bạn muốn dạng timestamp
         setThoiGianTao(currentTime);
         const taiKhoan = {
@@ -116,28 +116,28 @@ const TaiKhoanAdd = () => {
                 }));
                 return; // Dừng lại và không gửi form nếu có lỗi
             }
-            
+
         } else {
             if (!khachHang) {
                 setFieldErrors(prevErrors => ({
                     ...prevErrors,
                     khachHang: "Khách hàng không được bỏ trống!"
-                    }));
+                }));
                 return; // Dừng lại và không gửi form nếu có lỗi
             }
         }
-        
+
         try {
             const response = await axios.post(`${API_URL}/taikhoan/addNewTaiKhoan`, taiKhoan);
             console.log("response: ", response);
-            
-            
+
+
             if (response.statusCode == 400) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
             } else
                 message.success('Thêm tài khoản thành công!')
-                navigate('/admin/taikhoan');
+            navigate('/admin/taikhoan');
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -148,8 +148,8 @@ const TaiKhoanAdd = () => {
             }
             console.error('There was an error adding account!', error);
         }
-        
-        
+
+
     };
 
     return (
@@ -276,9 +276,9 @@ const TaiKhoanAdd = () => {
                     <button type='button' className='btn btn-primary' onClick={() => navigate("/admin/taikhoan")}>Quay lại</button>
                     <button type="submit" className="btn btn-primary">Thêm</button>
                 </div>
-                
+
             </form>
-            
+
         </div>
     );
 };

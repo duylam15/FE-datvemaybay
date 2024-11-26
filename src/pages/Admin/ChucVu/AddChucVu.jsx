@@ -86,7 +86,7 @@ const AddChucVu = () => {
       const data = { idChucVu, ten, moTa, trangThaiActive };
       const response = await updateChucVuService(idChucVu, data);
       console.log(response);
-      if (response.statusCode == 400 || response.statusCode == 409) {
+      if (response.statusCode == 400 || response.statusCode == 409 || response.statusCode == 403) {
         emptyField();
         errorField(response.data);
         setTypeDisplay("block");
