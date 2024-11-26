@@ -31,7 +31,7 @@ const HoaDonAdd = () => {
     const [isPopupVeOpen, setIsPopupVeOpen] = useState(false);
     const [selectedChuyenBay, setSelectedChuyenBay] = useState(null);
 
-    const [selectedVe, setSelectedVe] = useState([]);
+    const [selectedVes, setSelectedVes] = useState([]);
     const [guestList, setGuestList] = useState([]); // Mảng lưu thông tin hành khách
     const [veList, setVeList] = useState([]);
     const [hangHoaDTOList, setHangHoaDTOList] = useState([]);
@@ -76,20 +76,20 @@ const HoaDonAdd = () => {
         const newVeList = [...veList];
         const newGuestList = [...guestList];
         const newHangHoaList = [...hangHoaDTOList];
-        // Nếu số lượng vé thay đổi, làm mới cả veList và guestList
-        if (newSoLuongVe > newVeList.length) {
-          // Thêm phần tử vào veList và guestList khi số lượng vé tăng lên
-          for (let i = newVeList.length; i < newSoLuongVe; i++) {
-            newVeList.push(null); // Thêm vé null để tương ứng với số lượng vé mới
-            newGuestList.push({}); // Thêm khách hàng rỗng
-            newHangHoaList.push({});
-          }
-        } else if (newSoLuongVe < newVeList.length) {
-          // Xóa phần tử trong veList và guestList khi số lượng vé giảm đi
-          newVeList.length = newSoLuongVe;
-          newGuestList.length = newSoLuongVe;
-          newHangHoaList.length = newSoLuongVe;
-        }
+        // // Nếu số lượng vé thay đổi, làm mới cả veList và guestList
+        // if (newSoLuongVe > newVeList.length) {
+        //   // Thêm phần tử vào veList và guestList khi số lượng vé tăng lên
+        //   for (let i = newVeList.length; i < newSoLuongVe; i++) {
+        //     newVeList.push(null); // Thêm vé null để tương ứng với số lượng vé mới
+        //     newGuestList.push({}); // Thêm khách hàng rỗng
+        //     newHangHoaList.push({});
+        //   }
+        // } else if (newSoLuongVe < newVeList.length) {
+        //   // Xóa phần tử trong veList và guestList khi số lượng vé giảm đi
+        //   newVeList.length = newSoLuongVe;
+        //   newGuestList.length = newSoLuongVe;
+        //   newHangHoaList.length = newSoLuongVe;
+        // }
     
         setVeList(newVeList);
         setGuestList(newGuestList);
@@ -98,11 +98,10 @@ const HoaDonAdd = () => {
 
     // Hàm nhận thông tin vé và khách hàng từ FrameVe
     const handleSelectVe = (index, selectedVe, guestInfo, hangHoaInfo) => {
-        // Cập nhật lại veList
-        const updatedVeList = [...veList];
-        updatedVeList[index] = selectedVe; // Chỉ cập nhật vé đã chọn
-        setVeList(updatedVeList); // Cập nhật lại danh sách vé
-        // Cập nhật guestList
+        const updatedVeList = [...selectedVes];
+
+        updatedVeList[index] = selectedVe;
+        setSelectedVes(updatedVeList);
         const updatedGuestList = [...guestList];
         updatedGuestList[index] = guestInfo; // Chỉ cập nhật thông tin khách hàng
         setGuestList(updatedGuestList); // Cập nhật lại danh sách hành khách
@@ -129,7 +128,22 @@ const HoaDonAdd = () => {
     useEffect(() => {
         fetchPTTTList();
         fetchLoaiHangHoaList();
+        setSelectedVes((prevSelectedVe) => {
+            const newSelectedVe = [...prevSelectedVe];
+            while (newSelectedVe.length < soLuongVe) {
+              newSelectedVe.push(null); // Hoặc đối tượng mặc định
+            }
+            return newSelectedVe;
+          });
     }, []);
+
+    useEffect(() => {
+        if (selectedChuyenBay) {
+          // Khi chọn chuyến bay khác, reset số lượng vé và danh sách vé
+          setSoLuongVe(1);
+          setSelectedVes([null]); // Reset danh sách vé về 1 phần tử null
+        }
+      }, [selectedChuyenBay]);
 
     const fetchPTTTList = async () => {
         try {
@@ -370,6 +384,7 @@ const HoaDonAdd = () => {
                                     onGuestInfoChange={handleGuestInfoChange} 
                                     onHangHoaChange={handleHangHoaChange}
                                     fieldErrors={fieldErrors}
+                                    selectedVe={selectedVes}
                                 />
                             ))}
                             <div className="mb-3 col-4">

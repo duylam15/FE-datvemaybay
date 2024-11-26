@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChonVe from "./ChonVe"; // Import popup chọn vé
 import GuestInfoForm from './GuesInfoForm'; // Import form thông tin khách hàng
 import HangHoaForm from './HangHoaForm'; // Import form thông tin hàng hóa (tạo mới)
@@ -10,8 +10,13 @@ const FrameVe = ({
   onGuestInfoChange,
   onHangHoaChange, // Hàm thay đổi thông tin hàng hóa
   fieldErrors,
+  selectedVe
 }) => {
-  const [selectedVe, setSelectedVe] = useState([]);
+  useEffect(() => {
+    console.log(`Vé tại index ${index} đã thay đổi:`, selectedVe);
+  }, [selectedVe]); // Chỉ chạy khi selectedVe thay đổi
+
+
   const [guestInfo, setGuestInfo] = useState({
     hoTen: "",
     cccd: "",
@@ -43,16 +48,11 @@ const FrameVe = ({
     setIsPopupVeOpen(false);
   };
 
-  const handleSelectVe = (ve) => {
-    if (selectedVe.some((v) => v.idVe === ve.idVe)) {
+  const handleSelectVe = (ve, index) => {
+    if (selectedVe.some((v) => v != null && v.idVe === ve.idVe)) {
       alert("Vé này đã được chọn.");
       return;
     }
-    setSelectedVe((prevSelectedVe) => {
-      const updatedSelectedVe = [...prevSelectedVe];
-      updatedSelectedVe[index] = ve; // Thay thế vé tại vị trí tương ứng
-      return updatedSelectedVe;
-    });
     onSelectVe(index, ve, guestInfo, hangHoa);
   };
 
