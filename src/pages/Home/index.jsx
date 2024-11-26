@@ -14,6 +14,7 @@ import HotFlight from './HotFlight';
 import { notification } from 'antd';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spin } from 'antd';
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -23,6 +24,8 @@ const Home = () => {
 	const { search } = useLocation();
 	const [idKhachHangState, setIdKhachHangState] = useState()
 	const [idKhachHangSTT, setIdKhachHangSTT] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+
 
 	useEffect(() => {
 		// Hàm để fetch dữ liệu và lưu ID khách hàng cuối cùng vào localStorage
@@ -126,10 +129,10 @@ const Home = () => {
 		// } else {
 		// 	console.log('No booking data found in localStorage.');
 		// }
-		}, []);
+	}, []);
 
 
-		useEffect(() => {
+	useEffect(() => {
 		const params = new URLSearchParams(search);
 		console.log("params", params)
 		const newStatusCode = params.get('statusCode');
@@ -212,9 +215,10 @@ const Home = () => {
 				};
 
 				console.log("data createHoaDon", data)
-
+				setIsLoading(true);
 				axios.post('http://localhost:8080/createHoaDon', data)
 					.then(response => {
+						setIsLoading(false);
 						console.log("Response data createHoaDon:", response.data);
 						localStorage.setItem("contactDataCccd", "")
 						// localStorage.setItem("idKh", "")
@@ -258,6 +262,12 @@ const Home = () => {
 
 	return (
 		<>
+
+			{isLoading && (
+				<div className="loading-overlay">
+					<Spin size="large" tip="Đang xử lý..." />
+				</div>
+			)}
 			<HomeHeader navigate={navigate} />
 
 			<Service navigate={navigate} />
