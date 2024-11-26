@@ -75,7 +75,7 @@ export default function FlightTimeLine({
       class: 'Phổ Thông Tiết Kiệm',
       changeFee: '1.500.000 VND',
       refundFee: '2.500.000 VND',
-      checkedLuggage: '1 x 20 kg',
+      checkedLuggage: '1 x 23 kg',
       handLuggage: '1 túi',
       mileage: '⭐Tích lũy 50% số dặm',
     },
