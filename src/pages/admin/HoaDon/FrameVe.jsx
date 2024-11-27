@@ -87,8 +87,8 @@ const FrameVe = ({
         </div>
       )}
       {!selectedVe[index] && (
-            fieldErrors.veList && (
-                <p style={{ color: "red" }}>{fieldErrors.veList}</p>
+            fieldErrors[`ve-${index}`] && (
+                <p style={{ color: "red" }}>{fieldErrors[`ve-${index}`]}</p>
             )
         )
       }

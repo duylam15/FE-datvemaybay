@@ -6,7 +6,7 @@ import { message } from 'antd';
 import PopupChonChuyenBay from './ChonChuyenBay'; // Import Popup
 import ChonVe from './ChonVe';
 import FrameVe from './FrameVe'; // Import FrameVe
-import { forEach } from 'lodash';
+import { forEach, update } from 'lodash';
 
 const API_URL = 'http://localhost:8080';
 
@@ -49,6 +49,8 @@ const HoaDonAdd = () => {
     });
 
     const navigate = useNavigate();
+
+    
 
     const handleOpenPopupChuyenBay = () => {
         setIsPopupChuyenBayOpen(true);
@@ -159,13 +161,12 @@ const HoaDonAdd = () => {
         selectedVes.forEach((ve, index) => {
             console.log("ve ", index, ": ", ve);
             if (!ve) {
-                errors[`ve${index}`] = 'Vé không được để trống';
+                errors[`ve-${index}`] = 'Vé không được để trống';
             }
         });
         if (selectedVes.length < soLuongVe) {
-
             errors.veList = `Vui lòng chọn vé!`;
-        }
+        } 
         
         guestList.forEach((guest, index) => {
             console.log("guest ", index,": ", guest);
@@ -230,9 +231,12 @@ const HoaDonAdd = () => {
     
             // Lấy danh sách khách hàng đã lưu từ phản hồi của API
             const savedGuests = guestResponses.map(response => response.data);
+            console.log(savedGuests);
     
             // Bước 3: Cập nhật thông tin khách hàng vào vé
-            const updatedVeList = veList.map((ve, index) => {
+            console.log("ve list: ", veList);
+            const updatedVeList = selectedVes.map((ve, index) => {
+                console.log("ve ", index," : ", ve);
                 const guest = savedGuests[index];
                 return {
                     idVe: ve.idVe,
@@ -240,9 +244,9 @@ const HoaDonAdd = () => {
                     trangThai: "BOOKED"
                 };
             });
-    
+            console.log("updated Ve List: ", updatedVeList);
             // Cập nhật lại veList với khách hàng đã gán
-            setVeList(updatedVeList);
+            // setSelectedVes(updatedVeList);
     
             // Bước 4: Lưu các vé đã cập nhật vào cơ sở dữ liệu
             const ticketPromises = updatedVeList.map(ve =>
@@ -251,7 +255,7 @@ const HoaDonAdd = () => {
     
             // Chờ tất cả các yêu cầu lưu vé hoàn thành
             await Promise.all(ticketPromises);
-    
+            console.log(ticketPromises.data);
             console.log("Đã lưu tất cả khách hàng và cập nhật vé thành công.");
             return true; // Trả về true khi thành công
         } catch (error) {
