@@ -187,6 +187,18 @@ const HoaDonAdd = () => {
             if (!guest.gioiTinhEnum) {
                 errors[`gioiTinhEnum-${index}`] = 'Giới tính không được để trống';
             }
+            if (!/^0[0-9]{9}$/.test(guest.soDienThoai)) {
+                errors[`soDienThoai-${index}`] = 'Số điện thoại phải đúng định dạng';
+            }
+            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(guest.email)) {
+                errors[`email-${index}`] = 'Email phải đúng định dạng';
+            }
+            if (!/^\d{9}$|^\d{12}$/.test(guest.cccd)) {
+                errors[`cccd-${index}`] = 'Căn cước công dân phải là 9 hoặc 12 số';
+            }
+            if (new Date(guest.ngaySinh) >= new Date().setHours(0, 0, 0, 0)) {
+                errors[`ngaySinh-${index}`] = 'Ngày sinh phải trước ngày hôm nay';
+            }
         });
  
         if (!phuongThucThanhToan) {

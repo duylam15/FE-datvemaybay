@@ -23,7 +23,7 @@ const GuestInfoForm = ({ guestInfo, onGuestInfoChange, fieldErrors, index }) => 
       <div className="mb-3 col-4">
         <label className="form-label">Email</label>
         <input
-          type="email"
+          type="text"
           className="form-control"
           value={guestInfo.email}
           onChange={(e) => onGuestInfoChange("email", e.target.value)}
@@ -82,6 +82,9 @@ const GuestInfoForm = ({ guestInfo, onGuestInfoChange, fieldErrors, index }) => 
           />
           <label htmlFor={`nu-${index}`}>Nữ</label>
         </div>
+        {fieldErrors[`gioiTinhEnum-${index}`] && (
+          <div className="text-danger">{fieldErrors[`gioiTinhEnum-${index}`]}</div>
+        )}
       </div>
 
       <div className="mb-3 col-4">
