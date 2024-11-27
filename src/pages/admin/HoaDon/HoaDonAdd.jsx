@@ -72,26 +72,11 @@ const HoaDonAdd = () => {
     
         setSoLuongVe(newSoLuongVe);
     
-        // Cập nhật veList và guestList sao cho chúng phản ánh đúng số lượng vé
-        const newVeList = [...veList];
+        const newVeList = [...selectedVes];
         const newGuestList = [...guestList];
         const newHangHoaList = [...hangHoaDTOList];
-        // // Nếu số lượng vé thay đổi, làm mới cả veList và guestList
-        // if (newSoLuongVe > newVeList.length) {
-        //   // Thêm phần tử vào veList và guestList khi số lượng vé tăng lên
-        //   for (let i = newVeList.length; i < newSoLuongVe; i++) {
-        //     newVeList.push(null); // Thêm vé null để tương ứng với số lượng vé mới
-        //     newGuestList.push({}); // Thêm khách hàng rỗng
-        //     newHangHoaList.push({});
-        //   }
-        // } else if (newSoLuongVe < newVeList.length) {
-        //   // Xóa phần tử trong veList và guestList khi số lượng vé giảm đi
-        //   newVeList.length = newSoLuongVe;
-        //   newGuestList.length = newSoLuongVe;
-        //   newHangHoaList.length = newSoLuongVe;
-        // }
     
-        setVeList(newVeList);
+        setSelectedVes(newVeList);
         setGuestList(newGuestList);
         setHangHoaDTOList(newHangHoaList);
     };
@@ -171,16 +156,17 @@ const HoaDonAdd = () => {
     const saveGuestsAndUpdateTickets = async () => {
         const errors = {};
         
-        veList.forEach((ve, index) => {
+        selectedVes.forEach((ve, index) => {
             console.log("ve ", index, ": ", ve);
             if (!ve) {
                 errors[`ve${index}`] = 'Vé không được để trống';
             }
         });
-        if (veList.length < soLuongVe) {
+        if (selectedVes.length < soLuongVe) {
+
             errors.veList = `Vui lòng chọn vé!`;
         }
-
+        
         guestList.forEach((guest, index) => {
             console.log("guest ", index,": ", guest);
             if (!guest.hoTen) {
@@ -271,41 +257,16 @@ const HoaDonAdd = () => {
             return;
         }
         try {
-            const hangHoa = {
-                tenHangHoa,
-                idLoaiHangHoa: 1,
-                taiTrong,
-                giaPhatSinh,
-                trangThaiActive: 'ACTIVE',
-            };
-
-
             // Gọi saveGuestsAndUpdateTickets và kiểm tra kết quả
             const success = await saveGuestsAndUpdateTickets();
             if (!success) {
                 console.log("them hanh khach va update ve that bai");
                 return; // Dừng nếu lưu khách hàng hoặc cập nhật vé thất bại
             }
-            if (hangHoaDTOList && hangHoaDTOList.length > 0) {
-                try {
-                    const updatedHangHoaList = await Promise.all(hangHoaDTOList.map(async (hangHoa) => {
-                        const hangHoaResponse = await axios.post(`${API_URL}/addNewMerchandise`, hangHoa);
-                        console.log(hangHoaResponse.data); 
-                        
-                        return {
-                            ...hangHoa,
-                            idHangHoa: hangHoaResponse.data.data.idHangHoa,
-                        };
-                    }));
             
-                    setHangHoaDTOList(updatedHangHoaList); 
+            console.log(hangHoaDTOList);
             
-                } catch (error) {
-                    console.error('Error saving merchandise:', error);
-                }
-            }
-            
-            const chiTietHoaDonDTOList = veList.map((ve) => ({
+            const chiTietHoaDonDTOList = selectedVes.map((ve) => ({
                 ve: { idVe: ve.idVe },
             }));
 
