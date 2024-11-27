@@ -221,6 +221,8 @@
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
     &__icon {
+        width: 30px;
+        height: 30px;
     }
     &__title {
         color: var(--Gray-4, #6d717f);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const ContactInfoForm = ({ contactData, setContactData, customers }) => {
 	const [error, setError] = useState({});
@@ -6,6 +7,29 @@ const ContactInfoForm = ({ contactData, setContactData, customers }) => {
 	const [touched, setTouched] = useState({});
 	const [prevCCCD, setPrevCCCD] = useState(''); // Lưu CCCD trước đó
 	const [flag, setFlag] = useState(false)
+
+	const isAuthenticated = useSelector(state => state.account.isAuthenticated);
+	const idKhachHangIslog = useSelector(state => state.account.user.khachHang);
+
+	console.log("isAuthenticated from seat", isAuthenticated)
+	console.log("idKhachHangIslog from seat", idKhachHangIslog.idKhachHang)
+	console.log("idKhachHangIslog from seat", idKhachHangIslog.cccd)
+	console.log("idKhachHangIslog from seat", idKhachHangIslog.email)
+	console.log("idKhachHangIslog from seat", idKhachHangIslog.soDienThoai)
+
+	// Cập nhật contactData khi người dùng đăng nhập
+	useEffect(() => {
+		if (isAuthenticated && idKhachHangIslog) {
+			setContactData({
+				cccd: idKhachHangIslog.cccd || '',
+				email: idKhachHangIslog.email || '',
+				soDienThoai: idKhachHangIslog.soDienThoai || '',
+				phoneType: 'personal',
+			});
+			setFlag(true); // Gắn cờ để khóa các trường nếu cần
+		}
+	}, [isAuthenticated, idKhachHangIslog, setContactData]);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFlag(false)
@@ -122,6 +146,7 @@ const ContactInfoForm = ({ contactData, setContactData, customers }) => {
 								onChange={handleChange}
 								onBlur={handleBlur}
 								className={touched.cccd && error.cccd ? 'error-adult-input' : ''}
+								disabled={isAuthenticated}
 							/>
 							{touched.cccd && error.cccd && <span className="error-adult-form">{error.cccd}</span>}
 						</div>
@@ -141,7 +166,8 @@ const ContactInfoForm = ({ contactData, setContactData, customers }) => {
 						</div>
 						<div className="form-group-adultform">
 							<label >Loại điện thoại</label>
-							<select name="phoneType" onChange={handleChange}>
+							<select name="phoneType" onChange={handleChange}
+							>
 								<option value="personal">Cá nhân</option>
 								<option value="business">Doanh nghiệp</option>
 							</select>
