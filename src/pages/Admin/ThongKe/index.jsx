@@ -908,7 +908,7 @@ export default function ThongKe() {
         </div>
 
         {/* Cột phải (chiếm 1 cột) */}
-        <div className='chart-right' style={{ height: '105%' }}>
+        <div className='chart-right' style={{ height: '110%' }}>
           <div className='chart-item'>
             <h2>Tỉ lệ tăng trưởng khách hàng</h2>
             <div
