@@ -67,9 +67,9 @@ import Ve from '../pages/Admin/Ve/index.jsx';
 import InfoAccount from '../pages/UserPage/InfoAccount';
 import LichSuBay from '../pages/UserPage/LichSuBay';
 import ProtectedRoute from '../components/ProtectedRoute/index.jsx';
-import Thongke from '../pages/Admin/ThongKe/index.jsx';
 import ThongTinCaNhanAdmin from '../pages/Admin/ThongTinCaNhan/ThongTinCaNhanAdmin.jsx';
 import ProtectedRouteHome from '../components/ProtectedRouteHome/index.jsx';
+import ThongKe from '../pages/admin/ThongKe/index.jsx';
 
 export const router = createBrowserRouter([
   {
@@ -211,7 +211,7 @@ export const router = createBrowserRouter([
       },
       // maybay
       { path: 'maybay', element: <MayBayPage /> },
-      { path: 'thongke', element: <Thongke /> },
+      { path: 'thongke', element: <ThongKe /> },
       { path: 'maybay/add', element: <AddMayBayForm /> },
       { path: 'maybay/edit/:idMayBay', element: <MayBayEdit /> },
       // sanbay
