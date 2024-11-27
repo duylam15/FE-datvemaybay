@@ -116,6 +116,13 @@ const TaiKhoanAdd = () => {
                 }));
                 return; // Dừng lại và không gửi form nếu có lỗi
             }
+            if (!quyen) {
+                setFieldErrors(prevErrors => ({
+                    ...prevErrors,
+                    quyen: "Quyền không được bỏ trống!"
+                }));
+                return;
+            }
 
         } else {
             if (!khachHang) {
@@ -135,12 +142,14 @@ const TaiKhoanAdd = () => {
             if (response.statusCode == 400) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
-            } else
+            } else{
                 message.success('Thêm tài khoản thành công!')
-            navigate('/admin/taikhoan');
+                navigate('/admin/taikhoan');
+            }
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
+                console.log(error.response.data.data);
                 const errors = error.response.data.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors); // Cập nhật lỗi cho từng trường
             } else {
