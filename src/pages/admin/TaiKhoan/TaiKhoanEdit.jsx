@@ -90,9 +90,10 @@ const TaiKhoanEdit = () => {
             if (response.statusCode == 400) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
-            } else
+            } else {
                 message.success('Sửa tài khoản thành công!');
                 navigate('/admin/taikhoan');
+            }
         } catch (error) {
             // Kiểm tra lỗi từ phản hồi của backend
             if (error.response && error.response.data) {
@@ -199,19 +200,6 @@ const TaiKhoanEdit = () => {
                         </div>
                     </>
                 )}
-
-
-                <div className="mb-3">
-                    <label className="form-label">Thời gian tạo</label>
-                    <input
-                        name='thoiGianTao'
-                        type="date"
-                        className={`form-control form-control-lg`}
-                        value={taiKhoan.thoiGianTao}
-                        onChange={handleChange}
-                        id="thoiGianTao"
-                    />
-                </div>
                 <div className="mb-3">
                     <label className="form-label">Trạng thái</label>
                     <select
