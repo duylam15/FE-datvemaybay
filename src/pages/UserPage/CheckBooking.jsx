@@ -63,17 +63,34 @@ const BookingCard = ({ booking }) => {
     }
   };
 
+  const formatTime = (inputDate) => {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng (0-11)
+    const day = String(date.getDate()).padStart(2, '0'); // Ngày
+    const hours = String(date.getHours()).padStart(2, '0'); // Giờ
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Phút
+    const seconds = String(date.getSeconds()).padStart(2, '0'); // Giây
+
+    // Định dạng lại
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return formattedDate;
+  }
+
   return (
     <div className="ticket-item">
       <h3>Thông tin đặt chỗ</h3>
-      <div className={`status ${booking.hoaDon.status}`}>{booking.hoaDon.status}</div>
+      <div className={`status ${booking.hoaDon.status}`}>Trạng thái vé: {booking.ve.trangThai}</div>
       <p>Hành khách: {booking.ve?.hanhKhach?.hoTen || "Không có thông tin"}</p>
       <p>Giới tính: {booking.ve?.hanhKhach?.gioiTinhEnum || "Không có thông tin"}</p>
       <p>Vé: {booking.ve.maVe}</p>
+      <p>Chỗ ngồi: {booking.ve.choNgoi.columnIndex+booking.ve.choNgoi.rowIndex}</p>
       <p>Chuyến bay: {booking.ve.chuyenBay.iataChuyenBay}</p>
       <p>Ngày bay: {booking.ve.chuyenBay.ngayBay}</p>
-      <p>Giờ khởi hành: {booking.ve.chuyenBay.thoiGianBatDauThucTe}</p>
-      <p>Giờ hạ cánh: {booking.ve.chuyenBay.thoiGianKetThucThucTe}</p>
+      <p>Giờ khởi hành: {formatTime(booking.ve.chuyenBay.thoiGianBatDauThucTe)}</p>
+      <p>Giờ hạ cánh: {formatTime(booking.ve.chuyenBay.thoiGianKetThucThucTe)}</p>
+      <p>Sân bay khởi hành: {booking.ve.chuyenBay.tuyenBay.sanBayBatDau.tenSanBay} - Đia chỉ: {booking.ve.chuyenBay.tuyenBay.sanBayBatDau.diaChi}</p>
+      <p>Sân bay đáp cánh: {booking.ve.chuyenBay.tuyenBay.sanBayKetThuc.tenSanBay} - Địa chỉ: {booking.ve.chuyenBay.tuyenBay.sanBayKetThuc.diaChi}</p>
       
       {booking.ve.trangThai === 'USED' && booking.hoaDon.danhGia === false ? (
         <div>
