@@ -17,8 +17,8 @@ const LayoutAdmin = () => {
 
   // Hàm xử lý khi nhấn logout
   const handleLogout = async () => {
-    const token = localStorage.getItem('accessToken')
-    const res = await callLogout(token); // Gọi API logout
+    // const token = localStorage.getItem('access_token')
+    // const res = await callLogout(token); // Gọi API logout
     if (1) {
       console.log("asdads")
       dispatch(doLogoutAction()); // Dispatch action logout
