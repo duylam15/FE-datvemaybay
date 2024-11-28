@@ -71,9 +71,6 @@ const KhachHangList = ({
                         <th onClick={() => handleSort('soDienThoai')}>
                             Số Điện Thoại {sortField === 'soDienThoai' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th onClick={() => handleSort('point')}>
-                            Số lần mua {sortField === 'point' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
                         <th>Giới Tính</th>
                         <th>Trạng Thái</th>
                         <th>Actions</th>
@@ -87,7 +84,6 @@ const KhachHangList = ({
                                 <td>{kh.hoTen}</td>
                                 <td>{kh.email}</td>
                                 <td>{kh.soDienThoai}</td>
-                                <td>{kh.point}</td>
                                 <td>{kh.gioiTinhEnum === 'NAM' ? 'Nam' : 'Nữ'}</td>
                                 <td>{kh.trangThaiActive === 'ACTIVE' ? 'Kích Hoạt' : 'Không Kích Hoạt'}</td>
                                 <td>
