@@ -215,7 +215,7 @@ export default function ThongKe() {
   // Cấu hình bảng
   const columns = [
     { title: 'Thời gian', dataIndex: 'time', key: 'time' },
-    { title: 'Tỉ lệ tăng (%)', dataIndex: 'growthRate', key: 'growthRate' },
+    { title: 'Tỉ lệ tăng (%)', dataIndex: '%', key: '%' },
   ];
 
   // ------------------------------------------------------------------------------------------------
