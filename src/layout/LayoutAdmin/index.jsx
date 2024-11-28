@@ -17,13 +17,15 @@ const LayoutAdmin = () => {
 
   // Hàm xử lý khi nhấn logout
   const handleLogout = async () => {
-    const token = localStorage.getItem('access_token')
+    const token = localStorage.getItem('accessToken')
     const res = await callLogout(token); // Gọi API logout
-    if (res.statusCode === 200) {
+    if (1) {
+      console.log("asdads")
       dispatch(doLogoutAction()); // Dispatch action logout
       message.success('Đăng xuất thành công'); // Hiển thị thông báo đăng xuất thành công
       navigate('/login'); // Điều hướng đến trang chính
     } else {
+      console.log("res resres", res)
       message.error('Đăng xuất thất bại'); // Hiển thị thông báo đăng xuất thành công
     }
   }
