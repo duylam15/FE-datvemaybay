@@ -17,6 +17,7 @@ import './Sidebar.css';
 import EditBtn from '../ColorButtons/EditBtn';
 import XemChiTietBtn from '../ColorButtons/XemChiTietBtn';
 import IconLabelButtons from '../ColorButtons';
+import { useFetchProfile } from '../../../utils/useFetchProfile';
 
 // Function to check if a specific permission exists for a feature
 const hasPermission = (featureName, action) => {

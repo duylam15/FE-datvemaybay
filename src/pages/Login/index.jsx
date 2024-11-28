@@ -39,6 +39,7 @@ const Login = () => {
         else navigate('/admin');
       }, 500); // Delay để Redux cập nhật
     } else {
+      console.log("HUU LOC TEST: ", res)
       notification.error({
         message: "Có lỗi xảy ra",
         description:
