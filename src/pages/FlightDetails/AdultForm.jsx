@@ -60,8 +60,6 @@ const AdultForm = ({ index, adultData, setAdultData, selectedTicket, numberOfTic
 					newErrors.cccd = 'Căn cước công dân không được để trống.';
 				} else if (!/^\d{9}$|^\d{12}$/.test(value)) {
 					newErrors.cccd = 'Căn cước công dân phải là 9 hoặc 12 số.';
-				} else if (existingCCCDs.includes(value)) {
-					newErrors.cccd = 'Căn cước công dân đã tồn tại.';
 				}
 				break;
 			case 'birthDate':
