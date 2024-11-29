@@ -1372,6 +1372,7 @@ export const AddChuyenBay = () => {
                     id="thuong"
                     value={giaVeThuong}
                     onChange={handleGiaVeThuongChange}
+                    disabled={action === "edit"}
                   />
                 </div>
                 <span className={`error ${errorThuong ? 'has_error' : ''}`} id="loiGiaVeThuong">
@@ -1386,6 +1387,7 @@ export const AddChuyenBay = () => {
                     id="thuongGia"
                     value={giaVeThuongGia}
                     onChange={handleGiaVeThuongGiaChange}
+                    disabled={action === "edit"}
                   />
                 </div>
                 <span className={`error ${errorThuongGia ? 'has_error' : ''}`} id="loiGiaVeThuongGia">

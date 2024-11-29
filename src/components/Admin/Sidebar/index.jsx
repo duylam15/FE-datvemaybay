@@ -18,6 +18,8 @@ import EditBtn from '../ColorButtons/EditBtn';
 import XemChiTietBtn from '../ColorButtons/XemChiTietBtn';
 import IconLabelButtons from '../ColorButtons';
 import { useFetchProfile } from '../../../utils/useFetchProfile';
+import { FaPlaneCircleCheck } from "react-icons/fa6";
+import { FaFileInvoiceDollar } from "react-icons/fa";
 
 // Function to check if a specific permission exists for a feature
 const hasPermission = (featureName, action) => {
@@ -98,12 +100,12 @@ const Sidebar = () => {
     { name: 'Sân bay', path: '/admin/sanbay', feature: 'Quản lí sân bay', icon: <FaPlaneDeparture /> },
     { name: 'PTTT', path: '/admin/pttt', feature: 'Quản lí PTTT', icon: <FaSdCard /> },
     { name: 'Hóa đơn', path: '/admin/hoadon', feature: 'Quản lí hoá đơn', icon: <FaRegMoneyBillAlt /> },
-    { name: 'Loại hóa đơn', path: '/admin/loaihoadon', feature: 'Quản lí loại hoá đơn', icon: <FaRegMoneyBillAlt /> },
+    { name: 'Loại hóa đơn', path: '/admin/loaihoadon', feature: 'Quản lí loại hoá đơn', icon: <FaFileInvoiceDollar /> },
     { name: 'Khách hàng', path: '/admin/customers', feature: 'Quản lí khách hàng', icon: <FaPlane /> },
     { name: 'Hàng hoá', path: '/admin/merchandise', feature: 'Quản lí hàng hoá', icon: <FaBox /> },
     { name: 'Tuyến bay', path: '/admin/route', feature: 'Quản lí tuyến bay', icon: <FaMapMarkerAlt /> },
     { name: 'Tài khoản', path: '/admin/taikhoan', feature: 'Quản lí tài khoản', icon: <FaRegUser /> },
-    { name: 'Chuyến bay', path: '/admin/chuyenbay', feature: 'Quản lí chuyến bay', icon: <FaRegUser /> },
+    { name: 'Chuyến bay', path: '/admin/chuyenbay', feature: 'Quản lí chuyến bay', icon: <FaPlaneCircleCheck /> },
     { name: 'Nhân viên', path: '/admin/quanlinhanvien/nhanvien', feature: 'Quản lí nhân viên', icon: <FaRegUser /> },
     { name: 'Chức vụ', path: '/admin/quanlinhanvien/chucvu', feature: 'Quản lí chức vụ', icon: <FaGavel /> },
     { name: 'Đánh giá', path: '/admin/danhgia', feature: 'Quản lí đánh giá', icon: <FaGrinStars /> },
