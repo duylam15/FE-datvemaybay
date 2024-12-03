@@ -1,6 +1,41 @@
 .dashboard {
-    margin-left: 270px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 20px;
+    display: grid;
+    gap: 16px; /* Khoảng cách giữa các hình */
+    grid-template-columns: repeat(5, 1fr); /* Chia thành 5 cột đều nhau */
+    grid-auto-rows: 300px; /* Chiều cao mặc định của hàng */
+}
+
+.dashboard img {
+    width: 200%;
+    height: 200%;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+
+/* Tùy chỉnh kích thước cho hàng 1 và hàng 2 */
+.dashboard img:nth-child(1) {
+    grid-column: span 2; /* Ảnh đầu tiên chiếm 2 cột */
+    grid-row: span 1; /* Ảnh đầu tiên chiếm 1 hàng */
+}
+
+.dashboard img:nth-child(2) {
+    grid-column: span 3; /* Ảnh thứ 2 chiếm 3 cột */
+    grid-row: span 1;
+}
+
+.dashboard img:nth-child(3) {
+    grid-column: span 1; /* Ảnh thứ 3 chiếm 1 cột */
+    grid-row: span 1;
+}
+
+.dashboard img:nth-child(4) {
+    grid-column: span 2; /* Ảnh thứ 4 chiếm 2 cột */
+    grid-row: span 1;
+}
+
+.dashboard img:nth-child(5) {
+    grid-column: span 2; /* Ảnh thứ 5 chiếm 2 cột */
+    grid-row: span 1;
 }
