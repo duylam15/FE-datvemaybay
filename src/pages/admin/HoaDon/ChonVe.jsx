@@ -9,7 +9,7 @@ const ChonVe = ({ onClose, onSelect, chuyenBayId, selectedVe, currentFieldsetInd
   const [error, setError] = useState(null);
 
   const fetchVeList = async () => {
-    setLoadingVe(true);
+    // setLoadingVe(true);
     setError(null); 
     try {
       const response = await axios.get(`${API_URL}/ve/getVeByIdCBNotPaging`, { params: { idChuyenBay: chuyenBayId } });

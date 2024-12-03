@@ -18,7 +18,7 @@ const HoaDonAdd = () => {
     const [loaiHoaDon, setLoaiHoaDon] = useState('ve'); // radio button value
     const [phuongThucThanhToan, setPhuongThucThanhToan] = useState(null);
     const [tongTien, setTongTien] = useState('');
-    const [trangThaiActive, setTrangThaiActive] = useState('PENDING');
+    const [trangThaiActive, setTrangThaiActive] = useState('PAID');
 
     // State cho hàng hóa
     const [tenHangHoa, setTenHangHoa] = useState('');
@@ -45,12 +45,11 @@ const HoaDonAdd = () => {
         ngaySinh: '',
         soDienThoai: '',
         gioiTinhEnum: '',
-        cccd: ''
+        cccd: '',
+        hoChieu: '',
     });
 
     const navigate = useNavigate();
-
-    
 
     const handleOpenPopupChuyenBay = () => {
         setIsPopupChuyenBayOpen(true);
@@ -155,8 +154,94 @@ const HoaDonAdd = () => {
         return hangHoa ? hangHoa.giaThemMoiKg : 0; // Trả về giá tiền hoặc null nếu không tìm thấy
     };
 
-    const saveGuestsAndUpdateTickets = async () => {
+    const isChild = (ngaySinh) => {
+        const today = new Date();
+        const birthDate = new Date(ngaySinh);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        if (
+            today.getMonth() < birthDate.getMonth() ||
+            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
+        ) {
+            age--; // Trừ 1 năm nếu ngày sinh chưa tới
+        }
+        return age < 12; // Trẻ nhỏ là dưới 12 tuổi
+    };
+    
+
+    const checkDuplicatesAndSetErrors = (guests) => {
         const errors = {};
+    
+        // Kiểm tra từng khách
+        guests.forEach((guest, index) => {
+            if (!guest.hoTen) {
+                errors[`hoTen-${index}`] = 'Họ tên không được để trống';
+            }
+            if (!guest.ngaySinh) {
+                errors[`ngaySinh-${index}`] = 'Ngày sinh không được để trống';
+            }
+            if (!guest.gioiTinhEnum) {
+                errors[`gioiTinhEnum-${index}`] = 'Giới tính không được để trống';
+            }
+            if (guest.ngaySinh && new Date(guest.ngaySinh) >= new Date().setHours(0, 0, 0, 0)) {
+                errors[`ngaySinh-${index}`] = 'Ngày sinh phải trước ngày hôm nay';
+            }
+            if (guest.hoChieu && !/^[A-Z0-9]{6,9}$/.test(guest.hoChieu)) {
+                errors[`hoChieu-${index}`] = 'Hộ chiếu phải đúng định dạng (6-9 ký tự, gồm chữ hoa và số)';
+            }
+
+            // Kiểm tra nếu không phải trẻ nhỏ
+            if (!isChild(guest.ngaySinh)) {
+                
+                if (!guest.cccd) {
+                    errors[`cccd-${index}`] = 'Số CCCD không được để trống';
+                } else if (guest.cccd && !/^\d{9}$|^\d{12}$/.test(guest.cccd)) {
+                    errors[`cccd-${index}`] = 'Căn cước công dân phải là 9 hoặc 12 số';
+                }
+                if (guest.email && !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(guest.email)) {
+                    errors[`email-${index}`] = 'Email phải đúng định dạng';
+                }
+                if (!guest.soDienThoai) {
+                    errors[`soDienThoai-${index}`] = "Số điện thoại không được để trống";
+                } else if (!/^0[0-9]{9}$/.test(guest.soDienThoai)) {
+                    errors[`soDienThoai-${index}`] = 'Số điện thoại phải đúng định dạng';
+                }
+                
+            }
+        });
+    
+        // Kiểm tra trùng lặp giữa các khách
+        for (let i = 0; i < guests.length; i++) {
+            for (let j = i + 1; j < guests.length; j++) {
+                // Kiểm tra trùng CCCD
+                if (guests[i].cccd && guests[i].cccd === guests[j].cccd) {
+                    errors[`cccd-${j}`] = `Trùng CCCD với khách ${i + 1}`;
+                }
+    
+                // Kiểm tra trùng số điện thoại
+                if (guests[i].soDienThoai && guests[i].soDienThoai === guests[j].soDienThoai) {
+                    errors[`soDienThoai-${j}`] = `Trùng số điện thoại với khách ${i + 1}`;
+                }
+    
+                // Kiểm tra trùng hộ chiếu
+                if (guests[i].hoChieu && guests[i].hoChieu === guests[j].hoChieu) {
+                    errors[`hoChieu-${j}`] = `Trùng hộ chiếu với khách ${i + 1}`;
+                }
+    
+                // Kiểm tra trùng email
+                if (guests[i].email && guests[i].email === guests[j].email) {
+                    errors[`email-${j}`] = `Trùng email với khách ${i + 1}`;
+                }
+            }
+        }
+    
+        return errors;
+    };
+    
+    
+
+    const saveGuestsAndUpdateTickets = async () => {
+        
+        let errors = checkDuplicatesAndSetErrors(guestList);
         
         selectedVes.forEach((ve, index) => {
             console.log("ve ", index, ": ", ve);
@@ -168,39 +253,8 @@ const HoaDonAdd = () => {
             errors.veList = `Vui lòng chọn vé!`;
         } 
         
-        guestList.forEach((guest, index) => {
-            console.log("guest ", index,": ", guest);
-            if (!guest.hoTen) {
-                errors[`hoTen-${index}`] = 'Họ tên không được để trống';
-            }
-            if (!guest.email) {
-                errors[`email-${index}`] = 'Email không được để trống';
-            }
-            if (!guest.cccd) {
-                errors[`cccd-${index}`] = 'Số CCCD không được để trống';
-            }
-            if (!guest.soDienThoai) {
-                errors[`soDienThoai-${index}`] = "Số điện thoại không được để trống";
-            }
-            if (!guest.ngaySinh) {
-                errors[`ngaySinh-${index}`] = 'Ngày sinh không được để trống';
-            }
-            if (!guest.gioiTinhEnum) {
-                errors[`gioiTinhEnum-${index}`] = 'Giới tính không được để trống';
-            }
-            if (!/^0[0-9]{9}$/.test(guest.soDienThoai)) {
-                errors[`soDienThoai-${index}`] = 'Số điện thoại phải đúng định dạng';
-            }
-            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(guest.email)) {
-                errors[`email-${index}`] = 'Email phải đúng định dạng';
-            }
-            if (!/^\d{9}$|^\d{12}$/.test(guest.cccd)) {
-                errors[`cccd-${index}`] = 'Căn cước công dân phải là 9 hoặc 12 số';
-            }
-            if (new Date(guest.ngaySinh) >= new Date().setHours(0, 0, 0, 0)) {
-                errors[`ngaySinh-${index}`] = 'Ngày sinh phải trước ngày hôm nay';
-            }
-        });
+        
+
  
         if (!phuongThucThanhToan) {
             errors['phuongThucThanhToan'] = 'Vui lòng chọn phương thức thanh toán';

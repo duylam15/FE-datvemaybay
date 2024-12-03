@@ -81,6 +81,12 @@ const FrameVe = ({
           <label>Vé đã chọn:</label>
           <input
             type="text"
+            value={`${selectedVe[index].maVe}`}
+            disabled
+          />
+          <label>Số ghế:</label>
+          <input
+            type="text"
             value={`${selectedVe[index].choNgoi.rowIndex}${selectedVe[index].choNgoi.columnIndex}`}
             disabled
           />

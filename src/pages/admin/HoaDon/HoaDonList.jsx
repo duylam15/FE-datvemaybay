@@ -177,7 +177,7 @@ const HoaDonList = ({
                             </td>
                             <td className='align-middle'>{hd.tongTien}</td>
                             <td className='align-middle'>
-                                <select name="status" id="hd.status" className='status-select' value={hd.status} onChange={(e) => {
+                                <select name="status" id="hd.status" className='status-select' value={hd.status} disabled={hd.status==='PAID'} onChange={(e) => {
                                     (handleState(hd.idHoaDon, e.target.value));
                                     console.log(e.target.value);
                                     console.log(hd.status);

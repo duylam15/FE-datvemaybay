@@ -47,6 +47,19 @@ const GuestInfoForm = ({ guestInfo, onGuestInfoChange, fieldErrors, index }) => 
       </div>
 
       <div className="mb-3 col-4">
+        <label>Hộ chiếu</label>
+        <input
+          type="text"
+          className="form-control"
+          value={guestInfo.hoChieu}
+          onChange={(e) => onGuestInfoChange("hoChieu", e.target.value)}
+        />
+        {fieldErrors[`hoChieu-${index}`] && (
+          <div className="text-danger">{fieldErrors[`hoChieu-${index}`]}</div>
+        )}
+      </div>
+
+      <div className="mb-3 col-4">
         <label>Số điện thoại:</label>
         <input
           type="text"
