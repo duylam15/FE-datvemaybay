@@ -43,7 +43,7 @@ const KhachHangEdit = () => {
         try {
             const response = await axios.put(`${API_URL}/updateCustomer/${idKhachHang}`, khachHang);
             // console.log('Customer updated successfully!', response.data);
-            if (response.statusCode == 400) {
+            if (response.statusCode == 409) {
                 const errors = response.data; // Lấy danh sách lỗi từ phản hồi
                 setFieldErrors(errors);
             } else
