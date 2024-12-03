@@ -74,7 +74,7 @@ const HoaDonList = ({
                     handleComboBoxValues(e.target.value);}} 
                 >
                     <option value="0">Tất cả</option>
-                    <option value="nhanVien">Nhân viên</option>
+                    {/* <option value="nhanVien">Nhân viên</option> */}
                     <option value="khachHang">Khách hàng</option>
                     <option value="phuongThucThanhToan">Phương thức thanh toán</option>
                     <option value="loaiHoaDon">Loại hóa đơn</option>
@@ -130,9 +130,9 @@ const HoaDonList = ({
                         <th scope="col" className='align-bottom col-2' onClick={() => handleSort('khachHang.hoTen')}>
                             Tên Khách hàng {sortField === 'khachHang.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
-                        <th scope="col" className='align-bottom col-1' onClick={() => handleSort('nhanVien.hoTen')}>
+                        {/* <th scope="col" className='align-bottom col-1' onClick={() => handleSort('nhanVien.hoTen')}>
                             Tên Nhân viên {sortField === 'nhanVien.hoTen' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
-                        </th>
+                        </th> */}
                         <th scope="col" className='align-bottom col-1' onClick={() => handleSort('soLuongVe')}>
                             Số lượng vé {sortField === 'soLuongVe' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
                         </th>
@@ -161,7 +161,7 @@ const HoaDonList = ({
                         <tr key={hd.idHoaDon}>
                             <td className='align-middle'>{hd.idHoaDon}</td>
                             <td className='align-middle'>{hd.khachHang? hd.khachHang.hoTen:"-"}</td>
-                            <td className='align-middle'>{hd.nhanVien.hoTen}</td>
+                            {/* <td className='align-middle'>{hd.nhanVien.hoTen}</td> */}
                             <td className='align-middle'>{hd.soLuongVe}</td>
                             <td className='align-middle'>{hd.loaiHoaDon.tenLoaiHoaDon}</td>
                             <td className='align-middle'>{hd.phuongThucThanhToan.tenPhuongThucTT}</td>
