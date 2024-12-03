@@ -634,10 +634,11 @@ export const AddChuyenBay = () => {
     // Chuyển giá vé từ chuỗi sang số
     const giaVeThuongNum = Number(giaVeThuong);
     const giaVeThuongGiaNum = Number(giaVeThuongGia);
-    if (giaVeThuongNum > giaVeThuongGiaNum) {
-      setErrorGiaVe("Giá vé hạng thường phải bé hơn giá vé hạng thương gia")
+    if (giaVeThuongGiaNum < 100000 || giaVeThuongNum > giaVeThuongGiaNum) {
+      setErrorGiaVe("Giá vé thường tối thiểu là 100000 đồng và phải bé hơn giá vé hạng thương gia")
       hasError = true;
     }
+
 
 
     if (Math.ceil(soGhe / 50) > dataTiepVienMoi.length) {
@@ -793,7 +794,6 @@ export const AddChuyenBay = () => {
 
   // CREATE CHUYEN BAY 
   const createChuyenBay = () => {
-    setone(!one);
     const fetchData = async () => {
       noError();
       const hasError = HasError();
@@ -852,7 +852,6 @@ export const AddChuyenBay = () => {
   }
 
   const suaChuyenBay = () => {
-    setone(!one);
     const fetchData = async () => {
       /// neu trangThaiCu  == "IN_FLIGHT" thi khong the sua chuyen bay
       const currentTime = new Date();

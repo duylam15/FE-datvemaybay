@@ -17,7 +17,7 @@ export const ChuyenBay = () => {
   if (profile?.data?.nhanVien?.chucVu?.ten == "Cơ trưởng" || profile?.data?.nhanVien?.chucVu?.ten == "Cơ phó" || profile?.data?.nhanVien?.chucVu?.ten == "Tiếp viên")
     idNhanVienDangNhap = profile?.data?.nhanVien?.idNhanVien;
 
-  const [selectTrangThai, setSelectTrangThai] = useState("SCHEDULED");
+  const [selectTrangThai, setSelectTrangThai] = useState("");
   const [selectThoiGianBatDau, setSelectThoiGianBatDau] = useState("");
   const [selectThoiGianKetThuc, setSelectThoiGianKetThuc] = useState("");
   const [typeInfo, setTypeInfo] = useState("0");
